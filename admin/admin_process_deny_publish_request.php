@@ -35,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Update the built_games table
     $updateQuery = "UPDATE built_games SET is_pending_published = 0, is_request_denied = 1 WHERE built_game_id = $builtGameId";
     if (mysqli_query($conn, $updateQuery)) {
-        // Delete related records
-        // $deleteQuery1 = "DELETE FROM pending_published_multiple_files WHERE built_game_id = $builtGameId";
-        // mysqli_query($conn, $deleteQuery1);
+
+        $UpdateQuery1 = "UPDATE pending_published_built_games SET is_visible = 0 WHERE built_game_id = $builtGameId";
+        mysqli_query($conn, $UpdateQuery1);
 
         // $deleteQuery2 = "DELETE FROM pending_published_built_games WHERE built_game_id = $builtGameId";
         // mysqli_query($conn, $deleteQuery2);

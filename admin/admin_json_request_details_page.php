@@ -2,7 +2,7 @@
 include "connection.php";
 
 
-$sqlGames = "SELECT * FROM pending_published_built_games";
+$sqlGames = "SELECT * FROM pending_published_built_games WHERE is_visible = 1";
 $resultGames = $conn->query($sqlGames);
 
 $data = array();

@@ -10,44 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $queryGetRequestDetails = $conn->query($sqlGetRequestDetails);
     while ($fetchedRequest = $queryGetRequestDetails->fetch_assoc()) {
         $pending_published_built_game_id = $fetchedRequest['pending_published_built_game_id'];
-
         $game_name = $fetchedRequest['game_name'];
-
         $category = $fetchedRequest['category'];
-
         $edition = $fetchedRequest['edition'];
-
         $published_date = $fetchedRequest['published_date'];
-
         $creator_id = $fetchedRequest['creator_id'];
-
         $age_id = $fetchedRequest['age_id'];
-
         $short_description = $fetchedRequest['short_description'];
-
         $long_description = $fetchedRequest['long_description'];
-
         $website = $fetchedRequest['website'];
-
         $logo_path = $fetchedRequest['logo_path'];
-
         $min_players = $fetchedRequest['min_players'];
-
         $max_players = $fetchedRequest['max_players'];
-
         $min_playtime = $fetchedRequest['min_playtime'];
-
         $max_playtime = $fetchedRequest['max_playtime'];
-
         $has_pending_update = $fetchedRequest['has_pending_update'];
-
         $desired_markup = $fetchedRequest['desired_markup'];
-
         $manufacturer_profit = $fetchedRequest['manufacturer_profit'];
-
         $creator_profit = $fetchedRequest['creator_profit'];
-
         $marketplace_price = $fetchedRequest['marketplace_price'];
+    }
+
+    $sqlCategory = "SELECT * FROM categories WHERE category_id = $category";
+    $queryCategory = $conn->query($sqlCategory);
+    while ($fetchedCategory = $queryCategory->fetch_assoc()) {
+        $category_name = $fetchedCategory['category_name'];
     }
 
 
@@ -56,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     VALUES (
         '$built_game_id', 
         '$game_name', 
-        '$category', 
+        '$category_name', 
         '$edition', 
         '$published_date', 
         '$creator_id', 

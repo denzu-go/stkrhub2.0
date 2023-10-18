@@ -1,5 +1,31 @@
 <?php
 session_start();
+
+include 'connection.php';
+if (isset($_GET['id'])) {
+    $published_game_id = $_GET['id'];
+}
+$sql = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
+$query = $conn->query($sql);
+while ($fetched = $query->fetch_assoc()) {
+    $published_game_id = $fetched['published_game_id'];
+    $built_game_id = $fetched['built_game_id'];
+    $game_name = $fetched['game_name'];
+    $category = $fetched['category'];
+    $edition = $fetched['edition'];
+    $published_date = $fetched['published_date'];
+    $creator_id = $fetched['creator_id'];
+    $age_id = $fetched['age_id'];
+    $short_description = $fetched['short_description'];
+    $long_description = $fetched['long_description'];
+    $website = $fetched['website'];
+    $logo_path = $fetched['logo_path'];
+    $min_players = $fetched['min_players'];
+    $max_players = $fetched['max_players'];
+    $min_playtime = $fetched['min_playtime'];
+    $max_playtime = $fetched['max_playtime'];
+    $marketplace_price = $fetched['marketplace_price'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,9 +73,20 @@ session_start();
 
     <!-- Demo styles -->
     <style>
-        <?php
-        include 'css/body.css';
-        ?>.mySwiper .swiper-slide {
+        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
+
+        /* start header */
+        .sticky-wrapper {
+            top: 0px !important;
+        }
+
+
+        .header_area .main_menu .main_box {
+            max-width: 100%;
+        }
+
+        /* end */
+        .mySwiper .swiper-slide {
             width: 25%;
             height: 100%;
             opacity: 0.4;
@@ -99,42 +136,63 @@ session_start();
             object-fit: cover;
         }
 
+        /* star */
+        .cross {
+            padding: 10px;
+            color: #d6312d;
+            cursor: pointer;
+            font-size: 23px;
+        }
+
+        .cross i {
+
+            margin-top: -5px;
+            cursor: pointer;
+        }
+
+        .rating {
+            display: inline-flex;
+            margin-top: -10px;
+            flex-direction: row-reverse;
+
+
+        }
+
+        .rating>input {
+            display: none
+        }
+
+        .rating>label {
+            position: relative;
+            width: 28px;
+            font-size: 35px;
+            color: #fbd600;
+            cursor: pointer;
+        }
+
+        .rating>label::before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0
+        }
+
+        .rating>label:hover:before,
+        .rating>label:hover~label:before {
+            opacity: 1 !important
+        }
+
+        .rating>input:checked~label:before {
+            opacity: 1
+        }
+
+        .rating:hover>input:checked~label:before {
+            opacity: 0.4
+        }
     </style>
 </head>
 
 <body>
-    <?php
-
-    include 'connection.php';
-    if (isset($_GET['id'])) {
-        $published_game_id = $_GET['id'];
-    }
-    $sql = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
-    $query = $conn->query($sql);
-    while ($fetched = $query->fetch_assoc()) {
-        $published_game_id = $fetched['published_game_id'];
-        $built_game_id = $fetched['built_game_id'];
-        $game_name = $fetched['game_name'];
-        $category = $fetched['category'];
-        $edition = $fetched['edition'];
-        $published_date = $fetched['published_date'];
-        $creator_id = $fetched['creator_id'];
-        $age_id = $fetched['age_id'];
-        $short_description = $fetched['short_description'];
-        $long_description = $fetched['long_description'];
-        $website = $fetched['website'];
-        $logo_path = $fetched['logo_path'];
-        $min_players = $fetched['min_players'];
-        $max_players = $fetched['max_players'];
-        $min_playtime = $fetched['min_playtime'];
-        $max_playtime = $fetched['max_playtime'];
-        $marketplace_price = $fetched['marketplace_price'];
-    }
-    ?>
-
-    <?php
-    include 'html/page_header.php';
-    ?>
+    <?php include 'html/page_header.php'; ?>
 
 
     <!-- <section class="banner-area organic-breadcrumb">
@@ -283,7 +341,7 @@ session_start();
                             <div class="product_count">
                                 <label for="qty">Quantity:</label>
                                 <input type="number" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                                
+
 
                                 <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>"><br>
                                 <input type="hidden" name="marketplace_price" value="<?php echo $marketplace_price; ?>"><br>
@@ -330,15 +388,7 @@ session_start();
                     </p>
 
                     <strong>Long Description:</strong>
-                    <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we
-                        are seeing
-                        more and more recipe books and Internet websites that are dedicated to the act of cooking for
-                        one. Divorce and
-                        the death of spouses or grown children leaving for college are all reasons that someone
-                        accustomed to cooking for
-                        more than one would suddenly need to learn how to adjust all the cooking practices utilized
-                        before into a
-                        streamlined plan of cooking that is more efficient for one person creating less</p>
+                    <p><?php echo $long_description; ?></p>
                 </div>
 
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -484,10 +534,16 @@ session_start();
                                         $ratingSum = array_sum($ratingsArray);
                                         $ratingCount = count($ratingsArray);
                                         $averageRating = ($ratingCount > 0) ? ($ratingSum / $ratingCount) : 0;
+
+                                        // Round to one decimal place
+                                        $roundedRating = round($averageRating, 1);
+
+                                        // Round to the nearest half
+                                        $roundedRating = round($roundedRating * 2) / 2;
                                         ?>
 
                                         <h5>Overall</h5>
-                                        <h4><?php echo $averageRating ?></h4>
+                                        <h4><?php echo $roundedRating ?></h4>
                                         <h6>
                                             <?php
                                             if ($ratingCount === 0) {
@@ -514,6 +570,95 @@ session_start();
                             </div>
 
                             <div class="review_list">
+
+                                <?php
+                                $sqlCheckThere = "SELECT * FROM orders WHERE user_id = $user_id AND published_game_id = $published_game_id AND is_pending != 1";
+                                $resultCheck = mysqli_query($conn, $sqlCheckThere);
+                                if (mysqli_num_rows($resultCheck) > 0) {
+                                    $sqlCheckRating = "SELECT * FROM ratings WHERE user_id = $user_id AND published_game_id = $published_game_id";
+                                    $resultRating = mysqli_query($conn, $sqlCheckRating);
+
+                                    $stars_rating_ordered_existing = '
+                                    previous star
+                                    ';
+
+                                    $stars_rating_ordered_no_existing_and_not_purchased = '
+                                        <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                                        <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label>
+                                        <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
+                                        <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                                        <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+                                    ';
+
+                                    $comment_area_ordered_existing = '
+                                    <textarea class="form-control" name="comment" placeholder="What is your view?" rows="4" value="" disabled></textarea>
+                                    ';
+
+                                    $comment_area_ordered_no_existing_and_not_purchased = '
+                                    <textarea class="form-control" name="comment" placeholder="What is your view?" rows="4" required></textarea>
+                                    ';
+
+                                    $actions_ordered_existing = '
+                                    <button class="btn" type="button">Edit</button>
+                                    ';
+
+                                    $actions_ordered_no_existing = '
+                                    <button class="btn" type="submit">Confirm</button>
+                                    ';
+
+                                    $actions_not_purchased = '
+                                    <button class="btn" type="submit" style="cursor: not-allowed;" data-toggle="tooltip" title="Buy it first" disabled>Confirm</button>
+                                    ';
+
+
+                                    if (mysqli_num_rows($resultRating) > 0) {
+                                        $stars_rating = $stars_rating_ordered_existing;
+                                        $comment_area = $comment_area_ordered_existing;
+                                        $actions = $actions_ordered_existing;
+                                    } else {
+                                        $stars_rating = $stars_rating_ordered_no_existing_and_not_purchased;
+                                        $comment_area = $comment_area_ordered_no_existing_and_not_purchased;
+                                        $actions = $actions_ordered_no_existing;
+                                    }
+                                } else {
+                                    $stars_rating = $stars_rating_ordered_no_existing_and_not_purchased;
+                                    $comment_area = $comment_area_ordered_no_existing_and_not_purchased;
+                                    $actions = $actions_not_purchased;
+                                }
+                                ?>
+
+                                <form method="post" action="process_rating.php">
+
+                                    <div class="review_item" style="
+                                        padding: 20px;    
+
+                                        background: rgba(39, 42, 78, 0.27);
+                                        border-radius: 15px 15px 15px 15px;
+                                        box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
+                                        backdrop-filter: blur(5.7px);
+                                        -webkit-backdrop-filter: blur(5.7px);
+                                        ">
+
+                                        <h4>Leave a Review</h4>
+
+                                        <input type="hidden" name="user_id" value="<?= $user_id ?>">
+                                        <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>">
+
+                                        <div class="rating">
+                                            <?php echo $stars_rating ?>
+                                        </div>
+
+                                        <div class="comment-area">
+                                            <?php echo $comment_area ?>
+                                        </div>
+
+                                        <div class="actions">
+                                            <?php echo $actions ?>
+                                        </div>
+                                    </div>
+                                </form>
+
+
                                 <?php
                                 $sqlReview = "SELECT * FROM ratings WHERE published_game_id = $published_game_id";
                                 $resultReview = $conn->query($sqlReview);
@@ -593,80 +738,16 @@ session_start();
 
 
 
-
-
     <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js?<?php echo time(); ?>"></script>
-
-    <script>
-        var built_game_id = <?php echo $built_game_id; ?>;
-
-        $('#componentTable').DataTable({
-            responsive: true,
-            "ajax": {
-                "url": "json_game_components_item.php",
-                data: {
-                    built_game_id: built_game_id,
-                },
-                "dataSrc": ""
-            },
-            "paging": false,
-            "info": false,
-            "searching": false,
-
-            "columns": [{
-                    "data": "component_name",
-                    "orderable": false
-                },
-                {
-                    "data": "component_category",
-                    "orderable": false
-                },
-                {
-                    "data": "quantity",
-                    "orderable": false
-                },
-                {
-                    "data": "size",
-                    "orderable": false
-                },
-            ]
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 
-    <!-- Initialize Swiper -->
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            spaceBetween: 10,
-            slidesPerView: 4,
-            freeMode: true,
-            watchSlidesProgress: true,
-        });
-        var swiper2 = new Swiper(".mySwiper2", {
-            spaceBetween: 10,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            thumbs: {
-                swiper: swiper,
-            },
-        });
-    </script>
-
-
-
-
-
-    <!-- jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
@@ -680,6 +761,85 @@ session_start();
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="js/gmaps.min.js"></script>
     <!-- <script src="js/main.js"></script> -->
+
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Filepond JavaScript -->
+    <script src="https://unpkg.com/filepond@4.23.1/dist/filepond.min.js"></script>
+
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- scroll reveal js -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            var built_game_id = <?php echo $built_game_id; ?>;
+
+            $('#componentTable').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": "json_game_components_item.php",
+                    data: {
+                        built_game_id: built_game_id,
+                    },
+                    "dataSrc": ""
+                },
+                "paging": false,
+                "info": false,
+                "searching": false,
+
+                "columns": [{
+                        "data": "component_name",
+                        "orderable": false
+                    },
+                    {
+                        "data": "component_category",
+                        "orderable": false
+                    },
+                    {
+                        "data": "quantity",
+                        "orderable": false
+                    },
+                    {
+                        "data": "size",
+                        "orderable": false
+                    },
+                ]
+            });
+
+
+
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 10,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+            });
+            var swiper2 = new Swiper(".mySwiper2", {
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                thumbs: {
+                    swiper: swiper,
+                },
+            });
+
+        });
+    </script>
+
+
+
+
 
 </body>
 

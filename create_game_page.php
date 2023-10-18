@@ -347,14 +347,14 @@ include 'connection.php';
                                 </a>
                             </div>
 
-                            <div class="col-sm">
+                            <!-- <div class="col-sm">
                                 <a href="#section6">
                                     <li class="step">
                                         <i class="fa-solid fa-money-bill"></i>
                                         <p>Purchased Games</p>
                                     </li>
                                 </a>
-                            </div>
+                            </div> -->
 
                             <div class="col-sm">
                                 <a href="#section7">
@@ -499,7 +499,7 @@ include 'connection.php';
 
             <div id="section6" class="section-step">
                 <!-- DataTables purchasedGameTable  -->
-                <table id="purchasedGameTable" class="display" style="width: 100%;">
+                <!-- <table id="purchasedGameTable" class="display" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Built Game Name</th>
@@ -513,31 +513,27 @@ include 'connection.php';
                     </thead>
 
                     <tbody>
-                        <!-- User data will be displayed here -->
                     </tbody>
-                </table>
-                <!-- /DataTables purchasedGameTable  -->
+                </table> -->
             </div>
 
             <div id="section7" class="section-step">
                 <!-- DataTables publishedGameTable  -->
-                <!-- <table id="publishedGameTable" class="display" style="width: 100%;">
+                <table id="publishedGameTable" class="display" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Published Game Name</th>
-                            <th>Edition</th>
-                            <th>Category</th>
-                            <th>Info</th>
-                            <th>Published Date</th>
-                            <th>Price and Markup</th>
-                            <th>Total Earnings</th>
-                            <th>Actions</th>
+                            <th style="min-width: 120px; max-width: 120px;">Published Game Name</th>
+                            <th style="min-width: 80px; max-width: 80px;">Published Date</th>
+                            <th style="min-width: 80px; max-width: 80px;" style="min-width: 80px; max-width: 80px;">Price and Markup</th>
+                            <th style="min-width: 120px; max-width: 120px;">Total Earnings</th>
+                            <th style="min-width: 50px; max-width: 50px;">Status</th>
+                            <th style="min-width: 80px; max-width: 80px;"></th>
                         </tr>
                     </thead>
 
                     <tbody>
                     </tbody>
-                </table> -->
+                </table>
                 <!-- /DataTables publishedGameTable  -->
             </div>
 
@@ -1504,6 +1500,42 @@ include 'connection.php';
                 });
             });
 
+            $('#approvedGameTable').on('click', '#built_game_buy_first', function() {
+
+                var built_game_id = $(this).data("built_game_id");
+                var ticket_cost = $(this).data("ticket_cost");
+                var price = $(this).data("price");
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'process_add_built_game_to_cart_first.php',
+                    data: {
+                        built_game_id: built_game_id,
+                        ticket_cost: ticket_cost,
+                        price: price,
+                        user_id: user_id,
+                    },
+                    success: function(response) {
+                        Swal.fire('Success', 'Your ticket cost (' + ticket_cost + ') has been deducted from the total price.', 'success');
+
+                        $('#createGameTable').DataTable().ajax.reload();
+                        $('#builtGameTable').DataTable().ajax.reload();
+                        $('#pendingGameTable').DataTable().ajax.reload();
+
+                        $('#canceledGameTable').DataTable().ajax.reload();
+                        $('#approvedGameTable').DataTable().ajax.reload();
+                        $('#purchasedGameTable').DataTable().ajax.reload();
+                        $('#publishedGameTable').DataTable().ajax.reload();
+
+                        $('#cartCount').DataTable().ajax.reload();
+
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Failed to delete the game', 'error');
+                    }
+                });
+            });
+
             $('#approvedGameTable').on('click', '#built_game_buy_again', function() {
 
                 var built_game_id = $(this).data("built_game_id");
@@ -1762,10 +1794,14 @@ include 'connection.php';
 
             // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
             $('#publishedGameTable').DataTable({
+                language: {
+                    search: "",
+                },
+
                 searching: true,
                 info: false,
-                paging: true,
-                ordering: true,
+                paging: false,
+                ordering: false,
 
                 "ajax": {
                     "url": "json_published_games_table.php",
@@ -1778,15 +1814,6 @@ include 'connection.php';
                         "data": "published_game_link"
                     },
                     {
-                        "data": "edition"
-                    },
-                    {
-                        "data": "category"
-                    },
-                    {
-                        "data": "info"
-                    },
-                    {
                         "data": "published_date"
                     },
                     {
@@ -1796,11 +1823,21 @@ include 'connection.php';
                         "data": "total_earnings"
                     },
                     {
+                        "data": "status"
+                    },
+                    {
                         "data": "actions"
                     },
 
                 ]
             });
+
+            // search bar
+            var searchInput = $('div.dataTables_filter input');
+            $('#publishedGameTable thead th:nth-child(6)').append(searchInput);
+            searchInput.attr('placeholder', 'Search here');
+            searchInput.addClass('form-control');
+            searchInput.css('width', '100%');
 
 
             // Add click event handler for "build" buttons

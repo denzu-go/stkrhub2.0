@@ -29,6 +29,8 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     $is_request_denied = $fetched['is_request_denied'];
     $is_published = $fetched['is_published'];
 
+    $ticket_cost = $fetched['ticket_cost'];
+
     $sqlReason = "SELECT * FROM denied_publish_requests WHERE built_game_id = $built_game_id";
     $queryReason = $conn->query($sqlReason);
     while ($fetchedReason = $queryReason->fetch_assoc()) {
@@ -44,7 +46,21 @@ while ($fetched = $resultApproved->fetch_assoc()) {
 
 
     $game_link = '
-    <a href="built_game_dashboard.php?built_game_id=' . $built_game_id . '">' . $name . '</a>
+    
+
+    <div class="container">
+        <div class="row">
+            <a href="built_game_dashboard.php?built_game_id=' . $built_game_id . '">
+                <span class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $name . '" >
+                    ' . $name . '
+                </span>
+            </a>
+        </div>
+
+        <div class="row">
+            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+        </div>
+    </div>
     ';
 
     $description_value = '<p class="text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">' . $description . '</p>';
@@ -134,7 +150,10 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     ';
     } elseif ($is_published == 1) {
         $actions = '
-    <button id="built_game_buy" data-built_game_id="' . $built_game_id . '" class="social-info">
+    <button 
+    id="built_game_buy_again" data-built_game_id="' . $built_game_id . '" 
+    class="add-to-cart-approved"
+    >
         <span class="ti-bag"></span> Add to Cart
     </button>
     ' . $extra_actions . '
@@ -177,8 +196,10 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     ';
     } elseif ($is_approved == 1) {
         $actions = '
-    <button id="built_game_buy"
+    <button id="built_game_buy_first"
     data-built_game_id="' . $built_game_id . '"
+    data-ticket_cost="' . $ticket_cost . '"
+    data-price="' . $price . '"
     class="add-to-cart-approved"
     >
         <span class="ti-bag"></span> Add to Cart

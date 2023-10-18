@@ -321,7 +321,7 @@ if (mysqli_num_rows($result) > 0) {
     <section class="sample-text-area">
         <div class="container">
 
-            <h1><a href="create_game_page.php#section1" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>
+            <h1><a href="create_game_page.php#section5" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Approved Game Dashboard</h1>
 
             <div class="container">
                 <div class="row">
@@ -883,7 +883,7 @@ if (mysqli_num_rows($result) > 0) {
 
             $('#builtGameTable').DataTable({
 
-                searching: true,
+                searching: false,
                 info: false,
                 paging: true,
                 "pageLength": 5,
