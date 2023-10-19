@@ -212,34 +212,21 @@ while ($fetched = $query->fetch_assoc()) {
             padding: none;
         }
 
-        /* datatables */
-        table.dataTable.stripe tbody tr.even,
-        table.dataTable.display tbody tr.even {
-            background-color: #1f2243;
+        /* DATETABLES */
+        table.dataTable tbody th,
+        table.dataTable tbody td,
+        tr {
+            background-color: transparent !important;
         }
 
-        table.dataTable.stripe tbody tr.odd,
-        table.dataTable.display tbody tr.odd {
-            background-color: #272a4e;
+        table.dataTable thead th,
+        table.dataTable thead td {
+            padding: 10px 18px;
+            border-bottom: 0px solid #111;
         }
 
-        table.dataTable {
-            box-shadow: 0 0 10px #000000;
-        }
-
-        tr .odd {
-            padding: 10rem;
-        }
-
-        table.dataTable,
-        table.dataTable thead,
-        table.dataTable tbody,
-        table.dataTable tr,
-        table.dataTable td,
-        table.dataTable th,
-        table.dataTable tbody tr.even,
-        table.dataTable tbody tr.odd {
-            border: none !important;
+        table.dataTable.display tbody td {
+            border-top: 0px solid #ddd;
         }
     </style>
 </head>
@@ -404,7 +391,7 @@ while ($fetched = $query->fetch_assoc()) {
 
                             <div class="card_area d-flex align-items-center">
 
-                                <button id="ajax-link" class="primary-btn" type="submit" data-published-game-id="<?php echo $published_game_id; ?>">Add to Cart</button>
+                                <button class="primary-btn" type="submit">Add to Cart</button>
                             </div>
 
                         </div>
@@ -635,11 +622,15 @@ while ($fetched = $query->fetch_assoc()) {
                                             $resultRating = $conn->query($sqlCheckRating);
                                             while ($fetchedRatingResult = $resultRating->fetch_assoc()) {
                                                 $rating_id = $fetchedRatingResult['rating_id'];
+                                                $user_id = $fetchedRatingResult['user_id'];
                                                 $rating = $fetchedRatingResult['rating'];
                                                 $comment = $fetchedRatingResult['comment'];
                                                 $date_time = $fetchedRatingResult['date_time'];
                                             }
-                                            $formattedDate = date("M. j, Y");
+
+                                            $dateTime = new DateTime($date_time);
+                                            $formattedDate = $dateTime->format('M. d, Y g:ia');
+
 
                                             if (mysqli_num_rows($resultRating) > 0) {
                                                 echo '
@@ -699,9 +690,7 @@ while ($fetched = $query->fetch_assoc()) {
                                                 -webkit-backdrop-filter: blur(5.7px);">
 
                                                     <div class="d-flex align-items-center">
-                                                        <div class="media d-flex justify-content-between">
                                                             <div class="d-flex">
-                                                            
                                                                 <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
                                                                     <img src="" alt="" style="
                                                                     position: absolute;
@@ -716,10 +705,19 @@ while ($fetched = $query->fetch_assoc()) {
                                                             
                                                             <div class="media-body" style="line-height:0px;">
                                                                 <h4>$username</h4>
-                                                                <i class="fa fa-star"></i>
                                                             </div>
-                                                        </div>
+                                                    
+                                                            <div class="media-body d-flex justify-content-end" style="line-height:0px;">
+                                                                <div class="rating">
+                                                                    <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                                                                    <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label>
+                                                                    <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
+                                                                    <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                                                                    <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+                                                                </div>
+                                                            </div>
                                                     </div>
+                                            
                                                     
 
                                                     <div class="">
@@ -736,6 +734,58 @@ while ($fetched = $query->fetch_assoc()) {
                                                 ';
                                             }
                                         } else {
+                                            echo '
+                                            <div class="review_item" style="
+                                            padding: 20px;    
+                                            background: rgba(39, 42, 78, 0.27);
+                                            border-radius: 15px 15px 15px 15px;
+                                            box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
+                                            backdrop-filter: blur(5.7px);
+                                            -webkit-backdrop-filter: blur(5.7px);">
+
+                                                <div class="d-flex align-items-center">
+                                                        <div class="d-flex">
+                                                            <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
+                                                                <img src="" alt="" style="
+                                                                position: absolute;
+                                                                top: 0;
+                                                                left: 0;
+                                                                height: 100%;
+                                                                width: 100%;
+                                                                object-fit: cover;
+                                                                border-radius: 50%;">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="media-body" style="line-height:0px;">
+                                                            <h4>$username</h4>
+                                                        </div>
+                                                
+                                                        <div class="media-body d-flex justify-content-end" style="line-height:0px;">
+                                                            <div class="rating">
+                                                                <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                                                                <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label>
+                                                                <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
+                                                                <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                                                                <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                        
+                                                
+
+                                                <div class="">
+                                                    <p>
+                                                        <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
+                                                    </p>
+                                                </div>
+
+                                                <div class="d-flex justify-content-end">
+                                                    <button class="btn" disabled>Submit</button>
+                                                </div>
+
+                                            </div>
+                                            ';
                                         }
                                         ?>
 
@@ -748,91 +798,10 @@ while ($fetched = $query->fetch_assoc()) {
 
                             <div class="review_list">
 
-                                <?php
-                                $sqlReview = "SELECT * FROM ratings WHERE published_game_id = $published_game_id ORDER BY date_time DESC";
-                                $resultReview = $conn->query($sqlReview);
-                                while ($fetchedReview = $resultReview->fetch_assoc()) {
-                                    $rating_id = $fetchedReview['rating_id'];
-                                    $rating = $fetchedReview['rating'];
-                                    $comment = $fetchedReview['comment'];
-                                    $user_id = $fetchedReview['user_id'];
-                                    $date_time = $fetchedReview['date_time'];
-
-                                    $avatar = "SELECT * FROM users WHERE user_id = $user_id";
-                                    $result = $conn->query($avatar);
-                                    while ($fetchedAvatar = $result->fetch_assoc()) {
-                                        $avatar = $fetchedAvatar['avatar'];
-                                        $username = $fetchedAvatar['username'];
-
-                                        $firstLetter = strtoupper(substr($username, 0, 1));
-                                    }
-
-                                    if (!is_null($avatar)) {
-                                        $avatar_value = '
-                                            <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
-                                                <img src="' . $avatar . '" alt="" style="
-                                                        position: absolute;
-                                                        top: 0;
-                                                        left: 0;
-    
-                                                        height: 100%;
-                                                        width: 100%;
-                                                        object-fit: cover;
-                                                        border-radius: 50%;
-                                                ">
-    
-                                            </div>
-                                        ';
-                                    } else {
-                                        $avatar_value = '
-                                            <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
-                                            background: rgb(38,211,224);
-                                            background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
-                                            
-                                                <p style="font-family: sans-serif; color: white; font-weight: bold; font-size:17px; padding-top: 0px;">' . $firstLetter . '</p>
-    
-                                            </div>
-                                        ';
-                                    }
-
-
-                                    echo '
-                                        <div class="review_item" style="
-                                            padding: 20px;    
-
-                                            background: rgba(39, 42, 78, 0.27);
-                                            border-radius: 15px 15px 15px 15px;
-                                            box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
-                                            backdrop-filter: blur(5.7px);
-                                            -webkit-backdrop-filter: blur(5.7px);
-                                        ">
-                                            <div class="media d-flex justify-content-between">
-                                                <div class="d-flex">
-                                                    ' . $avatar_value . '
-                                                </div>
-                                                <div class="media-body" style="line-height:0px;">
-                                                    <h4>' . $username . '</h4>';
-
-                                    for ($i = 0; $i < $rating; $i++) {
-                                        echo '<i class="fa fa-star"></i>';
-                                    }
-
-                                    echo '
-                                                </div>
-
-                                                <div class="">
-                                                    ' . $formattedDate . '
-                                                </div>
-                                            </div>
-
-                                            <p>
-                                                ' . $comment . '
-                                            </p>
-
-                                        </div>
-                                    ';
-                                }
-                                ?>
+                                <table id="commentsTable" class="display" style="width: 100%;">
+                                    <tbody>
+                                    </tbody>
+                                </table>
 
                             </div>
 
@@ -893,32 +862,29 @@ while ($fetched = $query->fetch_assoc()) {
 
     <script>
         $(document).ready(function() {
-            var user_id = <?php echo $user_id ?>;
-            $("#cartCount").DataTable({
+            var published_game_id = <?php echo $published_game_id; ?>;
+            var user_id = <?php echo $user_id; ?>;
+
+            $('#commentsTable').DataTable({
                 searching: false,
                 info: false,
                 paging: false,
                 ordering: false,
                 ajax: {
-                    url: "json_cart_count.php",
+                    url: "json_comments.php",
                     data: {
+                        published_game_id: published_game_id,
                         user_id: user_id,
                     },
-                    dataSrc: "",
+                    dataSrc: ""
                 },
                 columns: [{
-                    data: "cart_count",
-                }],
+                    data: "item"
+                }, ]
             });
 
-
-            var built_game_id = <?php echo $built_game_id; ?>;
-
             $('#componentTable').DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
+                responsive: true,
                 "ajax": {
                     "url": "json_game_components_item.php",
                     data: {
@@ -966,21 +932,6 @@ while ($fetched = $query->fetch_assoc()) {
                 thumbs: {
                     swiper: swiper,
                 },
-            });
-
-            $(document).on("click", "#ajax-link", function(event) {
-                event.preventDefault();
-
-                var published_game_id = $(this).data("published-game-id");
-
-                $.ajax({
-                    url: "process_add_published_game_to_cart.php?published_game_id=" + published_game_id,
-                    type: "GET",
-                    success: function(data) {
-                        $(".cart-count").html(data);
-                        $("#cartCount").DataTable().ajax.reload();
-                    },
-                });
             });
 
         });

@@ -273,7 +273,6 @@ include 'connection.php';
     <?php
     $header_create_game = 'active';
     include 'html/page_header.php';
-
     ?>
 
     <!-- Back to top button -->
