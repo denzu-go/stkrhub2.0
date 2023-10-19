@@ -57,7 +57,11 @@ while ($fetched = $query->fetch_assoc()) {
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/linearicons.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/font-awesome.min.css?<?php echo time(); ?>">
@@ -241,6 +245,23 @@ while ($fetched = $query->fetch_assoc()) {
         table.dataTable tbody tr.odd {
             border: none !important;
         }
+
+        /* buttons */
+        .edit-comment {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+
+            color: #90ee90;
+        }
+
+        .delete-comment {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+
+            color: #dc3545;
+        }
     </style>
 </head>
 
@@ -399,8 +420,6 @@ while ($fetched = $query->fetch_assoc()) {
                                 <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>"><br>
                                 <input type="hidden" name="marketplace_price" value="<?php echo $marketplace_price; ?>"><br>
                             </div>
-
-                            <input type="hidden" name="" id="">
 
                             <div class="card_area d-flex align-items-center">
 
@@ -628,6 +647,43 @@ while ($fetched = $query->fetch_assoc()) {
                                 <div class="col">
                                     <div class="">
                                         <?php
+                                        $avatar = "SELECT * FROM users WHERE user_id = $user_id";
+                                        $result = $conn->query($avatar);
+                                        while ($fetchedAvatar = $result->fetch_assoc()) {
+                                            $avatar = $fetchedAvatar['avatar'];
+                                            $username = $fetchedAvatar['username'];
+
+                                            $firstLetter = strtoupper(substr($username, 0, 1));
+                                        }
+                                        if (!is_null($avatar)) {
+                                            $avatar_value = '
+                                                <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
+                                                    <img src="' . $avatar . '" alt="" style="
+                                                            position: absolute;
+                                                            top: 0;
+                                                            left: 0;
+                                    
+                                                            height: 100%;
+                                                            width: 100%;
+                                                            object-fit: cover;
+                                                            border-radius: 50%;
+                                                    ">
+                                    
+                                                </div>
+                                            ';
+                                        } else {
+                                            $avatar_value = '
+                                                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
+                                                background: rgb(38,211,224);
+                                                background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
+                                                
+                                                    <p style="font-family: sans-serif; color: white; font-weight: bold; font-size:17px; padding-top: 0px;">' . $firstLetter . '</p>
+                                    
+                                                </div>
+                                            ';
+                                        }
+
+
                                         $sqlCheckThere = "SELECT * FROM orders WHERE user_id = $user_id AND published_game_id = $published_game_id AND is_pending != 1";
                                         $resultCheck = mysqli_query($conn, $sqlCheckThere);
                                         if (mysqli_num_rows($resultCheck) > 0) {
@@ -654,36 +710,33 @@ while ($fetched = $query->fetch_assoc()) {
                                                     <div class="media d-flex justify-content-between">
                                                         <div class="d-flex">
                                                         
-                                                            <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
-                                                                <img src="" alt="" style="
-                                                                position: absolute;
-                                                                top: 0;
-                                                                left: 0;
-                                                                height: 100%;
-                                                                width: 100%;
-                                                                object-fit: cover;
-                                                                border-radius: 50%;">
-                                                            </div>
+                                                            ' . $avatar_value . '
                                                         </div>
                                                         
                                                         <div class="media-body" style="line-height:0px;">
-                                                            <h4>$username</h4>
+                                                            <h4>' . $username . '</h4>
                                                             <i class="fa fa-star"></i>
                                                         </div>
 
                                                         <div class="">
-                                                            $formattedDate
+                                                            ' . $formattedDate . '
                                                         </div>
                                                     </div>
 
                                                     <div class="">
                                                         <p>
-                                                            $comment
+                                                            ' . $comment . '
                                                         </p>
                                                     </div>
 
                                                     <div class="d-flex justify-content-end">
-                                                        <button class="btn">Edit</button>
+                                                        <button class="edit-comment" data-toggle="modal" data-target="#exampleModal" data-rating_id="' . $rating_id . '" data-rating="' . $rating . '" data-comment="' . $comment . '">
+                                                            <i class="fa-solid fa-pen-to-square"></i> Edit Comment
+                                                        </button>
+
+                                                        <button class="delete-comment" data-rating_id="' . $rating_id . '">
+                                                            <i class="fa-solid fa-trash"></i> Delete Comment
+                                                        </button>
                                                     </div>
 
                                                 </div>
@@ -698,44 +751,98 @@ while ($fetched = $query->fetch_assoc()) {
                                                 backdrop-filter: blur(5.7px);
                                                 -webkit-backdrop-filter: blur(5.7px);">
 
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="media d-flex justify-content-between">
-                                                            <div class="d-flex">
-                                                            
-                                                                <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
-                                                                    <img src="" alt="" style="
-                                                                    position: absolute;
-                                                                    top: 0;
-                                                                    left: 0;
-                                                                    height: 100%;
-                                                                    width: 100%;
-                                                                    object-fit: cover;
-                                                                    border-radius: 50%;">
+                                                    <form id="comment-form">
+                                                        <div class="align-items-center">
+                                                            <div class="row">
+                                                                <div class="col media d-flex justify-content-between">
+                                                                    <div class="d-flex">
+                                                                        ' . $avatar_value . '
+                                                                    </div>
+                                                                    
+                                                                    <div class="media-body" style="line-height:0px;">
+                                                                        <h4>$username</h4>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col rating d-flex align-items-center">
+                                                                    <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                                                                    <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label>
+                                                                    <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
+                                                                    <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                                                                    <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
                                                                 </div>
                                                             </div>
-                                                            
-                                                            <div class="media-body" style="line-height:0px;">
-                                                                <h4>$username</h4>
-                                                                <i class="fa fa-star"></i>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    
 
-                                                    <div class="">
-                                                        <p>
-                                                            <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
-                                                        </p>
-                                                    </div>
+                                                        <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
+                                                        <input type="hidden" name="published_game_id" id="published_game_id" value="' . $published_game_id . '">
 
-                                                    <div class="d-flex justify-content-end">
-                                                        <button class="btn">Submit</button>
-                                                    </div>
+                                                        <div class="">
+                                                            <p>
+                                                                <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
+                                                            </p>
+                                                        </div>
+                                                        <hr class="m-0 p-1">
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="submit" class="btn btn-primary" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8);">Submit</button>
+                                                        </div>
+                                                    </form>
 
                                                 </div>
                                                 ';
                                             }
                                         } else {
+
+                                            echo '
+                                                <div class="review_item" style="
+                                                padding: 20px;    
+                                                background: rgba(39, 42, 78, 0.27);
+                                                border-radius: 15px 15px 15px 15px;
+                                                box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
+                                                backdrop-filter: blur(5.7px);
+                                                -webkit-backdrop-filter: blur(5.7px);">
+
+                                                    <form id="comment-form">
+                                                        <div class="align-items-center">
+                                                            <div class="row">
+                                                                <div class="col media d-flex justify-content-between">
+                                                                    <div class="d-flex">
+                                                                        ' . $avatar_value . '
+                                                                    </div>
+                                                                    
+                                                                    <div class="media-body" style="line-height:0px;">
+                                                                        <h4>$username</h4>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col rating d-flex align-items-center">
+                                                                    <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                                                                    <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label>
+                                                                    <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
+                                                                    <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                                                                    <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
+                                                        <input type="hidden" name="published_game_id" id="published_game_id" value="' . $published_game_id . '">
+
+                                                        <div class="">
+                                                            <p>
+                                                                <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
+                                                            </p>
+                                                        </div>
+                                                        <hr class="m-0 p-1">
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="submit" class="btn btn-primary" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); cursor: not-allowed;" disabled 
+                                                            data-toggle="tooltip" title="Please Purchase First to Comment">
+                                                            Submit</button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                                ';
                                         }
                                         ?>
 
@@ -847,6 +954,38 @@ while ($fetched = $query->fetch_assoc()) {
     <!--================End Product Description Area =================-->
 
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="yourFormId">
+                        <input type="hidden" name="rating_id" id="rating_id" value="">
+                        <div class="rating">
+                            <input type="radio" name="rating" value="5" id="5" required><label for="5">☆</label>
+                            <input type="radio" name="rating" value="4" id="4" required><label for="4">☆</label>
+                            <input type="radio" name="rating" value="3" id="3" required><label for="3">☆</label>
+                            <input type="radio" name="rating" value="2" id="2" required><label for="2">☆</label>
+                            <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+                        </div>
+                        <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submitForm" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -854,6 +993,9 @@ while ($fetched = $query->fetch_assoc()) {
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 
+
+    <!-- Toastr -->
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.3/dist/toastr.min.js"></script>
 
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
@@ -889,10 +1031,167 @@ while ($fetched = $query->fetch_assoc()) {
     <!-- scroll reveal js -->
     <script src="https://unpkg.com/scrollreveal"></script>
 
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
 
 
     <script>
         $(document).ready(function() {
+
+            iziToast.show({
+                title: 'Hey',
+                message: 'What would you like to add?'
+            });
+
+            $('.edit-comment').click(function() {
+                var rating_id = $(this).data('rating_id');
+
+                $('#rating_id').val(rating_id);
+            });
+
+            $('#submitForm').click(function() {
+                // Check if the form is valid, including required fields
+                if ($('#yourFormId')[0].checkValidity()) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'Do you want to edit your comment?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Create a FormData object to serialize the form
+                            var formData = new FormData($('#yourFormId')[0]);
+
+                            // Use AJAX to submit the form data
+                            $.ajax({
+                                type: 'POST',
+                                url: 'process_edit_comment.php',
+                                data: formData,
+                                processData: false, // Prevent jQuery from processing the data
+                                contentType: false, // Set content type to false
+                                success: function(response) {
+                                    // Handle success response from the server
+                                    Swal.fire('Success', 'Your comment has been edited.', 'success').then((result) => {
+                                        if (result.isConfirmed || result.isDismissed) {
+                                            // Reload the page
+                                            location.reload();
+                                        }
+                                    });
+                                },
+                                error: function(error) {
+                                    // Handle any errors or display an error SweetAlert
+                                    Swal.fire('Error', 'An error occurred while editing your comment.', 'error');
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    // Form is not valid, show an error message
+                    Swal.fire('Error', 'Please fill in all required fields.', 'error');
+                }
+            });
+
+
+            $('.delete-comment').click(function() {
+                var rating_id = $(this).data('rating_id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to delete your comment. This action cannot be undone.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User confirmed the deletion
+                        $.ajax({
+                            type: 'POST',
+                            url: 'process_delete_comment.php',
+                            data: {
+                                rating_id: rating_id
+                            },
+                            success: function(response) {
+                                // Handle success response from the server
+                                Swal.fire('Success', 'Your comment has been edited.', 'success').then((result) => {
+                                    if (result.isConfirmed || result.isDismissed) {
+                                        // Reload the page
+                                        location.reload();
+                                    }
+                                });
+                            },
+                            error: function(error) {
+                                // Handle any errors or display an error SweetAlert
+                                Swal.fire('Error', 'An error occurred while deleting your comment.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            $(document).on('submit', '#comment-form', function(e) {
+                e.preventDefault(); // Prevent the form from submitting immediately
+
+                // Check if all required fields are valid
+                if ($('#comment-form')[0].checkValidity()) {
+                    // Use SweetAlert for confirmation
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'Do you want to add your comment?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // User confirmed, proceed to form submission
+                            var formData = new FormData(this); // Create a FormData object from the form
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'process_add_comment.php',
+                                data: formData,
+                                processData: false, // Prevent jQuery from processing the data
+                                contentType: false, // Set content type to false
+                                success: function(response) {
+                                    Swal.fire('Success', 'Your comment has been edited.', 'success').then((result) => {
+                                        if (result.isConfirmed || result.isDismissed) {
+                                            // Reload the page
+                                            location.reload();
+                                        }
+                                    });
+                                },
+                                error: function(error) {
+                                    // Handle any errors or display an error SweetAlert
+                                    Swal.fire('Error', 'An error occurred while adding your comment.', 'error');
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    // Form is invalid, show a message or handle it as needed
+                    Swal.fire('Invalid Form', 'Please fill out all required fields.', 'error');
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             var user_id = <?php echo $user_id ?>;
             $("#cartCount").DataTable({
                 searching: false,
@@ -968,15 +1267,25 @@ while ($fetched = $query->fetch_assoc()) {
                 },
             });
 
+
+
             $(document).on("click", "#ajax-link", function(event) {
                 event.preventDefault();
-
+                var user_id = <?php echo $user_id ?>;
                 var published_game_id = $(this).data("published-game-id");
+                var quantity = $("input[name='quantity']").val();
 
                 $.ajax({
-                    url: "process_add_published_game_to_cart.php?published_game_id=" + published_game_id,
-                    type: "GET",
+                    url: "process_add_published_game_to_cart_quantity.php",
+                    type: "POST",
+                    data: {
+                        published_game_id: published_game_id,
+                        quantity: quantity,
+                    },
                     success: function(data) {
+                        // Show a Toastr success notification
+                        toastr.success("Item added to cart successfully!");
+
                         $(".cart-count").html(data);
                         $("#cartCount").DataTable().ajax.reload();
                     },
