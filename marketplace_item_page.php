@@ -188,6 +188,32 @@ while ($fetched = $query->fetch_assoc()) {
         .rating:hover>input:checked~label:before {
             opacity: 0.4
         }
+
+        /* design baba */
+        .product_description_area .nav.nav-tabs {
+            background: none !important;
+            text-align: center;
+            display: block;
+            border: none;
+        }
+
+        .product_description_area .nav.nav-tabs li a {
+            /* padding: 0px; */
+            border: none;
+            line-height: 38px;
+            background: #15172e;
+            border: none;
+            padding: 0px 30px;
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        .product_description_area .tab-content {
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+            padding: none;
+        }
     </style>
 </head>
 
@@ -576,10 +602,20 @@ while ($fetched = $query->fetch_assoc()) {
                                 $resultCheck = mysqli_query($conn, $sqlCheckThere);
                                 if (mysqli_num_rows($resultCheck) > 0) {
                                     $sqlCheckRating = "SELECT * FROM ratings WHERE user_id = $user_id AND published_game_id = $published_game_id";
-                                    $resultRating = mysqli_query($conn, $sqlCheckRating);
+                                    $resultRating = $conn->query($sqlCheckRating);
+                                    while ($fetchedRatingResult = $resultRating->fetch_assoc()) {
+                                        $rating_id = $fetchedRatingResult['rating_id'];
+                                        $rating = $fetchedRatingResult['rating'];
+                                        $comment = $fetchedRatingResult['comment'];
+                                        $date_time = $fetchedRatingResult['date_time'];
+                                    }
 
                                     $stars_rating_ordered_existing = '
-                                    previous star
+                                    <div>' . $rating . '/5 &nbsp;</div>';
+                                    for ($i = 1; $i <= $rating; $i++) {
+                                        $stars_rating_ordered_existing .= '<div><i class="fa fa-star"></i></div>';
+                                    }
+                                    '
                                     ';
 
                                     $stars_rating_ordered_no_existing_and_not_purchased = '
@@ -591,11 +627,11 @@ while ($fetched = $query->fetch_assoc()) {
                                     ';
 
                                     $comment_area_ordered_existing = '
-                                    <textarea class="form-control" name="comment" placeholder="What is your view?" rows="4" value="" disabled></textarea>
+                                    <textarea class="form-control" name="comment" placeholder="What is your view?" rows="3" value="" disabled></textarea>
                                     ';
 
                                     $comment_area_ordered_no_existing_and_not_purchased = '
-                                    <textarea class="form-control" name="comment" placeholder="What is your view?" rows="4" required></textarea>
+                                    <textarea class="form-control" name="comment" placeholder="What is your view?" rows="3" required></textarea>
                                     ';
 
                                     $actions_ordered_existing = '
@@ -645,7 +681,7 @@ while ($fetched = $query->fetch_assoc()) {
                                         <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>">
 
                                         <div class="rating">
-                                            <?php echo $stars_rating ?>
+                                            <div class="d-flex align-items-end"><?php echo $stars_rating ?></div>
                                         </div>
 
                                         <div class="comment-area">
@@ -657,6 +693,7 @@ while ($fetched = $query->fetch_assoc()) {
                                         </div>
                                     </div>
                                 </form>
+                                <hr>
 
 
                                 <?php
@@ -669,12 +706,41 @@ while ($fetched = $query->fetch_assoc()) {
                                     $user_id = $fetchedReview['user_id'];
                                     $date_time = $fetchedReview['date_time'];
 
-                                    $sqlReviewInfo = "SELECT * FROM users WHERE user_id = $user_id";
-                                    $resultReviewInfo = $conn->query($sqlReviewInfo);
-                                    while ($fetchedUserReview = $resultReviewInfo->fetch_assoc()) {
-                                        $username = $fetchedUserReview['username'];
-                                        $email = $fetchedUserReview['email'];
-                                        $avatar = $fetchedUserReview['avatar'];
+                                    $avatar = "SELECT * FROM users WHERE user_id = $user_id";
+                                    $result = $conn->query($avatar);
+                                    while ($fetchedAvatar = $result->fetch_assoc()) {
+                                        $avatar = $fetchedAvatar['avatar'];
+                                        $username = $fetchedAvatar['username'];
+
+                                        $firstLetter = strtoupper(substr($username, 0, 1));
+                                    }
+
+                                    if (!is_null($avatar)) {
+                                        $avatar_value = '
+                                            <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
+                                                <img src="' . $avatar . '" alt="" style="
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+    
+                                                        height: 100%;
+                                                        width: 100%;
+                                                        object-fit: cover;
+                                                        border-radius: 50%;
+                                                ">
+    
+                                            </div>
+                                        ';
+                                    } else {
+                                        $avatar_value = '
+                                            <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
+                                            background: rgb(38,211,224);
+                                            background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
+                                            
+                                                <p style="font-family: sans-serif; color: white; font-weight: bold; font-size:17px; padding-top: 0px;">' . $firstLetter . '</p>
+    
+                                            </div>
+                                        ';
                                     }
 
 
@@ -688,22 +754,11 @@ while ($fetched = $query->fetch_assoc()) {
                                             backdrop-filter: blur(5.7px);
                                             -webkit-backdrop-filter: blur(5.7px);
                                         ">
-                                            <div class="media">
+                                            <div class="media d-flex justify-content-between">
                                                 <div class="d-flex">
-                                                    <div style="position: relative; display: inline-block; width: 50px; height: 50px; border-radius: 50%; background-color: #333;">
-                                                        <img src="' . $avatar . '" alt="" style="
-                                                        position: absolute;
-                                                        top: 0;
-                                                        left: 0;
-    
-                                                        height: 100%;
-                                                        width: 100%;
-                                                        object-fit: cover;
-                                                        border-radius: 50%;
-                                                        ">
-                                                    </div>
+                                                    '.$avatar_value.'
                                                 </div>
-                                                <div class="media-body">
+                                                <div class="media-body" style="line-height:0px;">
                                                     <h4>' . $username . '</h4>';
 
                                     for ($i = 0; $i < $rating; $i++) {
@@ -712,11 +767,16 @@ while ($fetched = $query->fetch_assoc()) {
 
                                     echo '
                                                 </div>
+
+                                                <div class="">
+                                                    '.$date_time.'
+                                                </div>
                                             </div>
 
                                             <p>
                                                 ' . $comment . '
                                             </p>
+
                                         </div>
                                     ';
                                 }
