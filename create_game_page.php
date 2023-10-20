@@ -403,7 +403,6 @@ include 'connection.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Your table rows here -->
                             </tbody>
                         </table>
 

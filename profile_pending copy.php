@@ -71,7 +71,7 @@ if (isset($_SESSION['user_id'])) {
             overflow: hidden;
             width: 100%;
             position: relative;
-            padding-top: 80%;
+            padding-top: 70%;
         }
 
         .image-mini {
@@ -274,6 +274,51 @@ if (isset($_SESSION['user_id'])) {
 
 
 
+    <!-- modals -->
+    <div class="modal fade" id="cancelReason">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                </div>
+                <form id="cancelForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <?php
+                        $cancellationReasons = array();
+
+                        // Query to retrieve cancellation reasons from the database
+                        $sqlSelectReasons = "SELECT cancel_order_reason_id, reason_text FROM cancel_order_reasons";
+                        $queryReasons = $conn->query($sqlSelectReasons);
+
+                        if ($queryReasons) {
+                            // Fetch reasons and store them in the array
+                            while ($row = $queryReasons->fetch_assoc()) {
+                                $cancellationReasons[] = $row;
+                            }
+                        }
+
+                        foreach ($cancellationReasons as $reason) {
+                            $cancel_order_reason_id = $reason['cancel_order_reason_id'];
+                            $reason_text = $reason['reason_text'];
+                            echo '<input type="radio" id="' . $cancel_order_reason_id . '" name="cancel_order_reason_id" value="' . $cancel_order_reason_id . '" required>' . $reason_text . '<br>';
+                        }
+
+                        ?>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
@@ -336,7 +381,7 @@ if (isset($_SESSION['user_id'])) {
 
 
                 "ajax": {
-                    "url": "json_pending_orders.php",
+                    "url": "json_is_pending_orders.php",
                     data: {
                         user_id: user_id,
                     },
@@ -346,6 +391,79 @@ if (isset($_SESSION['user_id'])) {
                     "data": "item"
                 }, ]
             });
+
+
+
+            $('#allOrders').on('click', '#cancel_orders', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+                var user_id = <?php echo $user_id; ?>;
+
+                // Clear previous values
+                $('#unique_order_group_id').remove();
+                $('#user_id').remove();
+                $("input[name='cancel_order_reason_id']").prop("checked", false);
+
+                $("#cancelReason").modal("show");
+
+                // Append new values
+                $('#cancelForm').append('<input type="hidden" id="unique_order_group_id" value="' + unique_order_group_id + '">');
+                $('#cancelForm').append('<input type="hidden" id="user_id" value="' + user_id + '">');
+            });
+
+
+            $("#cancelForm").submit(function(e) {
+                e.preventDefault();
+
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you want to submit the form?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var selectedReasonId = $("input[name='cancel_order_reason_id']:checked").val();
+
+                        var formData = new FormData();
+                        formData.append('cancel_order_reason_id', selectedReasonId);
+                        formData.append('unique_order_group_id', $('#unique_order_group_id').val());
+                        formData.append('user_id', $('#user_id').val());
+
+                        $.ajax({
+                            url: 'process_cancel_order_with_reason.php',
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    $("#cancelReason").modal("hide");
+                                    $('#allOrders').DataTable().ajax.reload();
+                                    Swal.fire('Success', response.message, 'success');
+                                } else {
+                                    $("#cancelReason").modal("hide");
+                                    $('#allOrders').DataTable().ajax.reload();
+                                    Swal.fire('Error', response.message, 'error');
+
+                                }
+                            },
+                            error: function() {
+                                $("#cancelReason").modal("hide");
+                                $('#allOrders').DataTable().ajax.reload();
+                                Swal.fire('Error', 'Failed to build the game', 'error');
+                            }
+                        });
+
+                    }
+                });
+            });
+
+
+
+
         });
     </script>
 

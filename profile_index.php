@@ -132,6 +132,29 @@ session_start();
         .nav-link {
             color: #fff;
         }
+
+        /* sidebar */
+        #sidebar {
+            height: 100%;
+            background: transparent;
+            color: #fff;
+        }
+
+        #sidebar a,
+        #sidebar a:hover,
+        #sidebar a:focus {
+            color: inherit;
+        }
+
+        #sidebar ul li a {
+            padding: 10px;
+            display: block;
+        }
+
+        #sidebar ul li a:hover {
+            color: #7386D5;
+            background: yellow;
+        }
     </style>
 </head>
 
@@ -145,85 +168,36 @@ session_start();
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Start Sample Area -->
     <section class="sample-text-area">
         <div class="container">
 
-            <div class="row">
-                <div class="col">
-                    <div class="nav flex-column nav-pills">
-                        <a class="nav-link active" href="profile_index.php">My Account</a>
+            <!-- profile pic and wallet -->
+            <table id="pinakaProfile" class="display" style="width: 100%;">
+                <tbody>
+                </tbody>
+            </table>
 
-                        <a class="nav-link " href="profile_all.php">My Purchase</a>
+            <div class="wrapper d-flex align-items-stretch row">
 
-                        <a class="nav-link " href="process_logout.php">Logout</a>
+                <!-- profile sidebar -->
+                <?php include 'html/profile_sidebar.php'; ?>
 
+                <div id="content" class="col">
 
+                    <!-- content -->
+                    <div class="container">
+                        <table id="profileUsername" class="display" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
+
                 </div>
 
-                <div class="col-10">
-                    <div class="tab-content" id="v-pills-tabContent">
-
-                        <div class="tab-pane fade show active" id="v-pills-myaccount" role="tabpanel" aria-labelledby="v-pills-myaccount-tab">
-
-                            <!-- laman -->
-                            <nav>
-                                <div class="nav nav-tabs">
-                                    <a class="nav-item nav-link active" href="profile_index.php">Profile</a>
-
-                                    <a class="nav-item nav-link" href="profile_addresses.php">Addresses</a>
-
-                                    <a class="nav-item nav-link" href="profile_password.php">Change Password</a>
-                                </div>
-                            </nav>
-
-                            <div class="tab-content" id="nav-tabContent">
-
-                                <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    <section style="padding: 20px;">
-                                        <div class="container">
-
-                                            <!-- DataTables email  -->
-                                            <table id="profileUsername" class="display" style="width: 100%;">
-                                                <!-- <thead>
-                                                    <tr>
-                                                        <th>Title</th>
-                                                        <th>Input</th>
-                                                        <th>Edit</th>
-                                                    </tr>
-                                                </thead> -->
-                                                <tbody>
-                                                    <!-- User data will be displayed here -->
-                                                </tbody>
-                                            </table>
-
-
-
-
-                                        </div>
-                                    </section>
-                                </div>
-
-                            </div>
-                            <!-- /laman -->
-
-                        </div>
-
-
-
-                        <div class="tab-pane fade" id="v-pills-logout" role="tabpanel" aria-labelledby="v-pills-logout-tab">
-                            logout
-                        </div>
-
-
-                    </div>
-                </div>
             </div>
 
         </div>
     </section>
-    <!-- End Sample Area -->
 
 
 

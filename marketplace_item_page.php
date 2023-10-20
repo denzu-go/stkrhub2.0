@@ -262,6 +262,15 @@ while ($fetched = $query->fetch_assoc()) {
 
             color: #dc3545;
         }
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
+        }
+
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 
@@ -1038,10 +1047,39 @@ while ($fetched = $query->fetch_assoc()) {
     <script>
         $(document).ready(function() {
 
-            iziToast.show({
-                title: 'Hey',
-                message: 'What would you like to add?'
+            $(document).on("click", "#ajax-link", function(event) {
+                event.preventDefault();
+                var user_id = <?php echo $user_id ?>;
+                var published_game_id = $(this).data("published-game-id");
+                var quantity = $("input[name='quantity']").val();
+
+                $.ajax({
+                    url: "process_add_published_game_to_cart_quantity.php",
+                    type: "POST",
+                    data: {
+                        published_game_id: published_game_id,
+                        quantity: quantity,
+                    },
+                    success: function(data) {
+                        iziToast.success({
+                            color: '#15172e',
+                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                            title: 'OK',
+                            message: 'Successfully inserted record!',
+                            titleColor: '#fff',
+                            messageColor: '#fff',
+                            timeout: 90000,
+                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                        });
+
+
+                        $(".cart-count").html(data);
+                        $("#cartCount").DataTable().ajax.reload();
+                    },
+                });
             });
+
+
 
             $('.edit-comment').click(function() {
                 var rating_id = $(this).data('rating_id');
@@ -1265,31 +1303,6 @@ while ($fetched = $query->fetch_assoc()) {
                 thumbs: {
                     swiper: swiper,
                 },
-            });
-
-
-
-            $(document).on("click", "#ajax-link", function(event) {
-                event.preventDefault();
-                var user_id = <?php echo $user_id ?>;
-                var published_game_id = $(this).data("published-game-id");
-                var quantity = $("input[name='quantity']").val();
-
-                $.ajax({
-                    url: "process_add_published_game_to_cart_quantity.php",
-                    type: "POST",
-                    data: {
-                        published_game_id: published_game_id,
-                        quantity: quantity,
-                    },
-                    success: function(data) {
-                        // Show a Toastr success notification
-                        toastr.success("Item added to cart successfully!");
-
-                        $(".cart-count").html(data);
-                        $("#cartCount").DataTable().ajax.reload();
-                    },
-                });
             });
 
         });

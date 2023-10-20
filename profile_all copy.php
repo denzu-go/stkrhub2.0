@@ -157,71 +157,23 @@ if (isset($_SESSION['user_id'])) {
     <section class="sample-text-area">
         <div class="container">
 
-            <div class="row p-2 mb-3 d-flex justify-content-between">
-                <div class="col d-flex justify-content-start">
-                    <div class="row d-flex align-items-center">
-                        <div class="col">image</div>
-                        <div class="col">
-                            <div class="row">username</div>
-                            <div class="row">Full Name</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col d-flex justify-content-end">
-                    <div class="row d-flex align-items-center">
-                        Wallet
-                    </div>
-                </div>
-            </div>
+            <!-- profile pic and wallet -->
+            <table id="pinakaProfile" class="display" style="width: 100%;">
+                <tbody>
+                </tbody>
+            </table>
 
             <div class="wrapper d-flex align-items-stretch row">
 
-                <nav id="sidebar" class="active col-2">
-                    <ul class="list-unstyled components m-1">
-                        <li class="active">
-                            <a href="#"><span class="fa fa-home"></span> Home</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="fa fa-user"></span> About</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="fa fa-sticky-note"></span> Blog</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="fa fa-cogs"></span> Services</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="fa fa-paper-plane"></span> Contacts</a>
-                        </li>
-                    </ul>
-                </nav>
+                <!-- profile sidebar -->
+                <?php include 'html/profile_sidebar.php'; ?>
 
                 <div id="content" class="col">
 
-                    <nav class="navbar navbar-expand-lg navbar-light bg-dark mb-4 p-1">
-                        <div class="container-fluid">
+                    <!-- header bar -->
+                    <?php include 'html/profile_account_header_bar.php'; ?>
 
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="nav navbar-nav">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="#">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Portfolio</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Contact</a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </div>
-                    </nav>
-
+                    <!-- content -->
                     <div class="container">
                         <h2 class="mb-4">Sidebar #07</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -282,6 +234,32 @@ if (isset($_SESSION['user_id'])) {
         $(document).ready(function() {
 
             <?php include 'js/essential.php'; ?>
+            var user_id = <?php echo $user_id; ?>;
+
+            $('#pinakaProfile').DataTable({
+
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+
+                "ajax": {
+                    "url": "json_pinaka_profile.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [
+                    {
+                        "data": "item"
+                    },
+                ]
+            });
 
 
             var monkeyList = new List('test-list', {
@@ -296,8 +274,6 @@ if (isset($_SESSION['user_id'])) {
             };
 
             var userList = new List('game_components_table', options);
-
-            var user_id = <?php echo $user_id; ?>;
 
             $('#allOrders').DataTable({
                 language: {
