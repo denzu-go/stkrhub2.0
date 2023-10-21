@@ -133,8 +133,8 @@ if (isset($_SESSION['user_id'])) {
         }
 
 
-        /* sidebar */
-        #sidebar {
+/* sidebar */
+#sidebar {
             height: 100%;
             background: transparent;
             color: #fff;
@@ -147,32 +147,41 @@ if (isset($_SESSION['user_id'])) {
         }
 
         #sidebar ul li a {
-            padding: 10px;
+            padding: 7px 14px;
             display: block;
+            color: #e7e7e7;
+            font-size: small;
         }
 
         #sidebar ul li a:hover {
-            color: #7386D5;
-            background: yellow;
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* buttons */
+        .edit-btn-avatar {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
         }
     </style>
 </head>
 
-<body>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
 
     <?php include 'html/page_header.php'; ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
-
-            <!-- profile pic and wallet -->
-            <table id="pinakaProfile" class="display" style="width: 100%;">
-                <tbody>
-                </tbody>
-            </table>
 
             <div class="wrapper d-flex align-items-stretch row">
 
@@ -252,6 +261,31 @@ if (isset($_SESSION['user_id'])) {
 
             <?php include 'js/essential.php'; ?>
 
+            var user_id = <?php echo $user_id; ?>;
+
+            $('#pinakaProfile').DataTable({
+
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+
+                "ajax": {
+                    "url": "json_pinaka_profile.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "item"
+                }, ]
+            });
+
 
             var monkeyList = new List('test-list', {
                 valueNames: ['name'],
@@ -266,7 +300,6 @@ if (isset($_SESSION['user_id'])) {
 
             var userList = new List('game_components_table', options);
 
-            var user_id = <?php echo $user_id; ?>;
 
             $('#allOrders').DataTable({
                 language: {

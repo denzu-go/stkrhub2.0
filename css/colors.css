@@ -22,6 +22,15 @@ color: #63d19e;
 
 background: linear-gradient(144deg, #26d3e0, #b660e8);
 
+
+/* <!-- glass morph--> */
+background: rgba(39, 42, 78, 0.57);
+border-radius: 0px 0px 15px 15px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+backdrop-filter: blur(5.7px);
+-webkit-backdrop-filter: blur(5.7px);
+line-height: 0px !important;
+
 }
 
 
@@ -30,3 +39,5 @@ background: linear-gradient(144deg, #26d3e0, #b660e8);
 /* &#8369; */
 
 /* green */
+
+

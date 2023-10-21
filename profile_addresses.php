@@ -154,25 +154,41 @@ $region_qry = mysqli_query($conn, $region);
         }
 
         #sidebar ul li a {
-            padding: 10px;
+            padding: 7px 14px;
             display: block;
+            color: #e7e7e7;
+            font-size: small;
         }
 
         #sidebar ul li a:hover {
-            color: #7386D5;
-            background: yellow;
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* buttons */
+        .edit-btn-avatar {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
         }
     </style>
 
 </head>
 
-<body>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
+
     <?php include 'html/page_header.php'; ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
             <!-- profile pic and wallet -->
