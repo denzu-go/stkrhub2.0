@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'connection.php';
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
@@ -47,9 +48,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
-    <!-- fontawesome -->
+    <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 
     <!-- material icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -65,11 +65,6 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
     <!-- Include Tippy.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
-
-
-    <!-- Filepond -->
-    <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
-
 
     <style>
         <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
@@ -94,7 +89,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             overflow: hidden;
             width: 100%;
             position: relative;
-            padding-top: 100%;
+            padding-top: 80%;
         }
 
         .image-mini {
@@ -104,8 +99,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             height: 100%;
             width: 100%;
             object-fit: cover;
-            /* -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 100%); */
+            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
         }
 
         .custom-shadow {
@@ -145,18 +140,6 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             border: none !important;
         }
 
-
-        table.dataTable.stripe tbody tr.even,
-        table.dataTable.display tbody tr.even {
-            background-color: #1f2243;
-        }
-
-        table.dataTable.stripe tbody tr.odd,
-        table.dataTable.display tbody tr.odd {
-            background-color: #272a4e !important;
-        }
-
-
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
@@ -167,101 +150,105 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             color: #fff;
         }
 
-        /* sidebar */
-        #sidebar {
-            height: 100%;
+        /* progress step by step */
+        .progresses {
+            display: flex;
+            align-items: center;
+        }
+
+        .step-line {
+            width: 200px;
+            height: 4px;
+            background: #63d19e;
+        }
+
+        .step-line-b {
+            width: 200px;
+            height: 4px;
             background: transparent;
+        }
+
+        .steps {
+            display: flex;
+            background-color: #63d19e;
             color: #fff;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        #sidebar a,
-        #sidebar a:hover,
-        #sidebar a:focus {
-            color: inherit;
+        .steps-b {
+            display: flex;
+            flex-direction: column;
+            background-color: transparent;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+
         }
 
-        #sidebar ul li a {
-            padding: 7px 14px;
-            display: block;
-            color: #e7e7e7;
-            font-size: small;
-        }
-
-        #sidebar ul li a:hover {
-            color: #e7e7e7;
-            background: #272a4e;
-            border-radius: 14px;
-        }
-
-        /* buttons */
-        .edit-btn-avatar {
-            background-color: transparent !important;
-            border: none;
-            cursor: pointer;
-            color: #90ee90;
-        }
-
-        #sidebar .active {
-            background-color: #272a4e;
-            border-radius: 14px;
-        }
+        /* end progress step by step */
     </style>
 </head>
 
-<body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
-
-    <?php
-    include 'connection.php';
-    include 'html/page_header.php';
-
-    $my_profile = '';
-    $my_addresses = '';
-    $my_purchase = '';
-    $stkr_wallet = 'active';
-    $change_password = '';
-    ?>
-
+<body>
+    <?php include 'html/page_header.php'; ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <section class="sample-text-area" style="background: none;">
+    <!-- Start Sample Area -->
+    <section class="sample-text-area">
         <div class="container">
 
-            <div class="wrapper d-flex align-items-stretch row">
+            <div class="row">
+                <div class="col-3">
+                    <div class="nav flex-column nav-pills">
+                        <a class="nav-link " href="profile_index.php">My Account</a>
 
-                <!-- profile sidebar -->
-                <?php include 'html/profile_sidebar.php'; ?>
+                        <a class="nav-link " href="profile_all.php">My Purchase</a>
 
-                <div id="content" class="col">
+                        <a class="nav-link active" href="profile_wallet.php">STKR Wallet</a>
 
-                    <!-- content -->
-                    <div class="container">
+                        <a class="nav-link " href="process_logout.php">Logout</a>
 
-
-
-                        <table id="walletAmount" class="hover" style="width: 100%;">
-                            <tbody>
-                            </tbody>
-                        </table>
-
-                        <table id="walletTransaction" class="hover" style="width: 100%;">
-                            <tbody>
-                            </tbody>
-                        </table>
 
                     </div>
-
                 </div>
 
+                <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+
+                        <div class="tab-pane fade show active" id="v-pills-mypurchase" role="tabpanel" aria-labelledby="v-pills-mypurchase-tab">
+                            <table id="walletAmount" class="hover" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane fade show active" id="v-pills-mypurchase" role="tabpanel" aria-labelledby="v-pills-mypurchase-tab">
+                            <table id="walletTransaction" class="hover" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
         </div>
     </section>
+    <!-- End Sample Area -->
 
 
     <!---------------------- MODAL ------------------------>
@@ -325,7 +312,6 @@ background-attachment: fixed;">
 
 
 
-
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
@@ -374,7 +360,7 @@ background-attachment: fixed;">
 
                 searching: false,
                 info: false,
-                paging: true,
+                paging: false,
                 lengthChange: false,
                 ordering: false,
 
@@ -386,8 +372,24 @@ background-attachment: fixed;">
                     "dataSrc": ""
                 },
                 "columns": [{
-                    "data": "item"
-                }, ]
+                        "data": "type"
+                    },
+                    {
+                        "data": "amount"
+                    },
+                    {
+                        "data": "date"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "mode"
+                    },
+                    {
+                        "data": "paypal_transaction_id"
+                    },
+                ]
             });
 
             $('#walletAmount').DataTable({
