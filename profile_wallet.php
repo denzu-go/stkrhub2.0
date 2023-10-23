@@ -121,9 +121,17 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             border-bottom: none;
         }
 
-        .even,
-        .odd {
-            background-color: transparent !important;
+
+        /* ODD EVEN */
+        table.dataTable tr.odd {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(21, 23, 46, 0.7) 100%);
+        }
+
+
+        table.dataTable tr.even {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(31, 34, 67, 0.7) 100%);
         }
 
         table.dataTable {
@@ -146,15 +154,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
         }
 
 
-        table.dataTable.stripe tbody tr.even,
-        table.dataTable.display tbody tr.even {
-            background-color: #1f2243;
-        }
 
-        table.dataTable.stripe tbody tr.odd,
-        table.dataTable.display tbody tr.odd {
-            background-color: #272a4e !important;
-        }
 
 
         .nav-pills .nav-link.active,
@@ -205,6 +205,16 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             background-color: #272a4e;
             border-radius: 14px;
         }
+
+        .page-item.active .page-link {
+            background-color: lightgrey !important;
+            border: 1px solid black;
+        }
+
+        .page-link {
+            color: black !important;
+        }
+
     </style>
 </head>
 

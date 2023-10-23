@@ -44,7 +44,7 @@ while ($fetched = $result->fetch_assoc()) {
     if ($status == 'success') {
         $status_value = '
         <span style="color: #90ee90">
-            <i class="fa-solid fa-circle-check"></i> ' . strtoupper($status) . '
+            <i class="fa-regular fa-circle-check"></i> ' . strtoupper($status) . '
         </span>
         ';
     } else {
@@ -57,14 +57,14 @@ while ($fetched = $result->fetch_assoc()) {
 
 
     $item = '
-    <div class="row d-flex align-items-center p-3">
+    <div class="row d-flex align-items-center p-3" style="color: #e7e7e7">
         <div class="col-1 "style="line-height: 0.7rem;">
             <div class="row d-flex justify-content-center">' . $month . '</div>
             <div class="row d-flex justify-content-center"><span class="h4 p-0 m-0">' . $day . '</span></div>
-            <div class="row d-flex justify-content-center"><span class="small">' . $year . '</span></div>
+            <div class="row d-flex justify-content-center"><span class="small" style="color: #777777">' . $year . '</span></div>
         </div>
 
-        <div class="col-1 d-flex flex-row">' . $time . '</div>
+        <div class="col-1 d-flex flex-row" style="color: #777777">' . $time . '</div>
 
         <div class="col pl-5">
             <div class="container">
