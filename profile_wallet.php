@@ -215,6 +215,13 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             color: black !important;
         }
 
+        #walletAmount {
+            background: transparent;
+        }
+
+        #walletAmount tr {
+            background: transparent !important;
+        }
     </style>
 </head>
 
