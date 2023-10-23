@@ -20,6 +20,32 @@ while ($fetched = $result->fetch_assoc()) {
     $status = $fetched['status'];
     $mode = $fetched['mode'];
     $paypal_transaction_id = $fetched['paypal_transaction_id'];
+    $unique_order_group_id = $fetched['unique_order_group_id'];
+
+    $paypal_email_destination = $fetched['paypal_email_destination'];
+
+    $edit_paypal_email_button = '
+    <button class="edit_paypal_email_button" id="edit_paypal_email_button" 
+    data-wallet_transaction_id="' . $wallet_transaction_id . '"
+    data-paypal_email_destination="' . $paypal_email_destination . '">
+        <i class="fa-solid fa-pen"></i>
+    </button>
+    ';
+
+    if ($status == 'pending') {
+        $description = '<i class="fa-regular fa-circle-dot"></i> Admin will send to ' . $paypal_email_destination . $edit_paypal_email_button;
+    } elseif ($status == 'success' && $transaction_type == 'Cash Out') {
+        $description = '<i class="fa-solid fa-check"></i> Sent to: ' . $paypal_email_destination;
+    } elseif ($transaction_type == 'Cash In') {
+        $description = 'Paypal Transaction ID: ' . $paypal_transaction_id;
+    } elseif ($transaction_type == 'Pay') {
+        $transaction_type = 'Place Order';
+        $description = 'Place Order ID: ' . $unique_order_group_id;
+    } elseif ($paypal_transaction_id != null) {
+        $description = $paypal_transaction_id;
+    } else {
+        $description = '';
+    }
 
     if ($transaction_type == 'Cash In' || $transaction_type == 'Received') {
         $amount_value = '
@@ -69,12 +95,12 @@ while ($fetched = $result->fetch_assoc()) {
         <div class="col pl-5">
             <div class="container">
                 <div class="row">' . $transaction_type . '</div>
-                <div class="row">' . $paypal_transaction_id . '</div>
+                <div class="row"><span class="small" style="color: #777777;">' . $description . '</span></div>
             </div>
         </div>
 
-        <div class="col-3 d-flex flex-row-reverse">' . $status_value . '</div>
-        <div class="col-3 d-flex flex-row-reverse">' . $amount_value . '</div>
+        <div class="col-2 d-flex flex-row-reverse">' . $status_value . '</div>
+        <div class="col-2 d-flex flex-row-reverse">' . $amount_value . '</div>
     </div>
     ';
 

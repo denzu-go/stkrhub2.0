@@ -201,6 +201,13 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             color: #90ee90;
         }
 
+        .edit_paypal_email_button {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
+
         #sidebar .active {
             background-color: #272a4e;
             border-radius: 14px;
@@ -257,15 +264,17 @@ background-attachment: fixed;">
                 <div id="content" class="col">
 
                     <!-- content -->
+                    <h3>STKR Wallet</h3>
                     <div class="container">
-
-
 
                         <table id="walletAmount" class="hover" style="width: 100%;">
                             <tbody>
                             </tbody>
                         </table>
 
+                        <hr style="background-color: #15172e; padding: .04rem;">
+
+                        <h6 style="color: #777777;">Recent Transactions: </h6>
                         <table id="walletTransaction" class="hover" style="width: 100%;">
                             <tbody>
                             </tbody>
@@ -339,6 +348,34 @@ background-attachment: fixed;">
             </div>
         </div>
     </div>
+
+    <!-- Edit Paypal Email Modal -->
+    <div class="modal fade" id="editPaypalEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Paypal Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPaypalEmailForm">
+                        <div class="form-group">
+                            <label for="paypalEmail">Paypal Email Cashout Destination:</label>
+                            <input type="email" class="form-control" id="paypalEmail" name="paypalEmail" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmSubmit">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -429,6 +466,83 @@ background-attachment: fixed;">
                     "data": "item"
                 }, ]
             });
+
+
+
+            $('#walletTransaction').on('click', '#edit_paypal_email_button', function() {
+                var walletTransactionId = $(this).data("wallet_transaction_id");
+                var paypal_email_destination = $(this).data("paypal_email_destination");
+
+                $('#editPaypalEmailModal').on('hidden.bs.modal', function(e) {
+                    $('#paypalEmail').val('');
+                });
+
+                $("#editPaypalEmailModal").modal("show");
+                $("#paypalEmail").val(paypal_email_destination);
+            });
+
+            $('#confirmSubmit').on('click', function() {
+                var paypalEmail = $('#paypalEmail').val();
+                var walletTransactionId = $('#edit_paypal_email_button').data('wallet_transaction_id');
+
+                // Validate the required input
+                if (!paypalEmail) {
+                    Swal.fire("Error", "Please enter a Paypal email address.", "error");
+                    return;
+                }
+
+                // Validate email format
+                if (!isValidEmail(paypalEmail)) {
+                    Swal.fire("Error", "Please enter a valid email address.", "error");
+                    return;
+                }
+
+                // Show a confirmation SweetAlert
+                Swal.fire({
+                    title: "Confirmation",
+                    text: "Are you sure you want to save changes?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with the AJAX submission
+                        $.ajax({
+                            url: "process_paypal_destination_email_update.php",
+                            type: "POST",
+                            data: {
+                                walletTransactionId: walletTransactionId,
+                                paypalEmail: paypalEmail,
+                            },
+                            success: function(response) {
+                                $('#walletAmount').DataTable().ajax.reload();
+                                $('#walletTransaction').DataTable().ajax.reload();
+                                $('#editPaypalEmailModal').modal("hide");
+                                Swal.fire("Success", "Paypal email updated successfully", "success");
+                            },
+                            error: function(error) {
+                                $('#walletAmount').DataTable().ajax.reload();
+                                $('#walletTransaction').DataTable().ajax.reload();
+                                Swal.fire("Error", "An error occurred while updating the email", "error");
+                            },
+                        });
+                    }
+                });
+            });
+
+            function isValidEmail(email) {
+                // Use a regular expression to validate email format
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                return emailRegex.test(email);
+            }
+
+
+
+
+
+
+
 
 
 

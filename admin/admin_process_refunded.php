@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
 
-        $sqlInsertWallet = "UPDATE wallet_transactions SET status = 'success', cash_out_timestamp = NOW() WHERE wallet_transaction_id = $wallet_transaction_id";
+        $sqlInsertWallet = "UPDATE wallet_transactions SET status = 'success', paypal_email_destination = '$paypal_email_destination', cash_out_timestamp = NOW() WHERE wallet_transaction_id = $wallet_transaction_id";
         $queryInsertWallet = $conn->query($sqlInsertWallet);
 
         $sqlUpdateUser = "UPDATE users SET wallet_amount = wallet_amount - $minus_amount WHERE user_id = $creator_id";

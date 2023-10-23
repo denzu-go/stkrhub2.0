@@ -11,17 +11,18 @@ if ($resultPending) {
     $count = $rowPending['count'];
 
     if ($count > 0) {
-        $sql = "SELECT amount FROM wallet_transactions WHERE status = 'pending' ";
+        $sql = "SELECT amount FROM wallet_transactions WHERE status = 'pending' AND user_id = $user_id";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $amount_value = $row['amount'];
+            $amount_peso = '- &#8369;' .number_format($amount_value, 2);
         } else {
-            // Handle the case where the second query fails
+            $amount_peso = 'none';
         }
     } else {
-        $amount_value = 'none';
+        $amount_peso = '<span style="color: #e7e7e7">No Pending Transactions</span>';
     }
 }
 
@@ -32,11 +33,15 @@ while ($fetched = $result->fetch_assoc()) {
 
     $item = '
 
-<div class="row p-4 d-flex align-items-center">
+
+
+
+<div class="row pl-4 pr-4 d-flex align-items-center">
 
     <div class="col-9">
+        <div class="row">STKR Wallet Amount: </div>
         <div class="row"><span class="display-3" style="color: #26d3e0;">&#8369;' . number_format($wallet_amount, 2) . '</span></div>
-        <div class="row"><h6 style="color: #777777">Pending: <span style="color: #e7e7e7"></span></h6></div>
+        <div class="row"><h6 class="small" style="color: #777777">Pending: <span style="color: #dc3545">'.$amount_peso.'</span></h6></div>
     </div>
 
     <div class="col d-flex">
@@ -61,7 +66,9 @@ while ($fetched = $result->fetch_assoc()) {
 
         <div class="container d-flex flex-column align-items-center">
             <div class="row">
-                <button class="btn btn-outline-primary" id="cash_in" style="
+                <button class="btn btn-outline-primary" id="cash_out"
+                    data-current_wallet_balance = "'.$wallet_amount.'"
+                    style="
                     width: 70px;
                     height: 70px;
                     border-radius: 50%;

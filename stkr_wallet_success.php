@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "Street: " . $street . "<br>";
     echo "Carts Selected: " . $carts_selected . "<br>";
 
-    $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, mode) VALUES ('$user_id', 'Pay', '$paypal_payment', 'success', 'STKR Wallet Pay')";
+    $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, mode, unique_order_group_id) VALUES ('$user_id', 'Pay', '$paypal_payment', 'success', 'STKR Wallet Pay', '$unique_order_group_id')";
     $queryInsertWallet = $conn->query($sqlInsertWallet);
 
     $sqlUpdateUser = "UPDATE users SET wallet_amount = wallet_amount - $paypal_payment WHERE user_id = $user_id";
