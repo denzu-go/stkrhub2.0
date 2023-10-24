@@ -53,7 +53,6 @@
                             <li><img src="img/i2.jpg" alt=""></li>
                             <li><img src="img/i3.jpg" alt=""></li>
                             <li><img src="img/i4.jpg" alt=""></li>
-                            <li><img src="img/i5.jpg" alt=""></li>
                             <li><img src="img/i6.jpg" alt=""></li>
                             <li><img src="img/i7.jpg" alt=""></li>
                             <li><img src="img/i8.jpg" alt=""></li>

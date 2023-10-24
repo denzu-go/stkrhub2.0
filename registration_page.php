@@ -47,9 +47,27 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login_form_inner">
-                        <h3>Log in to enter</h3>
+                        <h3>Registration Form</h3>
                         <form class="row login_form" action="process_registration.php" method="post" id="contactForm"
                             novalidate="novalidate">
+                            <div class="col-md-12 form-group">
+                                <input required type="text" class="form-control" id="firstName" name="firstName"
+                                    placeholder="First Name" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'First Name'">
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <input required type="text" class="form-control" id="lastName" name="lastName"
+                                    placeholder="Last Name" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Last Name'">
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <input required type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Phone Number" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Phone Number'">
+                            </div>
+
                             <div class="col-md-12 form-group">
                                 <input required type="text" class="form-control" id="username" name="username"
                                     placeholder="Username" onfocus="this.placeholder = ''"
@@ -69,14 +87,8 @@
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <div class="creat_account">
-                                    <input type="checkbox" id="f-option2" name="selector">
-                                    <label for="f-option2">Keep me logged in</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <a href="#">Forgot Password?</a>
+                                <button type="submit" value="submit" class="primary-btn">Register</button>
+                                
                             </div>
                         </form>
                     </div>

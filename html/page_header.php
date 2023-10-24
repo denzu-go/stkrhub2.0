@@ -52,6 +52,10 @@
 							<a class="nav-link" href="index.php">Buy Game Components</a>
 						</li>
 
+						<li class="nav-item <?php echo $header_help?> ">
+							<a class="nav-link" href="help.php">Help</a>
+						</li>
+
 						<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
 
 

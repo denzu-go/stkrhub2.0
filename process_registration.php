@@ -7,6 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once 'connection.php';
 
     // Retrieve form data
+    $fname = $_POST['firstName'];
+    $lname = $_POST['lastName'];
+    $phone = $_POST['phone'];
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -22,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert the new user into the "users" table with the current timestamp for created_at
-    $insert_query = "INSERT INTO users (username, email, password, created_at) VALUES ('$username', '$email', '$password', NOW())";
+    $insert_query = "INSERT INTO users (first_name, last_name, phone_number,username, email, password, created_at) VALUES ('$fname','$lname', $phone,'$username', '$email', '$password', NOW())";
     if (mysqli_query($conn, $insert_query)) {
         // Redirect the user to the login page after successful registration
         header("Location: login_page.php");

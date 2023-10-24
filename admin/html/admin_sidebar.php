@@ -18,6 +18,25 @@
                         </ul>
                     </li>
 
+                    <li class="nav-label"></li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="icon icon-app-store"></i><span class="nav-text">Help Desk</span></a>
+                        <ul aria-expanded="false">
+                            <?php
+                            include("connection.php");
+
+                            $sql = "SELECT * FROM faq";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<li><a href="admin_help.php?category=' . $row['faq_category'] . '"> ' . $row['faq_category'] . ' </a></li>';
+                            }
+
+                            ?>
+                        </ul>
+                    </li>
+
                     <li class="nav-label">Approve / Deny</li>
                     <li><a href="games_approval_requests.php">Games Pending Approval</a></li>
                     <li><a href="pending_details_request.php">Publish Game Details Requests</a></li>
