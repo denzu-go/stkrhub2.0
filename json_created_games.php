@@ -36,12 +36,20 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
 
 
     $game_link = '
+    <div class="container">
+        <div class="row">
+            <a href="game_dashboard.php?game_id=' . $game_id . '" style="color: #26d3e0;">
+                <span class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $name . '" >
+                    ' . $name . '
+                </span>
+            </a>
+        </div>
+
+        <div class="row">
+            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+        </div>
+    </div>
     
-        <a href="game_dashboard.php?game_id=' . $game_id . '" style="color: #26d3e0;">
-            <p class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $name . '" >
-                ' . $name . '
-            </p>
-        </a>
     ';
 
 
@@ -156,7 +164,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
             <i class="fa-solid fa-ticket"></i> Get Approved
         </button>
 
-        <p class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</p>
+        
         ';
     } elseif ($is_pending) {
         $extra_action = '
@@ -189,7 +197,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
             <i class="fa-solid fa-ban"></i> Cancel Ticket
         </button>
 
-        <p class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</p>
+        
         ';
     } elseif ($is_purchased) {
         $extra_action = '
@@ -208,7 +216,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
             <i class="fa-solid fa-ticket"></i> Get Approved
         </button>
 
-        <p class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</p>
+
         ';
     } elseif ($to_approve) {
         $extra_action = '
@@ -253,7 +261,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
             <i class="fa-solid fa-ticket"></i> Get Approved Again
         </button>
 
-        <p class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</p>
+
         ';
     } else {
         $extra_action = '
@@ -269,7 +277,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
             <i class="fa-solid fa-ticket"></i> Get Approved
         </button>
 
-        <p class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</p>
+
         ';
     }
 
@@ -326,7 +334,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
 
     $data[] = array(
         "game_link" => $game_link,
-        "description" => $description,
+        "description" => $description_value,
         "total_price" => $total_price_value,
         "formatted_date" => $date_modified_value,
         "status" => $status_value,

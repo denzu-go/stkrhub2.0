@@ -20,15 +20,50 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     $is_pending = $fetched['is_pending'];
     $is_canceled = $fetched['is_canceled'];
     $is_approved = $fetched['is_approved'];
+
+    $is_at_cart = $fetched['is_at_cart'];
+    $is_semi_purchased = $fetched['is_semi_purchased'];
     $is_purchased = $fetched['is_purchased'];
+
     $is_pending_published = $fetched['is_pending_published'];
     $is_request_denied = $fetched['is_request_denied'];
     $is_published = $fetched['is_published'];
 
+    $ticket_cost = $fetched['ticket_cost'];
+
+    $sqlReason = "SELECT * FROM denied_publish_requests WHERE built_game_id = $built_game_id";
+    $queryReason = $conn->query($sqlReason);
+    while ($fetchedReason = $queryReason->fetch_assoc()) {
+        $denied_publish_request_id = $fetchedReason['denied_publish_request_id'];
+        $reason = $fetchedReason['reason'];
+
+        if ($fetchedReason['file_path'] === null) {
+            $file_path = 'null';
+        } else {
+            $file_path = $fetchedReason['file_path'];
+        }
+    }
+
 
     $game_link = '
-    <a href="built_game_dashboard.php?built_game_id=' . $built_game_id . '">' . $name . '</a>
+    
+
+    <div class="container">
+        <div class="row">
+            <a href="built_game_dashboard.php?built_game_id=' . $built_game_id . '">
+                <span class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $name . '" >
+                    ' . $name . '
+                </span>
+            </a>
+        </div>
+
+        <div class="row">
+            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+        </div>
+    </div>
     ';
+
+    $description_value = '<p class="text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">' . $description . '</p>';
 
 
     if ($game_id == 0) {
@@ -43,18 +78,42 @@ while ($fetched = $resultApproved->fetch_assoc()) {
 
     $from_what_game = $from_what_game_value;
 
+    $publish_request = '
+    <a href="edit_game_page.php?built_game_id=' . $built_game_id . '">Ready to Publish</a>
+    ';
 
 
-    if ($is_pending == 1) {
-        $status_value = 'Wait until the admin approves this';
-    } elseif ($is_canceled == 1) {
-        $status_value = 'CANCELED';
-    } elseif ($is_approved == 1) {
-        $status_value = 'APPROVED';
-    } elseif ($is_purchased == 1) {
-        $status_value = 'PURCHASED';
+    // status
+    if ($is_at_cart == 1) {
+        $status_value = 'Please Purchase at Cart';
+    } elseif ($is_request_denied == 1) {
+        $status_value = '
+        <a href="denied_publish_request_page.php?built_game_id=' . $built_game_id . '">View Reason Denied</a>
+        Your request has been denied
+        <button class="view-reason" data-built_game_id="' . $built_game_id . '" data-reason="' . $reason . '" data-file_path="' . $file_path . '">
+            View Reason
+        </button>
+        ';
+    } elseif ($is_pending_published == 1) {
+        $status_value = '
+        <a href="pending_publish_request_page.php?built_game_id=' . $built_game_id . '">View Publish Request</a>
+        ';
     } elseif ($is_published == 1) {
         $status_value = 'PUBLISHED';
+    } elseif ($is_semi_purchased == 1) {
+        if ($is_purchased) {
+            $status_value = '
+            ' . $publish_request . '
+            ';
+        } else {
+            $status_value = 'Do not Cancel you Order';
+        }
+    } elseif ($is_purchased == 1) {
+        $status_value = '
+        ' . $publish_request . '
+        ';
+    } elseif ($is_approved == 1) {
+        $status_value = 'Purchase first, to Publish';
     } else {
         $status_value = '';
     }
@@ -62,11 +121,8 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     $status = $status_value;
 
 
-    $actions = '
-    <button id="built_game_buy" data-built_game_id="' . $built_game_id . '" class="social-info">
-        <span class="ti-bag"></span> Add to Cart
-    </button>
-
+    // extra actions
+    $extra_actions = '
     <button class="edit-built_game" data-built_game_id="' . $built_game_id . '">
         <i class="fa-solid fa-pen-to-square"></i>
     </button>
@@ -77,6 +133,92 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     ';
 
 
+    // actions
+    if ($is_at_cart == 1) {
+        $actions = '
+    <button id="built_game_buy"
+    data-built_game_id="' . $built_game_id . '"
+    class="add-to-cart-approved"
+    
+    disabled
+    data-toggle="tooltip" title="You can only buy bulk once you have purchased it once"
+    >
+        <span class="ti-bag"></span> Add to Cart
+    </button>
+
+    ' . $extra_actions . '
+    ';
+    } elseif ($is_published == 1) {
+        $actions = '
+    <button 
+    id="built_game_buy_again" data-built_game_id="' . $built_game_id . '" 
+    class="add-to-cart-approved"
+    >
+        <span class="ti-bag"></span> Add to Cart
+    </button>
+    ' . $extra_actions . '
+    ';
+    } elseif ($is_semi_purchased == 1) {
+        if ($is_purchased) {
+            $actions = '
+            <button 
+            id="built_game_buy_again" data-built_game_id="' . $built_game_id . '" 
+            class="add-to-cart-approved"
+            >
+                <span class="ti-bag"></span> Add to Cart
+            </button>
+            ' . $extra_actions . '
+            ';
+        } else {
+            $actions = '
+            <button id="built_game_buy"
+            data-built_game_id="' . $built_game_id . '"
+            class="add-to-cart-approved"
+            
+            disabled
+            data-toggle="tooltip" title="You can only buy bulk once you have completely purchased it once"
+            >
+                <span class="ti-bag"></span> Add to Cart
+            </button>
+        
+            ' . $extra_actions . '
+            ';
+        }
+    } elseif ($is_purchased == 1) {
+        $actions = '
+    <button 
+    id="built_game_buy_again" data-built_game_id="' . $built_game_id . '" 
+    class="add-to-cart-approved"
+    >
+        <span class="ti-bag"></span> Add to Cart
+    </button>
+    ' . $extra_actions . '
+    ';
+    } elseif ($is_approved == 1) {
+        $actions = '
+    <button id="built_game_buy_first"
+    data-built_game_id="' . $built_game_id . '"
+    data-ticket_cost="' . $ticket_cost . '"
+    data-price="' . $price . '"
+    class="add-to-cart-approved"
+    >
+        <span class="ti-bag"></span> Add to Cart
+    </button>
+
+    ' . $extra_actions . '
+    ';
+    } else {
+        $actions = '
+    <button id="built_game_buy" data-built_game_id="' . $built_game_id . '" class="social-info">
+        <span class="ti-bag"></span> Add to Cart
+    </button>
+    ' . $extra_actions . '
+    ';
+    }
+
+
+
+
 
     $built_game_link = $game_link;
     $total_price = $price;
@@ -85,7 +227,7 @@ while ($fetched = $resultApproved->fetch_assoc()) {
 
     $data[] = array(
         "built_game_link" => $built_game_link,
-        "description" => $description,
+        "description" => $description_value,
         "from_what_game" => $from_what_game,
         "total_price" => $total_price,
         "formatted_date" => $formatted_date,

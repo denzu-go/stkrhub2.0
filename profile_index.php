@@ -1,5 +1,20 @@
 <?php
 session_start();
+include 'connection.php';
+if (isset($_SESSION["user_id"])) {
+    $user_id = $_SESSION["user_id"];
+}
+$sqlUserDetails = "SELECT * FROM users WHERE user_id = $user_id";
+$resultUserDetails = $conn->query($sqlUserDetails);
+while ($fetchedUserDetails = $resultUserDetails->fetch_assoc()) {
+
+    $username = $fetchedUserDetails['username'];
+    $firstname = $fetchedUserDetails['firstname'];
+    $lastname = $fetchedUserDetails['lastname'];
+    $phone_number = $fetchedUserDetails['phone_number'];
+    $email = $fetchedUserDetails['email'];
+    $avatar = $fetchedUserDetails['avatar'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,8 +40,9 @@ session_start();
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
-    <!-- font awesome -->
+    <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- material icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -71,7 +87,7 @@ session_start();
             overflow: hidden;
             width: 100%;
             position: relative;
-            padding-top: 70%;
+            padding-top: 100%;
         }
 
         .image-mini {
@@ -81,8 +97,8 @@ session_start();
             height: 100%;
             width: 100%;
             object-fit: cover;
-            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+            /* -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 100%); */
         }
 
         .custom-shadow {
@@ -132,10 +148,49 @@ session_start();
         .nav-link {
             color: #fff;
         }
+
+        /* sidebar */
+        #sidebar {
+            height: 100%;
+            background: transparent;
+            color: #fff;
+        }
+
+        #sidebar a,
+        #sidebar a:hover,
+        #sidebar a:focus {
+            color: inherit;
+        }
+
+        #sidebar ul li a {
+            padding: 7px 14px;
+            display: block;
+            color: #e7e7e7;
+            font-size: small;
+        }
+
+        #sidebar ul li a:hover {
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* buttons */
+        .edit-btn-avatar {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
     </style>
 </head>
 
-<body>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
+
     <?php
     include 'connection.php';
     include 'html/page_header.php';
@@ -145,85 +200,149 @@ session_start();
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
-            <div class="row">
-                <div class="col">
-                    <div class="nav flex-column nav-pills">
-                        <a class="nav-link active" href="profile_index.php">My Account</a>
+            <div class="wrapper d-flex align-items-stretch row">
 
-                        <a class="nav-link " href="profile_all.php">My Purchase</a>
+                <!-- profile sidebar -->
+                <?php include 'html/profile_sidebar.php'; ?>
 
-                        <a class="nav-link " href="process_logout.php">Logout</a>
+                <div id="content" class="col">
 
+                    <!-- content -->
+                    <div class="container">
+                        <div class="container">
+                            <div class="main-body">
 
-                    </div>
-                </div>
+                                <div class="row gutters-sm">
 
-                <div class="col-10">
-                    <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="col-md-4 mb-3">
 
-                        <div class="tab-pane fade show active" id="v-pills-myaccount" role="tabpanel" aria-labelledby="v-pills-myaccount-tab">
-
-                            <!-- laman -->
-                            <nav>
-                                <div class="nav nav-tabs">
-                                    <a class="nav-item nav-link active" href="profile_index.php">Profile</a>
-
-                                    <a class="nav-item nav-link" href="profile_addresses.php">Addresses</a>
-
-                                    <a class="nav-item nav-link" href="profile_password.php">Change Password</a>
-                                </div>
-                            </nav>
-
-                            <div class="tab-content" id="nav-tabContent">
-
-                                <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    <section style="padding: 20px;">
-                                        <div class="container">
-
-                                            <!-- DataTables email  -->
-                                            <table id="profileUsername" class="display" style="width: 100%;">
-                                                <!-- <thead>
-                                                    <tr>
-                                                        <th>Title</th>
-                                                        <th>Input</th>
-                                                        <th>Edit</th>
-                                                    </tr>
-                                                </thead> -->
+                                        <div class="card" style="background: rgba(39, 42, 78, 0.57);
+                                        border-radius: 7px 7px 7px 7px;
+                                        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                                        backdrop-filter: blur(5.7px);
+                                        -webkit-backdrop-filter: blur(5.7px);">
+                                            <table id="profilePicture" class="display" style="width: 100%;">
                                                 <tbody>
-                                                    <!-- User data will be displayed here -->
                                                 </tbody>
                                             </table>
-
-
-
-
                                         </div>
-                                    </section>
+
+                                        <div class="card mt-3" style="/* <!-- glass morph--> */
+                                        background: rgba(39, 42, 78, 0.57);
+                                        border-radius: 7px 7px 7px 7px;
+                                        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                                        backdrop-filter: blur(5.7px);
+                                        -webkit-backdrop-filter: blur(5.7px);
+                                        line-height: 0px !important;">
+                                        
+                                            <ul class="list-group list-group-flush" >
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
+                                                    <h6 class="mb-0">
+                                                        <i class="fa-solid fa-wallet"></i>
+                                                        STKR Wallet
+                                                    </h6>
+                                                    <span class="text-secondary">1,000</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
+                                                    <h6 class="mb-0">
+                                                        Published Games
+                                                    </h6>
+                                                    <span class="text-secondary">4</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
+                                                    <h6 class="mb-0">
+                                                        Total Earnings
+                                                    </h6>
+                                                    <span class="text-secondary">1,000</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <div class="card mb-3" style="background: rgba(39, 42, 78, 0.57);
+                                        border-radius: 7px 7px 7px 7px;
+                                        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                                        backdrop-filter: blur(5.7px);
+                                        -webkit-backdrop-filter: blur(5.7px);">
+                                            <div class="card-body">
+
+
+                                                <table id="profileDetails" class="display" style="width: 100%;">
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
                                 </div>
 
                             </div>
-                            <!-- /laman -->
-
                         </div>
-
-
-
-                        <div class="tab-pane fade" id="v-pills-logout" role="tabpanel" aria-labelledby="v-pills-logout-tab">
-                            logout
-                        </div>
-
-
                     </div>
+
                 </div>
+
             </div>
 
         </div>
     </section>
-    <!-- End Sample Area -->
+
+    <!-- modals -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Add modal content here -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="editProfileForm">
+                        <input type="hidden" name="user_id" id="user_id_input" value="<?php echo $user_id; ?>">
+                        <div class="form-group">
+                            <label for="username">Userame:</label>
+                            <input type="text" class="form-control" id="username" name="username" required value="<?php echo $username ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required value="<?php echo $firstname ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required value="<?php echo $lastname ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required value="<?php echo $email ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number:</label>
+                            <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" value="<?php echo $phone_number ?>">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 
@@ -265,7 +384,31 @@ session_start();
             //DataTables
             var user_id = <?php echo $user_id; ?>;
 
-            $('#profileUsername').DataTable({
+            $('#pinakaProfile').DataTable({
+
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+
+                "ajax": {
+                    "url": "json_pinaka_profile.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "item"
+                }, ]
+            });
+
+
+            $('#profilePicture').DataTable({
                 "dom": '<"compact"lfrtip>',
 
                 searching: false,
@@ -274,7 +417,7 @@ session_start();
                 ordering: false,
 
                 "ajax": {
-                    "url": "json_profile_username.php",
+                    "url": "json_profile_picture.php",
                     data: {
                         user_id: user_id,
                     },
@@ -287,7 +430,7 @@ session_start();
                 ]
             });
 
-            $('#profileUsername').on('click', 'button.edit-btn', function() {
+            $('#profilePicture').on('click', 'button.edit-btn', function() {
                 var currentUsername = $(this).closest('tr').find('.username-input').val();
 
                 Swal.fire({
@@ -317,7 +460,7 @@ session_start();
                                 $("#cartCount").DataTable().ajax.reload();
                                 Swal.fire('Updated!', 'Username has been updated.', 'success');
 
-                                $('#profileUsername').DataTable().ajax.reload();
+                                $('#profilePicture').DataTable().ajax.reload();
                             },
                             error: function() {
                                 $("#cartCount").DataTable().ajax.reload();
@@ -330,7 +473,7 @@ session_start();
 
 
             // Add a click event handler for "Edit" buttons in the profilePassword table
-            $('#profileUsername').on('click', 'button.edit-btn-avatar', function() {
+            $('#profilePicture').on('click', 'button.edit-btn-avatar', function() {
                 Swal.fire({
                     title: 'Update Avatar',
                     input: 'file',
@@ -368,11 +511,92 @@ session_start();
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire('Updated!', 'Avatar has been updated.', 'success');
-                        $('#profileUsername').DataTable().ajax.reload();
+                        $('#profilePicture').DataTable().ajax.reload();
                         $("#cartCount").DataTable().ajax.reload();
                     }
                 });
             });
+
+
+            $('#profileDetails').DataTable({
+
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+
+                "ajax": {
+                    "url": "json_profile_details.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "row"
+                }, ]
+            });
+
+
+            $('#profileDetails').on('click', '.edit-profile-details', function() {
+                var user_id = $(this).data("user_id");
+                $("#editProfileModal").modal("show");
+                $('#profileDetails').DataTable().ajax.reload();
+                $('#profilePicture').DataTable().ajax.reload();
+            });
+
+            $(document).on("click", "#saveChangesBtn", function() {
+                const requiredFields = document.querySelectorAll('#editProfileForm [required]');
+                let isFormValid = true;
+
+                requiredFields.forEach(function(field) {
+                    if (field.value.trim() === '') {
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    Swal.fire("Error", "Please fill in all required fields.", "error");
+                    return;
+                }
+
+                var formData = $("#editProfileForm").serialize();
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You are about to update your profile.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, update it!",
+                    cancelButtonText: "No, cancel!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User confirmed, proceed with the update
+                        var formData = $("#editProfileForm").serialize();
+                        $.ajax({
+                            url: "process_edit_profile.php",
+                            type: "POST",
+                            data: formData,
+                            success: function(response) {
+                                $("#editProfileModal").modal("hide");
+                                $('#profileDetails').DataTable().ajax.reload();
+                                $('#profilePicture').DataTable().ajax.reload();
+                                Swal.fire("Success", "Profile updated successfully", "success");
+                            },
+                            error: function(error) {
+                                $('#profileDetails').DataTable().ajax.reload();
+                                $('#profilePicture').DataTable().ajax.reload();
+                                Swal.fire("Error", "An error occurred while updating the profile", "error");
+                            }
+                        });
+                    }
+                });
+            });
+
+
 
 
 

@@ -39,8 +39,29 @@ while ($fetched = $result->fetch_assoc()) {
         $price = $fetchedBuiltGames['price'];
     }
 
+    if($is_hidden == 1){
+        $status = 'hidden';
+    } elseif ($is_hidden == 0){
+        $status = 'visible';
+    } else{
+        $status = 'visible';
+    }
+
     $published_game_link = '
-        <a href="marketplace_item_page.php?id=' . $published_game_id . '">' . $game_name . '</a>
+    
+    <div class="container">
+        <div class="row">
+            <a href="marketplace_item_page.php?id=' . $published_game_id . '">
+                <span class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $game_name . '" >
+                    ' . $game_name . '
+                </span>
+            </a>
+        </div>
+
+        <div class="row">
+            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+        </div>
+    </div>
     ';
 
     $info_value = '
@@ -120,6 +141,9 @@ while ($fetched = $result->fetch_assoc()) {
         }
     }
 
+    $reason = '';
+    $file_path = '';
+
 
     if ($has_pending_update === '1') {
         $action2 = '
@@ -151,8 +175,8 @@ while ($fetched = $result->fetch_assoc()) {
         "published_date" => $published_date,
         "price_and_markup" => $price_and_markup,
         "total_earnings" => $total_earnings,
+        "status" => $status,
         "actions" => $actions,
-
     );
 }
 

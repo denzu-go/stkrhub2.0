@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'connection.php';
-
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
@@ -48,8 +47,9 @@ while ($rowMin = $resultMin->fetch_assoc()) {
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
-    <!-- font awesome -->
+    <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- material icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -65,6 +65,11 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
     <!-- Include Tippy.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
+
+
+    <!-- Filepond -->
+    <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
+
 
     <style>
         <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
@@ -89,7 +94,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             overflow: hidden;
             width: 100%;
             position: relative;
-            padding-top: 80%;
+            padding-top: 100%;
         }
 
         .image-mini {
@@ -99,8 +104,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             height: 100%;
             width: 100%;
             object-fit: cover;
-            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+            /* -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 100%); */
         }
 
         .custom-shadow {
@@ -116,9 +121,17 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             border-bottom: none;
         }
 
-        .even,
-        .odd {
-            background-color: transparent !important;
+
+        /* ODD EVEN */
+        table.dataTable tr.odd {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(21, 23, 46, 0.7) 100%);
+        }
+
+
+        table.dataTable tr.even {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(31, 34, 67, 0.7) 100%);
         }
 
         table.dataTable {
@@ -140,6 +153,10 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             border: none !important;
         }
 
+
+
+
+
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
@@ -150,105 +167,127 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             color: #fff;
         }
 
-        /* progress step by step */
-        .progresses {
-            display: flex;
-            align-items: center;
+        /* sidebar */
+        #sidebar {
+            height: 100%;
+            background: transparent;
+            color: #fff;
         }
 
-        .step-line {
-            width: 200px;
-            height: 4px;
-            background: #63d19e;
+        #sidebar a,
+        #sidebar a:hover,
+        #sidebar a:focus {
+            color: inherit;
         }
 
-        .step-line-b {
-            width: 200px;
-            height: 4px;
+        #sidebar ul li a {
+            padding: 7px 14px;
+            display: block;
+            color: #e7e7e7;
+            font-size: small;
+        }
+
+        #sidebar ul li a:hover {
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* buttons */
+        .edit-btn-avatar {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
+
+        .edit_paypal_email_button {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
+
+        #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
+
+        .page-item.active .page-link {
+            background-color: lightgrey !important;
+            border: 1px solid black;
+        }
+
+        .page-link {
+            color: black !important;
+        }
+
+        #walletAmount {
             background: transparent;
         }
 
-        .steps {
-            display: flex;
-            background-color: #63d19e;
-            color: #fff;
-            font-size: 14px;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        #walletAmount tr {
+            background: transparent !important;
         }
-
-        .steps-b {
-            display: flex;
-            flex-direction: column;
-            background-color: transparent;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            white-space: nowrap;
-
-        }
-
-        /* end progress step by step */
     </style>
 </head>
 
-<body>
-    <?php include 'html/page_header.php'; ?>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
+
+    <?php
+    include 'connection.php';
+    include 'html/page_header.php';
+
+    $my_profile = '';
+    $my_addresses = '';
+    $my_purchase = '';
+    $stkr_wallet = 'active';
+    $change_password = '';
+    ?>
+
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
-            <div class="row">
-                <div class="col-3">
-                    <div class="nav flex-column nav-pills">
-                        <a class="nav-link " href="profile_index.php">My Account</a>
+            <div class="wrapper d-flex align-items-stretch row">
 
-                        <a class="nav-link " href="profile_all.php">My Purchase</a>
+                <!-- profile sidebar -->
+                <?php include 'html/profile_sidebar.php'; ?>
 
-                        <a class="nav-link active" href="profile_wallet.php">STKR Wallet</a>
+                <div id="content" class="col">
 
-                        <a class="nav-link " href="process_logout.php">Logout</a>
+                    <!-- content -->
+                    <h3>STKR Wallet</h3>
+                    <div class="container">
 
+                        <table id="walletAmount" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
 
-                    </div>
-                </div>
+                        <hr style="background-color: #15172e; padding: .04rem;">
 
-                <div class="col-9">
-                    <div class="tab-content" id="v-pills-tabContent">
-
-                        <div class="tab-pane fade show active" id="v-pills-mypurchase" role="tabpanel" aria-labelledby="v-pills-mypurchase-tab">
-                            <table id="walletAmount" class="hover" style="width: 100%;">
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="tab-pane fade show active" id="v-pills-mypurchase" role="tabpanel" aria-labelledby="v-pills-mypurchase-tab">
-                            <table id="walletTransaction" class="hover" style="width: 100%;">
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
+                        <h6 style="color: #777777;">Recent Transactions: </h6>
+                        <table id="walletTransaction" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
 
                     </div>
+
                 </div>
+
             </div>
 
         </div>
     </section>
-    <!-- End Sample Area -->
 
 
     <!---------------------- MODAL ------------------------>
@@ -310,6 +349,35 @@ while ($rowMin = $resultMin->fetch_assoc()) {
         </div>
     </div>
 
+    <!-- Edit Paypal Email Modal -->
+    <div class="modal fade" id="editPaypalEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Paypal Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPaypalEmailForm">
+                        <div class="form-group">
+                            <label for="paypalEmail">Paypal Email Cashout Destination:</label>
+                            <input type="email" class="form-control" id="paypalEmail" name="paypalEmail" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmSubmit">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
@@ -360,7 +428,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
                 searching: false,
                 info: false,
-                paging: false,
+                paging: true,
                 lengthChange: false,
                 ordering: false,
 
@@ -372,24 +440,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                     "dataSrc": ""
                 },
                 "columns": [{
-                        "data": "type"
-                    },
-                    {
-                        "data": "amount"
-                    },
-                    {
-                        "data": "date"
-                    },
-                    {
-                        "data": "status"
-                    },
-                    {
-                        "data": "mode"
-                    },
-                    {
-                        "data": "paypal_transaction_id"
-                    },
-                ]
+                    "data": "item"
+                }, ]
             });
 
             $('#walletAmount').DataTable({
@@ -414,6 +466,83 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                     "data": "item"
                 }, ]
             });
+
+
+
+            $('#walletTransaction').on('click', '#edit_paypal_email_button', function() {
+                var walletTransactionId = $(this).data("wallet_transaction_id");
+                var paypal_email_destination = $(this).data("paypal_email_destination");
+
+                $('#editPaypalEmailModal').on('hidden.bs.modal', function(e) {
+                    $('#paypalEmail').val('');
+                });
+
+                $("#editPaypalEmailModal").modal("show");
+                $("#paypalEmail").val(paypal_email_destination);
+            });
+
+            $('#confirmSubmit').on('click', function() {
+                var paypalEmail = $('#paypalEmail').val();
+                var walletTransactionId = $('#edit_paypal_email_button').data('wallet_transaction_id');
+
+                // Validate the required input
+                if (!paypalEmail) {
+                    Swal.fire("Error", "Please enter a Paypal email address.", "error");
+                    return;
+                }
+
+                // Validate email format
+                if (!isValidEmail(paypalEmail)) {
+                    Swal.fire("Error", "Please enter a valid email address.", "error");
+                    return;
+                }
+
+                // Show a confirmation SweetAlert
+                Swal.fire({
+                    title: "Confirmation",
+                    text: "Are you sure you want to save changes?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with the AJAX submission
+                        $.ajax({
+                            url: "process_paypal_destination_email_update.php",
+                            type: "POST",
+                            data: {
+                                walletTransactionId: walletTransactionId,
+                                paypalEmail: paypalEmail,
+                            },
+                            success: function(response) {
+                                $('#walletAmount').DataTable().ajax.reload();
+                                $('#walletTransaction').DataTable().ajax.reload();
+                                $('#editPaypalEmailModal').modal("hide");
+                                Swal.fire("Success", "Paypal email updated successfully", "success");
+                            },
+                            error: function(error) {
+                                $('#walletAmount').DataTable().ajax.reload();
+                                $('#walletTransaction').DataTable().ajax.reload();
+                                Swal.fire("Error", "An error occurred while updating the email", "error");
+                            },
+                        });
+                    }
+                });
+            });
+
+            function isValidEmail(email) {
+                // Use a regular expression to validate email format
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                return emailRegex.test(email);
+            }
+
+
+
+
+
+
+
 
 
 
@@ -547,6 +676,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                                     cash_out_amount: cash_out_amount,
                                     cash_out_paypal_email: cash_out_paypal_email,
                                     "user_id": user_id,
+                                    "cash_out_fee": cash_out_fee,
                                 };
 
                                 $.ajax({
