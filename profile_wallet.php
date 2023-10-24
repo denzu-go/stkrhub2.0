@@ -156,7 +156,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
 
 
-
+        /* active */
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
@@ -208,6 +208,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             color: #90ee90;
         }
 
+        /* sidebar active */
         #sidebar .active {
             background-color: #272a4e;
             border-radius: 14px;

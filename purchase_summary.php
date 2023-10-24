@@ -743,6 +743,8 @@ while ($rowClient = $resultClient->fetch_assoc()) {
             $('#stkrTable').on('click', '#stkr-payment-button', function() {
                 var user_id = <?php echo $user_id; ?>;
 
+                var shipping_discount = $('#stkr-payment-button').data('shipping_discount');
+
                 var paypal_payment = $('#stkr-payment-button').data('paypal_payment');
                 var fullname = $('#stkr-payment-button').data('fullname');
                 var number = $('#stkr-payment-button').data('number');
@@ -765,6 +767,7 @@ while ($rowClient = $resultClient->fetch_assoc()) {
                     if (result.isConfirmed) {
                         var data = {
                             "user_id": user_id,
+                            "shipping_discount": shipping_discount,
                             "paypal_payment": paypal_payment,
                             "fullname": fullname,
                             "number": number,

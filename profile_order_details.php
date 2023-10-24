@@ -1,10 +1,13 @@
-<!-- new -->
 <?php
 session_start();
 include 'connection.php';
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
+}
+
+if (isset($_GET['unique_order_group_id'])) {
+    $unique_order_group_id = $_GET['unique_order_group_id'];
 }
 ?>
 
@@ -185,6 +188,77 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 14px;
         }
 
+
+        /* progress step by step */
+        .progresses {
+            display: flex;
+            align-items: center;
+        }
+
+        .step-line {
+            width: 200px;
+            height: 4px;
+            background: #63d19e;
+        }
+
+        .step-line_not_yet {
+            width: 200px;
+            height: 4px;
+            background: #777777;
+        }
+
+        .step-line-b {
+            width: 200px;
+            height: 4px;
+            background: transparent;
+        }
+
+        .steps {
+            display: flex;
+            background-color: #63d19e;
+            color: #fff;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .steps_not_yet {
+            display: flex;
+            /* background-color: #63d19e; */
+            border: 3px solid #777777;
+            color: #777777;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .steps-b {
+            display: flex;
+            flex-direction: column;
+            background-color: transparent;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+
+        }
+
+        /* end progress step by step */
+
         <?php include 'css/profile_orders_header_bar.css'; ?>
     </style>
 </head>
@@ -231,16 +305,15 @@ background-attachment: fixed;">
                 <?php include 'html/profile_sidebar.php'; ?>
 
                 <div id="content" class="col">
-                    <h3>My Orders</h3>
-
-                    <hr>
-
-                    <!-- header bar -->
-                    <?php include 'html/profile_orders_header_bar.php'; ?>
 
                     <!-- content -->
 
                     <div class="container">
+                        <table id="orderDetails" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
+
                         <?php
                         $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
                         $resultCheckInProduction = $conn->query($sqlCheckInProduction);
@@ -251,11 +324,11 @@ background-attachment: fixed;">
 
                             if ($count > 0) {
                                 echo '
-                                <table id="allOrders" class="hover" style="width: 100%;">
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                                ';
+                                    <table id="allOrders" class="hover" style="width: 100%;">
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    ';
                             } else {
                                 echo 'None.';
                             }
@@ -263,6 +336,11 @@ background-attachment: fixed;">
                             echo 'Error checking for orders in production.';
                         }
                         ?>
+
+                        <table id="orderBreakdown" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -351,7 +429,6 @@ background-attachment: fixed;">
     <script>
         $(document).ready(function() {
 
-
             <?php include 'js/essential.php'; ?>
 
 
@@ -369,23 +446,50 @@ background-attachment: fixed;">
             var userList = new List('game_components_table', options);
 
             var user_id = <?php echo $user_id; ?>;
+            var unique_order_group_id = <?php echo $unique_order_group_id; ?>;
 
             $('#allOrders').DataTable({
                 language: {
                     search: "",
                 },
 
-                searching: true,
+                searching: false,
                 info: false,
-                paging: true,
+                paging: false,
                 lengthChange: false,
                 ordering: false,
 
 
                 "ajax": {
-                    "url": "json_is_pending_orders.php",
+                    "url": "json_order_details_list.php",
                     data: {
                         user_id: user_id,
+                        unique_order_group_id: unique_order_group_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "item"
+                }, ]
+            });
+
+            $('#orderDetails').DataTable({
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                lengthChange: false,
+                ordering: false,
+
+
+                "ajax": {
+                    "url": "json_order_details.php",
+                    data: {
+                        user_id: user_id,
+                        unique_order_group_id: unique_order_group_id,
                     },
                     "dataSrc": ""
                 },
@@ -395,75 +499,30 @@ background-attachment: fixed;">
             });
 
 
+            $('#orderBreakdown').DataTable({
+                language: {
+                    search: "",
+                },
 
-            $('#allOrders').on('click', '#cancel_orders', function() {
-                var unique_order_group_id = $(this).data('unique_order_group_id');
-                var user_id = <?php echo $user_id; ?>;
+                searching: false,
+                info: false,
+                paging: false,
+                lengthChange: false,
+                ordering: false,
 
-                // Clear previous values
-                $('#unique_order_group_id').remove();
-                $('#user_id').remove();
-                $("input[name='cancel_order_reason_id']").prop("checked", false);
 
-                $("#cancelReason").modal("show");
-
-                // Append new values
-                $('#cancelForm').append('<input type="hidden" id="unique_order_group_id" value="' + unique_order_group_id + '">');
-                $('#cancelForm').append('<input type="hidden" id="user_id" value="' + user_id + '">');
+                "ajax": {
+                    "url": "json_order_breakdown.php",
+                    data: {
+                        user_id: user_id,
+                        unique_order_group_id: unique_order_group_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "item"
+                }, ]
             });
-
-
-            $("#cancelForm").submit(function(e) {
-                e.preventDefault();
-
-                // Use SweetAlert for confirmation
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "Do you want to submit the form?",
-                    icon: "question",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes",
-                    cancelButtonText: "No",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var selectedReasonId = $("input[name='cancel_order_reason_id']:checked").val();
-
-                        var formData = new FormData();
-                        formData.append('cancel_order_reason_id', selectedReasonId);
-                        formData.append('unique_order_group_id', $('#unique_order_group_id').val());
-                        formData.append('user_id', $('#user_id').val());
-
-                        $.ajax({
-                            url: 'process_cancel_order_with_reason.php',
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            dataType: 'json',
-                            success: function(response) {
-                                if (response.success) {
-                                    $("#cancelReason").modal("hide");
-                                    $('#allOrders').DataTable().ajax.reload();
-                                    Swal.fire('Success', response.message, 'success');
-                                } else {
-                                    $("#cancelReason").modal("hide");
-                                    $('#allOrders').DataTable().ajax.reload();
-                                    Swal.fire('Error', response.message, 'error');
-
-                                }
-                            },
-                            error: function() {
-                                $("#cancelReason").modal("hide");
-                                $('#allOrders').DataTable().ajax.reload();
-                                Swal.fire('Error', 'Failed to build the game', 'error');
-                            }
-                        });
-
-                    }
-                });
-            });
-
-
 
 
         });

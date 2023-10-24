@@ -373,7 +373,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                 <div class="px-4 py-3">
                                     Order Total: asdasjdasdasidajshdjashd
                                     <br>
-                                    <a href="profile_cancelation_details.php?unique_order_group_id=' . $unique_order_group_id . '"
+                                    <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
                                     class="text-primary d-flex justify-content-end" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
                                         View Cancelation Details
                                     </a>

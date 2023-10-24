@@ -10,7 +10,7 @@
         </li>
 
         <li class="<?php echo $my_purchase ?>">
-            <a href="profile_all.php">My Purchase</a>
+            <a href="profile_pending.php">My Purchase</a>
         </li>
 
         <li class="<?php echo $stkr_wallet ?>">

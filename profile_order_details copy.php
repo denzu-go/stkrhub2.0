@@ -379,7 +379,7 @@ if (isset($_GET['unique_order_group_id'])) {
 
 
                 "ajax": {
-                    "url": "json_order_details_list.php",
+                    "url": "json_cancelation_details.php",
                     data: {
                         user_id: user_id,
                         unique_order_group_id: unique_order_group_id,
