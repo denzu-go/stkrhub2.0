@@ -53,18 +53,32 @@ while ($fetched = $result->fetch_assoc()) {
             + &#8369;' . number_format($amount, 2) . '
         </span>
         ';
-    } elseif ($transaction_type == 'Cash Out' || $transaction_type == 'Pay') {
+
+        $side_color = '#63d19e';
+    } elseif ($transaction_type == 'Cash Out') {
         $amount_value = '
         <span style="color: #dc3545">
             - &#8369;' . number_format($amount, 2) . '
         </span>
         ';
+
+        $side_color = '#b660e8';
+    } elseif ($transaction_type == 'Place Order') {
+        $amount_value = '
+        <span style="color: #dc3545">
+            - &#8369;' . number_format($amount, 2) . '
+        </span>
+        ';
+
+        $side_color = 'pink';
     } else {
         $amount_value = '
         <span>
             &#8369;' . number_format($amount, 2) . '
         </span>
         ';
+
+        $side_color = 'white';
     }
 
     if ($status == 'success') {
@@ -83,8 +97,8 @@ while ($fetched = $result->fetch_assoc()) {
 
 
     $item = '
-    <div class="row d-flex align-items-center p-3" style="color: #e7e7e7">
-        <div class="col-1 "style="line-height: 0.7rem;">
+    <div class="row d-flex align-items-center pl-3 pr-3" style="color: #e7e7e7; ">
+        <div class="col-1 p-3"style="line-height: 0.7rem; border-left: 3px solid ' . $side_color . ';">
             <div class="row d-flex justify-content-center">' . $month . '</div>
             <div class="row d-flex justify-content-center"><span class="h4 p-0 m-0">' . $day . '</span></div>
             <div class="row d-flex justify-content-center"><span class="small" style="color: #777777">' . $year . '</span></div>

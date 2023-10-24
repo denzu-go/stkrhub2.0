@@ -7,7 +7,7 @@ $unique_order_group_id = $_GET['unique_order_group_id'];
 $data = array();
 
 
-$sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_canceled = 1 AND user_id = $user_id ORDER BY order_date DESC";
+$sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND user_id = $user_id AND ticket_id IS NULL ORDER BY order_date DESC";
 $queryAll = $conn->query($sqlAll);
 while ($fetched = $queryAll->fetch_assoc()) {
     $order_id = $fetched['order_id'];
@@ -282,33 +282,37 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
                         <div class="col overflow-hidden">
                             <div class="container" style="line-height: 17px;">
-                                <div class="row">
-                                    <span class="d-inline-block text-truncate" style="max-width: 500px;">
-                                        Praeterea iter est quasdam res quas ex communi.asjdajsdjaisdjasjdaisjdasdasd
+                                <div class="row mb-1">
+                                    <span class="lead d-inline-block text-truncate data-toggle="tooltip" title="' . $fetched_title . '"" style="max-width: 500px; color: #e7e7e7">
+                                        ' . $fetched_title . '
                                     </span>
                                 </div>
                                 
-                                <div class="row">
+                                <div class="row mb-1">
                                     <span class="d-inline-block text-truncate" style="max-width: 500px;">
-                                        Praeterea iter est quasdam res quas ex communi.asjdajsdjaisdjasjdaisjdasdasd
+                                        ' . $description . '
                                     </span>
                                 </div>
 
-                                <div class="row">
-                                    <span class="d-inline-block text-truncate" style="max-width: 500px;">
-                                        Praeterea iter est quasdam res quas ex communi.asjdajsdjaisdjasjdaisjdasdasd
+                                <div class="row mb-1">
+                                    <span class="small d-inline-block text-truncate" style="max-width: 500px;">
+                                        ' . $classification . '
                                     </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-2">
-                            <div class="container" style="line-height: 17px;">
-                                <div class="row">
-                                    <span class="mb-0" style="">2x</span>
+                        <div class="col-3 pr-5">
+                            <div class="container " style="line-height: 17px;">
+                                <div class="row d-flex justify-content-end">
+                                    <span class="mb-1" style="">Price: &#8369;' . number_format($price, 2) . '</span>
                                 </div>
 
-                                <div class="row">
+                                <div class="row d-flex justify-content-end">
+                                    <span class="mb-1" style="">Quantity: ' . $quantity . '</span>
+                                </div>
+
+                                <div class="row d-flex justify-content-end">
                                     <span class="mb-0" style="color: #26d3e0">&#8369; ' . number_format($total_price, 2) . '</span>
                                 </div>
                             </div>
@@ -324,8 +328,6 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
         </div>
     </div>
-
-
     ';
 
 

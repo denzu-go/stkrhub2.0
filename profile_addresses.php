@@ -173,6 +173,12 @@ $region_qry = mysqli_query($conn, $region);
             cursor: pointer;
             color: #90ee90;
         }
+
+        /* sidebar active */
+        #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
     </style>
 
 </head>
@@ -183,7 +189,13 @@ background-size: cover;
 background-repeat: no-repeat;
 background-attachment: fixed;">
 
-    <?php include 'html/page_header.php'; ?>
+    <?php include 'html/page_header.php';
+    $my_profile = '';
+    $my_addresses = 'active';
+    $my_purchase = '';
+    $stkr_wallet = '';
+    $change_password = '';
+    ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>

@@ -123,6 +123,17 @@ if (isset($_SESSION['user_id'])) {
             border: none !important;
         }
 
+        /* active */
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: #fff;
+            background-color: #272a4e;
+        }
+
+        .nav-link {
+            color: #fff;
+        }
+
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
@@ -167,6 +178,14 @@ if (isset($_SESSION['user_id'])) {
             cursor: pointer;
             color: #90ee90;
         }
+
+        /* sidebar active */
+        #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
+
+        <?php include 'css/profile_orders_header_bar.css'; ?>
     </style>
 </head>
 
@@ -176,7 +195,23 @@ background-size: cover;
 background-repeat: no-repeat;
 background-attachment: fixed;">
 
-    <?php include 'html/page_header.php'; ?>
+    <?php
+    include 'connection.php';
+    include 'html/page_header.php';
+
+    $my_profile = '';
+    $my_addresses = '';
+    $my_purchase = 'active';
+    $stkr_wallet = '';
+    $change_password = '';
+
+    $header_pending = 'active';
+    $header_in_production = '';
+    $header_to_deliver = '';
+    $header_received = '';
+    $header_canceled = '';
+
+    ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -196,11 +231,15 @@ background-attachment: fixed;">
                 <?php include 'html/profile_sidebar.php'; ?>
 
                 <div id="content" class="col">
+                    <h3>My Orders</h3>
+
+                    <hr>
 
                     <!-- header bar -->
                     <?php include 'html/profile_orders_header_bar.php'; ?>
 
                     <!-- content -->
+
                     <div class="container">
                         <?php
                         $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
@@ -311,6 +350,7 @@ background-attachment: fixed;">
 
     <script>
         $(document).ready(function() {
+
 
             <?php include 'js/essential.php'; ?>
 

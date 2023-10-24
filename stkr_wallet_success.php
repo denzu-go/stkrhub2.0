@@ -4,6 +4,7 @@ include 'connection.php';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Retrieve the data from the POST request
     $user_id = $_POST["user_id"] ?? null;
+    $shipping_discount = $_POST["shipping_discount"] ?? null;
     $paypal_payment = $_POST["paypal_payment"] ?? null;
     $fullname = $_POST["fullname"] ?? null;
     $number = $_POST["number"] ?? null;
@@ -124,9 +125,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $unique_order_id = $item_id . $unique_id;
 
                 $sqlInsertOrders = "INSERT INTO orders 
-                (unique_order_id, unique_order_group_id, cart_id, user_id, $item_type, quantity, price, $status, desired_markup, manufacturer_profit, creator_profit, marketplace_price, fullname, number, region, province, city, barangay, zip, street, total_payment) 
+                (unique_order_id, unique_order_group_id, cart_id, user_id, $item_type, quantity, price, $status, desired_markup, manufacturer_profit, creator_profit, marketplace_price, fullname, number, region, province, city, barangay, zip, street, total_payment, shipping_discount) 
                 VALUES 
-                ('$unique_order_id', '$unique_order_group_id', '$cart_item', '$user_id', '$item_id', '$quantity', '$price', '$status_value', '$desired_markup', '$manufacturer_profit', '$creator_profit', '$marketplace_price', '$fullname', '$number', '$region', '$province', '$city', '$barangay', '$zip', '$street', '$paypal_payment')";
+                ('$unique_order_id', '$unique_order_group_id', '$cart_item', '$user_id', '$item_id', '$quantity', '$price', '$status_value', '$desired_markup', '$manufacturer_profit', '$creator_profit', '$marketplace_price', '$fullname', '$number', '$region', '$province', '$city', '$barangay', '$zip', '$street', '$paypal_payment', '$shipping_discount')";
 
                 $queryInsertOrders = $conn->query($sqlInsertOrders);
 
@@ -181,6 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         echo "Error updating wallet amount: " . $conn->error;
     }
+
 } else {
     // Handle cases where the request method is not POST
     echo "Invalid request method.";

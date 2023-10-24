@@ -144,6 +144,7 @@ if ($wallet_amount < $total_payment){
     $stkr_pay_button = '
         <button class="btn" id="stkr-payment-button"
         data-paypal_payment="' . $total_payment . '"
+        data-shipping_discount="' . $shipping_discount . '"
         data-fullname="' . $fullname . '"
         data-number="' . $number . '"
         data-region="' . $region . '"

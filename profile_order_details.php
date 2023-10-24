@@ -1,10 +1,13 @@
-<!-- new -->
 <?php
 session_start();
 include 'connection.php';
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
+}
+
+if (isset($_GET['unique_order_group_id'])) {
+    $unique_order_group_id = $_GET['unique_order_group_id'];
 }
 ?>
 
@@ -123,6 +126,17 @@ if (isset($_SESSION['user_id'])) {
             border: none !important;
         }
 
+        /* active */
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: #fff;
+            background-color: #272a4e;
+        }
+
+        .nav-link {
+            color: #fff;
+        }
+
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
@@ -167,6 +181,85 @@ if (isset($_SESSION['user_id'])) {
             cursor: pointer;
             color: #90ee90;
         }
+
+        /* sidebar active */
+        #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
+
+
+        /* progress step by step */
+        .progresses {
+            display: flex;
+            align-items: center;
+        }
+
+        .step-line {
+            width: 200px;
+            height: 4px;
+            background: #63d19e;
+        }
+
+        .step-line_not_yet {
+            width: 200px;
+            height: 4px;
+            background: #777777;
+        }
+
+        .step-line-b {
+            width: 200px;
+            height: 4px;
+            background: transparent;
+        }
+
+        .steps {
+            display: flex;
+            background-color: #63d19e;
+            color: #fff;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .steps_not_yet {
+            display: flex;
+            /* background-color: #63d19e; */
+            border: 3px solid #777777;
+            color: #777777;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .steps-b {
+            display: flex;
+            flex-direction: column;
+            background-color: transparent;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            white-space: nowrap;
+
+        }
+
+        /* end progress step by step */
+
+        <?php include 'css/profile_orders_header_bar.css'; ?>
     </style>
 </head>
 
@@ -176,7 +269,23 @@ background-size: cover;
 background-repeat: no-repeat;
 background-attachment: fixed;">
 
-    <?php include 'html/page_header.php'; ?>
+    <?php
+    include 'connection.php';
+    include 'html/page_header.php';
+
+    $my_profile = '';
+    $my_addresses = '';
+    $my_purchase = 'active';
+    $stkr_wallet = '';
+    $change_password = '';
+
+    $header_pending = 'active';
+    $header_in_production = '';
+    $header_to_deliver = '';
+    $header_received = '';
+    $header_canceled = '';
+
+    ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -197,13 +306,16 @@ background-attachment: fixed;">
 
                 <div id="content" class="col">
 
-                    <!-- header bar -->
-                    <?php include 'html/profile_orders_header_bar.php'; ?>
-
                     <!-- content -->
+
                     <div class="container">
+                        <table id="orderDetails" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
+
                         <?php
-                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE in_production = 1";
+                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
                         $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
                         if ($resultCheckInProduction) {
@@ -212,18 +324,23 @@ background-attachment: fixed;">
 
                             if ($count > 0) {
                                 echo '
-                                <table id="allOrders" class="hover" style="width: 100%;">
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                                ';
+                                    <table id="allOrders" class="hover" style="width: 100%;">
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    ';
                             } else {
-                                echo 'No orders are currently in production.';
+                                echo 'None.';
                             }
                         } else {
                             echo 'Error checking for orders in production.';
                         }
                         ?>
+
+                        <table id="orderBreakdown" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -232,6 +349,51 @@ background-attachment: fixed;">
 
         </div>
     </section>
+
+
+
+
+    <!-- modals -->
+    <div class="modal fade" id="cancelReason">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                </div>
+                <form id="cancelForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <?php
+                        $cancellationReasons = array();
+
+                        // Query to retrieve cancellation reasons from the database
+                        $sqlSelectReasons = "SELECT cancel_order_reason_id, reason_text FROM cancel_order_reasons";
+                        $queryReasons = $conn->query($sqlSelectReasons);
+
+                        if ($queryReasons) {
+                            // Fetch reasons and store them in the array
+                            while ($row = $queryReasons->fetch_assoc()) {
+                                $cancellationReasons[] = $row;
+                            }
+                        }
+
+                        foreach ($cancellationReasons as $reason) {
+                            $cancel_order_reason_id = $reason['cancel_order_reason_id'];
+                            $reason_text = $reason['reason_text'];
+                            echo '<input type="radio" id="' . $cancel_order_reason_id . '" name="cancel_order_reason_id" value="' . $cancel_order_reason_id . '" required>' . $reason_text . '<br>';
+                        }
+
+                        ?>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -284,23 +446,25 @@ background-attachment: fixed;">
             var userList = new List('game_components_table', options);
 
             var user_id = <?php echo $user_id; ?>;
+            var unique_order_group_id = <?php echo $unique_order_group_id; ?>;
 
             $('#allOrders').DataTable({
                 language: {
                     search: "",
                 },
 
-                searching: true,
+                searching: false,
                 info: false,
-                paging: true,
+                paging: false,
                 lengthChange: false,
                 ordering: false,
 
 
                 "ajax": {
-                    "url": "json_in_production_orders.php",
+                    "url": "json_order_details_list.php",
                     data: {
                         user_id: user_id,
+                        unique_order_group_id: unique_order_group_id,
                     },
                     "dataSrc": ""
                 },
@@ -308,8 +472,64 @@ background-attachment: fixed;">
                     "data": "item"
                 }, ]
             });
+
+            $('#orderDetails').DataTable({
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                lengthChange: false,
+                ordering: false,
+
+
+                "ajax": {
+                    "url": "json_order_details.php",
+                    data: {
+                        user_id: user_id,
+                        unique_order_group_id: unique_order_group_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "item"
+                }, ]
+            });
+
+
+            $('#orderBreakdown').DataTable({
+                language: {
+                    search: "",
+                },
+
+                searching: false,
+                info: false,
+                paging: false,
+                lengthChange: false,
+                ordering: false,
+
+
+                "ajax": {
+                    "url": "json_order_breakdown.php",
+                    data: {
+                        user_id: user_id,
+                        unique_order_group_id: unique_order_group_id,
+                    },
+                    "dataSrc": ""
+                },
+                "columns": [{
+                    "data": "item"
+                }, ]
+            });
+
+
         });
     </script>
+
+
+
 
 
 </body>
