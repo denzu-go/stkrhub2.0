@@ -93,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
 
                 if (move_uploaded_file($_FILES[$templateFileKey]["tmp_name"], $uploadPath)) {
                     // File uploaded successfully, store its path
+                    $uploadPath = "assets/component_templates/" . $uniqueFilename;
                     $uploadedFiles[] = $uploadPath;
                     $templateNames[] = $templateName;
                 }
@@ -120,6 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
         
                 if (move_uploaded_file($_FILES[$thumbnailFileKey]["tmp_name"], $uploadPath)) {
                     // File uploaded successfully, store its path
+                    $uploadPath = "assets/component_assets/" . $uniqueFilename;
                     $thumbnailUploadedFiles[] = $uploadPath;
                 }
             }

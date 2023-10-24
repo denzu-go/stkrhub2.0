@@ -61,15 +61,40 @@ $_SESSION['category'] = $category;
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Add Game Piece</h4>
+                            <h4><?php echo $category ?></h4>
                             <p class="mb-0">Fill the Details</p>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <table id="gameComponent" class="display" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>CoverPhoto</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <!-- row -->
 
 
-                <div class="row">
+
+                <!-- <div class="row">
                     <div class="col-lg-3">
                         <div class="card">
                             <div class="card-body">
@@ -127,8 +152,14 @@ $_SESSION['category'] = $category;
 
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-9">
+                    </div>-->
+
+
+
+
+                <div class="row">
+
+                    <div class="col">
                         <div class="card">
                             <div class="card-body">
 
@@ -148,27 +179,34 @@ $_SESSION['category'] = $category;
                                     </tbody>
                                 </table>
 
+                                <div class="row mb-3">
+                                    <div class="col-sm-3 d-grid">
+                                        <a class="btn btn-outline-primary" href="add_game_component.php?category=<?php echo $category; ?>" role="button">Add Component</a>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
-
                 </div>
 
             </div>
+
         </div>
+    </div>
 
-        <div class="footer">
-
-
-
+    <div class="footer">
 
 
 
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
+
+
+
+        <div class="copyright">
+            <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+            <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
         </div>
+    </div>
 
 
 
@@ -203,15 +241,39 @@ $_SESSION['category'] = $category;
 
 
     <script>
-
-
-        
-
-
         $(document).ready(function() {
 
 
             $(document).ready(function() {
+
+                $('#gameComponent').DataTable({
+                    searching: true,
+                    info: false,
+                    paging: true,
+                    ordering: true,
+
+                    "ajax": {
+                        "url": "admin_json_game_component.php",
+                        data: {},
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "title"
+                    },
+                    {
+                        "data": "image"
+                    },
+                    {
+                        "data": "actions",
+                        width: '10%',
+                        className: 'dt-center'
+                    },
+
+
+                    ]
+                });
+
+
                 $('#gamePieceTable').DataTable({
                     searching: true,
                     info: false,
@@ -251,40 +313,7 @@ $_SESSION['category'] = $category;
 
 
 
-              $("#myForm").submit(function(e) {
-                 e.preventDefault(); // Prevent the default form submission
-                 var formData = new FormData(this); // Create a FormData object
-
-                 // Send an AJAX POST request
-                 $.ajax({
-                     type: "POST",
-                     url: "admin_process_add_gamepiece.php", // Your server-side script URL
-                     data: formData,
-                     contentType: false, // Prevent jQuery from adding a content-type header
-                     processData: false, // Prevent jQuery from processing the data
-                     success: function(response) {
-                         // Display a SweetAlert with a success message
-                         Swal.fire({
-                             icon: 'success',
-                             title: 'Success!',
-                             text: 'Data inserted successfully!',
-                         });
-
-                         $('#gamePieceTable').DataTable().ajax.reload();
-
-                         // Clear the form after successful submission
-                         $("#myForm")[0].reset();
-                     },
-                     error: function(error) {
-                         // Display a SweetAlert with an error message
-                         Swal.fire({
-                             icon: 'error',
-                             title: 'Error!',
-                             text: 'Error in submitting data: ' + error.responseText,
-                         });
-                     }
-                 });
-             }); 
+            
 
 
 
@@ -292,174 +321,6 @@ $_SESSION['category'] = $category;
 
         });
 
-        const selectElement = document.getElementById('color');
-        const colorFields = document.getElementById('colorFields');
-        const colorInput = document.getElementById('colorInput');
-
-        // Add an event listener to the select element
-        selectElement.addEventListener('change', function() {
-            // Show/hide colorFields based on the selected option
-            if (this.value === '1') {
-                colorFields.style.display = 'block';
-                colorInput.style.display = 'block';
-            } else {
-                colorFields.style.display = 'none';
-                colorInput.style.display = 'none';
-
-            }
-        });
-
-
-        // Get references to the input fields and the container for color fields
-        const colorNumberInput = document.getElementById('color_number');
-        const colorFieldsContainer = document.getElementById('colorFields');
-
-        // Add an event listener to the color_number input
-        colorNumberInput.addEventListener('input', function() {
-            // Get the selected number of colors
-            const numberOfColors = parseInt(this.value);
-
-            // Clear the existing color fields
-            colorFieldsContainer.innerHTML = '';
-
-            // Create and add input fields for Color Name and Color Code
-            for (let i = 1; i <= numberOfColors; i++) {
-                const colorNameLabel = document.createElement('label');
-                colorNameLabel.textContent = `Color Name ${i}:`;
-
-                const colorNameInput = document.createElement('input');
-                colorNameInput.type = 'text';
-                colorNameInput.name = `colorName${i}`;
-                colorNameInput.id = `colorName${i}`;
-
-                const colorCodeLabel = document.createElement('label');
-                colorCodeLabel.textContent = `Color Code ${i}:`;
-
-                const colorCodeInput = document.createElement('input');
-                colorCodeInput.type = 'text';
-                colorCodeInput.name = `colorCode${i}`;
-                colorCodeInput.id = `colorCode${i}`;
-
-                // Add line breaks for spacing
-                const lineBreak1 = document.createElement('br');
-                const lineBreak2 = document.createElement('br');
-                const lineBreak3 = document.createElement('br');
-
-                // Append elements to the container
-                colorFieldsContainer.appendChild(colorNameLabel);
-                colorFieldsContainer.appendChild(colorNameInput);
-                colorFieldsContainer.appendChild(lineBreak1);
-                colorFieldsContainer.appendChild(colorCodeLabel);
-                colorFieldsContainer.appendChild(colorCodeInput);
-                colorFieldsContainer.appendChild(lineBreak2);
-                colorFieldsContainer.appendChild(lineBreak3);
-            }
-        });
-
-
-
-
-
-        const NoTemplate = document.getElementById('No_template');
-        const TemplateFields = document.getElementById('TemplateFields');
-
-        // Add an event listener to the color_number input
-        NoTemplate.addEventListener('input', function() {
-            // Get the selected number of colors
-            const numberOfTemplate = parseInt(this.value);
-
-            // Clear the existing color fields
-            TemplateFields.innerHTML = '';
-
-            // Create and add input fields for Color Name and Color Code
-            for (let i = 1; i <= numberOfTemplate; i++) {
-                const templateNameLabel = document.createElement('label');
-                templateNameLabel.textContent = `Template Name ${i}:`;
-
-                const templateNameInput = document.createElement('input');
-                templateNameInput.type = 'text';
-                templateNameInput.name = `templateName${i}`;
-                templateNameInput.id = `templateName${i}`;
-
-                const templateCodeLabel = document.createElement('label');
-                templateCodeLabel.textContent = `Template File ${i}:`;
-
-                //<input type="file" id="images" name="images[]" accept="image/*" multiple><br><br>
-
-                const templateCodeInput = document.createElement('input');
-                templateCodeInput.type = 'file';
-                templateCodeInput.name = `templateCode${i}`;
-                templateCodeInput.id = `templateCode${i}`;
-                templateCodeInput.accept = `image/*`;
-
-
-                // Add line breaks for spacing
-                const lineBreak1 = document.createElement('br');
-                const lineBreak2 = document.createElement('br');
-                const lineBreak3 = document.createElement('br');
-
-                // Append elements to the container
-                TemplateFields.appendChild(templateNameLabel);
-                TemplateFields.appendChild(templateNameInput);
-                TemplateFields.appendChild(lineBreak1);
-                TemplateFields.appendChild(templateCodeLabel);
-                TemplateFields.appendChild(templateCodeInput);
-                TemplateFields.appendChild(lineBreak2);
-                TemplateFields.appendChild(lineBreak3);
-            }
-        });
-
-
-
-
-
-
-        //<label for="No_thumbnail">No. Thumbnail</label><br>
-                                    //<input type="number" id="No_thumbnail" name="No_thumbnail" min="0" placeholder="0"><br><br>
-
-                                    //<div id="thumbnailFields" style="display: block;"> </div>
-
-        const NoThumbnail = document.getElementById('No_thumbnail');
-        const ThumbnailFields = document.getElementById('thumbnailFields');
-
-        // Add an event listener to the color_number input
-        NoThumbnail.addEventListener('input', function() {
-            // Get the selected number of colors
-            const numberOfThumbnail = parseInt(this.value);
-
-            // Clear the existing color fields
-            ThumbnailFields.innerHTML = '';
-
-            // Create and add input fields for Color Name and Color Code
-            for (let i = 1; i <= numberOfThumbnail; i++) {
-                
-
-                const thumbnailCodeLabel = document.createElement('label');
-                thumbnailCodeLabel.textContent = `Thumbnail File ${i}:`;
-
-                //<input type="file" id="images" name="images[]" accept="image/*" multiple><br><br>
-
-                const thumbnailCodeInput = document.createElement('input');
-                thumbnailCodeInput.type = 'file';
-                thumbnailCodeInput.name = `thumbnailCode${i}`;
-                thumbnailCodeInput.id = `thumbnailCode${i}`;
-                thumbnailCodeInput.accept = `image/*`;
-
-
-                // Add line breaks for spacing
-             
-                const lineBreak2 = document.createElement('br');
-                const lineBreak3 = document.createElement('br');
-
-                // Append elements to the container
-                
-                ThumbnailFields.appendChild(thumbnailCodeLabel);
-                ThumbnailFields.appendChild(thumbnailCodeInput);
-                ThumbnailFields.appendChild(lineBreak2);
-                ThumbnailFields.appendChild(lineBreak3);
-            }
-        });
-        
     </script>
 
 

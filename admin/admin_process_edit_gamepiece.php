@@ -136,6 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         if (move_uploaded_file($templateFileTmp, $uploadPath)) {
                             // File uploaded successfully, update the database
                             // Use prepared statements to update the database safely
+
+                            $uploadPath = "assets/component_templates/" . $uniqueFilename;
                             $sql = "UPDATE component_templates SET template_name = ?, template_file_path = ? WHERE template_id = ?";
                             $stmt = $conn->prepare($sql);
                             $stmt->bind_param("ssi", $templateName, $uploadPath, $templateId);
@@ -184,6 +186,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
                     if (move_uploaded_file($_FILES[$templateFileKey]["tmp_name"], $uploadPath)) {
                         // File uploaded successfully, store its path
+                        $uploadPath = "assets/component_templates/" . $uniqueFilename;
                         $uploadedFiles[] = $uploadPath;
                         $templateNames[] = $templateName;
                     }
@@ -237,6 +240,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if (move_uploaded_file($thumbnailTmp, $uploadPath)) {
                         // File uploaded successfully, update the database
                         // Use prepared statements to update the database safely
+
+                        $uploadPath = "assets/component_assets/" . $uniqueFilename;
                         $sql = "UPDATE component_assets SET asset_path = ? WHERE asset_id = ?";
                         $stmt = $conn->prepare($sql);
                         $stmt->bind_param("si", $uploadPath, $thumbnailId);
@@ -283,6 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             if (move_uploaded_file($_FILES[$thumbnailFileKey]["tmp_name"], $uploadPath)) {
                 // File uploaded successfully, store its path
+                $uploadPath = "assets/component_assets/" . $uniqueFilename;
                 $thumbnailUploadedFiles[] = $uploadPath;
             }
         }
