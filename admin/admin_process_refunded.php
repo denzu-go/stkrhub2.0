@@ -28,12 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->commit();
 
         $response = ["success" => true, "message" => "Game and related records deleted successfully"];
+        echo json_encode($response);
     } catch (mysqli_sql_exception $e) {
         $conn->rollback();
 
         $response = ["success" => false, "message" => "Database error: " . $e->getMessage()];
     }
 
+    $response = ["success" => true, "message" => "Success"];
     echo json_encode($response);
 } else {
     $response = ["success" => false, "message" => "Invalid request method"];

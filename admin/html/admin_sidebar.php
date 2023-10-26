@@ -125,10 +125,6 @@
                     }).then((result) => {
                         // Handle the AJAX response
                         if (result.isConfirmed) {
-                            // This block is executed when the user clicks "Confirm" in Swal.fire
-                            // You don't need to check result.status here
-
-                            // Category added successfully
                             Swal.fire("Success", "New Game Component added successfully", "success").then(() => {
                                 // Redirect to the specified location
                                 window.location.href = "add_game_piece.php?category=" + categoryValue;
