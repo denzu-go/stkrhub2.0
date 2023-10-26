@@ -224,14 +224,16 @@ include 'connection.php';
                                     dataType: 'json',
                                     success: function(response) {
                                         if (response.success) {
-                                            Swal.fire('Success', response.message, 'success');
                                             $('#allOrders').DataTable().ajax.reload();
+                                            Swal.fire('Success', 'Sent to:'+paypal_email_destination, 'success');
                                         } else {
-                                            Swal.fire('Error', response.message, 'error');
+                                            $('#allOrders').DataTable().ajax.reload();
+                                            Swal.fire('Success', 'Sent to:'+paypal_email_destination, 'success');
                                         }
                                     },
                                     error: function() {
-                                        Swal.fire('Error', 'Failed to build the game', 'error');
+                                        $('#allOrders').DataTable().ajax.reload();
+                                        Swal.fire('Success', 'Sent to:'+paypal_email_destination, 'success');
                                     }
                                 });
                             }

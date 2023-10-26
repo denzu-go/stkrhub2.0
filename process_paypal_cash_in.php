@@ -93,10 +93,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, mode, paypal_transaction_id) VALUES ('$user_id', 'Cash In', '$paypal_payment', 'success', 'Paypal', '$order_data_id')";
+    $encoded_paypal_payment = base64_encode($paypal_payment);
+
+    $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, mode, paypal_transaction_id) VALUES ('$user_id', 'Cash In', '$encoded_paypal_payment', 'success', 'Paypal', '$order_data_id')";
     $queryInsertWallet = $conn->query($sqlInsertWallet);
 
-    $sqlUpdateUser = "UPDATE users SET wallet_amount = wallet_amount + $paypal_payment WHERE user_id = $user_id";
+    $sqlUpdateUser = "UPDATE users SET wallet_amount = $encoded_paypal_payment WHERE user_id = $user_id";
+
     if ($conn->query($sqlUpdateUser) === TRUE) {
         echo "Wallet amount updated successfully";
     } else {

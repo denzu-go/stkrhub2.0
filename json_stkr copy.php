@@ -10,37 +10,11 @@ $numSelectedCarts = count($selectedCartIds);
 
 $selectedCartIdsString = implode(',', $selectedCartIds);
 
-
-// pinaka total wallet amount
-$queryAdd = "
-SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_add
-FROM wallet_transactions
-WHERE user_id = '$user_id'
-AND (transaction_type = 'Cash In' OR transaction_type = 'Profit');
-";
-$resultAdd = $conn->query($queryAdd);
-
-if ($resultAdd) {
-    $rowAdd = $resultAdd->fetch_assoc();
-    $total_amount_add = $rowAdd['total_amount_add'];
+$sqlWallet = "SELECT * FROM users WHERE user_id = $user_id";
+$resultWallet = $conn->query($sqlWallet);
+while ($fetchedWallet = $resultWallet->fetch_assoc()) {
+    $wallet_amount = $fetchedWallet['wallet_amount'];
 }
-
-$querySub = "
-SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_sub
-FROM wallet_transactions
-WHERE user_id = '$user_id'
-AND (transaction_type = 'Pay' OR (transaction_type = 'Cash Out' AND status = 'success'));
-";
-$resultSub = $conn->query($querySub);
-
-if ($resultSub) {
-    $rowSub = $resultSub->fetch_assoc();
-    $total_amount_sub = $rowSub['total_amount_sub'];
-}
-
-$total_wallet_amount_normalized = $total_amount_add - $total_amount_sub;
-// end of pinaka total wallet amount
-
 
 $sqlGetShippingDiscount = "SELECT * FROM constants WHERE classification = 'shipping_discount_percent'";
 $resultDiscount = $conn->query($sqlGetShippingDiscount);
@@ -136,7 +110,7 @@ while ($fetchedActive = $queryGetActive->fetch_assoc()) {
     $total_payment = ($sub_total + $total_weight_price);
 }
 
-if ($total_wallet_amount_normalized < $total_payment){
+if ($wallet_amount < $total_payment){
     $cash_in = '
         <a href="profile_wallet.php" class="">
             Click here to cash in
@@ -244,7 +218,7 @@ $item = '
 
                 <div class="d-flex justify-content-center">
                     <span class="">STKR Wallet Balance:&nbsp</span>
-                    <span style="color: #26d3e0;"> &#8369;' . number_format($total_wallet_amount_normalized, 2) . '</span>
+                    <span style="color: #26d3e0;"> &#8369;' . number_format($wallet_amount, 2) . '</span>
                 </div>
 
                 <div class="d-flex justify-content-center">

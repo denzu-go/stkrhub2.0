@@ -8,7 +8,10 @@ $result = $conn->query($sql);
 while ($fetched = $result->fetch_assoc()) {
     $wallet_transaction_id = $fetched['wallet_transaction_id'];
     $transaction_type = $fetched['transaction_type'];
-    $amount = $fetched['amount'];
+    $published_game_id = $fetched['published_game_id'];
+
+    $amount = base64_decode($fetched['amount']);
+    $amount = (float) $amount;
 
     $transaction_date = $fetched['transaction_date'];
     $timestamp = strtotime($transaction_date);
@@ -36,6 +39,9 @@ while ($fetched = $result->fetch_assoc()) {
         $description = '<i class="fa-regular fa-circle-dot"></i> Admin will send to ' . $paypal_email_destination . $edit_paypal_email_button;
     } elseif ($status == 'success' && $transaction_type == 'Cash Out') {
         $description = '<i class="fa-solid fa-check"></i> Sent to: ' . $paypal_email_destination;
+    } elseif ($transaction_type == 'Profit') {
+        $transaction_type = 'Publishing Profit';
+        $description = 'Celebrate, someone has just embraced the magic of your published game (ID: ' . $published_game_id . ')';
     } elseif ($transaction_type == 'Cash In') {
         $description = 'Paypal Transaction ID: ' . $paypal_transaction_id;
     } elseif ($transaction_type == 'Pay') {
@@ -47,7 +53,7 @@ while ($fetched = $result->fetch_assoc()) {
         $description = '';
     }
 
-    if ($transaction_type == 'Cash In' || $transaction_type == 'Received') {
+    if ($transaction_type == 'Cash In') {
         $amount_value = '
         <span style="color: #90ee90">
             + &#8369;' . number_format($amount, 2) . '
@@ -71,6 +77,14 @@ while ($fetched = $result->fetch_assoc()) {
         ';
 
         $side_color = 'pink';
+    } elseif ($transaction_type == 'Publishing Profit') {
+        $amount_value = '
+        <span style="color: #90ee90">
+            + &#8369;' . number_format($amount, 2) . '
+        </span>
+        ';
+
+        $side_color = 'orange';
     } else {
         $amount_value = '
         <span>

@@ -17,6 +17,8 @@ if ($resultPending) {
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $amount_value = $row['amount'];
+            $decoded_amount = base64_decode($amount_value);
+            $amount_value = (float) $decoded_amount;
             $amount_peso = '- &#8369;' .number_format($amount_value, 2);
         } else {
             $amount_peso = 'none';
@@ -26,6 +28,39 @@ if ($resultPending) {
     }
 }
 
+
+// pinaka total wallet amount
+$queryAdd = "
+SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_add
+FROM wallet_transactions
+WHERE user_id = '$user_id'
+AND (transaction_type = 'Cash In' OR transaction_type = 'Profit');
+";
+$resultAdd = $conn->query($queryAdd);
+
+if ($resultAdd) {
+    $rowAdd = $resultAdd->fetch_assoc();
+    $total_amount_add = $rowAdd['total_amount_add'];
+}
+
+$querySub = "
+SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_sub
+FROM wallet_transactions
+WHERE user_id = '$user_id'
+AND (transaction_type = 'Pay' OR (transaction_type = 'Cash Out' AND status = 'success'));
+";
+$resultSub = $conn->query($querySub);
+
+if ($resultSub) {
+    $rowSub = $resultSub->fetch_assoc();
+    $total_amount_sub = $rowSub['total_amount_sub'];
+}
+
+$total_wallet_amount_normalized = $total_amount_add - $total_amount_sub;
+// end of pinaka total wallet amount
+
+
+
 $sql = "SELECT * FROM users WHERE user_id = $user_id";
 $result = $conn->query($sql);
 while ($fetched = $result->fetch_assoc()) {
@@ -33,14 +68,11 @@ while ($fetched = $result->fetch_assoc()) {
 
     $item = '
 
-
-
-
 <div class="row pl-4 pr-4 d-flex align-items-center">
 
     <div class="col-9">
         <div class="row">STKR Wallet Amount: </div>
-        <div class="row"><span class="display-3" style="color: #26d3e0;">&#8369;' . number_format($wallet_amount, 2) . '</span></div>
+        <div class="row"><span class="display-3" style="color: #26d3e0;">&#8369;' . number_format($total_wallet_amount_normalized, 2) . '</span></div>
         <div class="row"><h6 class="small" style="color: #777777">Pending: <span style="color: #dc3545">'.$amount_peso.'</span></h6></div>
     </div>
 

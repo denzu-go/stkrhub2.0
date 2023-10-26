@@ -304,7 +304,9 @@ background-attachment: fixed;">
 
                         <p class="text-warning" id="cash_in_warning"></p>
 
-                        <input type="number" min="10" max="10000" id="cash_in_amount" name="cash_in_amount" value="0" required>
+                        <input type="number" min="10" max="10000" id="cash_in_amount" name="cash_in_amount" value="0" required
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+
                         <button class="btn amount-button-cash-in" type="button" data-value="10">10</button>
                         <button class="btn amount-button-cash-in" type="button" data-value="50">50</button>
                         <button class="btn amount-button-cash-in" type="button" data-value="100">100</button>
@@ -335,7 +337,8 @@ background-attachment: fixed;">
 
                         <p class="text-warning" id="cash_out_warning"></p>
 
-                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required>
+                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
 
                         <label for="cash_out_paypal_email">Your Paypal Email:</label>
                         <input type="email" id="cash_out_paypal_email" name="cash_out_paypal_email" required>
