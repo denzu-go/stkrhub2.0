@@ -66,6 +66,7 @@ $_SESSION['category'] = $category;
                         </div>
                     </div>
                 </div>
+                
 
                 <div class="row">
 
@@ -78,6 +79,7 @@ $_SESSION['category'] = $category;
                                         <tr>
                                             <th>Title</th>
                                             <th>CoverPhoto</th>
+                                            <th>Upload Only</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -90,71 +92,6 @@ $_SESSION['category'] = $category;
                     </div>
 
                 </div>
-                <!-- row -->
-
-
-
-                <!-- <div class="row">
-                    <div class="col-lg-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-intro-title">Add Game Component</h4>
-
-                                <form id="myForm" enctype="multipart/form-data" method="post">
-                                    <label for="name">Name:</label><br>
-                                    <input type="text" id="name" name="name" required><br><br>
-
-                                    <label for="description">Description:</label><br>
-                                    <textarea id="description" name="description" rows="4" cols="20" required></textarea><br><br>
-
-                                    <label for="price">Price:</label><br>
-                                    <input type="number" id="price" name="price" min="0" placeholder="0" required><br><br>
-
-                                    <label for="color">Has color:</label><br>
-                                    <select name="color" id="color">
-                                        <option value=""> Select Option</option>
-                                        <option value="1"> yes </option>
-                                        <option value="0"> no </option>
-                                    </select><br><br>
-
-                                    <div id="colorInput" style="display: none;">
-
-                                        <label for="color_number">No. of Colors</label><br>
-                                        <input type="number" id="color_number" name="color_number" min="0" placeholder="0"><br><br>
-
-                                    </div>
-
-                                    <div id="colorFields" style="display: none;">
-
-
-
-                                    </div>
-
-
-                                    <label for="size">Size:</label><br>
-                                    <input type="text" id="size" name="size" required><br><br>
-
-
-
-                                    <label for="No_template">No. Template</label><br>
-                                    <input type="number" id="No_template" name="No_template" min="0" placeholder="0"><br><br>
-
-                                    <div id="TemplateFields" style="display: block;"> </div>
-
-                                    <label for="No_thumbnail">No. Thumbnail</label><br>
-                                    <input type="number" id="No_thumbnail" name="No_thumbnail" min="0" placeholder="0"><br><br>
-
-                                    <div id="thumbnailFields" style="display: block;"> </div>
-
-
-                                        <input type="submit" value="Submit">
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>-->
-
-
 
 
                 <div class="row">
@@ -247,10 +184,10 @@ $_SESSION['category'] = $category;
             $(document).ready(function() {
 
                 $('#gameComponent').DataTable({
-                    searching: true,
+                    searching: false,
                     info: false,
-                    paging: true,
-                    ordering: true,
+                    paging: false,
+                    ordering: false,
 
                     "ajax": {
                         "url": "admin_json_game_component.php",
@@ -262,6 +199,12 @@ $_SESSION['category'] = $category;
                     },
                     {
                         "data": "image"
+                    },
+                    {
+                        "data": "upload",
+                        "render": function(data, type, row) {
+                            return data;
+                        }
                     },
                     {
                         "data": "actions",

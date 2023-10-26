@@ -108,7 +108,7 @@ if (isset($_GET['category'])) {
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
                                             <div class="col-sm-3 d-grid">
-                                                <a class="btn btn-outline-primary" href="admin_help.php?category=<?php echo $faq_row['faq_category']; ?>" role="button">Cancel</a>
+                                                <a class="btn btn-outline-primary" href="admin_help.php?category=<?php echo $category; ?>" role="button">Cancel</a>
                                             </div>
                                         </div>
                                     </form>
