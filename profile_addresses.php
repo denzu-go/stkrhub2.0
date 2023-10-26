@@ -1,13 +1,5 @@
 <?php
 session_start();
-include 'connection.php';
-
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-}
-
-$region = "SELECT * FROM region";
-$region_qry = mysqli_query($conn, $region);
 ?>
 
 <!DOCTYPE html>
@@ -55,183 +47,112 @@ $region_qry = mysqli_query($conn, $region);
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
 
-    <style>
-        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
-
-        /* start header */
-        .sticky-wrapper {
-            top: 0px !important;
-        }
-
-
-        .header_area .main_menu .main_box {
-            max-width: 100%;
-        }
-
-        /* end */
-
-        #infoTable tbody tr {
-            background-color: transparent !important;
-        }
-
-        .image-mini-container {
-            overflow: hidden;
-            width: 100%;
-            position: relative;
-            padding-top: 70%;
-        }
-
-        .image-mini {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
-        }
-
-        .custom-shadow {
-            box-shadow: 0 0 10px #000000;
-        }
-
-        table.dataTable tbody th,
-        table.dataTable tbody td {
-            padding: 0px 0px;
-        }
-
-        table.dataTable.no-footer {
-            border-bottom: none;
-        }
-
-        .even,
-        .odd {
-            background-color: transparent !important;
-        }
-
-        table.dataTable {
-            width: 100%;
-            margin: 0 auto;
-            clear: both;
-            /* border-collapse: separate; */
-            border-spacing: -20px;
-        }
-
-        table.dataTable,
-        table.dataTable thead,
-        table.dataTable tbody,
-        table.dataTable tr,
-        table.dataTable td,
-        table.dataTable th,
-        table.dataTable tbody tr.even,
-        table.dataTable tbody tr.odd {
-            border: none !important;
-        }
-
-
-        .nav-pills .nav-link.active,
-        .nav-pills .show>.nav-link {
-            color: #fff;
-            background-color: #272a4e;
-        }
-
-        .nav-link {
-            color: #fff;
-        }
-
-        /* sidebar */
-        #sidebar {
-            height: 100%;
-            background: transparent;
-            color: #fff;
-        }
-
-        #sidebar a,
-        #sidebar a:hover,
-        #sidebar a:focus {
-            color: inherit;
-        }
-
-        #sidebar ul li a {
-            padding: 7px 14px;
-            display: block;
-            color: #e7e7e7;
-            font-size: small;
-        }
-
-        #sidebar ul li a:hover {
-            color: #e7e7e7;
-            background: #272a4e;
-            border-radius: 14px;
-        }
-
-        /* buttons */
-        .edit-btn-avatar {
-            background-color: transparent !important;
-            border: none;
-            cursor: pointer;
-            color: #90ee90;
-        }
-
-        /* sidebar active */
-        #sidebar .active {
-            background-color: #272a4e;
-            border-radius: 14px;
-        }
-    </style>
 
 </head>
 
-<body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+<body>
+    <?php
+    include 'connection.php';
+    include 'html/page_header.php';
 
-    <?php include 'html/page_header.php';
-    $my_profile = '';
-    $my_addresses = 'active';
-    $my_purchase = '';
-    $stkr_wallet = '';
-    $change_password = '';
+    $region = "SELECT * FROM region";
+    $region_qry = mysqli_query($conn, $region);
     ?>
-    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
 
-    <section class="sample-text-area" style="background: none;">
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Element Page</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category.html">Element</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+    <!-- Start Sample Area -->
+    <section class="sample-text-area">
         <div class="container">
 
-            <!-- profile pic and wallet -->
-            <table id="pinakaProfile" class="display" style="width: 100%;">
-                <tbody>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col-3">
+                    <div class="nav flex-column nav-pills">
+                        <a class="nav-link active" href="profile_index.php">My Account</a>
 
-            <div class="wrapper d-flex align-items-stretch row">
+                        <a class="nav-link " href="profile_all.php">My Purchase</a>
 
-                <!-- profile sidebar -->
-                <?php include 'html/profile_sidebar.php'; ?>
+                        <a class="nav-link " href="process_logout.php">Logout</a>
 
-                <div id="content" class="col">
-                    <!-- content -->
-                    <div class="container">
-                        <button id="addAddressBtn">Add Address</button>
 
-                        <!-- DataTables Address  -->
-                        <table id="profileAddress" class="display" style="width: 100%;">
-                            <tbody>
-                            </tbody>
-                        </table>
                     </div>
-
                 </div>
 
+                <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+
+                        <div class="tab-pane fade show active" id="v-pills-myaccount" role="tabpanel" aria-labelledby="v-pills-myaccount-tab">
+
+                            <!-- laman -->
+                            <nav>
+                                <div class="nav nav-tabs">
+                                    <a class="nav-item nav-link " href="profile_index.php">Profile</a>
+
+                                    <a class="nav-item nav-link active" href="profile_addresses.php">Addresses</a>
+
+                                    <a class="nav-item nav-link" href="profile_password.php">Change Password</a>
+                                </div>
+                            </nav>
+
+                            <div class="tab-content" id="nav-tabContent">
+
+
+
+                                <div class="tab-pane fade show active" id="nav-addresses" role="tabpanel" aria-labelledby="nav-addresses-tab">
+                                    <section style="padding: 20px;">
+                                        <div class="container">
+
+                                            <button id="addAddressBtn">Add Address</button>
+
+                                            <!-- DataTables Address  -->
+                                            <table id="profileAddress" class="display">
+                                                <!-- <thead>
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>Input</th>
+                                                        <th>Edit</th>
+                                                    </tr>
+                                                </thead> -->
+
+                                                <tbody>
+                                                    <!-- User data will be displayed here -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </section>
+                                </div>
+
+
+
+                            </div>
+                            <!-- /laman -->
+
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
 
         </div>
     </section>
+    <!-- End Sample Area -->
+
 
 
 
@@ -368,10 +289,10 @@ background-attachment: fixed;">
                                     // Retrieve and collect edited address details from the SweetAlert form fields
                                     fullname: $('#editedFullname').val(),
                                     number: $('#editedNumber').val(),
-                                    region: $('#editedRegion').val(),
-                                    province: $('#editedProvince').val(),
-                                    city: $('#editedCity').val(),
-                                    barangay: $('#editedBarangay').val(),
+                                    region: $('#editedregion_').val(),
+                                    province: $('#editedprovince_').val(),
+                                    city: $('#editedcity_').val(),
+                                    barangay: $('#editedbarangay_').val(),
                                     zip: $('#editedZip').val(),
                                     street: $('#editedStreet').val(),
                                 };
@@ -398,11 +319,62 @@ background-attachment: fixed;">
                                 });
                             },
                         });
+
+                        $('#editedregion_').on('change', function() {
+                    var region_id = $(this).val();
+                    console.log(region_id);
+                    $.ajax({
+                        url:'option_province.php',
+                        type:"POST",
+                        data:{
+                            region_data:region_id
+                        },
+                        success:function(result){
+                            $('#editedprovince_').html(result);
+                            //console.log(result);
+                        }
+                    })
+                });
+
+                $('#editedprovince_').on('change', function() {
+                    var province_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_city.php',
+                        type:"POST",
+                        data:{
+                            province_data:province_id
+                        },
+                        success:function(data){
+                            $('#editedcity_').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
+
+                $('#editedcity_').on('change', function() {
+                    var city_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_barangay.php',
+                        type:"POST",
+                        data:{
+                            city_data:city_id
+                        },
+                        success:function(data){
+                            $('#editedbarangay_').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
                     },
                     error: function() {
                         // Handle any AJAX errors here
                     },
                 });
+
+                
+
             });
 
 
@@ -440,14 +412,14 @@ background-attachment: fixed;">
                             },
                         });
                     }
-                });
+                });    
             });
 
 
 
 
 
-            $(document).ready(function() { // Add a click event listener to the "Add Address" button
+            $(document).ready(function() {      // Add a click event listener to the "Add Address" button
                 $('#addAddressBtn').on('click', function() {
 
                     Swal.fire({
@@ -478,7 +450,7 @@ background-attachment: fixed;">
                             '<option value="city">Select City</option>' +
                             '</select><br>' +
 
-                            '<label for="barangay">Barangay:</label>' +
+                            '<label for="barangay">Barangay:</label>' + 
                             '<select id="barangay" name="barangay" required><br>' +
                             '<option value="barangay">Select Barangay</option>' +
                             '</select><br>' +
@@ -512,7 +484,7 @@ background-attachment: fixed;">
                                 method: "POST",
                                 data: formData,
                             });
-
+                            
                         },
                     }).then((result) => {
                         // Handle the AJAX response
@@ -530,52 +502,52 @@ background-attachment: fixed;">
                     });
 
                     $('#region').on('change', function() {
-                        var region_id = $(this).val();
-                        //console.log(region_id);
-                        $.ajax({
-                            url: 'option_province.php',
-                            type: "POST",
-                            data: {
-                                region_data: region_id
-                            },
-                            success: function(result) {
-                                $('#province').html(result);
-                                //console.log(result);
-                            }
-                        })
-                    });
+                    var region_id = $(this).val();
+                    //console.log(region_id);
+                    $.ajax({
+                        url:'option_province.php',
+                        type:"POST",
+                        data:{
+                            region_data:region_id
+                        },
+                        success:function(result){
+                            $('#province').html(result);
+                            //console.log(result);
+                        }
+                    })
+                });
 
-                    $('#province').on('change', function() {
-                        var province_id = $(this).val();
-                        //console.log(province_id); 
-                        $.ajax({
-                            url: 'option_city.php',
-                            type: "POST",
-                            data: {
-                                province_data: province_id
-                            },
-                            success: function(data) {
-                                $('#city').html(data);
-                                //console.log(result);
-                            }
-                        })
-                    });
+                $('#province').on('change', function() {
+                    var province_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_city.php',
+                        type:"POST",
+                        data:{
+                            province_data:province_id
+                        },
+                        success:function(data){
+                            $('#city').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
 
-                    $('#city').on('change', function() {
-                        var city_id = $(this).val();
-                        //console.log(province_id); 
-                        $.ajax({
-                            url: 'option_barangay.php',
-                            type: "POST",
-                            data: {
-                                city_data: city_id
-                            },
-                            success: function(data) {
-                                $('#barangay').html(data);
-                                //console.log(result);
-                            }
-                        })
-                    });
+                $('#city').on('change', function() {
+                    var city_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_barangay.php',
+                        type:"POST",
+                        data:{
+                            city_data:city_id
+                        },
+                        success:function(data){
+                            $('#barangay').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
 
 
 
@@ -583,9 +555,10 @@ background-attachment: fixed;">
 
 
                 });
-
+                
             });
         });
+        
     </script>
 
 
