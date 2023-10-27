@@ -31,30 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $queryUpdateBuiltGame = $conn->query($sqlUpdateBuiltGame);
             } elseif ($published_game_id) {
                 $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1 WHERE order_id = $order_id";
-                if ($conn->query($sqlUpdateOrders) === TRUE) {
-                    // Successfully updated orders table
+                $conn->query($sqlUpdateOrders);
 
-                    // Retrieve creator information
-                    $sqlPublishD = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
-                    $queryPD = $conn->query($sqlPublishD);
+                $sqlPublishDetails = "SELECT creator_id, creator_profit FROM published_built_games WHERE published_game_id = $published_game_id";
+                $queryPublishDetails = $conn->query($sqlPublishDetails);
+                while ($fetchedPublishDetails = $queryPublishDetails->fetch_assoc()) {
+                    $creator_id = ($fetchedPublishDetails['creator_id']);
+                    $creator_profit = $fetchedPublishDetails['creator_profit'];
+                    $creator_id = (int)$creator_id;
+                    $total_creator_profit = $creator_profit * $quantity;
+                    $encoded_total_creator_profit = base64_encode($total_creator_profit);
+                }
 
-                    if ($queryPD->num_rows > 0) {
-                        $fetchedPD = $queryPD->fetch_assoc();
-                        $creator_id = $fetchedPD['creator_id'];
-                        $creator_profit = $fetchedPD['creator_profit'];
-
-                        $total_creator_profit = $creator_profit * $quantity;
-
-                        // Encode the creator profit
-                        $encoded_total_creator_profit = base64_encode($total_creator_profit);
-
-                        // Insert a profit transaction into the wallet_transactions table
-                        $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, published_game_id) 
-                        VALUES ('$creator_id', 'Profit', '$encoded_total_creator_profit', 'success', '$published_game_id')";
-
-                        if ($conn->query($sqlInsertWallet) === TRUE) {
-                        }
-                    }
+                $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, published_game_id) 
+                VALUES ($creator_id, 'Profit', '$encoded_total_creator_profit', 'success', $published_game_id)";
+                if ($conn->query($sqlInsertWallet) === TRUE) {
+                } else {
+                    echo "Error: " . $sqlInsertWallet . "<br>" . $conn->error . "<br><br><br><br><br><br><br>";
                 }
             } else {
                 // Update the orders table

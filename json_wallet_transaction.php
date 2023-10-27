@@ -60,7 +60,9 @@ while ($fetched = $result->fetch_assoc()) {
         </span>
         ';
 
-        $side_color = '#63d19e';
+        $side_color = '
+        border-left: 3px solid #63d19e
+        ';
     } elseif ($transaction_type == 'Cash Out') {
         $amount_value = '
         <span style="color: #dc3545">
@@ -68,7 +70,9 @@ while ($fetched = $result->fetch_assoc()) {
         </span>
         ';
 
-        $side_color = '#b660e8';
+        $side_color = '
+        border-left: 3px solid orange;
+        ';
     } elseif ($transaction_type == 'Place Order') {
         $amount_value = '
         <span style="color: #dc3545">
@@ -76,7 +80,9 @@ while ($fetched = $result->fetch_assoc()) {
         </span>
         ';
 
-        $side_color = 'pink';
+        $side_color = '
+        border-left: 3px solid pink
+        ';
     } elseif ($transaction_type == 'Publishing Profit') {
         $amount_value = '
         <span style="color: #90ee90">
@@ -84,7 +90,9 @@ while ($fetched = $result->fetch_assoc()) {
         </span>
         ';
 
-        $side_color = 'orange';
+        $side_color = '
+        border-left: 3px solid #b660e8
+        ';
     } else {
         $amount_value = '
         <span>
@@ -92,7 +100,9 @@ while ($fetched = $result->fetch_assoc()) {
         </span>
         ';
 
-        $side_color = 'white';
+        $side_color = '
+        border-left: 3px solid white
+        ';
     }
 
     if ($status == 'success') {
@@ -112,7 +122,7 @@ while ($fetched = $result->fetch_assoc()) {
 
     $item = '
     <div class="row d-flex align-items-center pl-3 pr-3" style="color: #e7e7e7; ">
-        <div class="col-1 p-3"style="line-height: 0.7rem; border-left: 3px solid ' . $side_color . ';">
+        <div class="col-1 p-3"style="line-height: 0.7rem; ' . $side_color . ';">
             <div class="row d-flex justify-content-center">' . $month . '</div>
             <div class="row d-flex justify-content-center"><span class="h4 p-0 m-0">' . $day . '</span></div>
             <div class="row d-flex justify-content-center"><span class="small" style="color: #777777">' . $year . '</span></div>

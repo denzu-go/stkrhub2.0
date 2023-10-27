@@ -9,20 +9,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
 
-        $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id";
-        $queryAll = $conn->query($sqlAll);
-        while ($fetched = $queryAll->fetch_assoc()) {
-            $order_id = $fetched['order_id'];
-            $published_game_id = $fetched['published_game_id'];
-            $built_game_id = $fetched['built_game_id'];
-            $added_component_id = $fetched['added_component_id'];
-            $ticket_id = $fetched['ticket_id'];
-            $quantity = $fetched['quantity'];
-            $price = $fetched['price'];
+        // update orders status lng
+        $sqlOrders = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id";
+        $queryOrders = $conn->query($sqlOrders);
+        while ($fetchedOrders = $queryOrders->fetch_assoc()) {
+            $order_id = $fetchedOrders['order_id'];
+            $published_game_id = $fetchedOrders['published_game_id'];
+            $built_game_id = $fetchedOrders['built_game_id'];
+            $added_component_id = $fetchedOrders['added_component_id'];
+            $ticket_id = $fetchedOrders['ticket_id'];
+            $quantity = $fetchedOrders['quantity'];
+            $price = $fetchedOrders['price'];
 
             // Update the orders table
             $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, is_canceled = 1, cancel_order_reason_id = $cancel_order_reason_id  WHERE order_id = $order_id";
             $conn->query($sqlUpdateOrders);
+        }
+
+        // update wallet
+        $subtotal = 0;
+        $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND user_id = $user_id AND ticket_id IS NULL";
+        $queryAll = $conn->query($sqlAll);
+        while ($fetched = $queryAll->fetch_assoc()) {
+            $quantity = $fetched['quantity'];
+            $price = $fetched['price'];
+
+            // Calculate the subtotal for this order and add it to the overall subtotal
+            $orderSubtotal = $quantity * $price;
+            $subtotal += $orderSubtotal;
+        }
+
+        $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, published_game_id) 
+                VALUES ($user_id, 'Cancel', '$encoded_total_creator_profit', 'success', $published_game_id)";
+        if ($conn->query($sqlInsertWallet) === TRUE) {
+        } else {
+            echo "Error: " . $sqlInsertWallet . "<br>" . $conn->error . "<br><br><br><br><br><br><br>";
         }
 
 

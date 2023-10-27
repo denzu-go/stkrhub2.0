@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $quantity = $fetched['quantity'];
             $price = $fetched['price'];
 
-
             if ($ticket_id) {
                 // Update the orders table
                 $sqlUpdateOrders = "UPDATE orders SET is_received = 1 WHERE order_id = $order_id";
@@ -34,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $conn->commit();
 
-        $response = ["success" => true, "message" => "Game and related records deleted successfully"];
+        $response = ["success" => true, "message" => "successfully"];
     } catch (mysqli_sql_exception $e) {
         $conn->rollback();
 
