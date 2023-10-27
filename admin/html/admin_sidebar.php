@@ -53,7 +53,7 @@
 
                             ?>
 
-                            <a class="btn btn-outline-primary" id="addComponent" style="display: block;" role="button" style="text-align:center;">Add New Component</a>
+                            <a class="btn btn-outline-primary" id="addCategory" style="display: block;" role="button" style="text-align:center;">Add New Category</a>
                         </ul>
                     </li>
 
@@ -108,6 +108,52 @@
                             categoryValue = $('#category').val(); // Store the category value
                             var formData = {
                                 category: categoryValue,
+                                upload: $('#upload').val(),
+                            };
+
+                            // Send an AJAX request to add the category
+                            return $.ajax({
+                                url: "swal_add_component.php", // Create this PHP file to add the category
+                                method: "POST",
+                                data: formData,
+                            });
+                        },
+                        didClose: () => {
+                            // Handle the case when the modal is closed (cancel button or outside click)
+                            // You can add any cleanup or additional logic here if needed.
+                            // For example, you can clear the form fields.
+                        },
+                    }).then((result) => {
+                        // Handle the AJAX response
+                        if (result.isConfirmed) {
+                            Swal.fire("Success", "New Game Component added successfully", "success").then(() => {
+                                // Redirect to the specified location
+                                window.location.href = "add_game_piece.php?category=" + categoryValue;
+                            });
+                        } else {
+                            // Error handling
+                            Swal.fire("Error", "Error adding Game Component", "error");
+                        }
+                    });
+                });
+
+
+                $('#addCategory').on('click', function() {
+                    let categoryValue; // Variable to store the category value
+
+                    Swal.fire({
+                        title: "Add New Game Component",
+                        html: '<div class="form-container">' +
+                            '<label for="category">Component Name:</label>' +
+                            '<input type="text" id="category" name="category" required><br>',
+                        showCancelButton: true,
+                        confirmButtonText: "Add",
+                        cancelButtonText: "Cancel",
+                        preConfirm: () => {
+                            // Handle the "Add" button click here
+                            categoryValue = $('#category').val(); // Store the category value
+                            var formData = {
+                                category: categoryValue,
                             };
 
                             // Send an AJAX request to add the category
@@ -135,6 +181,7 @@
                         }
                     });
                 });
+
 
             });
         </script>

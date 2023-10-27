@@ -6,11 +6,12 @@ include "connection.php"; // Include your database connection script
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the data sent via POST request
     $category = $_POST['category'];
+    $upload = $_POST['upload'];
 
-    $sql = "INSERT INTO faq (faq_category) VALUES (?)";
+    $sql = "INSERT INTO component_category (category , is_upload_only) VALUES (?,?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $category);
+    $stmt->bind_param("si", $category,$upload);
 
     if ($stmt->execute()) {
         // Category added successfully
