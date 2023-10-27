@@ -29,7 +29,7 @@ if (isset($_SESSION['help_category'])) {
             $primary = '<a href="admin_showcase_tutorial.php?id=' . $row['tutorial_id'] . '" style="color:red;"> Not Showcased </a>';
         }
 
-        $actions = '<a href="edit_help_content.php?id=' . $row['tutorial_id'] . '">Edit</a> <a href="delete_game_component.php?id=' . $row['tutorial_id'] . '" style = "color:red;">Delete</a>';
+        $actions = '<a href="edit_help_content.php?id=' . $row['tutorial_id'] . '">Edit</a> <a href="delete_help_content.php?id=' . $row['tutorial_id'] . '" style = "color:red;">Delete</a>';
 
         $data[] = array(
             "title" => $row["tutorial_title"],

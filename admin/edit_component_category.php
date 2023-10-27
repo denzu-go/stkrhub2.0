@@ -105,6 +105,26 @@ $component_row = $query->fetch_assoc();
                                         </div>
 
                                         <div class="row mb-3">
+                                            <label class="col-sm-3 col-form-label" for="upload">Upload Only:</label>
+                                            <div class="col-sm-6">
+                                                <select name="uplpad" id="upload">
+                                                    <?php 
+
+                                                    if ($component_row['is_upload_only'] == 1) {
+                                                        echo '<option value="1"> yes </option>
+                                                        <option value="0"> no </option>';
+                                                    } else {
+                                                        echo '<option value="0"> no </option>
+                                                        <option value="1"> yes </option>';
+                                                    }
+                                                    
+                                                    ?>
+                                                    
+                                                </select><br><br>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
                                             <div class="offset-sm-3 col-sm-3 d-grid">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
