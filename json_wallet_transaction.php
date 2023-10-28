@@ -9,6 +9,7 @@ while ($fetched = $result->fetch_assoc()) {
     $wallet_transaction_id = $fetched['wallet_transaction_id'];
     $transaction_type = $fetched['transaction_type'];
     $published_game_id = $fetched['published_game_id'];
+    $cancel_order_reason = $fetched['cancel_order_reason'];
 
     $amount = base64_decode($fetched['amount']);
     $amount = (float) $amount;
@@ -35,6 +36,7 @@ while ($fetched = $result->fetch_assoc()) {
     </button>
     ';
 
+    // description
     if ($status == 'pending') {
         $description = '<i class="fa-regular fa-circle-dot"></i> Admin will send to ' . $paypal_email_destination . $edit_paypal_email_button;
     } elseif ($status == 'success' && $transaction_type == 'Cash Out') {
@@ -44,6 +46,12 @@ while ($fetched = $result->fetch_assoc()) {
         $description = 'Celebrate, someone has just embraced the magic of your published game (ID: ' . $published_game_id . ')';
     } elseif ($transaction_type == 'Cash In') {
         $description = 'Paypal Transaction ID: ' . $paypal_transaction_id;
+    } elseif ($transaction_type == 'Cancel') {
+        $transaction_type = 'Canceled Order';
+        $description = '
+        Canceled Order ID: ' . $unique_order_group_id.'<br>
+        Cancelation Reason: ' . $cancel_order_reason.'<br>
+        ';
     } elseif ($transaction_type == 'Pay') {
         $transaction_type = 'Place Order';
         $description = 'Place Order ID: ' . $unique_order_group_id;
@@ -53,6 +61,7 @@ while ($fetched = $result->fetch_assoc()) {
         $description = '';
     }
 
+    // amount value and color side
     if ($transaction_type == 'Cash In') {
         $amount_value = '
         <span style="color: #90ee90">
@@ -72,6 +81,16 @@ while ($fetched = $result->fetch_assoc()) {
 
         $side_color = '
         border-left: 3px solid orange;
+        ';
+    } elseif ($transaction_type == 'Canceled Order') {
+        $amount_value = '
+        <span style="color: #90ee90">
+            + &#8369;' . number_format($amount, 2) . '
+        </span>
+        ';
+
+        $side_color = '
+        border-left: 3px solid gray
         ';
     } elseif ($transaction_type == 'Place Order') {
         $amount_value = '
@@ -105,6 +124,7 @@ while ($fetched = $result->fetch_assoc()) {
         ';
     }
 
+    // success or what
     if ($status == 'success') {
         $status_value = '
         <span style="color: #90ee90">

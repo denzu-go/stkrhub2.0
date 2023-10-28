@@ -51,7 +51,7 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     <div class="container">
         <div class="row">
             <a href="built_game_dashboard.php?built_game_id=' . $built_game_id . '">
-                <span class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $name . '" >
+                <span class="d-inline-block text-truncate" style="max-width: 190px; color: #26d3e0;" data-toggle="tooltip" title="' . $name . '" >
                     ' . $name . '
                 </span>
             </a>
@@ -79,46 +79,121 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     $from_what_game = $from_what_game_value;
 
     $publish_request = '
-    <a href="edit_game_page.php?built_game_id=' . $built_game_id . '">Ready to Publish</a>
+    <a href="edit_game_page.php?built_game_id=' . $built_game_id . '">Publish Here!</a>
     ';
 
 
     // status
     if ($is_at_cart == 1) {
-        $status_value = 'Please Purchase at Cart';
+        $title = 'Please Purchase at Cart';
+        $status_icon = '
+            <i class="fa-solid fa-cart-shopping" style="color: #f7f799;"></i>
+        ';
+        $status_action = '
+        
+        ';
     } elseif ($is_request_denied == 1) {
-        $status_value = '
-        <a href="denied_publish_request_page.php?built_game_id=' . $built_game_id . '">View Reason Denied</a>
-        Your request has been denied
+        $title = '
+        Denied
+        ';
+
+        $status_icon = '
+            <i class="fa-solid fa-heart-crack" style="color: #dc3545;"></i>
+        ';
+
+        $status_action = '
         <button class="view-reason" data-built_game_id="' . $built_game_id . '" data-reason="' . $reason . '" data-file_path="' . $file_path . '">
             View Reason
         </button>
+        <br>
+        <a href="denied_publish_request_page.php?built_game_id=' . $built_game_id . '">Try Publish Again</a>
+
+        
         ';
     } elseif ($is_pending_published == 1) {
-        $status_value = '
+        $title = '
+        Publish Requested
+        ';
+
+        $status_icon = '
+            <i class="fa-solid fa-face-grin-wide" style="color: #3dc1e1;"></i>
+        ';
+
+        $status_action = '
         <a href="pending_publish_request_page.php?built_game_id=' . $built_game_id . '">View Publish Request</a>
         ';
     } elseif ($is_published == 1) {
-        $status_value = 'PUBLISHED';
+        $title = 'PUBLISHED';
+
+        $status_icon = '
+            <i class="fa-solid fa-flag-checkered" style="color: #b660e8;"></i>
+        ';
+
+        $status_action = '
+        
+        ';
     } elseif ($is_semi_purchased == 1) {
         if ($is_purchased) {
-            $status_value = '
+            $title = '
             ' . $publish_request . '
             ';
+
+            $status_icon = '
+
+            ';
+
+            $status_action = '
+        
+            ';
         } else {
-            $status_value = 'Do not Cancel you Order';
+            $title = 'Do not Cancel your order';
+            $status_icon = '
+            <i class="fa-regular fa-circle-dot" style="color: #3dc1e1;"></i>
+            ';
+            $status_action = '
+        
+            ';
         }
     } elseif ($is_purchased == 1) {
-        $status_value = '
-        ' . $publish_request . '
+        $title = '
+        Ready To Publish
+        ';
+
+        $status_icon = '
+        <i class="fa-solid fa-clipboard-check" style="color: #90ee90;"></i>
+        ';
+        $status_action = '
+        '.$publish_request.'
         ';
     } elseif ($is_approved == 1) {
-        $status_value = 'Purchase first, to Publish';
+        $title = 'Purchase first, to Publish';
+        $status_icon = '
+            <i class="fa-solid fa-paperclip" style="color: yellow;"></i>
+        ';
+        $status_action = '
+        
+        ';
     } else {
-        $status_value = '';
+        $title = '';
+
+        $status_icon = '
+        
+        ';
+        $status_action = '
+        
+        ';
     }
 
-    $status = $status_value;
+    $status = '
+    ' . $status_icon . '
+    <span class="" style="color: #e7e7e7; font-size: 12px;" 
+    data-toggle="tooltip" title="' . $title . '"
+    > 
+    ' . $title . '
+    </span>
+    <br>
+    '.$status_action.'
+    ';
 
 
     // extra actions
@@ -221,7 +296,7 @@ while ($fetched = $resultApproved->fetch_assoc()) {
 
 
     $built_game_link = $game_link;
-    $total_price = $price;
+    $total_price = '<p class="text-truncate" style="color: #26d3e0; max-width: 100px;" data-toggle="tooltip" title="' . $price . '">&#8369;' . number_format($price, 2) . '</p>';
     $formatted_date = $build_date;
 
 

@@ -5,6 +5,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $unique_order_group_id = $_POST['unique_order_group_id'];
     $user_id = $_POST['user_id'];
 
+    $sqlReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
+    $queryReason = $conn->query($sqlReason);
+    while ($fetchedReason = $queryReason->fetch_assoc()) {
+        $reason_text = $fetchedReason['reason_text'];
+    }
+
     $conn->begin_transaction();
 
     try {
@@ -39,9 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $subtotal += $orderSubtotal;
         }
 
-        $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, published_game_id) 
-                VALUES ($user_id, 'Cancel', '$encoded_total_creator_profit', 'success', $published_game_id)";
+        $encoded_subtotal = base64_encode($subtotal);
+
+        $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, unique_order_group_id, published_game_id, cancel_order_reason) 
+                VALUES ($user_id, 'Cancel', '$encoded_subtotal', 'success', '$unique_order_group_id', $published_game_id, '$reason_text')";
         if ($conn->query($sqlInsertWallet) === TRUE) {
+
         } else {
             echo "Error: " . $sqlInsertWallet . "<br>" . $conn->error . "<br><br><br><br><br><br><br>";
         }

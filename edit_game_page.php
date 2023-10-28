@@ -31,7 +31,6 @@ if (mysqli_num_rows($result_categories) > 0) {
 if (mysqli_num_rows($result) > 0) {
     $gameInfo = mysqli_fetch_assoc($result);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +58,8 @@ if (mysqli_num_rows($result) > 0) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <!-- Filepond -->
-    <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 
 
     <!-- fontawesome -->
@@ -196,37 +196,113 @@ if (mysqli_num_rows($result) > 0) {
         }
 
 
+        /* form required */
+
+
+
 
         /* filepond */
         .filepond--item {
-            width: calc(25% - 0.5em)
+            width: 16rem;
+            min-height: 9rem;
+            max-height: 9rem;
+            overflow: hidden;
         }
 
+        /* use a hand cursor intead of arrow for the action buttons */
+        .filepond--file-action-button {
+            cursor: pointer;
+        }
+
+        /* the text color of the drop label*/
         .filepond--drop-label {
-            color: #4c4e53;
+            color: #555;
         }
 
+        /* underline color for "Browse" button */
         .filepond--label-action {
-            text-decoration-color: #babdc0;
+            text-decoration-color: #aaa;
         }
 
+        /* the background color of the filepond drop area */
         .filepond--panel-root {
-            border-radius: 2em;
-            background-color: #edf0f4;
-            height: 1em;
+            background-color: #eee;
         }
 
+        /* the border radius of the drop area */
+        .filepond--panel-root {
+            border-radius: 0.5em;
+        }
+
+        /* the border radius of the file item */
         .filepond--item-panel {
-            background-color: #595e68;
+            border-radius: 0.5em;
         }
 
+        /* the background color of the file and file panel (used when dropping an image) */
+        .filepond--item-panel {
+            background-color: #555;
+        }
+
+        /* the background color of the drop circle */
         .filepond--drip-blob {
-            background-color: #7f8a9a;
+            background-color: #999;
+        }
+
+        /* the background color of the black action buttons */
+        .filepond--file-action-button {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* the icon color of the black action buttons */
+        .filepond--file-action-button {
+            color: white;
+        }
+
+        /* the color of the focus ring */
+        .filepond--file-action-button:hover,
+        .filepond--file-action-button:focus {
+            box-shadow: 0 0 0 0.125em rgba(255, 255, 255, 0.9);
+        }
+
+        /* the text color of the file status and info labels */
+        .filepond--file {
+            color: white;
+        }
+
+        /* error state color */
+        [data-filepond-item-state*='error'] .filepond--item-panel,
+        [data-filepond-item-state*='invalid'] .filepond--item-panel {
+            background-color: red;
+        }
+
+        [data-filepond-item-state='processing-complete'] .filepond--item-panel {
+            background-color: green;
+        }
+
+        /* bordered drop area */
+        .filepond--panel-root {
+            background-color: transparent;
+            border: 2px solid #2c3340;
+        }
+
+        .input_color {
+            background-color: #222f3e;
+            color: #ffffff;
+            border: none;
+        }
+
+        li.option {
+            color: #777777;
         }
     </style>
 </head>
 
-<body>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
     <?php include 'html/page_header.php'; ?>
 
     <!-- Back to top button -->
@@ -236,13 +312,17 @@ if (mysqli_num_rows($result) > 0) {
 
     <!-- Start Sample Area -->
     <section class="sample-text-area">
-        <div class="container">
+
+        <div class="container" style="background: none;">
 
             <h1><a href="create_game_page.php#section1" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col">
+            <hr>
+
+            <div class="container ">
+
+                <div class="row d-flex justify-content-between align-items-center">
+                    <div class="col d-flex align-items-center">
                         <table id="infoTable" class="display" style="width: 100%;"></table>
                         <tbody>
                         </tbody>
@@ -303,7 +383,7 @@ if (mysqli_num_rows($result) > 0) {
 
         <div class="container">
 
-            <table id="builtGameTable" class="display">
+            <!-- <table id="builtGameTable" class="display">
                 <thead>
                     <tr>
                         <th>Component Name</th>
@@ -316,44 +396,45 @@ if (mysqli_num_rows($result) > 0) {
                 </thead>
                 <tbody>
                 </tbody>
-            </table>
-
-
+            </table> -->
         </div>
 
+        <hr>
+
         <div class="container">
-            <form id="uploadForm" enctype="multipart/form-data">
-
-                <input type="hidden" name="built_game_id" value="<?php echo $built_game_id; ?>">
-
-                <input type="hidden" name="creator_id" value="<?php echo $gameInfo['creator_id']; ?>">
 
 
+            <form id="uploadForm">
 
-                <div class="row">
+                <input type="hidden" id="built_game_id" name="built_game_id" value="<?php echo $built_game_id; ?>">
+
+                <input type="hidden" id="creator_id" name="creator_id" value="<?php echo $gameInfo['creator_id']; ?>">
+
+
+                <div class="row ">
                     <div class="col">
                         <!-- Name input -->
                         <div class="form-outline">
-                            <input type="text" id="game_name" name="game_name" class="form-control" required />
                             <label class="form-label" for="form8Example1">Final Publishing Game Name</label>
+                            <input type="text" id="game_name" name="game_name" class="form-control input_color" required />
                         </div>
                     </div>
                     <div class="col">
                         <!-- Email input -->
                         <div class="form-outline">
-                            <input type="text" id="edition" name="edition" class="form-control" required />
                             <label class="form-label" for="form8Example2">Edition</label>
+                            <input type="text" id="edition" name="edition" class="form-control input_color" required />
                         </div>
                     </div>
                 </div>
 
-                <hr />
+                <hr>
 
                 <div class="row">
                     <div class="col">
                         <!-- Name input -->
                         <div class="form-outline">
-                            <select class="" id="category" name="category" required>
+                            <select class="input_color" id="category" name="category" required>
                                 <option class="form-control" value="" disabled selected>Select a category</option>
                                 <?php
                                 // Loop through the categories and populate the dropdown
@@ -368,7 +449,7 @@ if (mysqli_num_rows($result) > 0) {
                     <div class="col">
                         <!-- Name input -->
                         <div class="form-outline">
-                            <select id="age" name="age" required>
+                            <select class="input_color" id="age" name="age" required>
                                 <option class="form-control" value="" disabled selected>Select a Age</option>
                                 <?php
                                 // Retrieve age values from the Age table and populate the dropdown
@@ -385,124 +466,146 @@ if (mysqli_num_rows($result) > 0) {
 
                     <div class="col">
                         <div class="form-outline">
-                            <input type="number" id="min_players" name="min_players" class="form-control" required />
+
+                            <input type="number" id="min_players" name="min_players" class="form-control input_color" required />
                             <label class="form-label" for="form8Example4">Number of Players (Minimum)</label>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-outline">
-                            <input type="number" id="max_players" name="max_players" class="form-control" required />
+
+                            <input type="number" id="max_players" name="max_players" class="form-control input_color" required />
                             <label class="form-label" for="form8Example4">Number of Players (Maximum)</label>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-outline">
-                            <input type="number" id="min_playtime" name="min_playtime" class="form-control" required />
+
+                            <input type="number" id="min_playtime" name="min_playtime" class="form-control input_color" required />
                             <label class="form-label" for="form8Example4">Play Time (Minimum)</label>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-outline">
-                            <input type="number" id="max_playtime" name="max_playtime" class="form-control" required />
+
+                            <input type="number" id="max_playtime" name="max_playtime" class="form-control input_color" required />
                             <label class="form-label" for="form8Example4">Play Time (Maximum)</label>
                         </div>
                     </div>
-
-                    <div class="col-2">
-                        <div class="form-outline">
-                            <input type="url" id="website" name="website" class="form-control" />
-                            <label class="form-label" for="form8Example4">Website</label>
-                        </div>
-                    </div>
                 </div>
 
-                <hr />
+                <hr>
 
                 <div class="row">
                     <div class="col">
-                        <!-- Name input -->
+                        <!-- short description -->
                         <div class="form-outline">
-                            <textarea class="form-control" id="short_description" name="short_description" required></textarea>
                             <label class="form-label" for="form8Example1">Short Description</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <!-- Name input -->
-                        <div class="form-outline">
-                            <textarea class="form-control" id="long_description" name="long_description" required></textarea>
-                            <label class="form-label" for="form8Example1">Long Description</label>
+                            <textarea class="form-control input_color" id="short_description" name="short_description" required></textarea>
                         </div>
                     </div>
                 </div>
 
-                <hr />
+                <hr>
 
                 <div class="row">
                     <div class="col">
-                        <!-- Name input -->
+                        <!-- long description -->
                         <div class="form-outline">
-                            <input type="file" class="filepond" name="logo" accept="image/*" required>
-                            <label class="form-label" for="form8Example1">Logo</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <!-- Name input -->
-                        <div class="form-outline">
-                            <input type="file" class="filepond" name="game_images[]" multiple required>
-                            <label class="form-label" for="form8Example1">Game Images</label>
+                            <label class="form-label" for="form8Example1">Long Description</label>
+                            <textarea class="form-control input_color" id="long_description" name="long_description" required>LONG DESCRIPTION</textarea>
                         </div>
                     </div>
                 </div>
 
-                <hr />
+                <hr>
 
-                <p>Percentage:
-                    <span id="cost">
-                        <?php echo $markup_percentage . '%'; ?>
-                    </span>
-                </p>
+                <div class="row">
+                    <div class="col-4">
+                        <!-- Logo input -->
+                        <div class="form-outline">
+                            <label class="form-label" for="form8Example1">Logo</label>
+                            <input type="file" class="filepond input_color" id="logo" name="logo" accept="image/*" required>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col">
+                        <!-- Images input -->
+                        <div class="form-outline">
+                            <label class="form-label" for="form8Example1">Game Images</label>
+                            <input type="file" class="filepond input_color" name="game_images[]" multiple required>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
                 <div class="row" id="partitions">
 
                     <div class="col">
-                        <!-- Name input -->
+                        <!-- markup input -->
                         <div class="form-outline">
-                            <input type="number" id="desired_markup" name="desired_markup" class="form-control" required />
                             <label class="form-label" for="form8Example1">Desired Markup</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <!-- Name input -->
-                        <div class="form-outline">
-                            <input type="number" id="manufacturerProfitInput" name="manufacturer_profit" class="form-control" readonly />
-                            <label class="form-label" for="form8Example1">STKR LAB's profit</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <!-- Name input -->
-                        <div class="form-outline">
-                            <input type="number" id="creatorProfitInput" name="creator_profit" class="form-control" readonly />
-                            <label class="form-label" for="form8Example1">Your profit</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&#8369;</span>
+                                </div>
+                                <input type="number" class="form-control input_color" id="desired_markup" name="desired_markup" required>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col">
-                        <!-- Name input -->
+                        <!-- manufacturer input -->
                         <div class="form-outline">
-                            <input type="number" id="marketplacePriceInput" name="marketplace_price" class="form-control" readonly />
+                            <label class="form-label" for="form8Example1">Manufacturer's Profit</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&#8369;</span>
+                                </div>
+                                <input type="number" id="manufacturerProfitInput" name="manufacturer_profit" class="form-control input_color" disabled style="background-color: #222F3E; border: none;" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <!-- crator profit input -->
+                        <div class="form-outline">
+                            <label class="form-label" for="form8Example1">Your profit</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&#8369;</span>
+                                </div>
+                                <input type="number" id="creatorProfitInput" name="creator_profit" class="form-control input_color" disabled style="background-color: #222F3E; border: none;" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- marketplace input -->
+                        <div class="form-outline">
                             <label class="form-label" for="form8Example1">Marketplace Price</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&#8369;</span>
+                                </div>
+                                <input type="number" id="marketplacePriceInput" name="marketplace_price" class="form-control input_color" disabled style="background-color: #222F3E; border: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <hr />
 
-                <button type="submit" name="update">Publish Game</button>
-
+                <input type="submit" value="Submit">
             </form>
-
 
         </div>
 
@@ -529,25 +632,32 @@ if (mysqli_num_rows($result) > 0) {
     <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
 
-
-
-
     <!-- Include DataTables JavaScript -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- filepond -->
-    <script src="https://unpkg.com/filepond@4.28.2/dist/filepond.js"></script>
-
-
+    <!-- tinymce -->
+    <script src="https://cdn.tiny.cloud/1/rpa89s3fugo121yri1pvn1d4pp53s29njc2y5x6asbbn1t39/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 
     <script>
         $(document).ready(function() {
-
-
+            tinymce.init({
+                selector: '#long_description',
+                branding: false,
+                icons: 'material',
+                menubar: false,
+                plugins: 'table advlist lists image media anchor link autoresize alignleft aligncenter alignright', // Add alignment plugins
+                toolbar: 'a11ycheck | blocks bold forecolor backcolor | alignleft aligncenter alignright | bullist numlist | link anchor | table | code',
+                a11y_advanced_options: true,
+                a11ychecker_html_version: 'html5',
+                a11ychecker_level: 'aaa',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                skin: 'oxide-dark',
+                content_css: 'dark',
+            });
 
             $('#infoTable').DataTable({
                 searching: false,
@@ -568,51 +678,48 @@ if (mysqli_num_rows($result) > 0) {
             });
 
 
-            var user_id = <?php echo $user_id; ?>;
-            var built_game_id = <?php echo $built_game_id; ?>;
+            // Handle form submission using AJAX
+            $('#uploadForm').submit(function(event) {
+                event.preventDefault();
 
-            $('#builtGameTable').DataTable({
+                var formData = new FormData();
 
-                searching: true,
-                info: false,
-                paging: true,
-                "pageLength": 5,
-                ordering: false,
-                "ajax": {
-                    "url": "json_built_game_dashboard.php",
-                    data: {
-                        user_id: user_id,
-                        built_game_id: built_game_id,
-                    },
-                    "dataSrc": ""
-                },
-                "columns": [{
-                        "data": "component_name"
-                    },
-                    {
-                        "data": "category"
-                    },
-                    {
-                        "data": "price"
-                    },
-                    {
-                        "data": "quantity"
-                    },
-                    {
-                        "data": "individual_price"
-                    },
-                    {
-                        "data": "info"
-                    },
-                ]
-            });
+                formData.append('built_game_id', $("#built_game_id").val());
+                formData.append('creator_id', $("#creator_id").val());
 
+                formData.append('game_name', $("#game_name").val());
+                formData.append('edition', $("#edition").val());
+                formData.append('category', $("#category").val());
+                formData.append('age', $("#age").val());
 
-            $('#uploadForm').on('submit', function(e) {
-                e.preventDefault();
+                formData.append('min_players', $("#min_players").val());
+                formData.append('max_players', $("#max_players").val());
+                formData.append('min_playtime', $("#min_playtime").val());
+                formData.append('max_playtime', $("#max_playtime").val());
 
-                var formData = new FormData(this);
+                var short_description = $("#short_description").val();
+                var long_description = tinymce.get('long_description').getContent();
 
+                var fileInput = $("#logo");
+                var logo = fileInput.prop("files")[0];
+
+                var gameImagesInput = $("input[name='game_images[]']");
+                var gameImages = gameImagesInput.prop("files");
+
+                formData.append('short_description', short_description);
+                formData.append('long_description', long_description);
+                formData.append("logo", logo);
+
+                for (var i = 0; i < gameImages.length; i++) {
+                    formData.append("game_images[]", gameImages[i]);
+                }
+
+                formData.append('desired_markup', $("#desired_markup").val());
+                formData.append('manufacturerProfitInput', $("#manufacturerProfitInput").val());
+                formData.append('creatorProfitInput', $("#creatorProfitInput").val());
+                formData.append('marketplacePriceInput', $("#marketplacePriceInput").val());
+
+                // Perform an AJAX request
                 Swal.fire({
                     title: '',
                     text: 'Are you sure?',
@@ -623,51 +730,31 @@ if (mysqli_num_rows($result) > 0) {
                 }).then(function(result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: 'process_publish_built_game.php',
                             type: 'POST',
+                            url: 'process_publish_built_game.php',
                             data: formData,
-                            processData: false,
                             contentType: false,
+                            processData: false,
                             success: function(response) {
                                 console.log(response);
-
-                                // Display a SweetAlert success notification
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success',
                                 }).then(function() {
-                                    window.location.href = 'create_game_page.php#section6';
+                                    window.location.href = 'create_game_page.php#section5';
                                 });
                             },
                         });
                     }
                 });
+
             });
 
 
 
-            // Initialize FilePond with the specified settings
-            const inputElement = document.querySelector('input[name="logo"]');
-            const pond = FilePond.create(inputElement, {
-                allowMultiple: false, // Each input handles a single file
-                allowReplace: true,
-                allowRemove: true,
-                allowBrowse: true,
-                storeAsFile: true,
-                required: true
-            });
 
-            // Initialize FilePond for the game images input
-            const imageInput = document.querySelector('input[name="game_images[]"]');
-            const imagePond = FilePond.create(imageInput, {
-                allowMultiple: true, // Allow multiple files to be uploaded
-                allowReplace: true,
-                allowRemove: true,
-                allowBrowse: true,
-                storeAsFile: true,
-                required: true,
-                maxFiles: 10,
-            });
+
+
 
 
 
@@ -698,9 +785,6 @@ if (mysqli_num_rows($result) > 0) {
                 $('#creatorProfitInput').val(creatorProfit.toFixed(2));
                 $('#marketplacePriceInput').val(marketplacePrice.toFixed(2));
             });
-
-
-
         });
     </script>
 

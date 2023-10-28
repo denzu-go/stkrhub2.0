@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $formattedTimestamp = date("Y-m-d H:i:s", $currentTimestamp);
 
     $convertedTimestamp = str_replace(array('-', ' ', ':'), '', $formattedTimestamp);
-    $unique_order_group_id = $convertedTimestamp;
+    $unique_order_group_id = $convertedTimestamp . $user_id;
 
 
     $cart_items = explode(',', $carts_selected);
@@ -184,7 +184,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         echo "Error updating wallet amount: " . $conn->error;
     }
-
 } else {
     // Handle cases where the request method is not POST
     echo "Invalid request method.";

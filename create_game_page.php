@@ -215,6 +215,16 @@ include 'connection.php';
             color: #f7f799;
         }
 
+        /* view-reason */
+        .view-reason {
+            background-color: #dc3545 !important;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+
+            color: #f7f799;
+        }
+
         .add-to-cart-approved[disabled] {
             background-color: #ccc;
             color: #777;
@@ -1780,7 +1790,7 @@ include 'connection.php';
                     cancelButtonText: 'Cancel',
                 }).then(function(result) {
                     if (result.isConfirmed) {
-                        window.location.href = 'edit_game_page.php?built_game_id=' + built_game_id;
+                        window.location.href = 'denied_publish_request_page.php?built_game_id=' + built_game_id;
                     }
                 });
 

@@ -34,7 +34,7 @@ $queryAdd = "
 SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_add
 FROM wallet_transactions
 WHERE user_id = '$user_id'
-AND (transaction_type = 'Cash In' OR transaction_type = 'Profit');
+AND (transaction_type = 'Cash In' OR transaction_type = 'Profit' OR transaction_type = 'Cancel');
 ";
 $resultAdd = $conn->query($queryAdd);
 

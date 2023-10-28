@@ -89,21 +89,21 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
 
     if ($is_pending) {
         $status = 'Your Ticket is in the Cart, please purchase it for the admin to proceed';
-        $status_icon = '<i class="fa-regular fa-circle-dot" style="color: #3dc1e1"></i>';
+        $status_icon = '<i class="fa-regular fa-circle-dot" style="color: #f7f799"></i>';
     } elseif ($is_purchased) {
         $status = 'You already Purchased. Wait for the Admin\'s Response';
-        $status_icon = '<i class="fa-regular fa-circle-dot" style="color: #f7f799"></i>';
+        $status_icon = '<i class="fa-regular fa-circle-dot" style="color: #3dc1e1"></i>';
     } elseif ($to_approve) {
         $status = 'Admin is ready to review your game. Wait for the Admin\'s Response';
         $status_icon = '<i class="fa-regular fa-circle-dot" style="color: orange"></i>';
     } elseif ($is_approved) {
         $status = 'Approved';
-        $status_icon = '<i class="fa-regular fa-circle-dot" style="color: #90ee90"></i>';
+        $status_icon = '<i class="fa-regular fa-thumbs-up" style="color: #90ee90"></i>';
     } elseif ($is_denied) {
         $status = '
         Denied
         ';
-        $status_icon = '<i class="fa-regular fa-circle-dot" style="color: #dc3545"></i>';
+        $status_icon = '<i class="fa-solid fa-heart-crack" style="color: #dc3545;"></i>';
     } else {
         $status = 'Get Approve this Game so that you can proceed.';
         $status_icon = '<i class="fa-regular fa-circle-dot"></i>';
@@ -300,7 +300,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
     
     if ($to_approve) {
         $status_value = '
-        <span class="small" 
+        <span class="" style="color: #e7e7e7; font-size: 12px;" 
         data-toggle="tooltip" title="' . $status . '"
         > 
         ' . $status_icon . ' ' . $status . '
@@ -310,20 +310,20 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
         $cleaned_path = str_replace("../", "", $file_path);
 
         $status_value = '
-        <span class="small" 
+        <span class="" style="color: #e7e7e7; font-size: 12px;" 
         data-toggle="tooltip" title="Your request was denied"
         > 
         ' . $status_icon . ' ' . $status . '
         </span>
 
-        
+        <br>
         <button class="view-reason" data-built_game_id="' . $game_id . '" data-reason="' . $reason . '" data-file_path="' . $cleaned_path . '">
             View Reason
         </button>
         ';
     } else {
         $status_value = '
-        <span class="small" 
+        <span class="" style="color: #e7e7e7; font-size: 12px;" 
         data-toggle="tooltip" title="' . $status . '"
         > 
         ' . $status_icon . ' ' . $status . '

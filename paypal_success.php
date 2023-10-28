@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $formattedTimestamp = date("Y-m-d H:i:s", $currentTimestamp);
 
     $convertedTimestamp = str_replace(array('-', ' ', ':'), '', $formattedTimestamp);
-    $unique_order_group_id = $convertedTimestamp;
+    $unique_order_group_id = $convertedTimestamp . $user_id;
 
 
 
