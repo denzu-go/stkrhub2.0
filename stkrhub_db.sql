@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2023 at 04:52 PM
+-- Generation Time: Oct 28, 2023 at 05:36 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -2093,19 +2093,20 @@ INSERT INTO `component_assets` (`asset_id`, `component_id`, `asset_path`, `is_th
 CREATE TABLE `component_category` (
   `component_category_id` int(11) NOT NULL,
   `category` varchar(255) NOT NULL,
-  `component_image_path` varchar(255) NOT NULL
+  `component_image_path` varchar(255) NOT NULL,
+  `is_upload_only` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `component_category`
 --
 
-INSERT INTO `component_category` (`component_category_id`, `category`, `component_image_path`) VALUES
-(1, 'Game Cards', ''),
-(2, 'Game Piece', ''),
-(3, 'Box', ''),
-(16, 'Rule Book', ''),
-(18, 'Boards', '');
+INSERT INTO `component_category` (`component_category_id`, `category`, `component_image_path`, `is_upload_only`) VALUES
+(1, 'Game Cards', '', 0),
+(2, 'Game Piece', '', 0),
+(3, 'Box', '', 0),
+(16, 'Rule Book', '', 0),
+(18, 'Boards', '', 0);
 
 -- --------------------------------------------------------
 
@@ -2391,7 +2392,6 @@ CREATE TABLE `game_components` (
   `category` varchar(50) NOT NULL,
   `assets` varchar(255) DEFAULT NULL,
   `has_colors` tinyint(1) DEFAULT 0,
-  `is_upload_only` tinyint(1) DEFAULT 0,
   `size` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -2399,11 +2399,38 @@ CREATE TABLE `game_components` (
 -- Dumping data for table `game_components`
 --
 
-INSERT INTO `game_components` (`component_id`, `component_name`, `description`, `price`, `category`, `assets`, `has_colors`, `is_upload_only`, `size`) VALUES
-(1, 'Tarrot Cards', 'sd2', 12.00, 'game cards', NULL, 0, 0, '7x7'),
-(2, 'Box', 'box box', 11.00, 'box', NULL, 0, 1, '7x7'),
-(3, 'Dice 2', 'asd', 7.40, 'game piece', NULL, 1, 0, '7x7'),
-(4, 'Tarrot Card 2jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', 'desc', 14.00, 'game cards', NULL, 0, 0, '10x10');
+INSERT INTO `game_components` (`component_id`, `component_name`, `description`, `price`, `category`, `assets`, `has_colors`, `size`) VALUES
+(1, 'Tarrot Cards', 'sd2', 12.00, 'game cards', NULL, 0, '7x7'),
+(2, 'Box', 'box box', 11.00, 'box', NULL, 0, '7x7'),
+(3, 'Dice 2', 'asd', 7.40, 'game piece', NULL, 1, '7x7'),
+(4, 'Tarrot Card 2jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', 'desc', 14.00, 'game cards', NULL, 0, '10x10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `game_components_backup`
+--
+
+CREATE TABLE `game_components_backup` (
+  `component_id` int(11) NOT NULL DEFAULT 0,
+  `component_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `category` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assets` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `has_colors` tinyint(1) DEFAULT 0,
+  `size` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `game_components_backup`
+--
+
+INSERT INTO `game_components_backup` (`component_id`, `component_name`, `description`, `price`, `category`, `assets`, `has_colors`, `size`) VALUES
+(1, 'Tarrot Cards', 'sd2', 12.00, 'game cards', NULL, 0, '7x7'),
+(2, 'Box', 'box box', 11.00, 'box', NULL, 0, '7x7'),
+(3, 'Dice 2', 'asd', 7.40, 'game piece', NULL, 1, '7x7'),
+(4, 'Tarrot Card 2jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', 'desc', 14.00, 'game cards', NULL, 0, '10x10');
 
 -- --------------------------------------------------------
 
@@ -4097,7 +4124,7 @@ ALTER TABLE `component_assets`
 -- AUTO_INCREMENT for table `component_category`
 --
 ALTER TABLE `component_category`
-  MODIFY `component_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `component_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `component_colors`
