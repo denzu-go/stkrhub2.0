@@ -26,7 +26,9 @@ while ($fetchedGetGameDetails = $queryGetGameDetails->fetch_assoc()) {
     $is_built = $fetchedGetGameDetails['is_built'];
 }
 
-$sqlGetComponentDetails = "SELECT * FROM game_components WHERE component_id = $component_id";
+$sqlGetComponentDetails = "SELECT *
+FROM game_components
+LEFT JOIN component_category ON game_components.category COLLATE utf8mb4_unicode_ci = component_category.category COLLATE utf8mb4_unicode_ci WHERE component_id = $component_id";
 $queryGetComponentDetails = $conn->query($sqlGetComponentDetails);
 while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
     $component_name = $fetchedComponentDetails['component_name'];

@@ -19,6 +19,8 @@ while ($fetchedGetGameInfo = $queryGetGameInfo->fetch_assoc()) {
     $created_at = $fetchedGetGameInfo['created_at'];
     $is_built = $fetchedGetGameInfo['is_built'];
 }
+
+$category;
 ?>
 
 <!DOCTYPE html>
@@ -93,22 +95,33 @@ while ($fetchedGetGameInfo = $queryGetGameInfo->fetch_assoc()) {
                 <li class="nav-item">
                     <a class="nav-link active" id="pills-1-tab" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">All</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-2-tab" data-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">Game Card</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-3-tab" data-toggle="pill" href="#pills-3" role="tab" aria-controls="pills-3" aria-selected="false">Box</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-4-tab" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">Game Piece</a>
-                </li>
+                <?php
+                $sql = "SELECT DISTINCT category
+        FROM game_components";
+                $query = $conn->query($sql);
+
+                while ($row = $query->fetch_assoc()) {
+                    $category = $row['category'];
+
+                    echo '<li class="nav-item">
+            <a class="nav-link" id="pills-' . $category . '-tab" data-toggle="pill" href="#pills-' . $category . '" role="tab" aria-controls="pills-' . $category . '" aria-selected="false">' . $category . '</a>
+          </li>';
+                }
+                ?>
+
+
             </ul>
 
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">
                     <?php
-                    $sql = "SELECT * FROM game_components";
+                    $sql = "SELECT *
+                   FROM game_components
+                   LEFT JOIN component_category ON game_components.category COLLATE utf8mb4_unicode_ci = component_category.category COLLATE utf8mb4_unicode_ci";
+
+
                     $query = $conn->query($sql);
+
                     while ($row = $query->fetch_assoc()) {
                         $component_id = $row["component_id"];
                         $component_name = $row["component_name"];
@@ -140,10 +153,15 @@ while ($fetchedGetGameInfo = $queryGetGameInfo->fetch_assoc()) {
                     ?>
                 </div>
 
-                <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">
+                <div class="tab-pane fade" id="pills-<?php echo $category; ?>" role="tabpanel" aria-labelledby="pills-<?php echo $category; ?>-tab">
                     <?php
-                    $sql = "SELECT * FROM game_components WHERE category = 'game card'";
+                    $sql = "SELECT *
+                    FROM game_components
+                    LEFT JOIN component_category ON game_components.category COLLATE utf8mb4_unicode_ci = component_category.category COLLATE utf8mb4_unicode_ci
+                    WHERE game_components.category = '$category'"; // Make sure to include single quotes around $category
+
                     $query = $conn->query($sql);
+
                     while ($row = $query->fetch_assoc()) {
                         $component_id = $row["component_id"];
                         $component_name = $row["component_name"];
@@ -162,88 +180,20 @@ while ($fetchedGetGameInfo = $queryGetGameInfo->fetch_assoc()) {
                         }
 
                         echo '
-                            <a href="game_component_details.php?game_id=' . $game_id . '&component_id=' . $component_id . '">
-                                <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="' . $asset_path . '" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">' . $component_name . '</h5>
-                                        <p class="card-text">' . $description . '</p>
-                                    </div>
-                                </div>
-                            </a>';
+        <a href="game_component_details.php?game_id=' . $game_id . '&component_id=' . $component_id . '">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="' . $asset_path . '" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">' . $component_name . '</h5>
+                    <p class="card-text">' . $description . '</p>
+                </div>
+            </div>
+        </a>';
                     }
                     ?>
                 </div>
 
-                <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">
-                    <?php
-                    $sql = "SELECT * FROM game_components WHERE category = 'box'";
-                    $query = $conn->query($sql);
-                    while ($row = $query->fetch_assoc()) {
-                        $component_id = $row["component_id"];
-                        $component_name = $row["component_name"];
-                        $description = $row["description"];
-                        $price = $row["price"];
-                        $has_colors = $row["has_colors"];
-                        $is_upload_only = $row["is_upload_only"];
-                        $size = $row["size"];
 
-                        $sqlA = "SELECT * FROM component_assets WHERE component_id = $component_id";
-                        $queryA = $conn->query($sqlA);
-                        while ($rowA = $queryA->fetch_assoc()) {
-                            $asset_id = $rowA["asset_id"];
-                            $asset_path = $rowA["asset_path"];
-                            $is_thumbnail = $rowA["is_thumbnail"];
-                        }
-
-                        echo '
-                            <a href="game_component_details.php?game_id=' . $game_id . '&component_id=' . $component_id . '">
-                                <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="' . $asset_path . '" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">' . $component_name . '</h5>
-                                        <p class="card-text">' . $description . '</p>
-                                    </div>
-                                </div>
-                            </a>';
-                    }
-                    ?>
-
-                </div>
-                <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">
-                    <?php
-                    $sql = "SELECT * FROM game_components WHERE category = 'game piece'";
-                    $query = $conn->query($sql);
-                    while ($row = $query->fetch_assoc()) {
-                        $component_id = $row["component_id"];
-                        $component_name = $row["component_name"];
-                        $description = $row["description"];
-                        $price = $row["price"];
-                        $has_colors = $row["has_colors"];
-                        $is_upload_only = $row["is_upload_only"];
-                        $size = $row["size"];
-
-                        $sqlA = "SELECT * FROM component_assets WHERE component_id = $component_id";
-                        $queryA = $conn->query($sqlA);
-                        while ($rowA = $queryA->fetch_assoc()) {
-                            $asset_id = $rowA["asset_id"];
-                            $asset_path = $rowA["asset_path"];
-                            $is_thumbnail = $rowA["is_thumbnail"];
-                        }
-
-                        echo '
-                            <a href="game_component_details.php?game_id=' . $game_id . '&component_id=' . $component_id . '">
-                                <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="' . $asset_path . '" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">' . $component_name . '</h5>
-                                        <p class="card-text">' . $description . '</p>
-                                    </div>
-                                </div>
-                            </a>';
-                    }
-                    ?>
-                </div>
             </div>
         </div>
         </div>
