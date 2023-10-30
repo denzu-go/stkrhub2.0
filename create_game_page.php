@@ -169,6 +169,35 @@ include 'connection.php';
             color: #90ee90;
         }
 
+        /* hide */
+        #hideButton {
+            background-color: #dc3545 !important;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+
+            color: #e7e7e7;
+        }
+
+        /* unhide */
+        #unhideButton {
+            background-color: #b660e8 !important;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+
+            color: #e7e7e7;
+        }
+
+        /* editButton */
+        #editButton {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+
+            color: #90ee90;
+        }
+
         /* edit button */
         .edit-built_game {
             background-color: transparent !important;
@@ -250,13 +279,21 @@ include 'connection.php';
         /* datatables */
         table.dataTable.stripe tbody tr.even,
         table.dataTable.display tbody tr.even {
-            background-color: #1f2243;
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(31, 34, 67, 0.7) 100%);
         }
 
         table.dataTable.stripe tbody tr.odd,
         table.dataTable.display tbody tr.odd {
-            background-color: #272a4e;
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(21, 23, 46, 0.7) 100%);
         }
+
+        table#cartCount.stripe tbody tr.odd,
+        table#cartCount.display tbody tr.odd {
+            background: transparent;
+        }
+
 
         table.dataTable {
             box-shadow: 0 0 10px #000000;
@@ -404,12 +441,12 @@ include 'connection.php';
                         <table id="createGameTable" class="display" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th style="min-width: 80px; max-width: 80px;">Game Name</th>
+                                    <th style="min-width: 100px; max-width: 100px;">Game Name</th>
                                     <th style="min-width: 80px; max-width: 80px;">Description</th>
                                     <th style="min-width: 80px; max-width: 80px;">Price</th>
                                     <th style="min-width: 80px; max-width: 80px;">Date Modified</th>
                                     <th style="min-width: 170px; max-width: 170px;">Recent Status</th>
-                                    <th style="min-width: 120px; max-width: 120px;"></th>
+                                    <th style="min-width: 170px; max-width: 170px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -490,10 +527,10 @@ include 'connection.php';
                         <tr>
                             <th style="min-width: 120px; max-width: 120px;">Built Game Name</th>
                             <th style="min-width: 80px; max-width: 80px;">Description</th>
-                            <th style="min-width: 80px; max-width: 80px;">From what game</th>
+                            <th style="min-width: 80px; max-width: 80px;">Game Source</th>
                             <th style="min-width: 80px; max-width: 80px;">Price</th>
-                            <th style="min-width: 80px; max-width: 80px;">Date Built</th>
-                            <th style="min-width: 120px; max-width: 120px;">Status</th>
+                            <th style="min-width: 80px; max-width: 80px;">Date Approved</th>
+                            <th style="min-width: 120px; max-width: 120px;">Recent Status</th>
                             <th style="min-width: 150px; max-width: 150px;"></th>
                         </tr>
                     </thead>
@@ -531,8 +568,8 @@ include 'connection.php';
                     <thead>
                         <tr>
                             <th style="min-width: 120px; max-width: 120px;">Published Game Name</th>
-                            <th style="min-width: 80px; max-width: 80px;">Published Date</th>
-                            <th style="min-width: 80px; max-width: 80px;" style="min-width: 80px; max-width: 80px;">Price and Markup</th>
+                            <th style="min-width: 50px; max-width: 50px;">Published Date</th>
+                            <th style="min-width: 140px; max-width: 140px;" style="min-width: 80px; max-width: 80px;">Price and Markup</th>
                             <th style="min-width: 120px; max-width: 120px;">Total Earnings</th>
                             <th style="min-width: 50px; max-width: 50px;">Status</th>
                             <th style="min-width: 80px; max-width: 80px;"></th>
@@ -697,6 +734,10 @@ include 'connection.php';
                 language: {
                     search: "",
                 },
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
 
                 searching: true,
                 info: false,
@@ -1429,6 +1470,10 @@ include 'connection.php';
                 language: {
                     search: "",
                 },
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
 
                 searching: true,
                 info: false,
@@ -1805,6 +1850,11 @@ include 'connection.php';
                 language: {
                     search: "",
                 },
+
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
 
                 searching: true,
                 info: false,

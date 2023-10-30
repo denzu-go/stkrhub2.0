@@ -14,7 +14,15 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     $name = $fetched['name'];
     $description = $fetched['description'];
     $creator_id = $fetched['creator_id'];
-    $build_date = $fetched['build_date'];
+
+    $date_modified = $fetched['build_date'];
+    $timestamp = strtotime($date_modified);
+    $dateFormatted = date("M. d, Y", $timestamp);
+    $timeFormatted = date("h:i a", $timestamp);
+
+    $date_modified_value = $dateFormatted . '<br>' . $timeFormatted;
+
+
     $price = $fetched['price'];
 
     $is_pending = $fetched['is_pending'];
@@ -63,7 +71,7 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     </div>
     ';
 
-    $description_value = '<p class="text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">' . $description . '</p>';
+    $description_value = '<span class="text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">' . $description . '</span>';
 
 
     if ($game_id == 0) {
@@ -185,14 +193,14 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     }
 
     $status = '
-    ' . $status_icon . '
-    <span class="" style="color: #e7e7e7; font-size: 12px;" 
-    data-toggle="tooltip" title="' . $title . '"
-    > 
-    ' . $title . '
-    </span>
-    <br>
-    '.$status_action.'
+        ' . $status_icon . '
+        <span class="" style="color: #e7e7e7; font-size: 12px;" 
+        data-toggle="tooltip" title="' . $title . '"
+        > 
+        ' . $title . '
+        </span>
+        <br>
+        '.$status_action.'
     ';
 
 
@@ -296,8 +304,8 @@ while ($fetched = $resultApproved->fetch_assoc()) {
 
 
     $built_game_link = $game_link;
-    $total_price = '<p class="text-truncate" style="color: #26d3e0; max-width: 100px;" data-toggle="tooltip" title="' . $price . '">&#8369;' . number_format($price, 2) . '</p>';
-    $formatted_date = $build_date;
+    $total_price = '<span class="text-truncate" style="color: #26d3e0; max-width: 100px;" data-toggle="tooltip" title="' . $price . '">&#8369;' . number_format($price, 2) . '</span>';
+    $formatted_date = $date_modified_value;
 
 
     $data[] = array(

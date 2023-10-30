@@ -2,8 +2,8 @@
 session_start();
 
 include 'connection.php';
-if (isset($_GET['id'])) {
-    $published_game_id = $_GET['id'];
+if (isset($_GET['published_game_id'])) {
+    $published_game_id = $_GET['published_game_id'];
 }
 $sql = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
 $query = $conn->query($sql);

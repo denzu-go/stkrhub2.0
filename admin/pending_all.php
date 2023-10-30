@@ -77,6 +77,15 @@ include 'connection.php';
                                     if ($count > 0) {
                                         echo '
                                                 <table id="allOrders" class="hover" style="width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Order ID</th>
+                                                            <th>User ID</th>
+                                                            <th>Status</th>
+                                                            <th>Order Date</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
                                                     </tbody>
                                                 </table>
@@ -98,23 +107,42 @@ include 'connection.php';
             </div>
         </div>
 
+
         <div class="footer">
-
-
-
-
-
-
             <div class="copyright">
                 <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
                 <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
             </div>
         </div>
-
-
-
     </div>
 
+
+
+    <!-- MODALS -->
+    <!-- order list modal -->
+    <div class="modal fade" id="order_table" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <table id="orderListTable" class="hover" style="width: 100%;">
+                        <tbody>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
 
@@ -151,8 +179,13 @@ include 'connection.php';
 
 
             $('#allOrders').DataTable({
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
+
                 language: {
-                    search: "",
+                    search: "Search",
                 },
 
                 searching: true,
@@ -164,13 +197,25 @@ include 'connection.php';
 
                 "ajax": {
                     "url": "admin_json_pending_orders.php",
-                    data: {
-                    },
+                    data: {},
                     "dataSrc": ""
                 },
                 "columns": [{
-                    "data": "item"
-                }, ]
+                        "data": "unique_order_group_id"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "date"
+                    },
+                    {
+                        "data": "actions"
+                    },
+                ]
             });
 
 
@@ -215,6 +260,42 @@ include 'connection.php';
                     }
                 });
             });
+
+
+            $('#allOrders').on('click', '#view_order', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                $('#orderListTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_order_list_table.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+
+                $('#order_table').modal('show');
+            });
+
+
+            
+
+
 
 
 

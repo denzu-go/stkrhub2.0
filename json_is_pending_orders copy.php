@@ -71,7 +71,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                 <div class="col">';
 
     $subtotal = 0;
-    $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_pending = 1 AND user_id = $user_id";
+    $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_pending = 1 AND user_id = $user_id AND ticket_id IS NULL";
     $queryAll = $conn->query($sqlAll);
     while ($fetched = $queryAll->fetch_assoc()) {
         $order_id = $fetched['order_id'];
@@ -81,6 +81,10 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
         $ticket_id = $fetched['ticket_id'];
         $quantity = $fetched['quantity'];
         $price = $fetched['price'];
+        $total_payment = $fetched['total_payment'];
+
+        $paypal_transaction_id = $fetched['paypal_transaction_id'];
+        $shipping_discount = $fetched['shipping_discount'];
 
         // Calculate the subtotal for this order and add it to the overall subtotal
         $orderSubtotal = $quantity * $price;
@@ -109,7 +113,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
         ' . $street . '  ' . $barangay . '  ' . $city . '  ' . $barangay . '  ' . $province . '  ' . $region . '  ' . $zip . ' 
         ';
 
-        
+
 
         // classification
         if ($published_game_id) {
@@ -346,7 +350,12 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
             $action = '';
         }
 
-
+        if ($paypal_transaction_id === null) {
+            $shipping_fee = $total_payment - $subtotal;
+        } else {
+            $shipping_fee = $total_payment - $subtotal;
+        }
+        $order_total_amount = $subtotal + $shipping_fee;
 
 
         $item .= '
@@ -431,7 +440,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
 
                                 <div class="col d-flex justify-content-start">
                                     <div class="row">
-                                        <div class="col"><span class="small">' . $fullname . '<br>' . $number . '</span></div>
+                                        <div class="col-3"><span class="small">' . $fullname . '<br>' . $number . '</span></div>
                                         <div class="col-8"><span class="small">' . $full_address_value . '</span></div>
                                     </div>
                                 </div>
@@ -439,26 +448,34 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                 <div class="col d-flex justify-content-end">
 
                                     <div class="">
-                                        <div class="row  d-flex justify-content-end">
+                                        <div class="row d-flex justify-content-end">
                                             <div class="col">
-                                                <h6 class="d-flex justify-content-end">Order Total:&nbsp; 
+                                                <h6 class="small d-flex justify-content-end">Sub Total:&nbsp; 
                                                     <span class="mb-1" style="color: #26d3e0;">&#8369;' . number_format($subtotal, 2) . '</span>
                                                 </h6>
                                             </div>
-                                        
+
+                                            <div class="col">
+                                                <h6 class="small d-flex justify-content-end">Shipping Fee:&nbsp; 
+                                                    <span class="mb-1" style="color: #777777;">&#8369;' . number_format($shipping_fee, 2) . '</span>
+                                                </h6>
+                                            </div>
+                                            
+                                            <div class="col">
+                                                <h6 class="d-flex justify-content-end">Order Total:&nbsp; 
+                                                    <span class="mb-1" style="color: #b660e8;">&#8369;' . number_format($order_total_amount, 2) . '</span>
+                                                </h6>
+                                            </div>
                                         </div>
 
 
-                                        <div class="row  d-flex justify-content-end">
-                                            <div class="col-1 mr-3">
-                                                <a href="#!" class="text-primary d-flex justify-content-end" id="cancel_orders" data-unique_order_group_id="' . $unique_order_group_id . '">Cancel</a>
-                                            </div>
-                                            <div class="col-1 d-flex justify-content-end">
-                                                <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
-                                                class="text-primary d-flex justify-content-end" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
-                                                    View Order Details
-                                                </a>
-                                            </div>
+                                        <div class="row mr-0 d-flex justify-content-end">
+                                            <a href="#!" class="" id="cancel_orders" data-unique_order_group_id="' . $unique_order_group_id . '">Cancel</a>
+                                            
+                                            <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
+                                            class="" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
+                                                View Details
+                                            </a>
                                         </div>
                                         
                                     </div>

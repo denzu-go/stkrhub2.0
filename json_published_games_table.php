@@ -15,7 +15,15 @@ while ($fetched = $result->fetch_assoc()) {
     $game_name = $fetched['game_name'];
     $category = $fetched['category'];
     $edition = $fetched['edition'];
-    $published_date = $fetched['published_date'];
+
+    $date_modified = $fetched['published_date'];
+    $timestamp = strtotime($date_modified);
+    $dateFormatted = date("M. d, Y", $timestamp);
+    $timeFormatted = date("h:i a", $timestamp);
+
+    $date_modified_value = '<span>' . $dateFormatted . ' ' . $timeFormatted . '</span>';
+
+
     $logo_path = $fetched['logo_path'];
     $desired_markup = $fetched['desired_markup'];
     $manufacturer_profit = $fetched['manufacturer_profit'];
@@ -39,30 +47,68 @@ while ($fetched = $result->fetch_assoc()) {
         $price = $fetchedBuiltGames['price'];
     }
 
-    if($is_hidden == 1){
-        $status = 'hidden';
-    } elseif ($is_hidden == 0){
-        $status = 'visible';
-    } else{
-        $status = 'visible';
+    // status
+    if ($is_hidden == 1) {
+        $status = 'Hidden';
+        $status_icon = '<i class="fa-solid fa-eye" style="color: #dc3545"></i>';
+    } elseif ($is_hidden == 0) {
+        $status = 'Visible';
+        $status_icon = '<i class="fa-solid fa-eye-slash" style="color: #63d19e"></i>';
+    } else {
+        $status = 'Visible';
+        $status_icon = '<i class="fa-solid fa-eye-slash" style="color: #63d19e"></i>';
     }
 
+    // Count number of buyer
+    // SELECT COUNT(*) AS total_orders
+    // FROM orders
+    // WHERE published_game_id = $published_game_id
+    // AND is_pending = 0
+    // AND is_canceled != 1
+    // AND is_completely_canceled = 1
+
+    $sqlCountBuyer = "SELECT COUNT(*) AS count FROM orders WHERE published_game_id = $published_game_id AND is_pending = 0 AND is_canceled != 1";
+    $resultBuyer = $conn->query($sqlCountBuyer);
+    if ($resultBuyer) {
+        $rowBuyer = $resultBuyer->fetch_assoc();
+        $total_buyer = $rowBuyer["count"];
+    } else {
+        echo "Error executing query: " . $conn->error;
+    }
+
+    $sqlCreatorEarnings = "SELECT SUM(creator_profit) AS total_profit FROM orders WHERE published_game_id = $published_game_id AND is_pending = 0 AND is_canceled != 1";
+    $resultCreatorEarnings = $conn->query($sqlCreatorEarnings);
+    if ($resultCreatorEarnings) {
+        $rowCreatorEarnings = $resultCreatorEarnings->fetch_assoc();
+        $total_creator_earnings = $rowCreatorEarnings['total_profit'];
+    } else {
+        echo "Error in the query: " . $conn->error;
+    }
+
+
     $published_game_link = '
-    
     <div class="container">
         <div class="row">
-            <a href="marketplace_item_page.php?id=' . $published_game_id . '">
-                <span class="d-inline-block text-truncate" style="max-width: 190px;" data-toggle="tooltip" title="' . $game_name . '" >
+            <a href="marketplace_item_page.php?published_game_id=' . $published_game_id . '">
+                <span class="d-inline-block text-truncate" style="max-width: 190px; color: #26d3e0;" data-toggle="tooltip" title="' . $game_name . '" >
                     ' . $game_name . '
                 </span>
             </a>
         </div>
 
         <div class="row">
-            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+            <span class="d-inline-block text-truncate" style="max-width: 190px; color: #e7e7e7; font-size: 12px;" data-toggle="tooltip" title="' . $edition . '" >
+                Edition: ' . $edition . '
+            </span>
         </div>
+
+        <div class="row">
+            <span class="small text-muted" style="padding: 0px; margin:0px">Published Game ID: ' . $published_game_id . '</span>
+        </div>
+
     </div>
     ';
+
 
     $info_value = '
         <p>Built Game Name: ' . $built_game_name . '</p>
@@ -71,21 +117,36 @@ while ($fetched = $result->fetch_assoc()) {
     $info = $info_value;
 
     $price_and_markup_value = '
-        <p>Cost: ' . $price . '</p>
-        <p>desired_markup: ' . $desired_markup . '</p>
-        <p>manufacturer_profit: ' . $manufacturer_profit . '</p>
-        <p>creator_profit: ' . $creator_profit . '</p>
-        <p>marketplace_price: ' . $marketplace_price . '</p>
+    <div class="container p-0 m-0" style="color: #e7e7e7;">
+        <div class="row d-flex justify-content-between">
+            <div class="col-auto small">Cost: </div>
+            <div class="col-auto small"><span style="color: #26d3e0;">&#8369;' . number_format($price, 2) . '</span></div>
+        </div>
+
+        <div class="row  d-flex justify-content-between">
+            <div class="col-auto small">Desire Markup: </div>
+            <div class="col-auto small"><span style="color: #26d3e0;">&#8369;' . number_format($desired_markup, 2) . '</span></div>
+        </div>
+
+        <div class="row  d-flex justify-content-between">
+            <div class="col-auto small">Manyfacturer\'s Profit: </div>
+            <div class="col-auto small"><span style="color: #26d3e0;">&#8369;' . number_format($manufacturer_profit, 2) . '</span></div>
+        </div>
+
+        <div class="row  d-flex justify-content-between">
+            <div class="col-auto small">Your Profit: </div>
+            <div class="col-auto small"><span style="color: #26d3e0;">&#8369;' . number_format($creator_profit, 2) . '</span></div>
+        </div>
+
+        <div class="row  d-flex justify-content-between">
+            <div class="col-auto">Marketplace Price: </div>
+            <div class="col-auto"><span style="color: #b660e8;">&#8369;' . number_format($marketplace_price, 2) . '</span></div>
+        </div>
+    </div>
+
     ';
     $price_and_markup = $price_and_markup_value;
 
-
-
-    $total_price = 0;
-    $total_desired_markup = 0;
-    $total_manufacturer_profit = 0;
-    $total_creator_profit = 0;
-    $total_marketplace_price = 0;
 
     $sqlCalculate = "SELECT * FROM orders WHERE published_game_id = $published_game_id AND to_deliver = 1";
     $queryCalculate = $conn->query($sqlCalculate);
@@ -97,7 +158,6 @@ while ($fetched = $result->fetch_assoc()) {
         $calculate_manufacturer_profit = $fetchedCalculate['manufacturer_profit'] * $calculate_quantity;
         $calculate_creator_profit = $fetchedCalculate['creator_profit'] * $calculate_quantity;
         $calculate_marketplace_price = $fetchedCalculate['marketplace_price'] * $calculate_quantity;
-
         $total_price += $calculate_price;
         $total_desired_markup += $calculate_desired_markup;
         $total_manufacturer_profit += $calculate_manufacturer_profit;
@@ -105,11 +165,20 @@ while ($fetched = $result->fetch_assoc()) {
         $total_marketplace_price += $calculate_marketplace_price;
     }
 
+
     $total_earnings_value = '
-        <p>Total Manufacturer\'s Earnings: ' . $total_manufacturer_profit . '</p>
-        <p>Total Creator\'s Earnings: ' . $total_creator_profit . '</p>
-        <p>Total Creator\'s Received: Coming Soon</p>
-        <a href="___.php?id=' . $published_game_id . '">View More (Coming Soon)</a>
+    <div class="container p-0 m-0" style="color: #e7e7e7;">
+        <div class="row d-flex justify-content-between">
+            <div class="col-auto small">Number of Buyer: </div>
+            <div class="col-auto small"><span style="color: #26d3e0;">' . $total_buyer . '</span></div>
+        </div>
+
+        <div class="row d-flex justify-content-between">
+            <div class="col-auto">Total Earnings: </div>
+            <div class="col-auto"><span style="color: #b660e8;">&#8369;' . number_format($total_creator_earnings, 2) . '</span></div>
+        </div>
+    </div>
+
     ';
     $total_earnings = $total_earnings_value;
 
@@ -117,12 +186,10 @@ while ($fetched = $result->fetch_assoc()) {
     if ($is_hidden === '1') {
         $action1 = '
             <button id="unhideButton" data-published_game_id="' . $published_game_id . '">Unhide</button>
-
         ';
     } else {
         $action1 = '
             <button id="hideButton" data-published_game_id="' . $published_game_id . '">Hide</button>
-
         ';
     }
 
@@ -157,13 +224,21 @@ while ($fetched = $result->fetch_assoc()) {
         ';
     } else {
         $action2 = '
-            <button id="editButton" data-published_game_id="' . $published_game_id . '">Edit</button>
+            <button id="editButton" data-published_game_id="' . $published_game_id . '"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
 
         ';
     }
 
     $actions = $action1 . $action2;
 
+    $status_value = '
+        ' . $status_icon . '
+        <span class="" style="color: #e7e7e7; font-size: 14px;" 
+        data-toggle="tooltip" title="' . $status . '"
+        > 
+        ' . $status . '
+        </span>
+    ';
 
 
 
@@ -172,10 +247,10 @@ while ($fetched = $result->fetch_assoc()) {
         "edition" => $edition,
         "category" => $category,
         "info" => $info,
-        "published_date" => $published_date,
+        "published_date" => $date_modified_value,
         "price_and_markup" => $price_and_markup,
         "total_earnings" => $total_earnings,
-        "status" => $status,
+        "status" => $status_value,
         "actions" => $actions,
     );
 }

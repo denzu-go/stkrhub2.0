@@ -39,13 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $insertQuery = "INSERT INTO published_built_games
-    (built_game_id, game_name, category, edition, published_date, creator_id, age_id, short_description, long_description, website, logo_path, min_players, max_players, min_playtime, max_playtime, has_pending_update, desired_markup, manufacturer_profit, creator_profit, marketplace_price) 
+    (built_game_id, game_name, category, edition, creator_id, age_id, short_description, long_description, website, logo_path, min_players, max_players, min_playtime, max_playtime, has_pending_update, desired_markup, manufacturer_profit, creator_profit, marketplace_price) 
     VALUES (
         '$built_game_id', 
         '$game_name', 
         '$category_name', 
         '$edition', 
-        '$published_date', 
         '$creator_id', 
         '$age_id', 
         '$short_description', 
