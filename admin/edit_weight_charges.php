@@ -2,16 +2,16 @@
 session_start();
 include 'connection.php';
 
-$component_id;
+$destination_id;
 
 if (isset($_GET['id'])) {
 
-    $component_id = $_GET['id'];
+    $destination_id = $_GET['id'];
 }
 
-$sql = "SELECT * FROM component_category WHERE component_category_id = $component_id";
+$sql = "SELECT * FROM destination_rates WHERE destination_id = $destination_id";
 $query = $conn->query($sql);
-$component_row = $query->fetch_assoc();
+$destination_row = $query->fetch_assoc();
 
 
 ?>
@@ -66,7 +66,7 @@ $component_row = $query->fetch_assoc();
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Edit <?php echo $component_row['category'] ?></h4>
+                            <h4>Edit <?php echo $destination_row['destination_name'] ?></h4>
                             <p class="mb-0">Edit Details</p>
                         </div>
                     </div>
@@ -80,47 +80,41 @@ $component_row = $query->fetch_assoc();
                             <div class="card-body">
 
                                 <div class="container my-5">
-                                    <form method="post" id="myForm" enctype="multipart/form-data" action="admin_process_edit_component_category.php">
-                                        <input type="hidden" name="id" value="<?php echo $component_id; ?>">
+                                    <form method="post" id="myForm" enctype="multipart/form-data" action="admin_process_edit_weight_charges.php">
+                                        <input type="hidden" name="id" value="<?php echo $destination_id; ?>">
+
                                         <div class="row mb-3">
-                                            <label class="col-sm-3 col-form-label" for="category">Category Name:</label>
+                                            <label class="col-sm-3 col-form-label"> Weight Fee 1:</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" id="category" name="category" value="<?php echo $component_row['category']; ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3 color-row">
-                                            <label class="col-sm-3 col-form-label">Uploaded Image:</label>
-                                            <div class="col-sm-6">
-                                                <a href="<?php echo $row['component_image_path']; ?>" download style="color: blue;">Cover Photo</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3 color-row">
-                                            <label class="col-sm-3 col-form-label">New Cover Photo:</label>
-                                            <div class="col-sm-6">
-                                                <input type="file" class="form-control" name="coverPhoto" accept="image/*" id="coverPhoto">
-                                                <a href="#" class="remove-coverPhoto" data-cover-id="coverPhoto" style="color: red;">Remove</a>
+                                                <input type="number" id="price1" name="price1" min="0" value="<?php echo $destination_row['weight_price_1']; ?>">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label class="col-sm-3 col-form-label" for="upload">Upload Only:</label>
+                                            <label class="col-sm-3 col-form-label"> Weight Fee 2:</label>
                                             <div class="col-sm-6">
-                                                <select name="upload" id="upload">
-                                                    <?php 
+                                                <input type="number" id="price2" name="price2" min="0" value="<?php echo $destination_row['weight_price_2']; ?>">
+                                            </div>
+                                        </div>
 
-                                                    if ($component_row['is_upload_only'] == 1) {
-                                                        echo '<option value="1"> yes </option>
-                                                        <option value="0"> no </option>';
-                                                    } else {
-                                                        echo '<option value="0"> no </option>
-                                                        <option value="1"> yes </option>';
-                                                    }
-                                                    
-                                                    ?>
-                                                    
-                                                </select><br><br>
+                                        <div class="row mb-3">
+                                            <label class="col-sm-3 col-form-label"> Weight Fee 3:</label>
+                                            <div class="col-sm-6">
+                                                <input type="number" id="price3" name="price3" min="0" value="<?php echo $destination_row['weight_price_3']; ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label class="col-sm-3 col-form-label"> Weight Fee 4:</label>
+                                            <div class="col-sm-6">
+                                                <input type="number" id="price4" name="price4" min="0" value="<?php echo $destination_row['weight_price_4']; ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label class="col-sm-3 col-form-label"> Weight Fee 5:</label>
+                                            <div class="col-sm-6">
+                                                <input type="number" id="price5" name="price5" min="0" value="<?php echo $destination_row['weight_price_5']; ?>">
                                             </div>
                                         </div>
 
@@ -129,7 +123,7 @@ $component_row = $query->fetch_assoc();
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
                                             <div class="col-sm-3 d-grid">
-                                                <a class="btn btn-outline-primary" href="add_game_piece.php?category=<?php echo $component_row['category']; ?>" role="button">Cancel</a>
+                                                <a class="btn btn-outline-primary" href="admin_weight_charges.php" role="button">Cancel</a>
                                             </div>
                                         </div>
                                     </form>
@@ -207,21 +201,43 @@ $component_row = $query->fetch_assoc();
     <script>
         $(document).ready(function() {
             // JavaScript
-            $(document).ready(function() {
-                $(".remove-coverPhoto").click(function(e) {
-                    e.preventDefault();
-                    var coverId = $(this).data('cover-id');
-                    var fileInput = $("#" + coverId);
-
-                    // Clear the file input field
-                    fileInput.val('');
-                });
-            });
-
            
 
+            $("#myForm").submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+                var formData = new FormData(this); // Create a FormData object
 
+                // Send an AJAX POST request
+                $.ajax({
+                    type: "POST",
+                    url: "admin_process_edit_weight_charges.php",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Data inserted successfully!',
+                        }).then(function() {
+                            // Redirect to add_game_piece.php with the category parameter
+                           
+                            window.location.href = "admin_weight_charges.php"
+                        });
 
+                        $('#weightRange').DataTable().ajax.reload();
+                        $("#myForm")[0].reset();
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error in submitting data: ' + error.responseText,
+                        });
+                    }
+                });
+
+            });
 
         });
     </script>
