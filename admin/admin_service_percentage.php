@@ -52,8 +52,8 @@ include 'connection.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Weight Charges</h4>
-                            <p class="mb-0">Charges per No. of Items</p>
+                            <h4>Services Fees</h4>
+                            <p class="mb-0">Percentage Charges</p>
                         </div>
                     </div>
                 </div>
@@ -68,21 +68,20 @@ include 'connection.php';
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="weightRange" class="display" style="width: 100%;">
+                                <table id="servicePercentage" class="display" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>Location</th>
-                                            <th>Weight Fee 1</th>
-                                            <th>Weight Fee 2</th>
-                                            <th>Weight Fee 3</th>
-                                            <th>Weight Fee 4</th>
-                                            <th>Weight Fee 5</th>
-                                            <th>Action</th>
+                                            <th>Services</th>
+                                            <th>Charge Percentage</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                 </table>
+                                <br>
+                                <div class="col-sm-3 d-grid">
+                                    <a class="btn btn-outline-primary" href="edit_service_percentage.php" role="button">Edit</a>
+                                </div>
 
                             </div>
 
@@ -145,35 +144,20 @@ include 'connection.php';
 
 
 
-            $('#weightRange').DataTable({
+            $('#servicePercentage').DataTable({
                 searching: false,
                 info: false,
                 paging: false,
                 ordering: true,
                 ajax: {
-                    url: "admin_json_weight_table.php", // Use the PHP script to fetch data
+                    url: "admin_json_service_table.php", // Use the PHP script to fetch data
                     dataSrc: ""
                 },
                 columns: [{
-                        data: "location"
+                        data: "service"
                     },
                     {
-                        data: "fee1"
-                    },
-                    {
-                        data: "fee2"
-                    },
-                    {
-                        data: "fee3"
-                    },
-                    {
-                        data: "fee4"
-                    },
-                    {
-                        data: "fee5"
-                    },
-                    {
-                        data: "actions"
+                        data: "percentage"
                     }
                 ]
             });
