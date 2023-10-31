@@ -35,6 +35,42 @@ line-height: 0px !important;
 }
 
 
+
+
+/* 
+
+$('#allOrders').on('click', '#view_order', function() {
+    var unique_order_group_id = $(this).data('unique_order_group_id');
+
+    $('#orderListTable').DataTable({
+        language: {
+            search: "",
+        },
+        destroy: true,
+        searching: true,
+        info: false,
+        paging: true,
+        lengthChange: false,
+        ordering: false,
+
+        "ajax": {
+            "url": "admin_json_order_list_table.php",
+            data: {
+                unique_order_group_id: unique_order_group_id
+            },
+            "dataSrc": ""
+        },
+        "columns": [{
+            "data": "item"
+        }]
+    });
+
+    $('#order_table').modal('show');
+});
+
+*/
+
+
 /* number_format($sub_total, 2) */
 
 /* &#8369; */

@@ -496,9 +496,14 @@ session_start();
                                             
                                             <div class="col" style="margin-left: 30px;">
                                                 <div class="row">
-                                                    <h5 class="d-inline-block text-truncate" style="max-width: 240px;" data-toggle="tooltip" title="hahah">
-                                                        Praeterea iter est quasdam res quas ex communi.asdadaksjdkjaskdasdjkasldjalksdlalsdasdaslkdj
-                                                    </h5>
+                                                    
+                                                       
+                                                    
+                                                    <a href="marketplace_item_page.php?published_game_id=' . $published_game_id . '">
+                                                        <h5 class="d-inline-block text-truncate" style="max-width: 240px;" data-toggle="tooltip" title="hahah">
+                                                            '.$game_name.'
+                                                        </h5>
+                                                    </a>
                                                 </div>
 
                                                 <div class="row">

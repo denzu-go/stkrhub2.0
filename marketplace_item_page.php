@@ -2,8 +2,8 @@
 session_start();
 
 include 'connection.php';
-if (isset($_GET['id'])) {
-    $published_game_id = $_GET['id'];
+if (isset($_GET['published_game_id'])) {
+    $published_game_id = $_GET['published_game_id'];
 }
 $sql = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
 $query = $conn->query($sql);
@@ -703,8 +703,13 @@ while ($fetched = $query->fetch_assoc()) {
                                                 $rating = $fetchedRatingResult['rating'];
                                                 $comment = $fetchedRatingResult['comment'];
                                                 $date_time = $fetchedRatingResult['date_time'];
+
+                                                // Convert the date_time string to a DateTime object
+                                                $dateTimeObj = new DateTime($date_time);
+
+                                                // Format the DateTime object as per the desired format
+                                                $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
                                             }
-                                            $formattedDate = date("M. j, Y");
 
                                             if (mysqli_num_rows($resultRating) > 0) {
                                                 echo '
@@ -873,6 +878,12 @@ while ($fetched = $query->fetch_assoc()) {
                                     $comment = $fetchedReview['comment'];
                                     $user_id = $fetchedReview['user_id'];
                                     $date_time = $fetchedReview['date_time'];
+
+                                    // Convert the date_time string to a DateTime object
+                                    $dateTimeObj = new DateTime($date_time);
+
+                                    // Format the DateTime object as per the desired format
+                                    $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
 
                                     $avatar = "SELECT * FROM users WHERE user_id = $user_id";
                                     $result = $conn->query($avatar);

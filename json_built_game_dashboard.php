@@ -28,7 +28,6 @@ while ($added_game_components = $result->fetch_assoc()) {
         $category = $fetched['category'];
         $assets = $fetched['assets'];
         $has_colors = $fetched['has_colors'];
-        $is_upload_only = $fetched['is_upload_only'];
         $fetched_size = $fetched['size'];
     }
 
