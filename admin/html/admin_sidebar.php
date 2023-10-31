@@ -57,6 +57,13 @@
                         </ul>
                     </li>
 
+                    <li class="nav-label">Service Charges & Others</li>
+                    <li><a href="admin_weight_charges.php">Weight Charges</a></li>
+                    <li><a href="admin_service_percentage.php">Service Fees</a></li>
+                    <li><a href="admin_thumbnail_images.php">Thumbnail Images</a></li>
+
+                    
+
                     <li class="nav-label">Approve / Deny</li>
                     <li><a href="games_approval_requests.php">Games Pending Approval</a></li>
                     <li><a href="pending_details_request.php">Publish Game Details Requests</a></li>
@@ -173,7 +180,7 @@
                         if (result.isConfirmed) {
                             Swal.fire("Success", "New Game Component added successfully", "success").then(() => {
                                 // Redirect to the specified location
-                                window.location.href = "add_game_piece.php?category=" + categoryValue;
+                                window.location.href = "admin_help.php?category=" + categoryValue;
                             });
                         } else {
                             // Error handling

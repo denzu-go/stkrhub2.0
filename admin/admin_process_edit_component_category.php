@@ -49,28 +49,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($upload_only == 1) {
             $updateComponentQuery = "UPDATE component_category
-            SET is_upload_only = 1
-            WHERE component_category_id = $id";
-            if ($conn->query($updateGameComponentsQuery) === TRUE) {
-                // Commit the transaction if both updates are successful
-                $conn->commit();
-                echo "Data updated successfully!";
-            } else {
-                $conn->rollback();
-                echo "Error updating game_components: " . $conn->error;
-            }
+    SET is_upload_only = 1
+    WHERE component_category_id = $id";
         } else {
             $updateComponentQuery = "UPDATE component_category
-            SET is_upload_only = 0
-            WHERE component_category_id = $id";
-            if ($conn->query($updateGameComponentsQuery) === TRUE) {
-                // Commit the transaction if both updates are successful
-                $conn->commit();
-                echo "Data updated successfully!";
-            } else {
-                $conn->rollback();
-                echo "Error updating game_components: " . $conn->error;
-            }
+    SET is_upload_only = 0
+    WHERE component_category_id = $id";
+        }
+
+        if ($conn->query($updateComponentQuery) === TRUE) {
+            // Commit the transaction if the update is successful
+            $conn->commit();
+            echo "Data updated successfully!";
+        } else {
+            $conn->rollback();
+            echo "Error updating component_category: " . $conn->error;
         }
 
 
