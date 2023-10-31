@@ -40,9 +40,6 @@ if ($is_pending) {
     $status = 'CANCELED';
 }
 
-
-
-
 $item = '
         <div class="row">
 
@@ -205,7 +202,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
         }
         $description = '
                                         <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="Title" style="max-width:270px;">
-                                            Category: 
+                                            Description: 
                                         </span>' . $desc . '
                                         ';
     } elseif ($added_component_id) {
@@ -337,27 +334,82 @@ while ($fetched = $queryAll->fetch_assoc()) {
     <table id="sampleTable" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>City</th>
+                <th>Component Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Info</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>John Doe</td>
-                <td>30</td>
-                <td>New York</td>
-            </tr>
-            <tr>
-                <td>Jane Smith</td>
-                <td>25</td>
-                <td>Los Angeles</td>
-            </tr>
-            <tr>
-                <td>Bob Johnson</td>
-                <td>35</td>
-                <td>Chicago</td>
-            </tr>
+        <tbody>';
+
+    // kinuha lng ung built_game_id if wala
+    if ($published_game_id) {
+        $sqlGetComponents = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
+        $queryGetComponents = $conn->query($sqlGetComponents);
+        while ($fetchedGetComponents = $queryGetComponents->fetch_assoc()) {
+            $built_game_id = $fetchedGetComponents['built_game_id'];
+        }
+    }
+
+    $zip = new ZipArchive();
+    $filename = "./simple.zip";
+
+    if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
+        exit("Cannot open <$filename>\n");
+    }
+
+    $sqlGetComponents2 = "SELECT * FROM built_games_added_game_components WHERE built_game_id = $built_game_id";
+    $queryGetComponents2 = $conn->query($sqlGetComponents2);
+    while ($fetchedGetComponents2 = $queryGetComponents2->fetch_assoc()) {
+        $component_id = $fetchedGetComponents2['component_id'];
+        $is_custom_design = $fetchedGetComponents2['is_custom_design'];
+
+        $custom_design_file_path = $fetchedGetComponents2['custom_design_file_path'];
+        $custom_design_file_path_base = basename($custom_design_file_path);
+
+        if (!empty($custom_design_file_path)) {
+            $zip->addFile('../' . $custom_design_file_path, $custom_design_file_path_base);
+        }
+
+        $quantity = $fetchedGetComponents2['quantity'];
+        $color_id = $fetchedGetComponents2['color_id'];
+        $size = $fetchedGetComponents2['size'];
+
+        // ginet lng ung component name
+        $getComponentInfo = "SELECT * FROM game_components WHERE component_id = $component_id";
+        $queryComponentInfo = $conn->query($getComponentInfo);
+        while ($fetchedComponentInfo = $queryComponentInfo->fetch_assoc()) {
+            $component_name = $fetchedComponentInfo['component_name'];
+            $category = $fetchedComponentInfo['category'];
+        }
+
+        // ginet lng ung color
+        $color_name = 'N/A';
+        $getComponentColors = "SELECT * FROM component_colors WHERE component_id = $component_id";
+        $queryComponentColors = $conn->query($getComponentColors);
+        while ($fetchedComponentColors = $queryComponentColors->fetch_assoc()) {
+            $color_name = $fetchedComponentColors['color_name'];
+            $color_code = $fetchedComponentColors['color_code'];
+        }
+
+        $info = '
+            <div class="row"><a href="!#" download="' . $custom_design_file_path_base . '">' . $custom_design_file_path_base . '</a></div>
+            <div class="row">Color: ' . $color_name . '</div>
+            <div class="row">Size: ' . $size . '</div>
+            ';
+
+        $component_list .= '
+                <tr>
+                    <td>' . $component_name . '</td>
+                    <td>' . $category . '</td>
+                    <td>' . $quantity . '</td>
+                    <td>' . $info . '</td>
+                </tr>
+            ';
+    }
+    $zip->close();
+
+    $component_list .= '
         </tbody>
     </table>
     ';
@@ -374,15 +426,15 @@ while ($fetched = $queryAll->fetch_assoc()) {
                     <div class="card">
                         <div class="card-header p-0 m-0" id="headingOne">
                             <span class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne'.$order_id.'" aria-expanded="false" aria-controls="collapseOne'.$order_id.'">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne' . $order_id . '" aria-expanded="false" aria-controls="collapseOne' . $order_id . '">
                                     View Components
                                 </button>
                             </span>
                         </div>
         
-                        <div id="collapseOne'.$order_id.'" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div id="collapseOne' . $order_id . '" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
-                                '.$component_list.'
+                                ' . $component_list . '
                             </div>
                         </div>
                     </div>
@@ -392,8 +444,11 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
         </div>
     </div>
+
+    
         
     ';
+
 
 
     $item .= '
@@ -463,7 +518,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
                                     <div class="row p-0">
                                         <div class="col p-0">
-                                        '.$accordion.'
+                                        ' . $accordion . '
                                         </div>
                                     </div>
                                 </div>
@@ -518,6 +573,16 @@ $item .= '
                                         class="" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
                                             View Details
                                         </a>
+                                    </div>
+
+                                    <div class="row mr-0 d-flex justify-content-end">';
+
+
+
+$item .= '<a href="' . $filename . '" download>Download Zip</a>';
+
+
+$item .= '
                                     </div>
                                     
                                 </div>

@@ -7,7 +7,13 @@ $queryUniqueOrderDates = $conn->query($sqlUniqueOrderDates);
 while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     $unique_order_group_id = $row['unique_order_group_id'];
 
-    $creator = 3;
+    $getUser = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id";
+    $queryUser = $conn->query($getUser);
+    while ($fetchedUser = $queryUser->fetch_assoc()) {
+        $user_id = $fetchedUser['user_id'];
+    }
+
+    $creator = $user_id;
     $status = 'status';
     $date = 'date';
 

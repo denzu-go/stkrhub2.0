@@ -71,7 +71,10 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     </div>
     ';
 
-    $description_value = '<span class="text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">' . $description . '</span>';
+    $description_value = '
+    <span class="d-inline-block text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">
+    ' . $description . '
+    </span>';
 
 
     if ($game_id == 0) {

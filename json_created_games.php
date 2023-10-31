@@ -294,7 +294,10 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
 
     $total_price_value = '<span class="text-truncate" style="color: #26d3e0; max-width: 100px;" data-toggle="tooltip" title="' . $total_price . '">&#8369;' . number_format($total_price, 2) . '</span>';
 
-    $description_value = '<span class="text-truncate" style="max-width: 140px;" data-toggle="tooltip" title="' . $description . '">' . $description . '</span>';
+    $description_value = '
+    <span class="d-inline-block text-truncate" style="max-width: 150px;" data-toggle="tooltip" title="' . $description . '">
+        '.$description.'
+    </span>';
 
 
     
