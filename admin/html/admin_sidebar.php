@@ -60,7 +60,8 @@
                     <li class="nav-label">Service Charges & Others</li>
                     <li><a href="admin_weight_charges.php">Weight Charges</a></li>
                     <li><a href="admin_service_percentage.php">Service Fees</a></li>
-                    <li><a href="admin_thumbnail_images.php">Thumbnail Images</a></li>
+                    <li><a href="admin_constant_thumbnail.php">Thumbnail Images</a></li>
+                    <li><a href="admin_paypal_account.php">Paypal Account</a></li>
 
                     
 
