@@ -144,6 +144,7 @@ while ($fetched = $result->fetch_assoc()) {
         while ($fetchedGetComponentID = $queryGetComponentID->fetch_assoc()) {
             $fetched_component_id = $fetchedGetComponentID['component_id'];
             $is_custom_design = $fetchedGetComponentID['is_custom_design'];
+            $custom_design_file_path = $fetchedGetComponentID['custom_design_file_path'];
 
             $sqlGetTitle = "SELECT * FROM game_components WHERE component_id = $fetched_component_id";
             $queryGetTitle = $conn->query($sqlGetTitle);
@@ -158,7 +159,6 @@ while ($fetched = $result->fetch_assoc()) {
             $description .= '<span class="text-muted text-truncate" data-toggle="' . $fetched_size . '" title="Size" style="max-width:270px;">Size: </span>' . $fetched_size . ' ';
 
             if ($is_custom_design) {
-                $custom_design_file_path = "uploads/kids award.docx";
                 $filename = basename($custom_design_file_path);
 
                 $description .= '<a href="' . $custom_design_file_path . '" download="' . $filename . '"><i class="fa-solid fa-download"></i> ' . $filename . '</a>';

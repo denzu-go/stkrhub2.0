@@ -108,6 +108,22 @@ include 'connection.php';
         </div>
 
 
+        <?php
+        $zip = new ZipArchive();
+
+        if ($zip->open('newest.zip', ZipArchive::CREATE) === TRUE) {
+
+            $zip->addFile('../uploads/sample/sample2.txt', 'sample2.txt');
+            $zip->close();
+            // echo 'ZIP archive created successfully!';
+        } else {
+            // echo 'Failed to create ZIP archive.';
+        }
+
+        echo '<a href="newest.zip" download>Download newest ZIP Archive</a>';
+        ?>
+
+
         <div class="footer">
             <div class="copyright">
                 <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
@@ -293,7 +309,7 @@ include 'connection.php';
             });
 
 
-            
+
 
 
 

@@ -349,16 +349,25 @@ while ($fetched = $queryAll->fetch_assoc()) {
         while ($fetchedGetComponents = $queryGetComponents->fetch_assoc()) {
             $built_game_id = $fetchedGetComponents['built_game_id'];
         }
+        $from = 'built_games_added_game_components';
+        $where = 'built_game_id';
+        $where_id = $built_game_id;
+    } elseif ($built_game_id) {
+        $from = 'built_games_added_game_components';
+        $where = 'built_game_id';
+        $where_id = $built_game_id;
+    } elseif ($added_component_id) {
+        $from = 'added_game_components';
+        $where = 'added_component_id';
+        $where_id = $added_component_id;
+    } else {
+        $from = 'built_games_added_game_components';
+        $where = 'built_game_id';
+        $where_id = $built_game_id;
     }
 
-    $zip = new ZipArchive();
-    $filename = "./simple.zip";
 
-    if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
-        exit("Cannot open <$filename>\n");
-    }
-
-    $sqlGetComponents2 = "SELECT * FROM built_games_added_game_components WHERE built_game_id = $built_game_id";
+    $sqlGetComponents2 = "SELECT * FROM $from WHERE $where = $where_id";
     $queryGetComponents2 = $conn->query($sqlGetComponents2);
     while ($fetchedGetComponents2 = $queryGetComponents2->fetch_assoc()) {
         $component_id = $fetchedGetComponents2['component_id'];
@@ -366,10 +375,6 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
         $custom_design_file_path = $fetchedGetComponents2['custom_design_file_path'];
         $custom_design_file_path_base = basename($custom_design_file_path);
-
-        if (!empty($custom_design_file_path)) {
-            $zip->addFile('../' . $custom_design_file_path, $custom_design_file_path_base);
-        }
 
         $quantity = $fetchedGetComponents2['quantity'];
         $color_id = $fetchedGetComponents2['color_id'];
@@ -407,7 +412,6 @@ while ($fetched = $queryAll->fetch_assoc()) {
                 </tr>
             ';
     }
-    $zip->close();
 
     $component_list .= '
         </tbody>
@@ -578,8 +582,6 @@ $item .= '
                                     <div class="row mr-0 d-flex justify-content-end">';
 
 
-
-$item .= '<a href="' . $filename . '" download>Download Zip</a>';
 
 
 $item .= '
