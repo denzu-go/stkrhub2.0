@@ -212,6 +212,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
         while ($fetchedGetComponentID = $queryGetComponentID->fetch_assoc()) {
             $fetched_component_id = $fetchedGetComponentID['component_id'];
             $is_custom_design = $fetchedGetComponentID['is_custom_design'];
+            $custom_design_file_path = $fetchedGetComponentID['custom_design_file_path'];
 
             $sqlGetTitle = "SELECT * FROM game_components WHERE component_id = $fetched_component_id";
             $queryGetTitle = $conn->query($sqlGetTitle);
@@ -226,7 +227,6 @@ while ($fetched = $queryAll->fetch_assoc()) {
             $description .= '<span class="text-muted text-truncate" data-toggle="' . $fetched_size . '" title="Size" style="max-width:270px;">Size: </span>' . $fetched_size . ' ';
 
             if ($is_custom_design) {
-                $custom_design_file_path = "uploads/kids award.docx";
                 $filename = basename($custom_design_file_path);
 
                 $description .= '<a href="' . $custom_design_file_path . '" download="' . $filename . '"><i class="fa-solid fa-download"></i> ' . $filename . '</a>';
@@ -420,38 +420,42 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
 
     //accordion
-    $accordion = '
-    <div class="row p-0 m-0">
-        <div class="col">
+    if ($added_component_id) {
+        $accordion = '
+                
+        ';
+    } else {
+        $accordion = '
+        <div class="row p-0 m-0">
+            <div class="col">
 
-            <div class="container">
-                <div id="accordion">
+                <div class="container">
+                    <div id="accordion">
 
-                    <div class="card">
-                        <div class="card-header p-0 m-0" id="headingOne">
-                            <span class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne' . $order_id . '" aria-expanded="false" aria-controls="collapseOne' . $order_id . '">
-                                    View Components
-                                </button>
-                            </span>
-                        </div>
-        
-                        <div id="collapseOne' . $order_id . '" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body">
-                                ' . $component_list . '
+                        <div class="card">
+                            <div class="card-header p-0 m-0" id="headingOne">
+                                <span class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne' . $order_id . '" aria-expanded="false" aria-controls="collapseOne' . $order_id . '">
+                                        View Components
+                                    </button>
+                                </span>
+                            </div>
+            
+                            <div id="collapseOne' . $order_id . '" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    ' . $component_list . '
+                                </div>
                             </div>
                         </div>
+
                     </div>
-
                 </div>
+
             </div>
-
-        </div>
-    </div>
-
+        </div>        
+        ';
+    }
     
-        
-    ';
 
 
 

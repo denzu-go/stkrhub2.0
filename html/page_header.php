@@ -49,7 +49,7 @@
 						</li>
 
 						<li class="nav-item <?php echo $header_game_component ?> ">
-							<a class="nav-link" href="index.php">Buy Game Components</a>
+							<a class="nav-link" href="add_custom_component.php">Buy Game Components</a>
 						</li>
 
 						<li class="nav-item <?php echo $header_help?> ">

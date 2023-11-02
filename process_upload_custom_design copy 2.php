@@ -46,49 +46,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_design'])) {
     $new_file_name = $unique_id . '_' . $file_name;
     $file_dest = 'uploads/' . $new_file_name;
 
-    echo $file_dest . '<br>';
+    echo $file_dest;
 
 
-    echo $file_dest . '<br>';
+    echo $file_dest;
 
 
     if ($game_id == 0) {
-        if (isset($_FILES['custom_design_file']) && $_FILES['custom_design_file']['error'] === UPLOAD_ERR_OK) {
+        $insert_query = "INSERT INTO added_game_components (game_id, component_id, size, is_custom_design, custom_design_file_path, quantity, user_id)
+                            VALUES (NULL, '$component_id', '$component_size', 1, '$file_dest', '$quantity', '$user_id')";
 
-            // Move the uploaded file to the destination directory
-            if (move_uploaded_file($file_tmp, $file_dest)) {
-                // Insert the new component with custom design and quantity into the added_game_components table
-                $insert_query = "INSERT INTO added_game_components (game_id, component_id, size, is_custom_design, custom_design_file_path, quantity, user_id)
-                    VALUES ('$game_id', '$component_id', '$component_size', 1, '$file_dest', '$quantity', '$user_id')";
+        if (mysqli_query($conn, $insert_query)) {
+            echo "Single game component inserted successfully.";
 
-                if (mysqli_query($conn, $insert_query)) {
-                    // header("Location: cart_page.php");
-                    echo 'nainsert na sa added games component table';
-                } else {
-                    echo "Error inserting single game component: " . mysqli_error($conn) . '<br>';
-                }
+            // Retrieve the last inserted ID for the added component
+            $added_component_id = mysqli_insert_id($conn);
 
-                date_default_timezone_set('Asia/Manila');
-                $currentTimestamp = date('Y-m-d H:i:s');
+            // Insert the single game component into the cart table
+            $cart_insert_query = "INSERT INTO cart (user_id, game_id, built_game_id, added_component_id, quantity, price, is_active)
+                          VALUES ('$user_id', NULL, NULL, '$added_component_id', '$quantity', '$component_price', 1)";
 
-                $added_component_id = mysqli_insert_id($conn);
-                echo '<br><br>added component id: ' . $added_component_id . '<br><br>';
-
-                // Insert the single game component into the cart table
-                $cart_insert_query = "INSERT INTO cart (user_id, added_component_id, quantity, price, is_active)
-                    VALUES ('$user_id', '$added_component_id', '$quantity', '$component_price', 1)";
-
-                if (mysqli_query($conn, $cart_insert_query)) {
-                    echo "Single game component inserted into cart successfully with quantity $quantity." . '<br>';
-                    header("Location: cart_page.php");
-                } else {
-                    echo "Error inserting single game component into cart: " . mysqli_error($conn) . '<br>';
-                }
-
-                
+            if (mysqli_query($conn, $cart_insert_query)) {
+                echo "Single game component inserted into cart successfully with quantity $quantity.";
             } else {
-                echo "Error inserting single game component: " . mysqli_error($conn) . '<br>';
+                echo "Error inserting single game component into cart: " . mysqli_error($conn);
             }
+        } else {
+            echo "Error inserting single game component: " . mysqli_error($conn);
         }
     } elseif ($game_id !== 0) {
 
@@ -105,9 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload_design'])) {
                 $currentTimestamp = date('Y-m-d H:i:s');
                 $sqlUpdateDateModified = "UPDATE games SET date_modified = '$currentTimestamp' WHERE game_id = $game_id";
                 if ($conn->query($sqlUpdateDateModified)) {
-                    echo 'updated date modified' . '<br>';
+                    echo 'updated date modified';
                 }
-
+                
                 if (mysqli_query($conn, $insert_query)) {
                     // Redirect back to the game dashboard after successful addition
                     header("Location: game_dashboard.php?game_id={$game_id}");
