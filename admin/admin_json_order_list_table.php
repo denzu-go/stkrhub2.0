@@ -336,6 +336,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
             <tr>
                 <th>Component Name</th>
                 <th>Category</th>
+                <th>Size</th>
                 <th>Quantity</th>
                 <th>Info</th>
             </tr>
@@ -407,6 +408,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
                 <tr>
                     <td>' . $component_name . '</td>
                     <td>' . $category . '</td>
+                    <td>' . $size . '</td>
                     <td>' . $quantity . '</td>
                     <td>' . $info . '</td>
                 </tr>

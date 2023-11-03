@@ -82,6 +82,7 @@ include 'connection.php';
                                                 <table id="allOrders" class="hover" style="width: 100%;">
                                                     <thead>
                                                         <tr>
+                                                            <th></th>
                                                             <th>Order ID</th>
                                                             <th>User ID</th>
                                                             <th>Status</th>
@@ -197,6 +198,8 @@ include 'connection.php';
         $(document).ready(function() {
 
 
+            var passed_status = 'is_pending';
+
             $('#allOrders').DataTable({
                 "columnDefs": [{
                     "className": "dt-center",
@@ -212,14 +215,20 @@ include 'connection.php';
                 paging: true,
                 lengthChange: false,
                 ordering: false,
+                pageLength: 15,
 
 
                 "ajax": {
-                    "url": "admin_json_pending_orders.php",
-                    data: {},
+                    "url": "admin_json_global_orders.php",
+                    data: {
+                        passed_status: passed_status
+                    },
                     "dataSrc": ""
                 },
                 "columns": [{
+                        "data": "number"
+                    },
+                    {
                         "data": "unique_order_group_id"
                     },
                     {

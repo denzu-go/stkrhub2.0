@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 450
+                COMPONENT NAME: Box
+                CATEGORY: box
+                SIZE: 7x7
+
+                QUANTITY: 1
+                COLOR: N/A 
+                FILE: 65408170e4860_tutorials.sql
+                
