@@ -210,13 +210,13 @@ if ($_SERVER['REQUEST_METHOD']) {
 
                                 echo '
                             <div class="row s_product_inner">
-                                <div class="col-lg-8">
+                                <div class="col">
                                     <div class="iframe-container">
                                         <iframe class="iframe" src="' . $tutorial_link . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4 offset-lg-1" style="margin-left: 0px; margin-top: 0px;">
+                                <div class="col" style="margin-left: 0px; margin-top: 0px;">
                                     <div class="s_product_text" style="margin-top: 20px;line-height: 10px;">
                                         <h6>' . $tutorial_title . '</h6>
 

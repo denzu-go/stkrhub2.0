@@ -83,7 +83,7 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 
 
     <style>
-        <?php include 'css/body.css'; ?>swiper-slide {
+        <?php include 'css/body.css' ?>.swiper-slide {
             background: #fff;
             display: flex;
             justify-content: center;
@@ -117,12 +117,18 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
     include 'html/page_header.php';
     ?>
 
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
 
     <!-- Start Sample Area -->
     <section class="sample-text-area">
         <div class="container">
-
-            <h6 class="btn p-0 m-0" id="backButton" style="color: #26d3e0;"><i class="fa-solid fa-arrow-left"></i> Back</h6>
 
             <div class="row">
                 <?php
@@ -133,15 +139,50 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                 } elseif ($game_id !== 0) {
                     echo '
                         <div class="container">
-                        Adding to
-                            <h6>Game Name: ' . $name . '</h6>
+                            <h5>Game Id: ' . $game_id . '</h5>
+                            <h5>Game Name: ' . $name . '</h5>
+                            <h5>Game Description: ' . $description . '</h5>
+                            <h5>Component ID: ' . $component_id . '</h5>
+                            <h5>component_category: ' . $component_category . '</h5>
                         </div>
                     ';
                 }
                 ?>
-            </div>
 
-            <hr>
+
+                <label for="mySelect">Select Size:</label>
+                <select id="mySelect">
+                    <?php
+                    $query_category_components = "SELECT * FROM game_components WHERE category = '$component_category'";
+                    $result_category_components = $conn->query($query_category_components);
+
+
+
+                    while ($fetchedCategoryComponents = $result_category_components->fetch_assoc()) {
+                        $select_component_id = $fetchedCategoryComponents['component_id'];
+                        $select_component_name = $fetchedCategoryComponents['component_name'];
+                        $select_description = $fetchedCategoryComponents['description'];
+                        $select_price = $fetchedCategoryComponents['price'];
+                        $select_category = $fetchedCategoryComponents['category'];
+                        $select_has_colors = $fetchedCategoryComponents['has_colors'];
+                        $select_size = $fetchedCategoryComponents['size'];
+
+                        echo '
+                            <option value="' . $select_component_id . '">' . $select_size . '</option>
+                        ';
+                    }
+
+                    ?>
+                </select>
+
+
+
+
+
+
+                </form>
+
+            </div>
 
             <div class="row mt-3"></div>
 
@@ -181,34 +222,27 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col d-flex align-items-center">
-                            <div class="row">
-                                <div class="col">
-                                    <span class="row" style="color: #777777">Component Name:</span>
-                                    <span class="row" style="color: #e7e7e7"><?php echo $component_name ?></span>
-
-                                    <span class="row" style="color: #777777">Component Category:</span>
-                                    <span class="row" style="color: #e7e7e7"> <?php echo $component_category ?></span>
-
-                                    <span class="row" style="color: #777777">Component Price:</span>
-                                    <span class="row" style="color: #e7e7e7"> &#8369;<?php echo $component_price ?></span>
-                                </div>
-
-                                <div class="col">
-                                    <div class="container">
-                                        <span class="row" style="color: #777777">Description:</span>
-                                        <span class="row" style="color: #e7e7e7"> <?php echo $component_description ?></span>
-                                    </div>
-                                </div>
+                        <div class="col-3">
+                            <div class="container">
+                                <h6>Component Id: <?php echo $component_id ?></h6>
+                                <h6>Component Name: <?php echo $component_name ?></h6>
+                                <h6>Component Category: <?php echo $component_category ?></h6>
+                                <h6>Component Price: <?php echo $component_price ?></h6>
                             </div>
                         </div>
+                        <div class="col-4">
+                            <div class="container">
+                                <div class="row">
+                                    <h6>Description: <?php echo $component_description ?></h6>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <hr>
+            <div class="row mt-3"></div>
 
             <div class="row">
                 <div class="col">
@@ -216,12 +250,13 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                     <?php
                     if ($component_has_colors == 0) {
                         echo '
-                        <div class="card" style="background-color: #272a4e !important">
+                        <div class="card">
                         <h5 class="card-header">Add With Design</h5>
                         <div class="card-body">
                             <p class="card-text">Description</p>
-                            <h6 class="" >Downloadable Templates:</h6>
-                        ';
+                            <div class="container">
+                                <ul class="list-group">
+                                    <li class="list-group-item active">Downloadable Templates:</li>';
 
 
                         $query_templates = "SELECT * FROM component_templates WHERE component_id = '$component_id'";
@@ -232,42 +267,35 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                             $template_file_path = $fetched_templates['template_file_path'];
 
                             echo '
-                                <li class="">
-                                    <a href="' . $template_file_path . '" download>' . $template_name . '</a>
-                                </li>
-                            ';
+                                            <li class="list-group-item">
+                                                <a href="' . $template_file_path . '" download>' . $template_name . '</a>
+                                            </li>
+                                        ';
                         }
                         echo '
-                            
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="card-footer">
                             <div class="mb-3">
                                 <form method="post" action="process_upload_custom_design.php" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <input type="hidden" name="game_id" value="' . $game_id . '">
-                                        <input type="hidden" name="component_id" value="' . $component_id . '">
 
+                                    <input type="hidden" name="game_id" value="' . $game_id . '">
+                                    <input type="hidden" name="component_id" value="' . $component_id . '">
 
-                                        <div class="row">
+                                    <!-- Input to upload custom design file -->
+                                    <label for="custom_design_file">Upload Custom Design:</label>
+                                    <input type="file" id="custom_design_file" name="custom_design_file" required>
+                                    <br>
 
-                                        <div class="col">
-                                        <!-- Input to upload custom design file -->
-                                        <label for="custom_design_file">Upload Custom Design:</label><br>
-                                        <input class="form-control-file" type="file" id="custom_design_file" name="custom_design_file" required>
-                                        </div>
+                                    <!-- Input for quantity -->
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+                                    <br>
 
-                                        <div class="col">
-                                        <!-- Input for quantity -->
-                                        <label for="quantity">Quantity:</label>
-                                        <input class="form-control" type="number" id="quantity" name="quantity" value="1" min="1" required style="width: 100px;">
-                                        </div>
-
-                                        </div>
-                                        
-                                    </div>
                                     <!-- Button to submit the form -->
-                                    <input class="btn" type="submit" name="upload_design" value="Upload Design" style="background: linear-gradient(144deg, #26d3e0, #b660e8); color: #e7e7e7; border:none;">
+                                    <input type="submit" name="upload_design" value="Upload Design">
                                 </form>
                             </div>
 
@@ -277,42 +305,27 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                     ';
                     } elseif ($component_has_colors !== 0) {
                         echo '
-                        <div class="card" style="background-color: #272a4e !important">
-                        <h5 class="card-header">Add With Design</h5>
-                            <div class="card-footer">
-                                <div class="mb-3">
-                                    <form method="post" action="process_add_component_with_colors.php">
-                                        <div class="form-group">
-                                            <input type="hidden" name="game_id" value="' . $game_id . '">
-                                            <input type="hidden" name="component_id" value="' . $component_id . '">
+                        <form method="post" action="process_add_component_with_colors.php">
+                            <input type="hidden" name="game_id" value="' . $game_id . '">
+                            <input type="hidden" name="component_id" value="' . $component_id . '">
+                
+                            <!-- Add a quantity input for color-selected component -->
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" required>
+                
+                            <label for="selected_color">Select Color:</label>
+                            <select id="selected_color" name="selected_color">';
 
-                                            <div class="row">
-                                            <div class="col">
-                                            <!-- Add a quantity input for color-selected component -->
-                                            <label for="quantity">Quantity:</label>
-                                            <input class="form-control" type="number" name="quantity" value="1" min="1" required style="width: 100px;">
-                                            </div>
-
-                                            <div class="col">
-                                            <label for="selected_color">Select Color:</label><br>
-                                            <select class="form-control form-control-sm" id="selected_color" name="selected_color">';
                         $query_colors = "SELECT * FROM component_colors WHERE component_id = $component_id";
                         $result_colors = mysqli_query($conn, $query_colors);
                         while ($color = mysqli_fetch_assoc($result_colors)) {
                             echo '<option value="' . $color['color_id'] . '">' . $color['color_name'] . '</option>';
                         }
                         echo '
-                                            </select>
-                                            </div>
-                                            </div>
-
-                                        </div>
-                            
-                                        <input class="btn" type="submit" name="add_with_colors" value="Add Component" style="background: linear-gradient(144deg, #26d3e0, #b660e8); color: #e7e7e7; border:none;">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                            </select>
+                
+                            <input type="submit" name="add_with_colors" value="Add with Colors">dice
+                        </form>
                         ';
                     }
                     ?>
@@ -325,25 +338,25 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                     if ($component_has_colors == 0 && $is_upload_only == 0) {
                         echo '
                     
-                        <div class="card" style="background-color: #272a4e !important">
+                        <div class="card">
                             <h5 class="card-header">Add Without Design</h5>
                             <div class="card-body">
                                 <p class="card-text">Description</p>
+                                <div class="container">
+                                </div>
                             </div>
 
                             <div class="card-footer">
                                 <div class="mb-3">
                                     <form method="post" action="process_direct_add_component.php">
-                                        <div class="form-group">
-                                            <input type="hidden" name="game_id" value="' . $game_id . '">
-                                            <input type="hidden" name="component_id" value="' . $component_id . '">
+                                        <input type="hidden" name="game_id" value="' . $game_id . '">
+                                        <input type="hidden" name="component_id" value="' . $component_id . '">
 
-                                            <!-- Quantity input -->
-                                            <label for="quantity">Quantity:</label>
-                                            <input class="form-control" type="number" id="quantity" name="quantity" value="1" min="1" style="width: 100px;">
-                                        </div>
+                                        <!-- Quantity input -->
+                                        <label for="quantity">Quantity:</label>
+                                        <input type="number" id="quantity" name="quantity" value="1" min="1">
 
-                                        <input class="btn" type="submit" name="direct_add" value="Add Directly without Design" style="background: linear-gradient(144deg, #26d3e0, #b660e8); color: #e7e7e7; border:none;">
+                                        <input type="submit" name="direct_add" value="Add Directly without Design">
                                     </form>
                                 </div>
                             </div>
@@ -358,50 +371,6 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 
 
                 </div>
-            </div>
-
-            <br><br>
-            <hr>
-            <!-- youtube embeded tutorial -->
-            <div class="container p-0 m-0">
-                <?php
-                $sqlTutorials = "SELECT * FROM tutorials WHERE designation = 'add_component'";
-                $result = $conn->query($sqlTutorials);
-
-                while ($fetchedTutorials = $result->fetch_assoc()) {
-                    $tutorial_id = $fetchedTutorials['tutorial_id'];
-                    $tutorial_title = $fetchedTutorials['tutorial_title'];
-                    $tutorial_description = $fetchedTutorials['tutorial_description'];
-                    $tutorial_link = $fetchedTutorials['tutorial_link'];;
-                    $is_primary = $fetchedTutorials['is_primary'];
-                    $time_added = $fetchedTutorials['time_added'];
-
-                    echo '
-                    <div class="row" style="width: 700px;">
-                        <div class="col">
-                            <div class="iframe-container">
-                                <iframe class="iframe" src="' . $tutorial_link . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <h6>' . $tutorial_title . '</h6>
-                            <div style="
-                                width: 100%;
-                                display: -webkit-box;
-                                -webkit-line-clamp: 7;
-                                -webkit-box-orient:vertical;
-                                overflow: hidden;
-                                ">
-                                <span class="small">
-                                    ' . $tutorial_description . '
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    ';
-                }
-                ?>
             </div>
 
         </div>
@@ -448,10 +417,6 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 
     <script>
         $(document).ready(function() {
-
-            $('#backButton').click(function() {
-                window.history.back();
-            });
 
             var swiper = new Swiper(".mySwiper", {
                 // spaceBetween: 30,
