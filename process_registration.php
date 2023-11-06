@@ -14,6 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+
+    echo $fname . '<br>';
+    echo $lname . '<br>';
+    echo $phone .'<br>';
+    echo $username .'<br>';
+    echo $email .'<br>';
+    echo $password .'<br>';
+    
+
     // Check if the username or email already exists in the database
     $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
     $result = mysqli_query($conn, $query);
@@ -25,15 +34,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert the new user into the "users" table with the current timestamp for created_at
-    $insert_query = "INSERT INTO users (first_name, last_name, phone_number,username, email, password, created_at) VALUES ('$fname','$lname', $phone,'$username', '$email', '$password', NOW())";
+    $insert_query = "INSERT INTO users (firstname, lastname, phone_number, username, email, password) VALUES ('$fname','$lname', $phone,'$username', '$email', '$password')";
     if (mysqli_query($conn, $insert_query)) {
-        // Redirect the user to the login page after successful registration
-        header("Location: login_page.php");
-        exit;
+
+        $user_id = mysqli_insert_id($conn);
+
+        $currentMonth = date('n');
+        $currentDay = date('j');
+        $currentYear = date('Y');
+
+        $addthis = 'user-'.$currentMonth . $currentDay . $currentYear . '-' . $user_id;
+        echo $addthis;
+
+        $updateUsers = "UPDATE users SET unique_user_id = '$addthis' WHERE user_id = $user_id";
+        if (mysqli_query($conn, $updateUsers)) {
+            echo '<br><br>UPDATED NA UNG uniq users';
+        } else {
+            echo $user_id;
+            echo mysqli_error($conn);
+        }
+
+        // header("Location: login_page.php");
+        // exit;
     } else {
         // Handle the error if the insertion fails
+        
         echo "Error: " . $insert_query . "<br>" . mysqli_error($conn);
         exit;
     }
 }
-?>

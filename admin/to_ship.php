@@ -116,7 +116,9 @@ include 'connection.php';
     </div>
 
 
-
+    <!-- MODALS -->
+    <!-- order list modal -->
+    <?php include 'html/modal_order_list.php' ?>
 
 
 
@@ -150,9 +152,16 @@ include 'connection.php';
         $(document).ready(function() {
 
 
+            var passed_status = 'to_ship';
+
             $('#allOrders').DataTable({
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
+
                 language: {
-                    search: "",
+                    search: "Search",
                 },
 
                 searching: true,
@@ -160,16 +169,67 @@ include 'connection.php';
                 paging: true,
                 lengthChange: false,
                 ordering: false,
+                pageLength: 15,
 
 
                 "ajax": {
-                    "url": "admin_json_to_ship_orders.php",
-                    data: {},
+                    "url": "admin_json_global_orders.php",
+                    data: {
+                        passed_status: passed_status
+                    },
                     "dataSrc": ""
                 },
                 "columns": [{
-                    "data": "item"
-                }, ]
+                        "data": "number"
+                    },
+                    {
+                        "data": "unique_order_group_id"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "date"
+                    },
+                    {
+                        "data": "actions"
+                    },
+                ]
+            });
+
+
+            $('#allOrders').on('click', '#view_order', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                $('#orderListTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_order_list_table.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+
+                $('#order_table').modal('show');
             });
 
 

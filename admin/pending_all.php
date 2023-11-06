@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'connection.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +35,6 @@ include 'connection.php';
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 
 </head>
 
@@ -78,21 +76,8 @@ include 'connection.php';
                                     $count = $row['count'];
 
                                     if ($count > 0) {
-                                        echo '
-                                                <table id="allOrders" class="hover" style="width: 100%;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Order ID</th>
-                                                            <th>User ID</th>
-                                                            <th>Status</th>
-                                                            <th>Order Date</th>
-                                                            <th>Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                ';
+                                        echo
+                                        include 'html/admin_table_allOrders.php';
                                     } else {
                                         echo 'No orders.';
                                     }
@@ -111,21 +96,6 @@ include 'connection.php';
         </div>
 
 
-        <?php
-        $zip = new ZipArchive();
-
-        if ($zip->open('newest.zip', ZipArchive::CREATE) === TRUE) {
-
-            $zip->addFile('../uploads/sample/sample2.txt', 'sample2.txt');
-            $zip->close();
-            // echo 'ZIP archive created successfully!';
-        } else {
-            // echo 'Failed to create ZIP archive.';
-        }
-
-        echo '<a href="newest.zip" download>Download newest ZIP Archive</a>';
-        ?>
-
 
         <div class="footer">
             <div class="copyright">
@@ -139,29 +109,7 @@ include 'connection.php';
 
     <!-- MODALS -->
     <!-- order list modal -->
-    <div class="modal fade" id="order_table" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <table id="orderListTable" class="hover" style="width: 100%;">
-                        <tbody>
-                        </tbody>
-                    </table>
-
-
-                </div>
-            </div>
-
-        </div>
-    </div>
+    <?php include 'html/modal_order_list.php' ?>
 
 
 
@@ -197,6 +145,8 @@ include 'connection.php';
         $(document).ready(function() {
 
 
+            var passed_status = 'is_pending';
+
             $('#allOrders').DataTable({
                 "columnDefs": [{
                     "className": "dt-center",
@@ -212,14 +162,20 @@ include 'connection.php';
                 paging: true,
                 lengthChange: false,
                 ordering: false,
+                pageLength: 15,
 
 
                 "ajax": {
-                    "url": "admin_json_pending_orders.php",
-                    data: {},
+                    "url": "admin_json_global_orders.php",
+                    data: {
+                        passed_status: passed_status
+                    },
                     "dataSrc": ""
                 },
                 "columns": [{
+                        "data": "number"
+                    },
+                    {
                         "data": "unique_order_group_id"
                     },
                     {
@@ -235,6 +191,38 @@ include 'connection.php';
                         "data": "actions"
                     },
                 ]
+            });
+
+
+            $('#allOrders').on('click', '#view_order', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                $('#orderListTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_order_list_table.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+
+                $('#order_table').modal('show');
             });
 
 
@@ -280,36 +268,6 @@ include 'connection.php';
                 });
             });
 
-
-            $('#allOrders').on('click', '#view_order', function() {
-                var unique_order_group_id = $(this).data('unique_order_group_id');
-
-                $('#orderListTable').DataTable({
-                    language: {
-                        search: "Search",
-                    },
-                    destroy: true,
-                    autoWidth: true,
-                    searching: false,
-                    info: false,
-                    paging: false,
-                    lengthChange: false,
-                    ordering: false,
-
-                    "ajax": {
-                        "url": "admin_json_order_list_table.php",
-                        data: {
-                            unique_order_group_id: unique_order_group_id
-                        },
-                        "dataSrc": ""
-                    },
-                    "columns": [{
-                        "data": "item"
-                    }]
-                });
-
-                $('#order_table').modal('show');
-            });
 
 
 

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sqlReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
     $queryReason = $conn->query($sqlReason);
     while ($fetchedReason = $queryReason->fetch_assoc()) {
-        $reason_text = $fetchedReason['reason_text'];
+        $reason_text = mysqli_real_escape_string($conn, $fetchedReason['reason_text']);
     }
 
     $conn->begin_transaction();
@@ -27,8 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $quantity = $fetchedOrders['quantity'];
             $price = $fetchedOrders['price'];
 
+            date_default_timezone_set('Asia/Manila');
+            $current_datetime = date('Y-m-d H:i:s');
+
             // Update the orders table
-            $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, is_canceled = 1, cancel_order_reason_id = $cancel_order_reason_id  WHERE order_id = $order_id";
+            $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, is_canceled = 1, cancel_order_reason_id = $cancel_order_reason_id, is_canceled_datetime = '$current_datetime' WHERE order_id = $order_id";
             $conn->query($sqlUpdateOrders);
         }
 
@@ -48,9 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $encoded_subtotal = base64_encode($subtotal);
 
         $sqlInsertWallet = "INSERT INTO wallet_transactions (user_id, transaction_type, amount, status, unique_order_group_id, published_game_id, cancel_order_reason) 
-                VALUES ($user_id, 'Cancel', '$encoded_subtotal', 'success', '$unique_order_group_id', $published_game_id, '$reason_text')";
-        if ($conn->query($sqlInsertWallet) === TRUE) {
+        VALUES ('$user_id', 'Cancel', '$encoded_subtotal', 'success', '$unique_order_group_id', '$published_game_id', '$reason_text')";
 
+        if ($conn->query($sqlInsertWallet) === TRUE) {
         } else {
             echo "Error: " . $sqlInsertWallet . "<br>" . $conn->error . "<br><br><br><br><br><br><br>";
         }

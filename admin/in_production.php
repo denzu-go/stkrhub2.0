@@ -75,12 +75,8 @@ include 'connection.php';
                                     $count = $row['count'];
 
                                     if ($count > 0) {
-                                        echo '
-                                                <table id="allOrders" class="hover" style="width: 100%;">
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                ';
+                                        echo
+                                        include 'html/admin_table_allOrders.php';
                                     } else {
                                         echo 'None.';
                                     }
@@ -118,6 +114,9 @@ include 'connection.php';
 
 
 
+    <!-- MODALS -->
+    <!-- order list modal -->
+    <?php include 'html/modal_order_list.php' ?>
 
 
 
@@ -150,9 +149,16 @@ include 'connection.php';
         $(document).ready(function() {
 
 
+            var passed_status = 'in_production';
+
             $('#allOrders').DataTable({
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
+
                 language: {
-                    search: "",
+                    search: "Search",
                 },
 
                 searching: true,
@@ -160,16 +166,67 @@ include 'connection.php';
                 paging: true,
                 lengthChange: false,
                 ordering: false,
+                pageLength: 15,
 
 
                 "ajax": {
-                    "url": "admin_json_in_production_orders.php",
-                    data: {},
+                    "url": "admin_json_global_orders.php",
+                    data: {
+                        passed_status: passed_status
+                    },
                     "dataSrc": ""
                 },
                 "columns": [{
-                    "data": "item"
-                }, ]
+                        "data": "number"
+                    },
+                    {
+                        "data": "unique_order_group_id"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "date"
+                    },
+                    {
+                        "data": "actions"
+                    },
+                ]
+            });
+
+
+            $('#allOrders').on('click', '#view_order', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                $('#orderListTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_order_list_table.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+
+                $('#order_table').modal('show');
             });
 
 
@@ -198,16 +255,19 @@ include 'connection.php';
                             dataType: 'json',
                             success: function(response) {
                                 if (response.success) {
-                                    $('#allOrders').DataTable().ajax.reload();
                                     Swal.fire('Success', response.message, 'success');
+                                    $('#allOrders').DataTable().ajax.reload();
+                                    $('#orderListTable').DataTable().ajax.reload();
+                                    
                                 } else {
                                     $('#allOrders').DataTable().ajax.reload();
-                                    $('#cartCount').DataTable().ajax.reload();
+                                    $('#orderListTable').DataTable().ajax.reload();
                                     Swal.fire('Error', response.message, 'error');
                                 }
                             },
                             error: function() {
                                 $('#allOrders').DataTable().ajax.reload();
+                                $('#orderListTable').DataTable().ajax.reload();
                                 Swal.fire('Error', 'Failed to delete the game', 'error');
                             }
                         });

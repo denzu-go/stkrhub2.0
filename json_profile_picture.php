@@ -14,6 +14,7 @@ while ($fetched = $resultUsers->fetch_assoc()) {
     $phone_number = $fetched['phone_number'];
     $email = $fetched['email'];
     $avatar = $fetched['avatar'];
+    
 
 
     $row = '

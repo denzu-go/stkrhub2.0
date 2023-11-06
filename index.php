@@ -500,14 +500,14 @@ session_start();
                                                        
                                                     
                                                     <a href="marketplace_item_page.php?published_game_id=' . $published_game_id . '">
-                                                        <h5 class="d-inline-block text-truncate" style="max-width: 240px;" data-toggle="tooltip" title="hahah">
+                                                        <h5 class="d-inline-block text-truncate" style="max-width: 240px;" data-toggle="tooltip" title="'.$game_name.'">
                                                             '.$game_name.'
                                                         </h5>
                                                     </a>
                                                 </div>
 
                                                 <div class="row">
-                                                    <h5 class="d-inline-block text-truncate" style="max-width: 240px;" data-toggle="tooltip" title="hahah">
+                                                    <h5 class="d-inline-block text-truncate" style="max-width: 240px;" data-toggle="tooltip" title="'.$marketplace_price.'">
                                                         &#8369;' . $marketplace_price . '
                                                     </h5>
                                                 </div>

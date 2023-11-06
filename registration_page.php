@@ -77,7 +77,7 @@
                             <div class="col-md-12 form-group">
                                 <input required type="email" class="form-control" id="email" name="email"
                                     placeholder="Email" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Username'">
+                                    onblur="this.placeholder = 'Email'">
                             </div>
 
                             <div class="col-md-12 form-group">
