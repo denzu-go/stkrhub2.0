@@ -107,8 +107,9 @@ $_SESSION['category'] = $category;
                                             <th>Description</th>
                                             <th>Price</th>
                                             <th>Size</th>
-                                            <th>colors</th>
-                                            <th>template</th>
+                                            <th>Colors</th>
+                                            <th>Template</th>
+                                            <th>Available</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -244,6 +245,9 @@ $_SESSION['category'] = $category;
                         },
                         {
                             data: "templates"
+                        },
+                        {
+                            data: "available"
                         },
                         {
                             data: "actions"

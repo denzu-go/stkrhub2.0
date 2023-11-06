@@ -33,6 +33,8 @@ session_start();
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/3.7.95/css/materialdesignicons.min.css">
+
     <!-- scroll reveal -->
     <script src="https://unpkg.com/scrollreveal"></script>
 
@@ -228,6 +230,63 @@ session_start();
             background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
         }
 
+
+
+
+        body{
+    margin-top:20px;
+color: #6c7293;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e7eaed;
+    border-radius: 0;
+    background-color:#272a4e;
+}
+
+.accordion .card {
+    margin-bottom: .75rem;
+    box-shadow: 0px 1px 15px 1px rgba(230, 234, 236, 0.35);
+    border-radius: .25rem;
+}
+.accordion .card .card-header {
+    background-color: transparent;
+    border: none;
+    padding: 2rem;
+}
+.grid-margin {
+    margin-bottom: 0.625rem;
+}
+.accordion .card .card-header a[aria-expanded="true"]:before {
+    content: "\F374";
+}
+.accordion .card .card-header a:before {
+    font-family: "Material Design Icons";
+    position: absolute;
+    right: 7px;
+    top: 0;
+    font-size: 18px;
+    display: block;
+}
+.accordion .card .card-header a[aria-expanded="false"]:before {
+    content: "\F415";
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  -webkit-box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+  -moz-box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+  box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
+}
+
+
         <?php include 'css/header.css'; ?>
     </style>
 
@@ -266,9 +325,20 @@ session_start();
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
                         <div class="section-title">
+                        <?php 
+                            if (isset($_GET['category'])) {
+
+                                echo'
+                                    <div style="position: absolute; left:-270px; margin-bottom:100px">
+                                    <button id= "back" class="click-btn btn btn-default"><i class="fa fa-long-arrow-left"
+                                            aria-hidden="true"></i></button>
+                                    </div>
+                                ';
+                            }
+                            ?>
                             <h1 class="scroll_reveal">Here are a few Help to enhance your experience</h1>
                             <p class="scroll_reveal">
-                            <p>
+                            
                         </div>
                     </div>
                 </div>
@@ -284,14 +354,28 @@ session_start();
 
                                 $sql = "SELECT *
                                 FROM faq
-                                LEFT JOIN tutorials ON faq.faq_id = tutorials.faq_id
                                 WHERE faq_category = ?";
 
                                 $stmt = $conn->prepare($sql);
                                 $stmt->bind_param("s", $category);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
+                                $row = $result->fetch_assoc();
 
+                                if($row['faq_type'] == 1 ) {
+                                
+                                    $id = $row['faq_id'];
+
+
+                                $sql = "SELECT *
+                                FROM tutorials
+                                WHERE faq_id = ?";
+
+                                $stmt = $conn->prepare($sql);
+                                $stmt->bind_param("i", $id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                
                                 while ($fetchedTutorials = $result->fetch_assoc()) {
                                     $tutorial_id = $fetchedTutorials['tutorial_id'];
                                     $tutorial_title = $fetchedTutorials['tutorial_title'];
@@ -301,6 +385,7 @@ session_start();
                                     $time_added = $fetchedTutorials['time_added'];
 
                                     echo '
+                                    
                                     <div class="container" style="display:flex; flex-direction:column; gap: 20px;">
                                     <div class="row s_product_inner scroll_reveal">
                                         <div class="col-lg-8">
@@ -324,6 +409,76 @@ session_start();
                                     </div>
                                     ';
                                 }
+                                } else {
+
+                                    $id = $row['faq_id'];
+
+
+                                    $sql = "SELECT *
+                                    FROM help
+                                    WHERE faq_id = ?";
+    
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bind_param("i", $id);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    $number = 0;
+                                    
+                                    while ($help = $result->fetch_assoc()) {
+
+                                        $number++;
+    
+                                        echo '
+                                        
+                                        
+                                            <div class="col-12 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-12 grid-margin">
+                                                        <div class="card">
+                                                            <div class="faq-block card-body">
+                                                                <div class="container-fluid py-2">
+                                                                    <h5 class="mb-0">Frequently Ask question '.$number.'</h5>
+                                                                </div>
+                                                                <div id="accordion-1" class="accordion">
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="headingOne">
+                                                                            <h5 class="mb-0">
+                                                                           
+                                                                            '.$help['help_title'].'?
+                                                                            </a>
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion-1">
+                                                                            <div class="card-body">
+                                                                            <p class="mb-0">'.$help['help_description'].'</p><p>
+                                                                            </p></div>
+                                                                        </div>
+                                                                    </div>';
+                                                                    if (!is_null($help['help_image_path'])) { // Use "!is_null" to check if not null
+                                                                        echo '<div class="card">
+                                                                            <div class="card-header" id="headingTwo">
+                                                                                <h5 class="mb-0">
+                                                                    
+                                                                                        <img src="' . $help['help_image_path'] . '" style="width:432px; height:450px;">
+                                                                                    </a>
+                                                                                </h5>
+                                                                            </div>
+                                                                        </div>';
+                                                                    }
+                                                               echo ' </div>
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        ';
+                                    }
+
+
+                                }
+
+
                             } else {
 
 
@@ -498,6 +653,9 @@ session_start();
                 window.location.href = "help.php?category=" + faq_category;
             });
 
+            document.getElementById("back").addEventListener("click", function() {
+            window.location.href = "help.php";
+            });
 
 
         });

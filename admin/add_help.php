@@ -2,21 +2,12 @@
 session_start();
 include 'connection.php';
 
-$tutID;
+$category;
 
-if (isset($_GET['id'])) {
+if (isset($_GET['category'])) {
 
-    $tutID = $_GET['id'];
+    $category = $_GET['category'];
 }
-
-$tut_sql = "SELECT *
-            FROM tutorials
-            LEFT JOIN faq ON tutorials.faq_id = faq.faq_id
-            WHERE tutorial_id = $tutID";
-
-$tut_query = $conn->query($tut_sql);
-$tut_row = $tut_query->fetch_assoc();
-
 
 
 ?>
@@ -71,7 +62,7 @@ $tut_row = $tut_query->fetch_assoc();
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                        <h4>Edit <?php echo htmlspecialchars($tut_row['tutorial_title']); ?> Content</h4>
+                        <h4>Add <?php echo htmlspecialchars($category); ?> Content</h4>
                             <p class="mb-0">Fill Up Details</p>
                         </div>
                     </div>
@@ -87,27 +78,27 @@ $tut_row = $tut_query->fetch_assoc();
                                 <div class="container my-5">
                                     <form method="post" id="myForm" enctype="multipart/form-data">
 
-                                        <input type="hidden" name="id" value="<?php echo $tutID; ?>">
-                                        <input type="hidden" name="faq_id" value="<?php echo $tut_row['faq_id']; ?>">
+                                        <input type="hidden" name="category" value="<?php echo $category; ?>">
 
                                         <div class="row mb-3">
-                                            <label class="col-sm-3 col-form-label" for="title">Tutorial Title:</label>
+                                            <label class="col-sm-3 col-form-label" for="title"> <?php echo htmlspecialchars($category); ?> Title:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" name="title" value="<?php echo $tut_row['tutorial_title']; ?>">
+                                            <input type="text" class="form-control" id="title" name="title">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label class="col-sm-3 col-form-label" for="title">Tutorial Description:</label>
+                                            <label class="col-sm-3 col-form-label" for="desciption"><?php echo htmlspecialchars($category); ?> Description:</label>
                                             <div class="col-sm-6">
-                                            <textarea name="description" rows="4" cols="50"> <?php echo $tut_row['tutorial_description']; ?></textarea>
+                                            <textarea id= "description" name="description" rows="30" cols="80"></textarea>
                                             </div>
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <label class="col-sm-3 col-form-label" for="link">Tutorial Youtube Link:</label>
+                                        <div class="row mb-3 color-row">
+                                            <label class="col-sm-3 col-form-label"> New Photo:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="link" name="link" value="<?php echo $tut_row['tutorial_link']; ?>">
+                                                <input type="file" class="form-control" name="photo" accept="image/*" id="coverPhoto">
+                                                <a href="#" class="remove-coverPhoto" data-cover-id="coverPhoto" style="color: red;">Remove</a>
                                             </div>
                                         </div>
 
@@ -118,7 +109,7 @@ $tut_row = $tut_query->fetch_assoc();
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
                                             <div class="col-sm-3 d-grid">
-                                                <a class="btn btn-outline-primary" href="admin_help.php?category=<?php echo $tut_row['faq_category']; ?>" role="button">Cancel</a>
+                                                <a class="btn btn-outline-primary" href="admin_help.php?category=<?php echo $category; ?>" role="button">Cancel</a>
                                             </div>
                                         </div>
                                     </form>
@@ -196,7 +187,16 @@ $tut_row = $tut_query->fetch_assoc();
     <script>
         $(document).ready(function() {
             // JavaScript
-           
+            $(document).ready(function() {
+                $(".remove-coverPhoto").click(function(e) {
+                    e.preventDefault();
+                    var coverId = $(this).data('cover-id');
+                    var fileInput = $("#" + coverId);
+
+                    // Clear the file input field
+                    fileInput.val('');
+                });
+            });
 
             $("#myForm").submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
@@ -205,7 +205,7 @@ $tut_row = $tut_query->fetch_assoc();
                 // Send an AJAX POST request
                 $.ajax({
                     type: "POST",
-                    url: "admin_process_edit_help_content.php",
+                    url: "admin_process_add_help.php",
                     data: formData,
                     contentType: false,
                     processData: false,
@@ -216,11 +216,11 @@ $tut_row = $tut_query->fetch_assoc();
                             text: 'Data inserted successfully!',
                         }).then(function() {
                             // Redirect to add_game_piece.php with the category parameter
-                            var category = "<?php echo $tut_row['faq_category']; ?>";
+                            var category = "<?php echo $category; ?>";
                             window.location.href = "admin_help.php?category=" + category;
                         });
 
-                        $('#helpContentTable').DataTable().ajax.reload();
+                        $('#gamePieceTable').DataTable().ajax.reload();
                         $("#myForm")[0].reset();
                     },
                     error: function(error) {

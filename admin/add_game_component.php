@@ -7,6 +7,7 @@ $category;
 if (isset($_GET['category'])) {
 
     $category = $_GET['category'];
+    unset($_SESSION['credentials']);
 }
 
 

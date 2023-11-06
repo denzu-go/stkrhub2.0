@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+
     // Retrieve the user from the database by their username
     $query = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($conn, $query);
@@ -30,10 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             header("Location: index.php");
             exit;
+        } else {
+            $credentials = 'false';
+            session_start(); // Start or resume the session
+            $_SESSION['credentials'] = $credentials;
+            header("Location: login_page.php");
+            exit;
         }
-    }
 
-    // Handle the error if the login fails
-    echo "Invalid username or password.";
-    exit;
+    } else {
+        
+        $credentials = 'false';
+        session_start(); // Start or resume the session
+        $_SESSION['credentials'] = $credentials;
+        header("Location: login_page.php");
+        exit;
+        
+    }
+   
+
 }

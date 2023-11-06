@@ -1,10 +1,25 @@
-<?php 
+<?php
 session_start();
+$email = '';
+
+if (isset($_SESSION["email"])) {
+    $email = $_SESSION["email"];
+} else {
+    header("location:email_forgot_password.php");
+}
+
+$change = '';
+
+if (isset($_SESSION['change'])) {
+    $change = $_SESSION['change'];
+}
+
 $credentials = '';
 
-if(isset($_SESSION['credentials'])){
+if (isset($_SESSION['credentials'])) {
     $credentials = $_SESSION['credentials'];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +65,7 @@ if(isset($_SESSION['credentials'])){
     include 'connection.php';
     include 'html/page_header.php';
 
-    
+
     ?>
 
     <!--================Login Box Area =================-->
@@ -67,47 +82,61 @@ if(isset($_SESSION['credentials'])){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6" id = "logInForm" style="display:block;">
-                    <div class="login_form_inner">
-                        <h3>Log in to enter</h3>
-                        <?php 
+
                 
-                    if ($credentials == 'false') {
-                        echo '<p style="color:red;">Username or Password is Wrong</p>';
-                        unset($_SESSION['credentials']);
-                    }
-                        
-                        ?>
 
-                        <form class="row login_form" action="process_login.php" method="post" id="contactForm"
-                            novalidate="novalidate">
-                           
-                            <div class="col-md-12 form-group">
 
-                                <input required type="text" class="form-control" id="username" name="username"
-                                    placeholder="Username" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Username'">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <input required type="password" class="form-control" id="password" name="password"
-                                    placeholder="Password" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Password'">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <div class="creat_account">
-                                    <input type="checkbox" id="f-option2" name="selector">
-                                    <label for="f-option2">Keep me logged in</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <a href="email_forgot_password.php">Forgot Password?</a>
+                <?php
+                if ($change == 'true') {
+                    unset($_SESSION['change']);
+                    unset($_SESSION['email']);
+                    echo '<div class="col-lg-6" id="forgotPassForm" style="display:block;">
+                    <div class="login_form_inner">
+                        <h3>Password has been Successfully Changed</h3>
 
+                        <div class="col-md-12 form-group">
+                               
+                                <a href="login_page.php">Go back to Log In</a>
                             </div>
-                        </form>
-                        
+
                     </div>
-                </div>
+                </div>';
+                
+
+                } else {
+
+                    echo '<div class="col-lg-6" id="forgotPassForm" style="display:block;">
+                    <div class="login_form_inner">
+                        <h3>Enter New Password</h3>';
+
+                        
+                        if ($credentials == 'false') {
+                            echo '<p style="color:red;"> Password does not match </p>';
+                            unset($_SESSION['credentials']);
+                        }
+                        
+
+                        echo '<form class="row login_form" action="process_forgot_password.php" method="post" id="contactForm" novalidate="novalidate">
+                        <input type="hidden" name="email" value="' . $email . '">
+                        <div class="col-md-12 form-group">
+                            <input required type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = \'\'" onblur="this.placeholder = \'Password\'">
+                        </div>
+                    
+                        <div class="col-md-12 form-group">
+                            <input required type="password" class="form-control" id="conpassword" name="conpassword" placeholder="Confirm Password" onfocus="this.placeholder = \'\'" onblur="this.placeholder = \'Confirm Password\'">
+                        </div>
+                    
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="primary-btn">Confirm</button>
+                            <a href="login_page.php">Remember Password?</a>
+                        </div>
+                    </form>';
+                 }
+                    
+                ?>
+
+
+
             </div>
         </div>
     </section>
@@ -119,9 +148,7 @@ if(isset($_SESSION['credentials'])){
 
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>

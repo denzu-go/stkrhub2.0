@@ -67,42 +67,32 @@ if(isset($_SESSION['credentials'])){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6" id = "logInForm" style="display:block;">
+
+                <div class="col-lg-6" id = "forgotPassForm" style="display:block;">
                     <div class="login_form_inner">
-                        <h3>Log in to enter</h3>
+                        <h3>Enter your Email</h3>
+
                         <?php 
                 
                     if ($credentials == 'false') {
-                        echo '<p style="color:red;">Username or Password is Wrong</p>';
+                        echo '<p style="color:red;">Email Does not Exist</p>';
                         unset($_SESSION['credentials']);
                     }
                         
                         ?>
 
-                        <form class="row login_form" action="process_login.php" method="post" id="contactForm"
+                        <form class="row login_form" action="process_email_forgot_pass.php" method="post" id="contactForm"
                             novalidate="novalidate">
-                           
                             <div class="col-md-12 form-group">
 
-                                <input required type="text" class="form-control" id="username" name="username"
-                                    placeholder="Username" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Username'">
+                                <input required type="text" class="form-control" id="email" name="email"
+                                    placeholder="Email" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Email'">
                             </div>
+                            
                             <div class="col-md-12 form-group">
-                                <input required type="password" class="form-control" id="password" name="password"
-                                    placeholder="Password" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Password'">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <div class="creat_account">
-                                    <input type="checkbox" id="f-option2" name="selector">
-                                    <label for="f-option2">Keep me logged in</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <a href="email_forgot_password.php">Forgot Password?</a>
-
+                                <button type="submit" value="submit" class="primary-btn">Confirm</button>
+                                <a href="login_page.php">Remember Password?</a>
                             </div>
                         </form>
                         

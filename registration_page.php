@@ -38,7 +38,7 @@
 
     <?php
     include 'connection.php';
-    include 'html/page_header2.php';
+    include 'html/page_header.php';
     ?>
 
     <!--================Login Box Area =================-->

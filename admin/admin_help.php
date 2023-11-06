@@ -8,7 +8,7 @@ if (isset($_GET['category'])) {
     $help_category = $_GET['category'];
 }
 
-$sql = "SELECT * FROM faq";
+$sql = "SELECT * FROM faq where faq_category = '$help_category'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -101,25 +101,55 @@ $_SESSION['help_category'] = $help_category;
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="helpContentTable" class="display" style="width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <th>Tutorial Link</th>
-                                            <th>Showcased</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                            <?php
+                            if ($faq['faq_type'] == 1) {
 
-                                <div class="row mb-3">
+
+                                echo '
+                                        <table id="helpContentTable" class="display" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Tutorial Link</th>
+                                                <th>Showcased</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <div class="row mb-3">
                                     <div class="col-sm-3 d-grid">
-                                        <a class="btn btn-outline-primary" href="add_help_content.php?category=<?php echo $help_category; ?>" role="button">Add Content</a>
+                                        <a class="btn btn-outline-primary" href="add_help_content.php?category='.$help_category.'" role="button">Add Content</a>
                                     </div>
                                 </div>
+                                ';
+                            } else {
+                                echo '<table id="helpContentTable2" class="display" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Image</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div class="row mb-3">
+                                    <div class="col-sm-3 d-grid">
+                                        <a class="btn btn-outline-primary" href="add_help.php?category='.$help_category.'" role="button">Add Content</a>
+                                    </div>
+                                </div>
+                            ';
+                            }
+                            ?>
+
+                               
+
+                                
                             </div>
 
                         </div>
@@ -227,6 +257,36 @@ $_SESSION['help_category'] = $help_category;
                 ]
             });
 
+            $('#helpContentTable2').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+
+                "ajax": {
+                    "url": "admin_json_help.php",
+                    data: {},
+                    "dataSrc": ""
+                },
+                "columns": [{
+                        "data": "title"
+                    },
+                    {
+                        "data": "description"
+                    },
+                    {
+                        "data": "image"
+                    },
+                    {
+                        "data": "actions",
+                        width: '10%',
+                        className: 'dt-center'
+                    },
+
+
+                ]
+            });
+
             $('#categoryContent').DataTable({
                 searching: true,
                 info: false,
@@ -258,6 +318,23 @@ $_SESSION['help_category'] = $help_category;
             });
 
 
+            $(document).ready(function() {
+                // Event handler for the "Show Image" button
+                $('body').on('click', '[id^="showImage_"]', function() {
+                    // Extract the image path from the button's ID
+                    var imagePath = $(this).data('id');
+
+                    // Generate the HTML for the image
+                    var imageHTML = '<img src="' + imagePath + '" alt="Image" style = "width:300px;height:300px;">';
+
+                    // Use SweetAlert to display the image
+                    Swal.fire({
+                        title: 'Image Preview',
+                        html: imageHTML,
+                        confirmButtonText: 'Close'
+                    });
+                });
+            });
 
 
 

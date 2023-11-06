@@ -42,6 +42,14 @@ if (isset($_SESSION['category'])) {
             $templates[] = $templateRow['template_name']; // Add template to the array
         }
 
+        $available = '';
+
+                if ($row["is_available"] == 1) {
+                    $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:green;"> Available </a>';
+                } else {
+                    $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:red;"> Not Available </a>';
+                }
+
         $actions = '<a href="edit_game_components.php?id=' . $component_id . '">Edit</a> <a href="delete_game_component.php?id=' . $component_id . '" Style = "color:red;">Delete</a>' ;
 
         $data[] = array(
@@ -50,7 +58,8 @@ if (isset($_SESSION['category'])) {
             "price" => $price,
             "size" => $size,
             "colors" => $colors, // Store colors as an array
-            "templates" => $templates, // Store templates as an array
+            "templates" => $templates,
+            "available" => $available, // Store templates as an array
             "actions" => $actions,
         );
     }
