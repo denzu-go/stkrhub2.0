@@ -6,7 +6,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $textValue = $_POST["text"];
     $selectValue = $_POST["select"];
 
-
     $conn->begin_transaction();
 
     try {

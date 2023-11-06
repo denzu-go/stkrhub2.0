@@ -1,4 +1,0 @@
-
-                    added_component_id 433 <br>
-                    component_name Tarrot Cards <br>
-                    

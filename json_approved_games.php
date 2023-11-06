@@ -66,7 +66,7 @@ while ($fetched = $resultApproved->fetch_assoc()) {
         </div>
 
         <div class="row">
-            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+            <span class="small text-muted" style="padding: 0px; margin:0px">Approved Game ID: ' . $built_game_id . '</span>
         </div>
     </div>
     ';

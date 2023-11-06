@@ -117,6 +117,15 @@ include 'connection.php';
 
 
 
+    <!-- MODALS -->
+    <!-- order list modal -->
+    <?php
+    include 'html/modal_order_list.php';
+    include 'html/modal_cancelation_details.php';
+    ?>
+
+
+
 
 
 
@@ -150,9 +159,16 @@ include 'connection.php';
         $(document).ready(function() {
 
 
+            var passed_status = 'is_canceled';
+
             $('#allOrders').DataTable({
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
+
                 language: {
-                    search: "",
+                    search: "Search",
                 },
 
                 searching: true,
@@ -160,70 +176,102 @@ include 'connection.php';
                 paging: true,
                 lengthChange: false,
                 ordering: false,
+                pageLength: 15,
 
 
                 "ajax": {
-                    "url": "admin_json_canceled_orders.php",
-                    data: {},
+                    "url": "admin_json_global_orders.php",
+                    data: {
+                        passed_status: passed_status
+                    },
                     "dataSrc": ""
                 },
                 "columns": [{
-                    "data": "item"
-                }, ]
+                        "data": "number"
+                    },
+                    {
+                        "data": "unique_order_group_id"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "date"
+                    },
+                    {
+                        "data": "actions"
+                    },
+                ]
+            });
+
+
+            $('#allOrders').on('click', '#view_order', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                $('#orderListTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_order_list_table.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+
+                $('#order_table').modal('show');
             });
 
 
 
 
 
-            $('#allOrders').on('click', '#refund_order', function() {
-                var creator_id = $(this).data('creator_id');
+            $('#allOrders').on('click', '#view_cancelation_details', function() {
                 var unique_order_group_id = $(this).data('unique_order_group_id');
-                var order_total_price = $(this).data('order_total_price');
-                var creator_email = $(this).data('creator_email');
-                var refunded_amount = $(this).data('refunded_amount');
 
-                Swal.fire({
-                    title: 'Send Money through Paypal',
-                    html: 'Payee\'s Email: ' + creator_email + '<br> Amount to Pay: ' + refunded_amount,
-                    showCancelButton: true,
-                    confirmButtonText: 'Sent',
-                }).then((result) => {
-                    if (result.isConfirmed) {
+                $('#cancelationDetailsTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
 
-                        Swal.fire({
-                            title: 'Are you sure you already sent?',
-                            html: 'Payee\'s Email: <br> Amount to Pay: '+ refunded_amount,
-                            showCancelButton: true,
-                            confirmButtonText: 'Yes',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    type: 'POST',
-                                    url: 'admin_process_refunded.php',
-                                    data: {
-                                        creator_id: creator_id,
-                                        unique_order_group_id: unique_order_group_id,
-                                        creator_email: creator_email,
-                                        order_total_price: order_total_price,
-                                        refunded_amount: refunded_amount,
-                                    },
-                                    dataType: "json",
-                                    success: function(response) {
-                                        $('#toShipTable').DataTable().ajax.reload();
-                                        Swal.fire("Order is ready to deliver", "", "success");
-                                    },
-                                    error: function() {
-                                        $('#toShipTable').DataTable().ajax.reload();
-                                        Swal.fire("Failed to process order", "An error occurred while processing the order", "error");
-                                    },
-                                });
-                            }
-                        });
-                    }
+                    "ajax": {
+                        "url": "admin_json_cancelation_details.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
                 });
 
-
+                $('#modal_cancelation_details').modal('show');
             });
 
 

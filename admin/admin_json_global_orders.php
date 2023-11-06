@@ -13,6 +13,53 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     $queryUser = $conn->query($getUser);
     while ($fetchedUser = $queryUser->fetch_assoc()) {
         $user_id = $fetchedUser['user_id'];
+        $order_date = $fetchedUser['order_date'];
+        $formatted_date = date('M. d, Y h:i A', strtotime($order_date));
+
+        $is_pending = $fetchedUser['is_pending'];
+        $in_production = $fetchedUser['in_production'];
+        $to_ship = $fetchedUser['to_ship'];
+        $to_deliver = $fetchedUser['to_deliver'];
+        $is_received = $fetchedUser['is_received'];
+        $is_canceled = $fetchedUser['is_canceled'];
+        $is_completely_canceled = $fetchedUser['is_completely_canceled'];
+    }
+
+    // status
+    if ($is_pending) {
+        $status = 'Pending';
+    } elseif ($in_production) {
+        $status = 'In Production';
+    } elseif ($to_ship) {
+        $status = 'To Ship';
+    } elseif ($to_deliver) {
+        $status = 'To Deliver';
+    } elseif ($is_received) {
+        $status = 'Received';
+    } elseif ($is_canceled) {
+        $status = 'Canceled';
+    } elseif ($is_completely_canceled) {
+        $status = 'Refunded';
+    } else {
+        $status = 'Undefined';
+    }
+
+
+    // getUsersFROM USERS TABLE
+    $getUserTable = "SELECT * FROM users WHERE user_id = $user_id";
+    $queryUserTable = $conn->query($getUserTable);
+
+    if ($queryUserTable) {
+        $fetchedUserTable = $queryUserTable->fetch_assoc();
+        if ($fetchedUserTable) {
+            $unique_user_id = $fetchedUserTable['unique_user_id'];
+        } else {
+            // Data not found, set it to 'undefined'
+            $unique_user_id = 'undefined';
+        }
+    } else {
+        // Handle the query execution error
+        die("Error in query: " . $conn->error);
     }
 
     $zip = new ZipArchive();
@@ -63,7 +110,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
             $zip->addEmptyDir($ParentDir);
 
 
-            $sqlGetComponents2 = "SELECT * FROM $from WHERE $where = $where_id";
+            $sqlGetComponents2 = "SELECT * FROM $from WHERE $where = '$where_id'";
             $queryGetComponents2 = $conn->query($sqlGetComponents2);
             while ($fetchedGetComponents2 = $queryGetComponents2->fetch_assoc()) {
                 $added_component_id = $fetchedGetComponents2['added_component_id'];
@@ -120,6 +167,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                 $zip->addFile($file_name, '' . $ParentDir . '/' . $directory2 . '/' . basename($file_name));
             }
 
+
             $download = '
             <a href="' . $filename . '" download>Download Zip</a>
         ';
@@ -130,9 +178,8 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
 
 
 
-    $creator = $user_id;
-    $status = 'status';
-    $date = 'date';
+    $creator = $unique_user_id;
+    $date = $formatted_date;
 
 
     $view_order_button = '<button class="btn p-0 m-0" id="view_order" data-unique_order_group_id="' . $unique_order_group_id . '">View Order</button>';
@@ -141,15 +188,15 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     if ($passed_status == 'is_pending') {
         $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
     } elseif ($passed_status == 'in_production') {
-        $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
+        $next_order_button = '<button class="btn p-0 m-0" id="to_ship" data-unique_order_group_id="' . $unique_order_group_id . '">To Ship Order</button>';
     } elseif ($passed_status == 'to_ship') {
-        $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
+        $next_order_button = '<button class="btn p-0 m-0" id="to_deliver" data-unique_order_group_id="' . $unique_order_group_id . '">To Deliver Order</button>';
     } elseif ($passed_status == 'to_deliver') {
-        $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
+        $next_order_button = '<button class="btn p-0 m-0" id="view_delivery_details" data-unique_order_group_id="' . $unique_order_group_id . '">Delivery Details</button>';
     } elseif ($passed_status == 'is_received') {
         $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
     } elseif ($passed_status == 'is_canceled') {
-        $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
+        $next_order_button = '<button class="btn p-0 m-0" id="view_cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">Cancelation Details</button>';
     } elseif ($passed_status == 'is_completely_canceled') {
         $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
     } else {

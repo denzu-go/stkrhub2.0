@@ -117,7 +117,12 @@ include 'connection.php';
 
 
 
-
+    <!-- MODALS -->
+    <!-- order list modal -->
+    <?php
+    include 'html/modal_order_list.php';
+    include 'html/modal_delivery_details.php';
+    ?>
 
 
 
@@ -150,9 +155,16 @@ include 'connection.php';
         $(document).ready(function() {
 
 
+            var passed_status = 'to_deliver';
+
             $('#allOrders').DataTable({
+                "columnDefs": [{
+                    "className": "dt-center",
+                    "targets": "_all"
+                }],
+
                 language: {
-                    search: "",
+                    search: "Search",
                 },
 
                 searching: true,
@@ -160,97 +172,101 @@ include 'connection.php';
                 paging: true,
                 lengthChange: false,
                 ordering: false,
+                pageLength: 15,
 
 
                 "ajax": {
-                    "url": "admin_json_to_deliver_orders.php",
-                    data: {},
+                    "url": "admin_json_global_orders.php",
+                    data: {
+                        passed_status: passed_status
+                    },
                     "dataSrc": ""
                 },
                 "columns": [{
-                    "data": "item"
-                }, ]
+                        "data": "number"
+                    },
+                    {
+                        "data": "unique_order_group_id"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "date"
+                    },
+                    {
+                        "data": "actions"
+                    },
+                ]
             });
 
 
+            $('#allOrders').on('click', '#view_order', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
 
-
-
-            $('#completedOrdersTable').on('click', '#to_deliver', function() {
-                var order_id = $(this).data('order_id');
-
-                $.ajax({
-                    type: 'GET',
-                    url: 'get_courier.php',
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data && data.length > 0) {
-                            // Create an empty string to store the options
-                            let options = '';
-
-                            // Iterate through the data and generate <option> elements
-                            data.forEach(function(courier) {
-                                options += `<option value="${courier.courier_name}">${courier.courier_name}</option>`;
-                            });
-
-                            // Create and show the SweetAlert dialog with the dynamic options
-                            Swal.fire({
-                                title: 'To Deliver',
-                                html: '<input id="text-field" class="swal2-input" placeholder="Enter Tracking Number" required>' +
-                                    '<select id="select-field" class="swal2-select">' +
-                                    options + // Insert the generated options here
-                                    '</select>',
-                                showCancelButton: true,
-                                confirmButtonText: 'Submit',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    const textValue = $('#text-field').val();
-                                    const selectValue = $('#select-field').val();
-
-                                    // Check if the input field is not empty
-                                    if (!textValue) {
-                                        Swal.fire("Input Field Required", "Please enter a tracking number.", "error");
-                                        return; // Exit the function if the input field is empty
-                                    }
-
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: 'admin_process_to_deliver.php',
-                                        data: {
-                                            order_id: order_id,
-                                            text: textValue,
-                                            select: selectValue,
-                                        },
-                                        dataType: "json", // Expect JSON response
-                                        success: function(response) {
-                                            if (response.status === "success") {
-                                                $('#toShipTable').DataTable().ajax.reload();
-                                                Swal.fire("Order is ready to deliver", "", "success");
-                                            } else {
-                                                $('#toShipTable').DataTable().ajax.reload();
-                                                Swal.fire("Failed to process order", response.message, "error");
-                                            }
-                                        },
-                                        error: function() {
-                                            $('#toShipTable').DataTable().ajax.reload();
-                                            Swal.fire("Failed to process order", "An error occurred while processing the order", "error");
-
-                                        },
-                                    });
-                                }
-                            });
-                        } else {
-                            console.error('No courier data available.');
-                        }
+                $('#orderListTable').DataTable({
+                    language: {
+                        search: "Search",
                     },
-                    error: function(error) {
-                        console.error('Error fetching courier data:', error);
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_order_list_table.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
                     },
+                    "columns": [{
+                        "data": "item"
+                    }]
                 });
 
-
+                $('#order_table').modal('show');
             });
 
+
+
+            $('#allOrders').on('click', '#view_delivery_details', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                $('#deliveryDetailsTable').DataTable({
+                    language: {
+                        search: "Search",
+                    },
+                    destroy: true,
+                    autoWidth: true,
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    lengthChange: false,
+                    ordering: false,
+
+                    "ajax": {
+                        "url": "admin_json_delivery_details.php",
+                        data: {
+                            unique_order_group_id: unique_order_group_id,
+                            passed_status: passed_status,
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+
+                $('#modal_delivery_details').modal('show');
+            });
 
 
         });

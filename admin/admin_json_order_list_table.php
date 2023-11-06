@@ -2,11 +2,12 @@
 
 include "connection.php";
 $unique_order_group_id = $_GET['unique_order_group_id'];
+$passed_status = $_GET['passed_status'];
 
 $data = array();
 
 
-$sqlOrderDetails = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_pending = 1";
+$sqlOrderDetails = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND $passed_status = 1";
 $queryOrderDetails = $conn->query($sqlOrderDetails);
 while ($fetchedD = $queryOrderDetails->fetch_assoc()) {
     $order_date = $fetchedD['order_date'];
@@ -67,7 +68,7 @@ $item = '
                             <div class="col">';
 
 $subtotal = 0;
-$sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_pending = 1 AND ticket_id IS NULL";
+$sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND $passed_status = 1 AND ticket_id IS NULL";
 $queryAll = $conn->query($sqlAll);
 while ($fetched = $queryAll->fetch_assoc()) {
     $order_id = $fetched['order_id'];
@@ -165,17 +166,21 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
     // status
     if ($is_pending) {
-        $status = 'PENDING';
+        $status = 'Pending';
     } elseif ($in_production) {
-        $status = 'IN PRODUCTION';
+        $status = 'In Production';
     } elseif ($to_ship) {
-        $status = 'TO SHIP';
+        $status = 'To Ship';
     } elseif ($to_deliver) {
-        $status = 'TO DELIVER';
+        $status = 'To Deliver';
     } elseif ($is_received) {
-        $status = 'RECEIVED';
+        $status = 'Received';
     } elseif ($is_canceled) {
-        $status = 'CANCELED';
+        $status = 'Canceled';
+    } elseif ($is_completely_canceled) {
+        $status = 'Refunded';
+    } else {
+        $status = 'Undefined';
     }
 
     // description
