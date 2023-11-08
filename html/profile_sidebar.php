@@ -18,7 +18,7 @@
         </li>
 
         <li class="<?php echo $change_password ?>">
-            <a href="#">Change Password</a>
+            <a href="change_password.php">Change Password</a>
         </li>
 
         <li class="<?php echo $logout ?>">
