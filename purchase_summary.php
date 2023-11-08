@@ -15,6 +15,9 @@ $resultClient = $conn->query($sqlClient);
 while ($rowClient = $resultClient->fetch_assoc()) {
     $paypal_client_id = $rowClient['text'];
 }
+
+$region = "SELECT * FROM region";
+    $region_qry = mysqli_query($conn, $region);
 ?>
 
 <!DOCTYPE html>
@@ -401,7 +404,7 @@ while ($rowClient = $resultClient->fetch_assoc()) {
                     },
                     success: function(response) {
                         // Handle the response and show a SweetAlert for editing
-                        Swal.fire({
+                        Swal.fire({ 
                             title: "Edit Address",
                             html: response, // Include the fetched address details in the SweetAlert content
                             showCancelButton: true,
@@ -414,30 +417,22 @@ while ($rowClient = $resultClient->fetch_assoc()) {
                                     // Retrieve and collect edited address details from the SweetAlert form fields
                                     fullname: $('#editedFullname').val(),
                                     number: $('#editedNumber').val(),
-                                    region: $('#editedRegion').val(),
-                                    province: $('#editedProvince').val(),
-                                    city: $('#editedCity').val(),
-                                    barangay: $('#editedBarangay').val(),
+                                    region: $('#editedregion_').val(),
+                                    province: $('#editedprovince_').val(),
+                                    city: $('#editedcity_').val(),
+                                    barangay: $('#editedbarangay_').val(),
                                     zip: $('#editedZip').val(),
                                     street: $('#editedStreet').val(),
-                                    setDefaultAddress: $('#setDefaultAddress').prop('checked'),
-
                                 };
 
+                                // Send an AJAX request to update the address information in the database
                                 $.ajax({
-                                    url: "swal_update_address.php",
+                                    url: "swal_update_address.php", // Create this PHP file to update the address
                                     method: "POST",
                                     data: formData,
                                     success: function() {
-                                        $('#infoPurhaseTable').DataTable().ajax.reload();
+                                        // Reload the DataTable after the address is updated
                                         $('#profileAddress').DataTable().ajax.reload();
-                                        $('#purchaseTable').DataTable().ajax.reload();
-                                        $('#purchaseAddress').DataTable().ajax.reload();
-                                        $('#paypalTable').DataTable().ajax.reload();
-
-
-                                        $('#cartCount').DataTable().ajax.reload();
-
 
                                         // Show a success message with Swal
                                         Swal.fire({
@@ -452,11 +447,62 @@ while ($rowClient = $resultClient->fetch_assoc()) {
                                 });
                             },
                         });
+
+                        $('#editedregion_').on('change', function() {
+                    var region_id = $(this).val();
+                    console.log(region_id);
+                    $.ajax({
+                        url:'option_province.php',
+                        type:"POST",
+                        data:{
+                            region_data:region_id
+                        },
+                        success:function(result){
+                            $('#editedprovince_').html(result);
+                            //console.log(result);
+                        }
+                    })
+                });
+
+                $('#editedprovince_').on('change', function() {
+                    var province_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_city.php',
+                        type:"POST",
+                        data:{
+                            province_data:province_id
+                        },
+                        success:function(data){
+                            $('#editedcity_').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
+
+                $('#editedcity_').on('change', function() {
+                    var city_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_barangay.php',
+                        type:"POST",
+                        data:{
+                            city_data:city_id
+                        },
+                        success:function(data){
+                            $('#editedbarangay_').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
                     },
                     error: function() {
                         // Handle any AJAX errors here
                     },
                 });
+
+                
+
             });
 
 
@@ -580,64 +626,140 @@ while ($rowClient = $resultClient->fetch_assoc()) {
 
             // Add a click event listener to the "Add Address" button
             $('#addAddressBtn').on('click', function() {
-                Swal.fire({
-                    title: "Add Address",
-                    html: '<div class="form-container">' +
-                        '<label for="fullname">Fullname:</label>' +
-                        '<input type="text" id="fullname" name="fullname" required><br>' +
-                        '<label for="number">Number:</label>' +
-                        '<input type="text" id="number" name="number" required><br>' +
-                        '<label for="region">Region:</label>' +
-                        '<input type="text" id="region" name="region" required><br>' +
-                        '<label for="province">Province:</label>' +
-                        '<input type="text" id="province" name="province" required><br>' +
-                        '<label for="city">City:</label>' +
-                        '<input type="text" id="city" name="city" required><br>' +
-                        '<label for="barangay">Barangay:</label>' +
-                        '<input type="text" id="barangay" name="barangay" required><br>' +
-                        '<label for="zip">ZIP Code:</label>' +
-                        '<input type="text" id="zip" name="zip" required><br>' +
-                        '<label for="street">Street:</label>' +
-                        '<input type="text" id="street" name="street" required><br>' +
-                        '</div>',
-                    showCancelButton: true,
-                    confirmButtonText: "Add",
-                    cancelButtonText: "Cancel",
-                    preConfirm: () => {
-                        // Handle the "Add" button click here
-                        var formData = {
-                            fullname: $('#fullname').val(),
-                            number: $('#number').val(),
-                            region: $('#region').val(),
-                            province: $('#province').val(),
-                            city: $('#city').val(),
-                            barangay: $('#barangay').val(),
-                            zip: $('#zip').val(),
-                            street: $('#street').val(),
-                        };
 
-                        // Send an AJAX request to add the address
-                        return $.ajax({
-                            url: "swal_add_address.php", // Create this PHP file to add the address
-                            method: "POST",
-                            data: formData,
-                        });
-                    },
-                }).then((result) => {
-                    // Handle the AJAX response
-                    if (result.isConfirmed) {
-                        if (result.value === "success") {
-                            // Address added successfully
-                            Swal.fire("Success", "Address added successfully", "success");
-                            // Reload the DataTable to display the new address
-                            $('#profileAddress').DataTable().ajax.reload();
-                        } else {
-                            // Error occurred while adding the address
-                            Swal.fire("Error", "Error adding address", "error");
+                    Swal.fire({
+
+                        title: "Add Address",
+                        html: '<div class="form-container">' +
+                            '<label for="fullname">Fullname:</label>' +
+                            '<input type="text" id="fullname" name="fullname" required><br>' +
+
+                            '<label for="number">Number:</label>' +
+                            '<input type="text" id="number" name="number" required><br>' +
+
+                            '<label for="region"> Region:</label>' +
+                            '<select id="region" name="region" required><br>' +
+                            '<option selected disabled>  Select Region </option>' +
+                            '<?php while ($row = mysqli_fetch_assoc($region_qry)) : ?>' +
+                            '<option value="<?php echo $row['id']; ?>"><?php echo $row['region_name']; ?></option>' +
+                            '<?php endwhile; ?>' +
+                            '</select><br>' +
+
+                            '<label for="province">Province:</label>' +
+                            '<select id="province" name="province" required><br>' +
+                            '<option selected disabled>  Select Province </option>' +
+                            '</select><br>' +
+
+                            '<label for="city">City:</label>' +
+                            '<select id="city" name="city" required><br>' +
+                            '<option value="city">Select City</option>' +
+                            '</select><br>' +
+
+                            '<label for="barangay">Barangay:</label>' + 
+                            '<select id="barangay" name="barangay" required><br>' +
+                            '<option value="barangay">Select Barangay</option>' +
+                            '</select><br>' +
+
+                            '<label for="zip">ZIP Code:</label>' +
+                            '<input type="text" id="zip" name="zip" required><br>' +
+
+                            '<label for="street">Street:</label>' +
+                            '<input type="text" id="street" name="street" required><br>' +
+                            '</div>',
+
+                        showCancelButton: true,
+                        confirmButtonText: "Add",
+                        cancelButtonText: "Cancel",
+                        preConfirm: () => {
+                            // Handle the "Add" button click here
+                            var formData = {
+                                fullname: $('#fullname').val(),
+                                number: $('#number').val(),
+                                region: $('#region').val(),
+                                province: $('#province').val(),
+                                city: $('#city').val(),
+                                barangay: $('#barangay').val(),
+                                zip: $('#zip').val(),
+                                street: $('#street').val(),
+                            };
+
+                            // Send an AJAX request to add the address
+                            return $.ajax({
+                                url: "swal_add_address.php", // Create this PHP file to add the address
+                                method: "POST",
+                                data: formData,
+                            });
+                            
+                        },
+                    }).then((result) => {
+                        // Handle the AJAX response
+                        if (result.isConfirmed) {
+                            if (result.value === "success") {
+                                // Address added successfully
+                                Swal.fire("Success", "Address added successfully", "success");
+                                // Reload the DataTable to display the new address
+                                $('#profileAddress').DataTable().ajax.reload();
+                            } else {
+                                // Error occurred while adding the address
+                                Swal.fire("Error", "Error adding address", "error");
+                            }
                         }
-                    }
+                    });
+
+                    $('#region').on('change', function() {
+                    var region_id = $(this).val();
+                    //console.log(region_id);
+                    $.ajax({
+                        url:'option_province.php',
+                        type:"POST",
+                        data:{
+                            region_data:region_id
+                        },
+                        success:function(result){
+                            $('#province').html(result);
+                            //console.log(result);
+                        }
+                    })
                 });
-            });
+
+                $('#province').on('change', function() {
+                    var province_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_city.php',
+                        type:"POST",
+                        data:{
+                            province_data:province_id
+                        },
+                        success:function(data){
+                            $('#city').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
+
+                $('#city').on('change', function() {
+                    var city_id = $(this).val();
+                    //console.log(province_id); 
+                    $.ajax({
+                        url:'option_barangay.php',
+                        type:"POST",
+                        data:{
+                            city_data:city_id
+                        },
+                        success:function(data){
+                            $('#barangay').html(data);
+                            //console.log(result);
+                        }
+                    })
+                });
+
+
+
+
+
+
+                });
 
 
 

@@ -13,6 +13,7 @@ if (isset($_SESSION['users_id'])) {
     $event_type = 'logout';
     $insert_query = "INSERT INTO user_logs (users_id, event_type) VALUES ('$users_id', '$event_type')";
     mysqli_query($conn, $insert_query);
+    
 }
 
 // Clear the session and redirect to the login page
