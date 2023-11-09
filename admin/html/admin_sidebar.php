@@ -57,11 +57,15 @@
                         </ul>
                     </li>
 
+                    <li class="nav-label">Account Management</li>
+                    <li><a href="admin_user_management.php">User Accounts</a></li>
+                    <li><a href="admin_service_percentage.php">Admin Accounts</a></li>
+
                     <li class="nav-label">Service Charges & Others</li>
                     <li><a href="admin_weight_charges.php">Weight Charges</a></li>
                     <li><a href="admin_service_percentage.php">Service Fees</a></li>
                     <li><a href="admin_constant_thumbnail.php">Thumbnail Images</a></li>
-                    <li><a href="admin_paypal_account.php">Paypal Account</a></li>
+                    <li><a href="admin_paypal_royalty.php">Paypal Account & Royalties</a></li>
 
                     
 

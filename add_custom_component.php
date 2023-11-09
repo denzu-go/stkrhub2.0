@@ -381,6 +381,7 @@ if (isset($_GET['category'])) {
                             $price = $rowInner["price"];
                             $has_colors = $rowInner["has_colors"];
                             $size = $rowInner["size"];
+                            $is_available = $rowInner["is_available"];
 
                             $sqlA = "SELECT * FROM component_assets WHERE component_id = $component_id";
                             $queryA = $conn->query($sqlA);
@@ -390,6 +391,8 @@ if (isset($_GET['category'])) {
                                 $asset_path = $rowA["asset_path"];
                                 $is_thumbnail = $rowA["is_thumbnail"];
                             }
+
+                            if ($is_available == "1") {
 
                             echo '
                             <a class="mb-4" href="game_component_details.php?game_id=' . $game_id . '&component_id=' . $component_id . '" style="width: 20rem;">
@@ -421,6 +424,47 @@ if (isset($_GET['category'])) {
                                 </div>
                             </a>
                             ';
+                                
+                            } else {
+
+                                echo '
+                            <a class="mb-4" style="width: 20rem;">
+                                <div class="card" style=" background-color: #272a4e !important;">
+                                    <div class="image-mini-container" style="overflow: hidden; width: 100%; border-radius: 10px; position: relative; padding-top: 100%;">
+                                        <img class="card-img-top image-mini" src="' . $asset_path . '" style="opacity:0.35;position: absolute; top: 0; left: 0; height: 100%; width: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%); mask-image: linear-gradient(to bottom, transparent 0%, black 40%);">
+                                    </div>
+
+                                    <div class="card-body pt-0 pb-0 pl-4 pr-4">
+                                        <div class="row">
+                                            <h5 class="d-inline-block text-truncate" style="max-width: 540px;" data-toggle="tooltip" title="' . $component_name . '">
+                                                ' . $component_name . '
+                                            </h5>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="d-inline-block text-truncate" style="max-width: 540px;" data-toggle="tooltip" title="' . $price . '">
+                                                &#8369;' . $price . '
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="d-inline-block text-truncate" style="max-width: 540px;" data-toggle="tooltip" title="' . $description . '">
+                                                ' . $description . '
+                                            </span>
+                                        </div>
+
+                                        <div class="row">
+                                            <span class="d-inline-block text-truncate" style="max-width: 540px; color:red;" data-toggle="tooltip" title="isAvailable">
+                                                Not Available
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+                            ';
+
+                            }
                         }
 
                         ?>

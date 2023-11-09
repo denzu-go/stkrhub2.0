@@ -15,23 +15,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
 
-        if (password_verify($password, $user['password'])) {
-            // User authentication successful, set session and redirect to the user's dashboard
-            session_start();
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['username'] = $user['username'];
+        if ($user["is_deleted"] == 0) {
 
-            // Insert login event into the user_logs table
-            $user_id = $_SESSION['user_id'];
-            $event_type = 'login';
-            $insert_query = "INSERT INTO user_logs (user_id, event_type) VALUES ('$user_id', '$event_type')";
-            mysqli_query($conn, $insert_query);
+            if (password_verify($password, $user['password'])) {
+                // User authentication successful, set session and redirect to the user's dashboard
+                session_start();
+                $_SESSION['user_id'] = $user['user_id'];
+                $_SESSION['username'] = $user['username'];
 
-            
+                // Insert login event into the user_logs table
+                $user_id = $_SESSION['user_id'];
+                $event_type = 'login';
+                $insert_query = "INSERT INTO user_logs (user_id, event_type) VALUES ('$user_id', '$event_type')";
+                mysqli_query($conn, $insert_query);
 
-            header("Location: index.php");
-            exit;
+                $sql = "UPDATE users
+            SET 
+                is_active = 1
+            WHERE user_id = $user_id";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "Data updated successfully!";
+                    header("Location: index.php");
+                    exit; // Exit to prevent further execution
+                } else {
+                    echo "Error: " . $conn->error;
+                } // Use $tutID instead of $id
+
+
+
+                exit;
+            } else {
+                $credentials = 'false';
+                session_start(); // Start or resume the session
+                $_SESSION['credentials'] = $credentials;
+                header("Location: login_page.php");
+                exit;
+            }
+
         } else {
+
             $credentials = 'false';
             session_start(); // Start or resume the session
             $_SESSION['credentials'] = $credentials;
@@ -40,14 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     } else {
-        
+
         $credentials = 'false';
         session_start(); // Start or resume the session
         $_SESSION['credentials'] = $credentials;
         header("Location: login_page.php");
         exit;
-        
     }
-   
-
 }
