@@ -136,7 +136,6 @@
       width: 100%;
       object-fit: cover;
     }
-
   </style>
 </head>
 
@@ -268,92 +267,10 @@
   <!-- /.container -->
 
 
-
-  <script id="movie-template" type="text/html">
-    <!-- single product -->
-  <div class="col-lg-4 col-md-7" style="border: 5px solid yellow; ">
-
-    <div class="single-product" style="border: 5px solid green;">
-
-      <div class="content">
-        <div class="content-overlay" style="height: 132px; width: 100%;"></div>
-
-        <!-- <img src="img/16x9.jpg" class="card-img-top" alt="..." style="height: 132px !important; width: 100%;"> -->
-        <div class="image-mini-container">
-          <img class="image-mini" src="img/16x9.jpg" class="card-img-top" alt="...">
-        </div>
-
-        <div class="content-details fadeIn-bottom">
-          <p class="card-subtitle mb-2 text-muted h6" style="font-size: 0.58rem;">
-            <%= outline %>
-          </p>
-
-          <i class="fa-solid fa-clock"></i>
-          <small>
-            <%= runtime %> mins.
-          </small>
-        </div>
-
-      </div>
-
-      <div class="product-details">
-        <div>
-          <i class="fa fa-star text-primary"></i>
-
-          <span class="rating-number">
-            <%= rating %><span class="rating-count">(20)</span>
-          </span>
-
-          <h5 class="card-title">
-            <%= name %>
-          </h5>
-
-        </div>
-
-        <div>
-          <h6 class="card-subtitle mb-2 text-muted">
-            <small>
-              Genre: <%= genre %>
-            </small>
-          </h6>
-
-          <h6 class="card-subtitle mb-2 text-muted">
-            <small>
-              Creator ID: <%= director %>
-            </small>
-          </h6>
-
-          <h6 class="card-subtitle mb-2 text-muted">
-            <small>
-              <%= year %>
-            </small>
-          </h6>
-        </div>
-
-        <span class="lnr" style="color: #26d3e0; padding-left: 5px; padding-right: 5px; border-radius: 10%;">
-          <i class="fa-solid fa-peso-sign">
-            <%= stars %>
-          </i>
-        </span>
-
-        <div class="prd-bottom">
-
-          <a href="process_add_published_game_to_cart.php?id=<%= id %>" class="social-info">
-            <span class="ti-bag"></span>
-            <p class="hover-text">add to bag</p>
-          </a>
-
-          <a href="marketplace_item_page.php?id=<%= id %>" class="social-info view">
-            <span class="lnr lnr-move"></span>
-            <p class="hover-text">View</p>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  </script>
+  <!-- <script id="movie-template" type="text/html"> -->
+  <?php
+  include 'html/marketplace_item.php';
+  ?>
 
   <script id="genre_template" type="text/html">
     <div class="checkbox">
@@ -362,8 +279,6 @@
       </label>
     </div>
   </script>
-
-
 
 
 </body>

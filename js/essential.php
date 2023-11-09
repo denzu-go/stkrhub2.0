@@ -12,21 +12,6 @@ $(document).ajaxComplete(function() {
 });
 
 
-$(document).on("click", "#ajax-link", function(event) {
-    event.preventDefault();
-
-    var published_game_id = $(this).data("published-game-id");
-
-    $.ajax({
-        url: "process_add_published_game_to_cart.php?published_game_id=" + published_game_id,
-        type: "GET",
-        success: function(data) {
-            $(".cart-count").html(data);
-            $("#cartCount").DataTable().ajax.reload();
-        },
-    });
-});
-
 var user_id = ' . $user_id . ';
 $("#cartCount").DataTable({
     searching: false,

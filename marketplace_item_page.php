@@ -14,6 +14,7 @@ while ($fetched = $query->fetch_assoc()) {
     $category = $fetched['category'];
     $edition = $fetched['edition'];
     $published_date = $fetched['published_date'];
+    $formatted_date = date("M. d, Y", strtotime($published_date));
     $creator_id = $fetched['creator_id'];
     $age_id = $fetched['age_id'];
     $short_description = $fetched['short_description'];
@@ -25,6 +26,85 @@ while ($fetched = $query->fetch_assoc()) {
     $min_playtime = $fetched['min_playtime'];
     $max_playtime = $fetched['max_playtime'];
     $marketplace_price = $fetched['marketplace_price'];
+}
+
+// rating
+$rating = "SELECT rating FROM ratings WHERE published_game_id = $published_game_id";
+$sqlGetRating = $conn->query($rating);
+$ratingsArray = [];
+while ($fetchedRating = $sqlGetRating->fetch_assoc()) {
+    $ratingsArray[] = $fetchedRating['rating'];
+}
+
+
+$ratingCounts = array(
+    '5' => 0,
+    '4' => 0,
+    '3' => 0,
+    '2' => 0,
+    '1' => 0
+);
+
+foreach ($ratingsArray as $ratingValue) {
+    if (array_key_exists($ratingValue, $ratingCounts)) {
+        $ratingCounts[$ratingValue]++;
+    }
+}
+
+// Now you have the count of each rating value
+$count5 = $ratingCounts['5'];
+$count4 = $ratingCounts['4'];
+$count3 = $ratingCounts['3'];
+$count2 = $ratingCounts['2'];
+$count1 = $ratingCounts['1'];
+
+
+$ratingSum = array_sum($ratingsArray);
+$ratingCount = count($ratingsArray);
+$averageRating = ($ratingCount > 0) ? ($ratingSum / $ratingCount) : 0;
+
+// Round to one decimal place
+$roundedRating = round($averageRating, 1);
+
+// Round to the nearest half
+$roundedRating = round($roundedRating * 2) / 2;
+
+
+// avatar users
+$getAvatarUser = "SELECT * FROM users WHERE user_id = $creator_id";
+$sqlGetAvatarUser = $conn->query($getAvatarUser);
+while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
+    $avatarA = $fetchedAvatarUser['avatar'];
+    $usernameA = $fetchedAvatarUser['username'];
+    $firstLetterA = strtoupper(substr($usernameA, 0, 1));
+
+    if (!is_null($avatarA)) {
+        $avatar_valueA = '
+        <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
+            <img src="' . $avatarA . '" alt="" style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+            ">
+
+        </div>
+        ';
+    } else {
+        $avatar_valueA = '
+            <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
+            background: rgb(38,211,224);
+            background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
+            
+                <span style="font-family: sans-serif; color: white; font-weight: bold; font-size:17px; padding-top: 0px;">' . $firstLetterA . '</span>
+
+            </div>
+        ';
+    }
 }
 ?>
 
@@ -271,20 +351,30 @@ while ($fetched = $query->fetch_assoc()) {
         .iziToast>.iziToast-close {
             filter: brightness(0) invert(1);
         }
+
+        /* overflow */
+        .review_list {
+            max-height: 500px;
+            overflow: scroll;
+        }
     </style>
 </head>
 
-<body>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
+
     <?php include 'html/page_header.php'; ?>
 
-
-    <!-- <section class="banner-area organic-breadcrumb">
-
-    </section> -->
-
+    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
 
-    <form method="post" action="process_add_published_game_page_to_cart.php">
+
+    <form method="post" action="process_add_published_game_page_to_cart.php" style="background: none;">
         <!--================Single Product Area =================-->
         <div class="product_image_area">
             <div class="container">
@@ -407,20 +497,34 @@ while ($fetched = $query->fetch_assoc()) {
 
                     <div class="col-lg offset-lg">
                         <div class="s_product_text">
-                            <h3>
+                            <h4>
                                 <?php echo $game_name; ?>
-                            </h3>
+                            </h5>
 
-                            <h2>
+                            <h4 style="color: #35c6e0">
                                 &#8369 <?php echo $marketplace_price; ?>
-                            </h2>
+                            </h4>
                             <ul class="list">
-                                <li><a class="active" href="#"><span>Category</span> : <?php echo $category; ?> </a></li>
-                                <!-- <li><a href="#"><span>Availibility</span> : In Stock</a></li> -->
+                                <li>
+                                    <span class="h6" style="color: #f7f799;">
+                                        <i class="fa-solid fa-star"></i>&nbsp;
+                                        <?php echo $roundedRating; ?>
+                                    </span>
+                                </li>
+
+                                <li class="">Edition: <span style="color: white;"> <?php echo $edition; ?> </span></li>
+
+                                <li class="">Category: <span style="color: white;"> <?php echo $category; ?> </span></li>
+                                <li>Date Published: <span style="color: white;"> <?php echo $formatted_date; ?> </span></li>
+
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto"><span>Publisher:</span></div>
+                                    <div class="col-auto" data-toggle="tooltip" title="<?php echo $usernameA ?>"><?php echo $avatar_valueA ?></div>
+                                </div>
                             </ul>
 
-
-
+                            <hr>
+                            
                             <div class="product_count">
                                 <label for="qty">Quantity:</label>
                                 <input type="number" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
@@ -444,35 +548,25 @@ while ($fetched = $query->fetch_assoc()) {
     </form>
 
 
-
     <!--================Product Description Area =================-->
-    <section class="product_description_area">
+    <section class="product_description_area" style="background: none;">
         <div class="container">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Specification</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews</a>
-                </li>
-            </ul>
             <div class="tab-content" id="myTabContent">
 
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <strong>Short Description:</strong>
-                    <p>
-                        <?php echo $short_description; ?>
-                    </p>
+                    <span>
+                        <em><?php echo $short_description; ?></em>
+                    </span>
 
-                    <strong>Long Description:</strong>
-                    <p><?php echo $long_description; ?></p>
+                    <br>
+                    <hr>
+
+                    <span><?php echo $long_description; ?></span>
                 </div>
+                <br>
+                <hr>
 
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="table-responsive">
 
                         <!-- <table class="table">
@@ -564,7 +658,10 @@ while ($fetched = $query->fetch_assoc()) {
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <br><br>
+                <hr>
+
+                <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                     <div class="row">
 
                         <div class="col-lg">
@@ -643,10 +740,10 @@ while ($fetched = $query->fetch_assoc()) {
                                                 <h3>Based on <?php echo $ratingCount ?> Review/s</h3>
                                                 <ul class="list">
                                                     <li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count5 ?></a></li>
-                                                    <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count4 ?></a></li>
-                                                    <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count3 ?></a></li>
-                                                    <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count2 ?></a></li>
-                                                    <li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count1 ?></a></li>
+                                                    <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count4 ?></a></li>
+                                                    <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count3 ?></a></li>
+                                                    <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count2 ?></a></li>
+                                                    <li><a href="#">1 Star <i class="fa fa-star"></i> <?php echo $count1 ?></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -1009,14 +1106,12 @@ while ($fetched = $query->fetch_assoc()) {
 
 
 
+
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-
-
     <!-- Toastr -->
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.3/dist/toastr.min.js"></script>
-
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
 
@@ -1054,9 +1149,15 @@ while ($fetched = $query->fetch_assoc()) {
     <!-- iziToast -->
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
 
+    <!-- showmore.js -->
+    <script src="jquery.show-more.js"></script>
+
 
     <script>
         $(document).ready(function() {
+
+            // mahalaga toh
+            <?php include 'js/essential.php'; ?>
 
             $(document).on("click", "#ajax-link", function(event) {
                 event.preventDefault();
@@ -1079,7 +1180,7 @@ while ($fetched = $query->fetch_assoc()) {
                             message: 'Successfully inserted record!',
                             titleColor: '#fff',
                             messageColor: '#fff',
-                            timeout: 90000,
+                            timeout: 4000,
                             overlayColor: 'rgba(0, 0, 0, 0.7)',
                         });
 
@@ -1236,28 +1337,6 @@ while ($fetched = $query->fetch_assoc()) {
 
 
 
-
-
-
-
-
-            var user_id = <?php echo $user_id ?>;
-            $("#cartCount").DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
-                ajax: {
-                    url: "json_cart_count.php",
-                    data: {
-                        user_id: user_id,
-                    },
-                    dataSrc: "",
-                },
-                columns: [{
-                    data: "cart_count",
-                }],
-            });
 
 
             var built_game_id = <?php echo $built_game_id; ?>;

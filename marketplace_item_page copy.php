@@ -2,8 +2,8 @@
 session_start();
 
 include 'connection.php';
-if (isset($_GET['id'])) {
-    $published_game_id = $_GET['id'];
+if (isset($_GET['published_game_id'])) {
+    $published_game_id = $_GET['published_game_id'];
 }
 $sql = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
 $query = $conn->query($sql);
@@ -262,11 +262,21 @@ while ($fetched = $query->fetch_assoc()) {
 
             color: #dc3545;
         }
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
+        }
+
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 
 <body>
     <?php include 'html/page_header.php'; ?>
+
 
     <!-- <section class="banner-area organic-breadcrumb">
 
@@ -433,13 +443,14 @@ while ($fetched = $query->fetch_assoc()) {
         <!--================End Single Product Area =================-->
     </form>
 
+
+
     <!--================Product Description Area =================-->
     <section class="product_description_area">
         <div class="container">
-
             <div class="tab-content" id="myTabContent">
 
-                <div class="container">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <strong>Short Description:</strong>
                     <p>
                         <?php echo $short_description; ?>
@@ -448,10 +459,10 @@ while ($fetched = $query->fetch_assoc()) {
                     <strong>Long Description:</strong>
                     <p><?php echo $long_description; ?></p>
                 </div>
-
+                <br>
                 <hr>
 
-                <div class="container">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="table-responsive">
 
                         <!-- <table class="table">
@@ -543,9 +554,10 @@ while ($fetched = $query->fetch_assoc()) {
                     </div>
                 </div>
 
-                <hr class="p-4">
+                <br><br>
+                <hr>
 
-                <div class="container">
+                <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                     <div class="row">
 
                         <div class="col-lg">
@@ -624,10 +636,10 @@ while ($fetched = $query->fetch_assoc()) {
                                                 <h3>Based on <?php echo $ratingCount ?> Review/s</h3>
                                                 <ul class="list">
                                                     <li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count5 ?></a></li>
-                                                    <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count4 ?></a></li>
-                                                    <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count3 ?></a></li>
-                                                    <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count2 ?></a></li>
-                                                    <li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count1 ?></a></li>
+                                                    <li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count4 ?></a></li>
+                                                    <li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count3 ?></a></li>
+                                                    <li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i> <?php echo $count2 ?></a></li>
+                                                    <li><a href="#">1 Star <i class="fa fa-star"></i> <?php echo $count1 ?></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -684,8 +696,13 @@ while ($fetched = $query->fetch_assoc()) {
                                                 $rating = $fetchedRatingResult['rating'];
                                                 $comment = $fetchedRatingResult['comment'];
                                                 $date_time = $fetchedRatingResult['date_time'];
+
+                                                // Convert the date_time string to a DateTime object
+                                                $dateTimeObj = new DateTime($date_time);
+
+                                                // Format the DateTime object as per the desired format
+                                                $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
                                             }
-                                            $formattedDate = date("M. j, Y");
 
                                             if (mysqli_num_rows($resultRating) > 0) {
                                                 echo '
@@ -855,6 +872,12 @@ while ($fetched = $query->fetch_assoc()) {
                                     $user_id = $fetchedReview['user_id'];
                                     $date_time = $fetchedReview['date_time'];
 
+                                    // Convert the date_time string to a DateTime object
+                                    $dateTimeObj = new DateTime($date_time);
+
+                                    // Format the DateTime object as per the desired format
+                                    $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
+
                                     $avatar = "SELECT * FROM users WHERE user_id = $user_id";
                                     $result = $conn->query($avatar);
                                     while ($fetchedAvatar = $result->fetch_assoc()) {
@@ -938,7 +961,6 @@ while ($fetched = $query->fetch_assoc()) {
                     </div>
                 </div>
 
-
             </div>
         </div>
     </section>
@@ -983,8 +1005,11 @@ while ($fetched = $query->fetch_assoc()) {
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
+
+
     <!-- Toastr -->
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.3/dist/toastr.min.js"></script>
+
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
 
@@ -1026,28 +1051,39 @@ while ($fetched = $query->fetch_assoc()) {
     <script>
         $(document).ready(function() {
 
-            var user_id = <?php echo $user_id ?>;
-            $("#cartCount").DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
-                ajax: {
-                    url: "json_cart_count.php",
+            $(document).on("click", "#ajax-link", function(event) {
+                event.preventDefault();
+                var user_id = <?php echo $user_id ?>;
+                var published_game_id = $(this).data("published-game-id");
+                var quantity = $("input[name='quantity']").val();
+
+                $.ajax({
+                    url: "process_add_published_game_to_cart_quantity.php",
+                    type: "POST",
                     data: {
-                        user_id: user_id,
+                        published_game_id: published_game_id,
+                        quantity: quantity,
                     },
-                    dataSrc: "",
-                },
-                columns: [{
-                    data: "cart_count",
-                }],
+                    success: function(data) {
+                        iziToast.success({
+                            color: '#15172e',
+                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                            title: 'OK',
+                            message: 'Successfully inserted record!',
+                            titleColor: '#fff',
+                            messageColor: '#fff',
+                            timeout: 90000,
+                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                        });
+
+
+                        $(".cart-count").html(data);
+                        $("#cartCount").DataTable().ajax.reload();
+                    },
+                });
             });
 
-            iziToast.show({
-                title: 'Hey',
-                message: 'What would you like to add?'
-            });
+
 
             $('.edit-comment').click(function() {
                 var rating_id = $(this).data('rating_id');
@@ -1099,6 +1135,7 @@ while ($fetched = $query->fetch_assoc()) {
                 }
             });
 
+
             $('.delete-comment').click(function() {
                 var rating_id = $(this).data('rating_id');
 
@@ -1136,6 +1173,7 @@ while ($fetched = $query->fetch_assoc()) {
                     }
                 });
             });
+
 
             $(document).on('submit', '#comment-form', function(e) {
                 e.preventDefault(); // Prevent the form from submitting immediately
@@ -1183,6 +1221,38 @@ while ($fetched = $query->fetch_assoc()) {
                 }
             });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+            var user_id = <?php echo $user_id ?>;
+            $("#cartCount").DataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                ajax: {
+                    url: "json_cart_count.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    dataSrc: "",
+                },
+                columns: [{
+                    data: "cart_count",
+                }],
+            });
+
+
             var built_game_id = <?php echo $built_game_id; ?>;
 
             $('#componentTable').DataTable({
@@ -1220,6 +1290,8 @@ while ($fetched = $query->fetch_assoc()) {
                 ]
             });
 
+
+
             var swiper = new Swiper(".mySwiper", {
                 spaceBetween: 10,
                 slidesPerView: 4,
@@ -1235,31 +1307,6 @@ while ($fetched = $query->fetch_assoc()) {
                 thumbs: {
                     swiper: swiper,
                 },
-            });
-
-
-
-            $(document).on("click", "#ajax-link", function(event) {
-                event.preventDefault();
-                var user_id = <?php echo $user_id ?>;
-                var published_game_id = $(this).data("published-game-id");
-                var quantity = $("input[name='quantity']").val();
-
-                $.ajax({
-                    url: "process_add_published_game_to_cart_quantity.php",
-                    type: "POST",
-                    data: {
-                        published_game_id: published_game_id,
-                        quantity: quantity,
-                    },
-                    success: function(data) {
-                        // Show a Toastr success notification
-                        toastr.success("Item added to cart successfully!");
-
-                        $(".cart-count").html(data);
-                        $("#cartCount").DataTable().ajax.reload();
-                    },
-                });
             });
 
         });
