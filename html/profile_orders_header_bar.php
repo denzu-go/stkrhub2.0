@@ -17,6 +17,9 @@
         <li class="nav-item <?php echo $header_canceled ?>">
             <a class="nav-link" href="profile_canceled.php">Canceled</a>
         </li>
+        <li class="nav-item <?php echo $header_tickets ?>">
+            <a class="nav-link" href="profile_tickets.php">Tickets</a>
+        </li>
     </ol>
 </nav>
 <!-- /Breadcrumb -->

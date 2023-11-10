@@ -209,8 +209,8 @@ background-attachment: fixed;">
     $header_in_production = '';
     $header_to_deliver = '';
     $header_received = '';
-    $header_canceled = 'active';
-    $header_tickets = '';
+    $header_canceled = '';
+    $header_tickets = 'active';
 
     ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
@@ -335,9 +335,8 @@ background-attachment: fixed;">
                 lengthChange: false,
                 ordering: false,
 
-
                 "ajax": {
-                    "url": "json_is_canceled_orders.php",
+                    "url": "json_tickets_orders.php",
                     data: {
                         user_id: user_id,
                     },

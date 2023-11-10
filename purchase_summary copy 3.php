@@ -206,21 +206,21 @@ $region_qry = mysqli_query($conn, $region);
 
                     <div class="container">
                         <label class="row p-2 mb-2 d-flex align-items-center" style="background: #272a4e; border-radius: 14px; color: white; font-size: 20px;">
-                            <input type="radio" name="payment_method" value="paypal" id="paypal_radio">&nbsp;
-                            <i class="fa-brands fa-paypal" style="color: #003087;"></i>
+                            <input type="radio" id="paypal_selected">&nbsp;
+                            <i class="fa-brands fa-paypal"></i>
                             <span class="">&nbsp; Paypal</span>
                         </label>
 
                         <label class="row p-2 d-flex align-items-center" style="background: #272a4e; border-radius: 14px; color: white; font-size: 20px;">
-                            <input type="radio" name="payment_method" value="stkr_wallet" id="stkr_wallet_radio">&nbsp;
-                            <i class="fa-solid fa-wallet" style="color: #f7f799"></i>
+                            <input type="radio" id="stkr_wallet_selected">&nbsp;
+                            <i class="fa-solid fa-wallet"></i>
                             <span class="">&nbsp; STKR Wallet</span>
                         </label>
 
                     </div>
 
 
-                    <hr>
+
 
                     <div id="paypal_selected">
                         <table id="paypalTable" class="display" style="width:100%">
@@ -327,28 +327,16 @@ $region_qry = mysqli_query($conn, $region);
     <!-- iziToast -->
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
 
+
+
+
+
     <!-- Replace the "test" client-id value with your client-id -->
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypal_client_id ?>&currency=PHP&disable-funding=credit,card"></script>
 
     <script>
         $(document).ready(function() {
             $("#paypal_selected").show();
-            $('#paypal_radio').prop('checked', true);
-
-            $('input[name="payment_method"]').change(function() {
-                if ($('#paypal_radio').prop('checked')) {
-                    $("#paypal_selected").show();
-                    $("#stkr_selected").hide();
-                } else if ($('#stkr_wallet_radio').prop('checked')) {
-                    $("#paypal_selected").hide();
-                    $("#stkr_selected").show();
-                }
-            });
-
-
-
-
-
 
 
             <?php include 'js/essential.php' ?>
@@ -904,81 +892,61 @@ $region_qry = mysqli_query($conn, $region);
                 var street = $('#stkr-payment-button').data('street');
                 var carts_selected = $('#stkr-payment-button').data('carts_selected');
 
-                iziToast.question({
-                    color: '#15172e',
-                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
-                    titleColor: '#fff',
-                    messageColor: '#fff',
-                    overlayColor: 'rgba(0, 0, 0, 0.7)',
+                Swal.fire({
+                    title: "Confirm Purchase",
+                    text: "Are you sure you want to purchase using STKR wallet? This can\'t be undone.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sure",
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var data = {
+                            "user_id": user_id,
+                            "shipping_discount": shipping_discount,
+                            "paypal_payment": paypal_payment,
+                            "fullname": fullname,
+                            "number": number,
+                            "region": region,
+                            "province": province,
+                            "city": city,
+                            "barangay": barangay,
+                            "zip": zip,
+                            "street": street,
+                            "carts_selected": carts_selected,
+                        };
 
-                    timeout: 20000,
-                    close: false,
-                    overlay: true,
-                    displayMode: 'once',
-                    id: 'question',
-                    zindex: 999,
-                    title: '',
-                    message: 'Are you sure you want to purchase using STKR wallet? This can\'t be undone.',
-                    position: 'center',
-                    buttons: [
-                        ['<button><b>YES</b></button>', function(instance, toast) {
-                            instance.hide({
-                                transitionOut: 'fadeOut'
-                            }, toast, 'button');
+                        $.ajax({
+                            method: "POST",
+                            url: "stkr_wallet_success.php",
+                            data: data,
+                            success: function(response) {
+                                $('#infoPurhaseTable').DataTable().ajax.reload();
+                                $('#profileAddress').DataTable().ajax.reload();
+                                $('#purchaseTable').DataTable().ajax.reload();
+                                $('#stkrTable').DataTable().ajax.reload();
 
-                            var data = {
-                                "user_id": user_id,
-                                "shipping_discount": shipping_discount,
-                                "paypal_payment": paypal_payment,
-                                "fullname": fullname,
-                                "number": number,
-                                "region": region,
-                                "province": province,
-                                "city": city,
-                                "barangay": barangay,
-                                "zip": zip,
-                                "street": street,
-                                "carts_selected": carts_selected,
-                            };
+                                $('#cartCount').DataTable().ajax.reload();
 
-                            $.ajax({
-                                method: "POST",
-                                url: "stkr_wallet_success.php",
-                                data: data,
-                                success: function(response) {
-                                    window.location.href = "profile_pending.php";
-                                },
-                                error: function() {
-                                    Swal.fire({
-                                        title: "Error",
-                                        text: "Purchased unsuccessful!",
-                                        icon: "error",
-                                    });
-                                },
-                            });
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Purchased successfully!",
+                                    icon: "success",
+                                });
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Purchased unsuccessful!",
+                                    icon: "error",
+                                });
+                            },
+                        });
 
-                        }, true],
-                        ['<button style="color: white;">NO</button>', function(instance, toast) {
-                            instance.hide({
-                                transitionOut: 'fadeOut'
-                            }, toast, 'button');
-                        }],
-                    ],
-
-                    onClosing: function(instance, toast, closedBy) {
-                        console.info('Closing | closedBy: ' + closedBy);
-                    },
-                    onClosed: function(instance, toast, closedBy) {
-                        console.info('Closed | closedBy: ' + closedBy);
                     }
                 });
-
-
             });
         });
-
-
-
 
 
 
@@ -1061,48 +1029,6 @@ $region_qry = mysqli_query($conn, $region);
 
                 }
             }).render('#paypal-payment-button');
-
-
-
-
-            $('#stkr-payment-button').prop('disabled', true);
-            $('#stkr-payment-button').css({
-                'pointer-events': 'none',
-                'opacity': '0.2'
-            });
-
-            $('#stkr_wallet_checkbox').change(function() {
-                if ($('#stkr_wallet_checkbox').prop('checked')) {
-                    $('#stkr-payment-button').prop('disabled', false);
-                } else if (!$('#stkr_wallet_checkbox').prop('checked')) {
-                    $('#stkr-payment-button').prop('disabled', true);
-                    $('#stkr-payment-button').css({
-                        'pointer-events': 'none',
-                        'opacity': '0.2'
-                    });
-                }
-            });
-
-            $('#paypal-payment-button').css({
-                'pointer-events': 'none',
-                'opacity': '0.2'
-            });
-
-            $('#paypal_checkbox').change(function() {
-                if ($('#paypal_checkbox').prop('checked')) {
-                    $('#paypal-payment-button').css({
-                        'pointer-events': 'auto',
-                        'opacity': '1'
-                    });
-
-                } else if (!$('#paypal_checkbox').prop('checked')) {
-                    $('#paypal-payment-button').css({
-                        'pointer-events': 'none',
-                        'opacity': '0.2'
-                    });
-                }
-            });
-
         });
     </script>
 

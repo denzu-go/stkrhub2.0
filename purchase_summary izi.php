@@ -206,14 +206,14 @@ $region_qry = mysqli_query($conn, $region);
 
                     <div class="container">
                         <label class="row p-2 mb-2 d-flex align-items-center" style="background: #272a4e; border-radius: 14px; color: white; font-size: 20px;">
-                            <input type="radio" name="payment_method" value="paypal" id="paypal_radio">&nbsp;
-                            <i class="fa-brands fa-paypal" style="color: #003087;"></i>
+                            <input type="radio" name="payment_method" value="paypal" id="paypal">&nbsp;
+                            <i class="fa-brands fa-paypal"></i>
                             <span class="">&nbsp; Paypal</span>
                         </label>
 
                         <label class="row p-2 d-flex align-items-center" style="background: #272a4e; border-radius: 14px; color: white; font-size: 20px;">
-                            <input type="radio" name="payment_method" value="stkr_wallet" id="stkr_wallet_radio">&nbsp;
-                            <i class="fa-solid fa-wallet" style="color: #f7f799"></i>
+                            <input type="radio" name="payment_method" value="stkr_wallet" id="stkr_wallet">&nbsp;
+                            <i class="fa-solid fa-wallet"></i>
                             <span class="">&nbsp; STKR Wallet</span>
                         </label>
 
@@ -333,17 +333,22 @@ $region_qry = mysqli_query($conn, $region);
     <script>
         $(document).ready(function() {
             $("#paypal_selected").show();
-            $('#paypal_radio').prop('checked', true);
+            $('#paypal').prop('checked', true);
 
             $('input[name="payment_method"]').change(function() {
-                if ($('#paypal_radio').prop('checked')) {
+                if ($('#paypal').prop('checked')) {
                     $("#paypal_selected").show();
                     $("#stkr_selected").hide();
-                } else if ($('#stkr_wallet_radio').prop('checked')) {
+                } else if ($('#stkr_wallet').prop('checked')) {
                     $("#paypal_selected").hide();
                     $("#stkr_selected").show();
                 }
             });
+
+
+
+
+
 
 
 
@@ -904,74 +909,7 @@ $region_qry = mysqli_query($conn, $region);
                 var street = $('#stkr-payment-button').data('street');
                 var carts_selected = $('#stkr-payment-button').data('carts_selected');
 
-                iziToast.question({
-                    color: '#15172e',
-                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
-                    titleColor: '#fff',
-                    messageColor: '#fff',
-                    overlayColor: 'rgba(0, 0, 0, 0.7)',
-
-                    timeout: 20000,
-                    close: false,
-                    overlay: true,
-                    displayMode: 'once',
-                    id: 'question',
-                    zindex: 999,
-                    title: '',
-                    message: 'Are you sure you want to purchase using STKR wallet? This can\'t be undone.',
-                    position: 'center',
-                    buttons: [
-                        ['<button><b>YES</b></button>', function(instance, toast) {
-                            instance.hide({
-                                transitionOut: 'fadeOut'
-                            }, toast, 'button');
-
-                            var data = {
-                                "user_id": user_id,
-                                "shipping_discount": shipping_discount,
-                                "paypal_payment": paypal_payment,
-                                "fullname": fullname,
-                                "number": number,
-                                "region": region,
-                                "province": province,
-                                "city": city,
-                                "barangay": barangay,
-                                "zip": zip,
-                                "street": street,
-                                "carts_selected": carts_selected,
-                            };
-
-                            $.ajax({
-                                method: "POST",
-                                url: "stkr_wallet_success.php",
-                                data: data,
-                                success: function(response) {
-                                    window.location.href = "profile_pending.php";
-                                },
-                                error: function() {
-                                    Swal.fire({
-                                        title: "Error",
-                                        text: "Purchased unsuccessful!",
-                                        icon: "error",
-                                    });
-                                },
-                            });
-
-                        }, true],
-                        ['<button style="color: white;">NO</button>', function(instance, toast) {
-                            instance.hide({
-                                transitionOut: 'fadeOut'
-                            }, toast, 'button');
-                        }],
-                    ],
-
-                    onClosing: function(instance, toast, closedBy) {
-                        console.info('Closing | closedBy: ' + closedBy);
-                    },
-                    onClosed: function(instance, toast, closedBy) {
-                        console.info('Closed | closedBy: ' + closedBy);
-                    }
-                });
+                
 
 
             });
@@ -1061,48 +999,6 @@ $region_qry = mysqli_query($conn, $region);
 
                 }
             }).render('#paypal-payment-button');
-
-
-
-
-            $('#stkr-payment-button').prop('disabled', true);
-            $('#stkr-payment-button').css({
-                'pointer-events': 'none',
-                'opacity': '0.2'
-            });
-
-            $('#stkr_wallet_checkbox').change(function() {
-                if ($('#stkr_wallet_checkbox').prop('checked')) {
-                    $('#stkr-payment-button').prop('disabled', false);
-                } else if (!$('#stkr_wallet_checkbox').prop('checked')) {
-                    $('#stkr-payment-button').prop('disabled', true);
-                    $('#stkr-payment-button').css({
-                        'pointer-events': 'none',
-                        'opacity': '0.2'
-                    });
-                }
-            });
-
-            $('#paypal-payment-button').css({
-                'pointer-events': 'none',
-                'opacity': '0.2'
-            });
-
-            $('#paypal_checkbox').change(function() {
-                if ($('#paypal_checkbox').prop('checked')) {
-                    $('#paypal-payment-button').css({
-                        'pointer-events': 'auto',
-                        'opacity': '1'
-                    });
-
-                } else if (!$('#paypal_checkbox').prop('checked')) {
-                    $('#paypal-payment-button').css({
-                        'pointer-events': 'none',
-                        'opacity': '0.2'
-                    });
-                }
-            });
-
         });
     </script>
 

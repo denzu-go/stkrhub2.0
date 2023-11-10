@@ -139,8 +139,12 @@ $item = '
                     <div class="col lead">
                         <span style="color: #26d3e0;"> &#8369;' . number_format($total_payment, 2) . '</span>
                     </div>
-                    
                 </div>
+
+                <label class="row d-flex justify-content-center">
+                    <input id="paypal_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
+                    &nbsp; I agree to these &nbsp;<a href="#">Terms and Conditions</a>
+                </label>
 
                 <div class="row">
                     <div id="paypal-payment-button"
