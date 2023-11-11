@@ -6,6 +6,10 @@ $number = 0;
 
 $sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE $passed_status = 1";
 $queryUniqueOrderDates = $conn->query($sqlUniqueOrderDates);
+if (!$queryUniqueOrderDates) {
+    // Print the error message and terminate the script
+    die("Query failed: " . $conn->error);
+}
 while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     $unique_order_group_id = $row['unique_order_group_id'];
 

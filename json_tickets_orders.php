@@ -5,31 +5,44 @@ $user_id = $_GET['user_id'];
 
 $data = array();
 
-$sqlUniqueOrderDates = "SELECT DISTINCT ticket_id FROM orders WHERE user_id = $user_id AND ticket_id IS NOT NULL ORDER BY order_date DESC";
-
+$sqlUniqueOrderDates = "SELECT * FROM tickets WHERE user_id = $user_id ORDER BY created_at DESC";
 $queryUniqueOrderDates = $conn->query($sqlUniqueOrderDates);
-while ($row = $queryUniqueOrderDates->fetch_assoc()) {
-    $ticket_id = $row['ticket_id'];
+while ($fetchedD = $queryUniqueOrderDates->fetch_assoc()) {
 
+    $ticket_id = $fetchedD['ticket_id'];
 
-    $sqlOrderDetails = "SELECT * FROM orders WHERE ticket_id = $ticket_id AND user_id = $user_id";
+    $created_at = $fetchedD['created_at'];
+    $formatted_date = date('M. d, Y h:i A', strtotime($created_at));
 
-    $queryOrderDetails = $conn->query($sqlOrderDetails);
-    while ($fetchedD = $queryOrderDetails->fetch_assoc()) {
-        $unique_order_group_id = $fetchedD['unique_order_group_id'];
+    $game_id = $fetchedD['game_id'];
+    $is_approved = $fetchedD['is_approved'];
+    $is_denied = $fetchedD['is_denied'];
 
-        $order_date = $fetchedD['order_date'];
-        $formatted_date = date('M. d, Y h:i A', strtotime($order_date));
+    $is_at_cart = $fetchedD['is_at_cart'];
+    $is_purchased = $fetchedD['is_purchased'];
 
-        $is_pending = $fetchedD['is_pending'];
-        $in_production = $fetchedD['in_production'];
-        $to_ship = $fetchedD['to_ship'];
-        $to_deliver = $fetchedD['to_deliver'];
-        $is_received = $fetchedD['is_received'];
-        $is_canceled = $fetchedD['is_canceled'];
-        $is_completely_canceled = $fetchedD['is_completely_canceled'];
+    $is_accepted = $fetchedD['is_accepted'];
+    $is_canceled = $fetchedD['is_canceled'];
+
+    $total_price = $fetchedD['total_price'];
+    $ticket_price = $fetchedD['ticket_price'];
+
+    $sqlConstantBuiltG = "SELECT * FROM constants WHERE classification = 'thumbnail_ticket'";
+    $queryConstantBuiltG = $conn->query($sqlConstantBuiltG);
+    while ($fetchedConstantBuiltG = $queryConstantBuiltG->fetch_assoc()) {
+        $constant_id = $fetchedConstantBuiltG['constant_id'];
+        $image_path = $fetchedConstantBuiltG['image_path'];
+
+        $img_src = $image_path;
     }
 
+    if($is_approved){
+        $status = 'Approved';
+    } elseif($is_denied){
+        $status = 'Denied';
+    } else{
+        $status = 'Undefined';
+    }
 
     $item = '
             <div class="row">
@@ -46,8 +59,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                 </div>
                 
                                 <div class="col-0 d-flex align-items-center ml-auto">
-                                    <div class="mr-2">Status: status</div>
-                                    <div class="mr-2">Order ID: ' . $unique_order_group_id . '</div>
+                                    <div class="mr-2">Ticket ID: ' . $ticket_id . '</div>
                                 </div>
                 
                             </div>
@@ -59,7 +71,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
 
 
 
-        $item .= '
+    $item .= '
                                     <div class="container p-0 m-0" style="border-bottom: 2px solid #15172e;">
 
                                         <div class="row">
@@ -72,7 +84,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                                         <div class="col-md-2 col-lg-2 col-xl-2 p-0">
                                                             <div class="container" style="height: 100%; width: 100%;">
                                                                 <div class="image-mini-container mask1">
-                                                                    <img class="image-mini" src="img/i7.jpg">
+                                                                    <img class="image-mini" src="'.$img_src.'">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -80,20 +92,20 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                                         <div class="col overflow-hidden">
                                                             <div class="container" style="line-height: 17px;">
                                                                 <div class="row mb-1">
-                                                                    <span class="lead d-inline-block text-truncate data-toggle="tooltip" title="" style="max-width: 500px; color: #e7e7e7">
-                                                                        title
+                                                                    <span class=" d-inline-block text-truncate data-toggle="tooltip" title="" style="max-width: 500px; color: #e7e7e7">
+                                                                        Created Game ID: '.$game_id.'
                                                                     </span>
                                                                 </div>
                                                                 
                                                                 <div class="row mb-1">
                                                                     <span class="d-inline-block text-truncate" style="max-width: 500px;">
-                                                                        desc
+                                                                        Status: '.$status.'
                                                                     </span>
                                                                 </div>
 
                                                                 <div class="row mb-1">
                                                                     <span class="small d-inline-block text-truncate" style="max-width: 500px;">
-                                                                        class
+                                                                        Ticket
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -103,16 +115,9 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                                             <div class="container " style="line-height: 17px;">
 
                                                                 <div class="row d-flex justify-content-end">
-                                                                    <span class="mb-1" style="">Price: &#8369;price</span>
+                                                                    <span class="mb-0" style="color: #26d3e0">&#8369;'.$ticket_price.'</span>
                                                                 </div>
 
-                                                                <div class="row d-flex justify-content-end">
-                                                                    <span class="mb-1" style="">Quantity: quanity</span>
-                                                                </div>
-
-                                                                <div class="row d-flex justify-content-end">
-                                                                    <span class="mb-0" style="color: #26d3e0">&#8369;total price</span>
-                                                                </div>
                                                             </div>
                                                             
                                                         </div>              

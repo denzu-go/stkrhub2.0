@@ -346,11 +346,6 @@ $region_qry = mysqli_query($conn, $region);
             });
 
 
-
-
-
-
-
             <?php include 'js/essential.php' ?>
 
             var user_id = <?php echo $user_id; ?>;
@@ -1074,6 +1069,11 @@ $region_qry = mysqli_query($conn, $region);
             $('#stkr_wallet_checkbox').change(function() {
                 if ($('#stkr_wallet_checkbox').prop('checked')) {
                     $('#stkr-payment-button').prop('disabled', false);
+                    $('#stkr-payment-button').css({
+                        'pointer-events': 'auto',
+                        'opacity': '1'
+                    });
+
                 } else if (!$('#stkr_wallet_checkbox').prop('checked')) {
                     $('#stkr-payment-button').prop('disabled', true);
                     $('#stkr-payment-button').css({

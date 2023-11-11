@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 562
+                COMPONENT NAME: Dice 2
+                CATEGORY: game piece
+                SIZE: 7x7
+
+                QUANTITY: 1
+                COLOR: white #FFFFFF
+                FILE: 
+                

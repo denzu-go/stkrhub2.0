@@ -66,7 +66,7 @@ include 'connection.php';
                         <div class="card">
                             <div class="card-body">
 
-                                <?php
+                            <?php
                                 $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
                                 $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
@@ -75,14 +75,10 @@ include 'connection.php';
                                     $count = $row['count'];
 
                                     if ($count > 0) {
-                                        echo '
-                                                <table id="allOrders" class="hover" style="width: 100%;">
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                ';
+                                        echo
+                                        include 'html/admin_table_allOrders.php';
                                     } else {
-                                        echo 'None.';
+                                        echo 'No orders.';
                                     }
                                 } else {
                                     echo 'Error checking for orders in production.';

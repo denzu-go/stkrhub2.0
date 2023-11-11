@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->begin_transaction();
 
     try {
-
         $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id";
         $queryAll = $conn->query($sqlAll);
         while ($fetched = $queryAll->fetch_assoc()) {
@@ -19,10 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $quantity = $fetched['quantity'];
             $price = $fetched['price'];
 
-
             if ($ticket_id) {
                 // Update the orders table
                 $sqlUpdateOrders = "UPDATE orders SET is_received = 1 WHERE order_id = $order_id";
+                $conn->query($sqlUpdateOrders);
+            } elseif ($built_game_id) {
+                // Update the orders table
+                $sqlUpdateOrders = "UPDATE orders SET in_production = 0, to_ship = 1 WHERE order_id = $order_id";
+                $conn->query($sqlUpdateOrders);
+
+            } elseif ($published_game_id) {
+                $sqlUpdateOrders = "UPDATE orders SET in_production = 0, to_ship = 1 WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             } else {
                 // Update the orders table
@@ -34,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $conn->commit();
 
-        $response = ["success" => true, "message" => "Game and related records deleted successfully"];
+        $response = ["success" => true, "message" => "Success!"];
     } catch (mysqli_sql_exception $e) {
         $conn->rollback();
 
@@ -46,4 +52,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = ["success" => false, "message" => "Invalid request method"];
     echo json_encode($response);
 }
-
