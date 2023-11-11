@@ -5,7 +5,7 @@ $user_id = $_GET['user_id'];
 
 $data = array();
 
-$sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE in_production = 1 AND user_id = $user_id ORDER BY order_date DESC";
+$sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE in_production = 1 AND user_id = $user_id ORDER BY in_production_datetime DESC";
 $queryUniqueOrderDates = $conn->query($sqlUniqueOrderDates);
 while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     $unique_order_group_id = $row['unique_order_group_id'];

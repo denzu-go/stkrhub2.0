@@ -21,31 +21,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $price = $fetched['price'];
 
             if ($ticket_id) {
-                // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET is_received = 1, to_ship_datetime = '$currentDateTime' WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET is_received = 1, is_received_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             } elseif ($built_game_id) {
-                // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET in_production = 0, to_ship = 1, to_ship_datetime = '$currentDateTime' WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET to_deliver = 0, is_received = 1, is_received_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
-
             } elseif ($published_game_id) {
-                $sqlUpdateOrders = "UPDATE orders SET in_production = 0, to_ship = 1, to_ship_datetime = '$currentDateTime' WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET to_deliver = 0, is_received = 1, is_received_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             } else {
-                // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET in_production = 0, to_ship = 1, to_ship_datetime = '$currentDateTime' WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET to_deliver = 0, is_received = 1, is_received_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             }
         }
-
 
         $conn->commit();
 
         $response = ["success" => true, "message" => "Success!"];
     } catch (mysqli_sql_exception $e) {
         $conn->rollback();
-
         $response = ["success" => false, "message" => "Database error: " . $e->getMessage()];
     }
 

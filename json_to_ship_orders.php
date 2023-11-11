@@ -5,13 +5,13 @@ $user_id = $_GET['user_id'];
 
 $data = array();
 
-$sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE is_pending = 1 AND user_id = $user_id ORDER BY order_date DESC";
+$sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE to_ship = 1 AND user_id = $user_id ORDER BY to_ship_datetime DESC";
 $queryUniqueOrderDates = $conn->query($sqlUniqueOrderDates);
 while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     $unique_order_group_id = $row['unique_order_group_id'];
 
 
-    $sqlOrderDetails = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_pending = 1 AND user_id = $user_id";
+    $sqlOrderDetails = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND to_ship = 1 AND user_id = $user_id";
     $queryOrderDetails = $conn->query($sqlOrderDetails);
     while ($fetchedD = $queryOrderDetails->fetch_assoc()) {
         $order_date = $fetchedD['order_date'];
@@ -71,7 +71,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                 <div class="col">';
 
     $subtotal = 0;
-    $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND is_pending = 1 AND user_id = $user_id AND ticket_id IS NULL";
+    $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND to_ship = 1 AND user_id = $user_id AND ticket_id IS NULL";
     $queryAll = $conn->query($sqlAll);
     while ($fetched = $queryAll->fetch_assoc()) {
         $order_id = $fetched['order_id'];
@@ -343,15 +343,9 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
         if ($is_pending) {
             $action = '
             <div class="col text-end">
-                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
+            <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
             </div>
-        ';
-        } elseif ($to_deliver) {
-            $action = '
-            <div class="col text-end">
-                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
-            </div>
-        ';
+            ';
         } else {
             $action = '';
         }
@@ -446,7 +440,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
 
                                 <div class="col d-flex justify-content-start">
                                     <div class="row">
-                                        <div class="col-3"><span class="small">' . $fullname . '<br>' . $number . '</span></div>
+                                        <div class="col-4"><span class="small">' . $fullname . '<br>' . $number . '</span></div>
                                         <div class="col-8"><span class="small">' . $full_address_value . '</span></div>
                                     </div>
                                 </div>
@@ -476,8 +470,6 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
 
 
                                         <div class="row mr-0 d-flex justify-content-end">
-                                            <a href="#!" class="" id="cancel_orders" data-unique_order_group_id="' . $unique_order_group_id . '">Cancel</a>
-                                            
                                             <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
                                             class="" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
                                                 View Details
