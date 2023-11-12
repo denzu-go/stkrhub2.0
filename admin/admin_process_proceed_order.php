@@ -2,7 +2,6 @@
 include 'connection.php';
 $order_id = $_POST['order_id'];
 
-// Check if the order_id is equal to ticket_id
 $sql = "SELECT ticket_id FROM orders WHERE order_id = $order_id";
 $result = $conn->query($sql);
 
@@ -11,7 +10,6 @@ if ($result->num_rows > 0) {
     $ticket_id = $row['ticket_id'];
 
     if (!is_null($ticket_id)) {
-        // If the order_id is equal to ticket_id, update is_received
         $updateSql = "UPDATE orders SET is_pending = 0, is_received = 1 WHERE order_id = $order_id";
 
         $sqlUpdateTicket = "UPDATE tickets SET is_accepted = 1 WHERE ticket_id = $ticket_id";
@@ -27,7 +25,6 @@ if ($result->num_rows > 0) {
             $conn->query($sqlUpdateGameTicket);
         }
     } else {
-        // Otherwise, update in_production
         $updateSql = "UPDATE orders SET is_pending = 0, in_production = 1 WHERE order_id = $order_id";
     }
 

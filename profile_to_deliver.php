@@ -241,7 +241,7 @@ background-attachment: fixed;">
                     <!-- content -->
 
                     <div class="container">
-                    <?php
+                        <?php
                         $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE to_deliver = 1";
                         $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
@@ -275,6 +275,55 @@ background-attachment: fixed;">
 
 
 
+
+    <!-- modals -->
+    <div class="modal fade" id="cancelReason">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                </div>
+                <form id="cancelForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <?php
+                        $cancellationReasons = array();
+
+                        // Query to retrieve cancellation reasons from the database
+                        $sqlSelectReasons = "SELECT cancel_order_reason_id, reason_text FROM cancel_order_reasons";
+                        $queryReasons = $conn->query($sqlSelectReasons);
+
+                        if ($queryReasons) {
+                            // Fetch reasons and store them in the array
+                            while ($row = $queryReasons->fetch_assoc()) {
+                                $cancellationReasons[] = $row;
+                            }
+                        }
+
+                        foreach ($cancellationReasons as $reason) {
+                            $cancel_order_reason_id = $reason['cancel_order_reason_id'];
+                            $reason_text = $reason['reason_text'];
+                            echo '<input type="radio" id="' . $cancel_order_reason_id . '" name="cancel_order_reason_id" value="' . $cancel_order_reason_id . '" required>' . $reason_text . '<br>';
+                        }
+
+                        ?>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
@@ -304,16 +353,12 @@ background-attachment: fixed;">
 
     <script>
         $(document).ready(function() {
-
             <?php include 'js/essential.php'; ?>
-
-
             var monkeyList = new List('test-list', {
                 valueNames: ['name'],
                 page: 7,
                 pagination: true
             });
-
 
             var options = {
                 valueNames: ['name', 'born']
@@ -334,7 +379,6 @@ background-attachment: fixed;">
                 lengthChange: false,
                 ordering: false,
 
-
                 "ajax": {
                     "url": "json_to_deliver_orders.php",
                     data: {
@@ -346,6 +390,41 @@ background-attachment: fixed;">
                     "data": "item"
                 }, ]
             });
+
+
+            $('#allOrders').on('click', '#order_received', function() {
+                var unique_order_group_id = $(this).data('unique_order_group_id');
+
+                Swal.fire({
+                    title: '',
+                    text: 'Are you sure you already received your order?',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'process_order_received.php',
+                            data: {
+                                unique_order_group_id: unique_order_group_id
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                $('#allOrders').DataTable().ajax.reload();
+                                Swal.fire('Success', response.message, 'success');
+                            },
+                            error: function() {
+                                $('#allOrders').DataTable().ajax.reload();
+                                Swal.fire('Error', 'Failed to delete the game', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+
         });
     </script>
 

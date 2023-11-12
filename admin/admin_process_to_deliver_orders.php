@@ -5,6 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $unique_order_group_id = $_POST['unique_order_group_id'];
     $textValue = $_POST["text"];
     $selectValue = $_POST["select"];
+    
+    $currentDateTime = date('Y-m-d H:i:s');
 
     $conn->begin_transaction();
 
@@ -24,11 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($ticket_id) {
                 // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET is_received = 1 WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET is_received = 1, to_deliver_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             } else {
                 // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET to_ship = 0, to_deliver = 1 WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET to_ship = 0, to_deliver = 1, to_deliver_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             }
         }

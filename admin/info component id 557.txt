@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 557
+                COMPONENT NAME: Tarrot Cards
+                CATEGORY: game cards
+                SIZE: 7x7
+
+                QUANTITY: 3
+                COLOR: N/A 
+                FILE: 6548715e99e4f_pastora arlene img larger.jpg
+                

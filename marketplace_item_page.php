@@ -499,45 +499,45 @@ background-attachment: fixed;">
                         <div class="s_product_text">
                             <h4>
                                 <?php echo $game_name; ?>
-                            </h5>
+                                </h5>
 
-                            <h4 style="color: #35c6e0">
-                                &#8369 <?php echo $marketplace_price; ?>
-                            </h4>
-                            <ul class="list">
-                                <li>
-                                    <span class="h6" style="color: #f7f799;">
-                                        <i class="fa-solid fa-star"></i>&nbsp;
-                                        <?php echo $roundedRating; ?>
-                                    </span>
-                                </li>
+                                <h4 style="color: #35c6e0">
+                                    &#8369 <?php echo $marketplace_price; ?>
+                                </h4>
+                                <ul class="list">
+                                    <li>
+                                        <span class="h6" style="color: #f7f799;">
+                                            <i class="fa-solid fa-star"></i>&nbsp;
+                                            <?php echo $roundedRating; ?>
+                                        </span>
+                                    </li>
 
-                                <li class="">Edition: <span style="color: white;"> <?php echo $edition; ?> </span></li>
+                                    <li class="">Edition: <span style="color: white;"> <?php echo $edition; ?> </span></li>
 
-                                <li class="">Category: <span style="color: white;"> <?php echo $category; ?> </span></li>
-                                <li>Date Published: <span style="color: white;"> <?php echo $formatted_date; ?> </span></li>
+                                    <li class="">Category: <span style="color: white;"> <?php echo $category; ?> </span></li>
+                                    <li>Date Published: <span style="color: white;"> <?php echo $formatted_date; ?> </span></li>
 
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-auto"><span>Publisher:</span></div>
-                                    <div class="col-auto" data-toggle="tooltip" title="<?php echo $usernameA ?>"><?php echo $avatar_valueA ?></div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-auto"><span>Publisher:</span></div>
+                                        <div class="col-auto" data-toggle="tooltip" title="<?php echo $usernameA ?>"><?php echo $avatar_valueA ?></div>
+                                    </div>
+                                </ul>
+
+                                <hr>
+
+                                <div class="product_count">
+                                    <label for="qty">Quantity:</label>
+                                    <input type="number" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+
+
+                                    <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>"><br>
+                                    <input type="hidden" name="marketplace_price" value="<?php echo $marketplace_price; ?>"><br>
                                 </div>
-                            </ul>
 
-                            <hr>
-                            
-                            <div class="product_count">
-                                <label for="qty">Quantity:</label>
-                                <input type="number" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+                                <div class="card_area d-flex align-items-center">
 
-
-                                <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>"><br>
-                                <input type="hidden" name="marketplace_price" value="<?php echo $marketplace_price; ?>"><br>
-                            </div>
-
-                            <div class="card_area d-flex align-items-center">
-
-                                <button id="ajax-link" class="primary-btn" type="submit" data-published-game-id="<?php echo $published_game_id; ?>">Add to Cart</button>
-                            </div>
+                                    <button id="ajax-link" class="primary-btn" type="submit" data-published-game-id="<?php echo $published_game_id; ?>">Add to Cart</button>
+                                </div>
 
                         </div>
                     </div>
@@ -1386,6 +1386,10 @@ background-attachment: fixed;">
             });
             var swiper2 = new Swiper(".mySwiper2", {
                 spaceBetween: 10,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",

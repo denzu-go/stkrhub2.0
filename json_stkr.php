@@ -16,7 +16,7 @@ $queryAdd = "
 SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_add
 FROM wallet_transactions
 WHERE user_id = '$user_id'
-AND (transaction_type = 'Cash In' OR transaction_type = 'Profit');
+AND (transaction_type = 'Cash In' OR transaction_type = 'Profit' OR transaction_type = 'Cancel');
 ";
 $resultAdd = $conn->query($queryAdd);
 
@@ -181,6 +181,7 @@ if ($total_wallet_amount_normalized < $total_payment){
         data-street="' . $street . '"
         data-carts_selected="' . implode(',', $selectedCartIds) . '"
         style="color: #ffffff; width:100%; border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); cursor: pointer;"
+        
         >Pay with STKR Wallet</button>
     ';
 }
@@ -237,6 +238,11 @@ $item = '
                         <span style="color: #26d3e0;"> &#8369;' . number_format($total_payment, 2) . '</span>
                     </div>
                 </div>
+
+                <label class="row d-flex justify-content-center">
+                    <input id="stkr_wallet_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
+                    &nbsp; I agree to these &nbsp;<a href="#">Terms and Conditions</a>
+                </label>
 
                 <div class="row">
                     '.$stkr_pay_button.'

@@ -19,6 +19,8 @@ while ($fetchedD = $queryOrderDetails->fetch_assoc()) {
     $is_canceled = $fetchedD['is_canceled'];
     $is_completely_canceled = $fetchedD['is_completely_canceled'];
 
+    $cancel_order_reason_id = $fetchedD['cancel_order_reason_id'];
+
     $in_production_datetime = $fetchedD['in_production_datetime'];
     $to_ship_datetime = $fetchedD['to_ship_datetime'];
     $to_deliver_datetime = $fetchedD['to_deliver_datetime'];
@@ -56,6 +58,21 @@ $delivery_address = '
 ';
 
 
+// courier details
+$sqlGetCourier = "SELECT * FROM to_deliver WHERE unique_order_group_id = $unique_order_group_id";
+$queryGetCourier = $conn->query($sqlGetCourier);
+while($fetchedCourier = $queryGetCourier->fetch_assoc()){
+    $tracking_number = $fetchedCourier['tracking_number'];
+    $courier = $fetchedCourier['courier'];
+}
+
+// cancel order reason
+$sqlGetCancelReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
+$queryGetCancelReason = $conn->query($sqlGetCancelReason);
+while($fetchedCancelReason = $queryGetCancelReason->fetch_assoc()){
+    $reason_text = $fetchedCancelReason['reason_text'];
+}
+
 // status
 if ($is_pending) {
     $status = 'PENDING';
@@ -72,7 +89,7 @@ if ($is_pending) {
 }
 
 
-
+$courier_details = '';
 $cancelation_reason = '';
 if ($is_pending == 1) {
     $progresses_taas = '
@@ -81,19 +98,21 @@ if ($is_pending == 1) {
     </div>
 
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span><i class="fa-solid fa-person-digging"></i></span>
     </div>
+
+    <span class="step-line_not_yet"></span>
+    <div class="steps_not_yet">
+    <span class="font-weight-bold"><i class="fa-solid fa-truck-ramp-box"></i></span>
+    </div>
     
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-truck"></i></span>
     </div>
 
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-house-circle-check"></i></span>
     </div>
@@ -105,19 +124,21 @@ if ($is_pending == 1) {
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">In Production</span> <span class="small">' . $formatted_in_production_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">To Ship</span> <span class="small">' . $formatted_to_ship_datetime . '</span>
+    </div>
 
+    <span class="step-line-b"></span>
     <div class="steps-b">
         <span style="color: #e7e7e7">To Deliver</span> <span class="small">' . $formatted_to_deliver_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">Received</span> <span class="small">' . $formatted_is_received_datetime . '</span>
     </div>
@@ -128,20 +149,22 @@ if ($is_pending == 1) {
     <span><i class="fa-solid fa-money-bill-wave"></i></span>
     </div>
 
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
+    <span class="step-line"></span>
+    <div class="steps">
     <span><i class="fa-solid fa-person-digging"></i></span>
+    </div>
+
+    <span class="step-line_not_yet"></span>
+    <div class="steps_not_yet">
+    <span class="font-weight-bold"><i class="fa-solid fa-truck-ramp-box"></i></span>
     </div>
     
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-truck"></i></span>
     </div>
 
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-house-circle-check"></i></span>
     </div>
@@ -153,19 +176,21 @@ if ($is_pending == 1) {
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">In Production</span> <span class="small">' . $formatted_in_production_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">To Ship</span> <span class="small">' . $formatted_to_ship_datetime . '</span>
+    </div>
 
+    <span class="step-line-b"></span>
     <div class="steps-b">
         <span style="color: #e7e7e7">To Deliver</span> <span class="small">' . $formatted_to_deliver_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">Received</span> <span class="small">' . $formatted_is_received_datetime . '</span>
     </div>
@@ -176,68 +201,22 @@ if ($is_pending == 1) {
     <span><i class="fa-solid fa-money-bill-wave"></i></span>
     </div>
 
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
-    <span><i class="fa-solid fa-person-digging"></i></span>
-    </div>
-    
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
-    <span class="font-weight-bold"><i class="fa-solid fa-truck"></i></span>
-    </div>
-
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
-    <span class="font-weight-bold"><i class="fa-solid fa-house-circle-check"></i></span>
-    </div>
-    ';
-
-    $progresses_baba = '
-    <div class="steps-b">
-        <span style="color: #e7e7e7">Order Placed</span> <span class="small">' . $formatted_date . '</span>
-    </div>
-
-    <span class="step-line-b"></span>
-
-    <div class="steps-b">
-        <span style="color: #e7e7e7">In Production</span> <span class="small">' . $formatted_in_production_datetime . '</span>
-    </div>
-
-    <span class="step-line-b"></span>
-
-    <div class="steps-b">
-        <span style="color: #e7e7e7">To Deliver</span> <span class="small">' . $formatted_to_deliver_datetime . '</span>
-    </div>
-
-    <span class="step-line-b"></span>
-
-    <div class="steps-b">
-        <span style="color: #e7e7e7">Received</span> <span class="small">' . $formatted_is_received_datetime . '</span>
-    </div>
-    ';
-} elseif ($in_production == 1) {
-    $progresses_taas = '
+    <span class="step-line"></span>
     <div class="steps">
-    <span><i class="fa-solid fa-money-bill-wave"></i></span>
+    <span><i class="fa-solid fa-person-digging"></i></span>
     </div>
 
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
-    <span><i class="fa-solid fa-person-digging"></i></span>
+    <span class="step-line"></span>
+    <div class="steps">
+    <span class="font-weight-bold"><i class="fa-solid fa-truck-ramp-box"></i></span>
     </div>
     
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-truck"></i></span>
     </div>
 
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-house-circle-check"></i></span>
     </div>
@@ -249,19 +228,21 @@ if ($is_pending == 1) {
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">In Production</span> <span class="small">' . $formatted_in_production_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">To Ship</span> <span class="small">' . $formatted_to_ship_datetime . '</span>
+    </div>
 
+    <span class="step-line-b"></span>
     <div class="steps-b">
         <span style="color: #e7e7e7">To Deliver</span> <span class="small">' . $formatted_to_deliver_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">Received</span> <span class="small">' . $formatted_is_received_datetime . '</span>
     </div>
@@ -272,20 +253,22 @@ if ($is_pending == 1) {
     <span><i class="fa-solid fa-money-bill-wave"></i></span>
     </div>
 
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
+    <span class="step-line"></span>
+    <div class="steps">
     <span><i class="fa-solid fa-person-digging"></i></span>
     </div>
-    
-    <span class="step-line_not_yet"></span>
 
-    <div class="steps_not_yet">
+    <span class="step-line"></span>
+    <div class="steps">
+    <span class="font-weight-bold"><i class="fa-solid fa-truck-ramp-box"></i></span>
+    </div>
+    
+    <span class="step-line"></span>
+    <div class="steps">
     <span class="font-weight-bold"><i class="fa-solid fa-truck"></i></span>
     </div>
 
     <span class="step-line_not_yet"></span>
-
     <div class="steps_not_yet">
     <span class="font-weight-bold"><i class="fa-solid fa-house-circle-check"></i></span>
     </div>
@@ -297,21 +280,35 @@ if ($is_pending == 1) {
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">In Production</span> <span class="small">' . $formatted_in_production_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">To Ship</span> <span class="small">' . $formatted_to_ship_datetime . '</span>
+    </div>
 
+    <span class="step-line-b"></span>
     <div class="steps-b">
         <span style="color: #e7e7e7">To Deliver</span> <span class="small">' . $formatted_to_deliver_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">Received</span> <span class="small">' . $formatted_is_received_datetime . '</span>
+    </div>
+    ';
+
+    $courier_details = '
+    <div class="container">
+        <div class="row">
+            <span style="color: white;">Courier:</span>&nbsp;'.$courier.'
+        </div>
+
+        <div class="row">
+            <span style="color: white;">Tracking Number:</span>&nbsp;'.$tracking_number.'
+        </div>
     </div>
     ';
 } elseif ($is_received == 1) {
@@ -320,21 +317,23 @@ if ($is_pending == 1) {
     <span><i class="fa-solid fa-money-bill-wave"></i></span>
     </div>
 
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
+    <span class="step-line"></span>
+    <div class="steps">
     <span><i class="fa-solid fa-person-digging"></i></span>
     </div>
-    
-    <span class="step-line_not_yet"></span>
 
-    <div class="steps_not_yet">
+    <span class="step-line"></span>
+    <div class="steps">
+    <span class="font-weight-bold"><i class="fa-solid fa-truck-ramp-box"></i></span>
+    </div>
+    
+    <span class="step-line"></span>
+    <div class="steps">
     <span class="font-weight-bold"><i class="fa-solid fa-truck"></i></span>
     </div>
 
-    <span class="step-line_not_yet"></span>
-
-    <div class="steps_not_yet">
+    <span class="step-line"></span>
+    <div class="steps">
     <span class="font-weight-bold"><i class="fa-solid fa-house-circle-check"></i></span>
     </div>
     ';
@@ -345,37 +344,52 @@ if ($is_pending == 1) {
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">In Production</span> <span class="small">' . $formatted_in_production_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">To Ship</span> <span class="small">' . $formatted_to_ship_datetime . '</span>
+    </div>
 
+    <span class="step-line-b"></span>
     <div class="steps-b">
         <span style="color: #e7e7e7">To Deliver</span> <span class="small">' . $formatted_to_deliver_datetime . '</span>
     </div>
 
     <span class="step-line-b"></span>
-
     <div class="steps-b">
         <span style="color: #e7e7e7">Received</span> <span class="small">' . $formatted_is_received_datetime . '</span>
     </div>
     ';
+
+    $courier_details = '
+    <div class="container">
+        <div class="row">
+            <span style="color: white;">Courier:</span>&nbsp;'.$courier.'
+        </div>
+
+        <div class="row">
+            <span style="color: white;">Tracking Number:</span>&nbsp;'.$tracking_number.'
+        </div>
+    </div>
+    ';
 } elseif ($is_completely_canceled == 1) {
-    $cancelation_reason = 'cancelation reason';
-} elseif ($is_canceled == 1) {
     $progresses_taas = '
     <div class="steps">
     <span><i class="fa-solid fa-money-bill-wave"></i></span>
     </div>
+
     <span class="step-line"></span>
     <div class="steps">
-    <span><i class="fa fa-check"></i></span>
+    <span><i class="fa-solid fa-ban"></i></span>
     </div>
+
     <span class="step-line"></span>
     <div class="steps">
-    <span class="font-weight-bold">3</span>
+
+    <span><i class="fa-solid fa-wallet"></i></span>
     </div>
     ';
 
@@ -389,11 +403,53 @@ if ($is_pending == 1) {
     </div>
     <span class="step-line-b"></span>
     <div class="steps-b">
-        <span style="color: #e7e7e7">Refunded</span> <span class="small">' . $formatted_is_completely_canceled_datetime . '</span>
+        <span style="color: #e7e7e7">Refunded</span> <span class="small">' . $formatted_is_canceled_datetime . '</span>
     </div>
     ';
 
-    $cancelation_reason = 'cancelation reason';
+    $cancelation_reason = '
+    <div class="container">
+        <div class="row">
+            <span style="color: white;">Cancelation Reason:</span>&nbsp;'.$reason_text.'
+        </div>
+    </div>
+    ';
+} elseif ($is_canceled == 1) {
+    $progresses_taas = '
+    <div class="steps">
+    <span><i class="fa-solid fa-money-bill-wave"></i></span>
+    </div>
+    <span class="step-line"></span>
+    <div class="steps">
+    <span><i class="fa-solid fa-ban"></i></span>
+    </div>
+    <span class="step-line"></span>
+    <div class="steps">
+    <span><i class="fa-solid fa-wallet"></i></span>
+    </div>
+    ';
+
+    $progresses_baba = '
+    <div class="steps-b">
+        <span style="color: #e7e7e7">Order Placed</span> <span class="small">' . $formatted_date . '</span>
+    </div>
+    <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">Order Canceled</span> <span class="small">' . $formatted_is_canceled_datetime . '</span>
+    </div>
+    <span class="step-line-b"></span>
+    <div class="steps-b">
+        <span style="color: #e7e7e7">Refunded</span> <span class="small">' . $formatted_is_canceled_datetime . '</span>
+    </div>
+    ';
+
+    $cancelation_reason = '
+    <div class="container">
+        <div class="row">
+            <span style="color: white;">Cancelation Reason:</span>&nbsp;'.$reason_text.'
+        </div>
+    </div>
+    ';
 } else {
     $progresses_taas = '
     <div class="steps">
@@ -445,14 +501,12 @@ if ($is_pending == 1) {
 }
 
 
-
-
 $item = '
 
 <div class="row p-0">
     <div class="col">
         <div class="d-flex justify-content-start">
-            <a href="profile_canceled.php" style="color: #; cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a> 
+            <a href="javascript:history.back()" style="color: #; cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a> 
         </div>
     </div>
 
@@ -493,6 +547,12 @@ $item = '
     </div>
 </div>
 
+
+<div class="row">
+    <div class="col">
+        <p>' . $courier_details . '</p>
+    </div>
+</div>
 
 <div class="row">
     <div class="col">

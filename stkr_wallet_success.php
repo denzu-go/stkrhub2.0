@@ -181,6 +181,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sqlUpdateUser = "UPDATE users SET wallet_amount = wallet_amount - $paypal_payment WHERE user_id = $user_id";
     if ($conn->query($sqlUpdateUser) === TRUE) {
         echo "Wallet amount updated successfully";
+
+        // header("Location: profile_pending.php");
     } else {
         echo "Error updating wallet amount: " . $conn->error;
     }

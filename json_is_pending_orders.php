@@ -342,10 +342,16 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
         // actions
         if ($is_pending) {
             $action = '
-                                            <div class="col text-end">
-                                                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
-                                            </div>
-                                        ';
+            <div class="col text-end">
+                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
+            </div>
+        ';
+        } elseif ($to_deliver) {
+            $action = '
+            <div class="col text-end">
+                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
+            </div>
+        ';
         } else {
             $action = '';
         }

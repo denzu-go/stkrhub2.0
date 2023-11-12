@@ -346,6 +346,12 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
             <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
             </div>
             ';
+        } elseif ($to_deliver) {
+            $action = '
+            <div class="col text-end">
+                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
+            </div>
+        ';
         } else {
             $action = '';
         }
@@ -470,6 +476,8 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
 
 
                                         <div class="row mr-0 d-flex justify-content-end">
+                                            <a href="#!" class="" id="order_received" data-unique_order_group_id="' . $unique_order_group_id . '">Order Received</a>
+
                                             <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
                                             class="" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
                                                 View Details

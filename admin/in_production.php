@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'connection.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +33,8 @@ include 'connection.php';
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -52,8 +53,8 @@ include 'connection.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All In Production Orders</h4>
-                            <p class="mb-0">Users are now expeting the their order is being processed.</p>
+                            <h4>All Pending Orders</h4>
+                            <p class="mb-0">Once order is accepted, STKR Players could not cancel it anymore.</p>
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@ include 'connection.php';
                                         echo
                                         include 'html/admin_table_allOrders.php';
                                     } else {
-                                        echo 'None.';
+                                        echo 'No orders.';
                                     }
                                 } else {
                                     echo 'Error checking for orders in production.';
@@ -94,29 +95,24 @@ include 'connection.php';
             </div>
         </div>
 
+
+
         <div class="footer">
-
-
-
-
-
-
             <div class="copyright">
                 <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
                 <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
             </div>
         </div>
-
-
-
     </div>
-
 
 
 
     <!-- MODALS -->
     <!-- order list modal -->
     <?php include 'html/modal_order_list.php' ?>
+
+
+
 
 
 
@@ -238,10 +234,10 @@ include 'connection.php';
 
                 Swal.fire({
                     title: 'Proceed Orders',
-                    text: 'Are you sure you want to ship these items?',
+                    text: 'Are you sure you want to proceed these items?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes',
+                    confirmButtonText: 'Yes, Proceed Orders',
                     cancelButtonText: 'Close',
                 }).then(function(result) {
                     if (result.isConfirmed) {
@@ -255,25 +251,30 @@ include 'connection.php';
                             dataType: 'json',
                             success: function(response) {
                                 if (response.success) {
-                                    Swal.fire('Success', response.message, 'success');
                                     $('#allOrders').DataTable().ajax.reload();
-                                    $('#orderListTable').DataTable().ajax.reload();
-                                    
+                                    Swal.fire('Success', response.message, 'success');
                                 } else {
                                     $('#allOrders').DataTable().ajax.reload();
-                                    $('#orderListTable').DataTable().ajax.reload();
+                                    $('#cartCount').DataTable().ajax.reload();
                                     Swal.fire('Error', response.message, 'error');
                                 }
                             },
                             error: function() {
                                 $('#allOrders').DataTable().ajax.reload();
-                                $('#orderListTable').DataTable().ajax.reload();
                                 Swal.fire('Error', 'Failed to delete the game', 'error');
                             }
                         });
                     }
                 });
             });
+
+
+
+
+
+
+
+
 
 
 

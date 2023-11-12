@@ -18,19 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $quantity = $fetched['quantity'];
             $price = $fetched['price'];
 
+            $currentDateTime = date('Y-m-d H:i:s');
+
             if ($ticket_id) {
                 // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET is_received = 1 WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET is_received = 1, in_production_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             } elseif ($built_game_id) {
                 // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1 WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1, in_production_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
 
                 $sqlUpdateBuiltGame = "UPDATE built_games SET is_semi_purchased = 0, is_purchased = 1 WHERE built_game_id = $built_game_id";
                 $queryUpdateBuiltGame = $conn->query($sqlUpdateBuiltGame);
             } elseif ($published_game_id) {
-                $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1 WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1, in_production_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
 
                 $sqlPublishDetails = "SELECT creator_id, creator_profit FROM published_built_games WHERE published_game_id = $published_game_id";
@@ -51,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } else {
                 // Update the orders table
-                $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1 WHERE order_id = $order_id";
+                $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, in_production = 1, in_production_datetime = '$currentDateTime' WHERE order_id = $order_id";
                 $conn->query($sqlUpdateOrders);
             }
         }

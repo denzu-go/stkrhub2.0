@@ -52,7 +52,7 @@ include 'connection.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All In Production Orders</h4>
+                            <h4>Canceled Orders</h4>
                             <p class="mb-0">Users are now expeting the their order is being processed.</p>
                         </div>
                     </div>
@@ -75,14 +75,10 @@ include 'connection.php';
                                     $count = $row['count'];
 
                                     if ($count > 0) {
-                                        echo '
-                                                <table id="allOrders" class="hover" style="width: 100%;">
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                ';
+                                        echo
+                                        include 'html/admin_table_allOrders.php';
                                     } else {
-                                        echo 'None.';
+                                        echo 'No orders.';
                                     }
                                 } else {
                                     echo 'Error checking for orders in production.';

@@ -17,7 +17,7 @@ while ($rowClient = $resultClient->fetch_assoc()) {
 }
 
 $region = "SELECT * FROM region";
-    $region_qry = mysqli_query($conn, $region);
+$region_qry = mysqli_query($conn, $region);
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +61,9 @@ $region = "SELECT * FROM region";
 
     <!-- Include Tippy.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
+
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
 
     <style>
         <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
@@ -196,11 +199,28 @@ $region = "SELECT * FROM region";
 
                 <div class="col-3">
 
-                    <label for="payment_method">Select Payment Method:</label>
-                    <select name="payment_method" id="payment_method">
-                        <option value="paypal">PayPal</option>
-                        <option value="stkr_wallet">STKR Wallet</option>
-                    </select>
+
+                    <div class="row">
+                        <span class="pl-3 h6">Select Payment Method:</span>
+                    </div>
+
+                    <div class="container">
+                        <label class="row p-2 mb-2 d-flex align-items-center" style="background: #272a4e; border-radius: 14px; color: white; font-size: 20px;">
+                            <input type="radio" name="payment_method" value="paypal" id="paypal_radio">&nbsp;
+                            <i class="fa-brands fa-paypal" style="color: #003087;"></i>
+                            <span class="">&nbsp; Paypal</span>
+                        </label>
+
+                        <label class="row p-2 d-flex align-items-center" style="background: #272a4e; border-radius: 14px; color: white; font-size: 20px;">
+                            <input type="radio" name="payment_method" value="stkr_wallet" id="stkr_wallet_radio">&nbsp;
+                            <i class="fa-solid fa-wallet" style="color: #f7f799"></i>
+                            <span class="">&nbsp; STKR Wallet</span>
+                        </label>
+
+                    </div>
+
+
+                    <hr>
 
                     <div id="paypal_selected">
                         <table id="paypalTable" class="display" style="width:100%">
@@ -304,8 +324,8 @@ $region = "SELECT * FROM region";
     <!-- Include Tippy.js JavaScript -->
     <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.js"></script>
 
-
-
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
 
     <!-- Replace the "test" client-id value with your client-id -->
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypal_client_id ?>&currency=PHP&disable-funding=credit,card"></script>
@@ -313,17 +333,18 @@ $region = "SELECT * FROM region";
     <script>
         $(document).ready(function() {
             $("#paypal_selected").show();
+            $('#paypal_radio').prop('checked', true);
 
-            $("#payment_method").change(function() {
-                var selectedOption = $(this).val();
-                if (selectedOption === 'paypal') {
+            $('input[name="payment_method"]').change(function() {
+                if ($('#paypal_radio').prop('checked')) {
                     $("#paypal_selected").show();
                     $("#stkr_selected").hide();
-                } else if (selectedOption === 'stkr_wallet') {
+                } else if ($('#stkr_wallet_radio').prop('checked')) {
                     $("#paypal_selected").hide();
                     $("#stkr_selected").show();
                 }
             });
+
 
             <?php include 'js/essential.php' ?>
 
@@ -404,7 +425,7 @@ $region = "SELECT * FROM region";
                     },
                     success: function(response) {
                         // Handle the response and show a SweetAlert for editing
-                        Swal.fire({ 
+                        Swal.fire({
                             title: "Edit Address",
                             html: response, // Include the fetched address details in the SweetAlert content
                             showCancelButton: true,
@@ -449,59 +470,59 @@ $region = "SELECT * FROM region";
                         });
 
                         $('#editedregion_').on('change', function() {
-                    var region_id = $(this).val();
-                    console.log(region_id);
-                    $.ajax({
-                        url:'option_province.php',
-                        type:"POST",
-                        data:{
-                            region_data:region_id
-                        },
-                        success:function(result){
-                            $('#editedprovince_').html(result);
-                            //console.log(result);
-                        }
-                    })
-                });
+                            var region_id = $(this).val();
+                            console.log(region_id);
+                            $.ajax({
+                                url: 'option_province.php',
+                                type: "POST",
+                                data: {
+                                    region_data: region_id
+                                },
+                                success: function(result) {
+                                    $('#editedprovince_').html(result);
+                                    //console.log(result);
+                                }
+                            })
+                        });
 
-                $('#editedprovince_').on('change', function() {
-                    var province_id = $(this).val();
-                    //console.log(province_id); 
-                    $.ajax({
-                        url:'option_city.php',
-                        type:"POST",
-                        data:{
-                            province_data:province_id
-                        },
-                        success:function(data){
-                            $('#editedcity_').html(data);
-                            //console.log(result);
-                        }
-                    })
-                });
+                        $('#editedprovince_').on('change', function() {
+                            var province_id = $(this).val();
+                            //console.log(province_id); 
+                            $.ajax({
+                                url: 'option_city.php',
+                                type: "POST",
+                                data: {
+                                    province_data: province_id
+                                },
+                                success: function(data) {
+                                    $('#editedcity_').html(data);
+                                    //console.log(result);
+                                }
+                            })
+                        });
 
-                $('#editedcity_').on('change', function() {
-                    var city_id = $(this).val();
-                    //console.log(province_id); 
-                    $.ajax({
-                        url:'option_barangay.php',
-                        type:"POST",
-                        data:{
-                            city_data:city_id
-                        },
-                        success:function(data){
-                            $('#editedbarangay_').html(data);
-                            //console.log(result);
-                        }
-                    })
-                });
+                        $('#editedcity_').on('change', function() {
+                            var city_id = $(this).val();
+                            //console.log(province_id); 
+                            $.ajax({
+                                url: 'option_barangay.php',
+                                type: "POST",
+                                data: {
+                                    city_data: city_id
+                                },
+                                success: function(data) {
+                                    $('#editedbarangay_').html(data);
+                                    //console.log(result);
+                                }
+                            })
+                        });
                     },
                     error: function() {
                         // Handle any AJAX errors here
                     },
                 });
 
-                
+
 
             });
 
@@ -627,95 +648,95 @@ $region = "SELECT * FROM region";
             // Add a click event listener to the "Add Address" button
             $('#addAddressBtn').on('click', function() {
 
-                    Swal.fire({
+                Swal.fire({
 
-                        title: "Add Address",
-                        html: '<div class="form-container">' +
-                            '<label for="fullname">Fullname:</label>' +
-                            '<input type="text" id="fullname" name="fullname" required><br>' +
+                    title: "Add Address",
+                    html: '<div class="form-container">' +
+                        '<label for="fullname">Fullname:</label>' +
+                        '<input type="text" id="fullname" name="fullname" required><br>' +
 
-                            '<label for="number">Number:</label>' +
-                            '<input type="text" id="number" name="number" required><br>' +
+                        '<label for="number">Number:</label>' +
+                        '<input type="text" id="number" name="number" required><br>' +
 
-                            '<label for="region"> Region:</label>' +
-                            '<select id="region" name="region" required><br>' +
-                            '<option selected disabled>  Select Region </option>' +
-                            '<?php while ($row = mysqli_fetch_assoc($region_qry)) : ?>' +
-                            '<option value="<?php echo $row['id']; ?>"><?php echo $row['region_name']; ?></option>' +
-                            '<?php endwhile; ?>' +
-                            '</select><br>' +
+                        '<label for="region"> Region:</label>' +
+                        '<select id="region" name="region" required><br>' +
+                        '<option selected disabled>  Select Region </option>' +
+                        '<?php while ($row = mysqli_fetch_assoc($region_qry)) : ?>' +
+                        '<option value="<?php echo $row['id']; ?>"><?php echo $row['region_name']; ?></option>' +
+                        '<?php endwhile; ?>' +
+                        '</select><br>' +
 
-                            '<label for="province">Province:</label>' +
-                            '<select id="province" name="province" required><br>' +
-                            '<option selected disabled>  Select Province </option>' +
-                            '</select><br>' +
+                        '<label for="province">Province:</label>' +
+                        '<select id="province" name="province" required><br>' +
+                        '<option selected disabled>  Select Province </option>' +
+                        '</select><br>' +
 
-                            '<label for="city">City:</label>' +
-                            '<select id="city" name="city" required><br>' +
-                            '<option value="city">Select City</option>' +
-                            '</select><br>' +
+                        '<label for="city">City:</label>' +
+                        '<select id="city" name="city" required><br>' +
+                        '<option value="city">Select City</option>' +
+                        '</select><br>' +
 
-                            '<label for="barangay">Barangay:</label>' + 
-                            '<select id="barangay" name="barangay" required><br>' +
-                            '<option value="barangay">Select Barangay</option>' +
-                            '</select><br>' +
+                        '<label for="barangay">Barangay:</label>' +
+                        '<select id="barangay" name="barangay" required><br>' +
+                        '<option value="barangay">Select Barangay</option>' +
+                        '</select><br>' +
 
-                            '<label for="zip">ZIP Code:</label>' +
-                            '<input type="text" id="zip" name="zip" required><br>' +
+                        '<label for="zip">ZIP Code:</label>' +
+                        '<input type="text" id="zip" name="zip" required><br>' +
 
-                            '<label for="street">Street:</label>' +
-                            '<input type="text" id="street" name="street" required><br>' +
-                            '</div>',
+                        '<label for="street">Street:</label>' +
+                        '<input type="text" id="street" name="street" required><br>' +
+                        '</div>',
 
-                        showCancelButton: true,
-                        confirmButtonText: "Add",
-                        cancelButtonText: "Cancel",
-                        preConfirm: () => {
-                            // Handle the "Add" button click here
-                            var formData = {
-                                fullname: $('#fullname').val(),
-                                number: $('#number').val(),
-                                region: $('#region').val(),
-                                province: $('#province').val(),
-                                city: $('#city').val(),
-                                barangay: $('#barangay').val(),
-                                zip: $('#zip').val(),
-                                street: $('#street').val(),
-                            };
+                    showCancelButton: true,
+                    confirmButtonText: "Add",
+                    cancelButtonText: "Cancel",
+                    preConfirm: () => {
+                        // Handle the "Add" button click here
+                        var formData = {
+                            fullname: $('#fullname').val(),
+                            number: $('#number').val(),
+                            region: $('#region').val(),
+                            province: $('#province').val(),
+                            city: $('#city').val(),
+                            barangay: $('#barangay').val(),
+                            zip: $('#zip').val(),
+                            street: $('#street').val(),
+                        };
 
-                            // Send an AJAX request to add the address
-                            return $.ajax({
-                                url: "swal_add_address.php", // Create this PHP file to add the address
-                                method: "POST",
-                                data: formData,
-                            });
-                            
-                        },
-                    }).then((result) => {
-                        // Handle the AJAX response
-                        if (result.isConfirmed) {
-                            if (result.value === "success") {
-                                // Address added successfully
-                                Swal.fire("Success", "Address added successfully", "success");
-                                // Reload the DataTable to display the new address
-                                $('#profileAddress').DataTable().ajax.reload();
-                            } else {
-                                // Error occurred while adding the address
-                                Swal.fire("Error", "Error adding address", "error");
-                            }
+                        // Send an AJAX request to add the address
+                        return $.ajax({
+                            url: "swal_add_address.php", // Create this PHP file to add the address
+                            method: "POST",
+                            data: formData,
+                        });
+
+                    },
+                }).then((result) => {
+                    // Handle the AJAX response
+                    if (result.isConfirmed) {
+                        if (result.value === "success") {
+                            // Address added successfully
+                            Swal.fire("Success", "Address added successfully", "success");
+                            // Reload the DataTable to display the new address
+                            $('#profileAddress').DataTable().ajax.reload();
+                        } else {
+                            // Error occurred while adding the address
+                            Swal.fire("Error", "Error adding address", "error");
                         }
-                    });
+                    }
+                });
 
-                    $('#region').on('change', function() {
+                $('#region').on('change', function() {
                     var region_id = $(this).val();
                     //console.log(region_id);
                     $.ajax({
-                        url:'option_province.php',
-                        type:"POST",
-                        data:{
-                            region_data:region_id
+                        url: 'option_province.php',
+                        type: "POST",
+                        data: {
+                            region_data: region_id
                         },
-                        success:function(result){
+                        success: function(result) {
                             $('#province').html(result);
                             //console.log(result);
                         }
@@ -726,12 +747,12 @@ $region = "SELECT * FROM region";
                     var province_id = $(this).val();
                     //console.log(province_id); 
                     $.ajax({
-                        url:'option_city.php',
-                        type:"POST",
-                        data:{
-                            province_data:province_id
+                        url: 'option_city.php',
+                        type: "POST",
+                        data: {
+                            province_data: province_id
                         },
-                        success:function(data){
+                        success: function(data) {
                             $('#city').html(data);
                             //console.log(result);
                         }
@@ -742,12 +763,12 @@ $region = "SELECT * FROM region";
                     var city_id = $(this).val();
                     //console.log(province_id); 
                     $.ajax({
-                        url:'option_barangay.php',
-                        type:"POST",
-                        data:{
-                            city_data:city_id
+                        url: 'option_barangay.php',
+                        type: "POST",
+                        data: {
+                            city_data: city_id
                         },
-                        success:function(data){
+                        success: function(data) {
                             $('#barangay').html(data);
                             //console.log(result);
                         }
@@ -759,7 +780,7 @@ $region = "SELECT * FROM region";
 
 
 
-                });
+            });
 
 
 
@@ -878,59 +899,76 @@ $region = "SELECT * FROM region";
                 var street = $('#stkr-payment-button').data('street');
                 var carts_selected = $('#stkr-payment-button').data('carts_selected');
 
-                Swal.fire({
-                    title: "Confirm Purchase",
-                    text: "Are you sure you want to purchase using STKR wallet? This can\'t be undone.",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Sure",
-                    cancelButtonText: "Cancel",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var data = {
-                            "user_id": user_id,
-                            "shipping_discount": shipping_discount,
-                            "paypal_payment": paypal_payment,
-                            "fullname": fullname,
-                            "number": number,
-                            "region": region,
-                            "province": province,
-                            "city": city,
-                            "barangay": barangay,
-                            "zip": zip,
-                            "street": street,
-                            "carts_selected": carts_selected,
-                        };
+                iziToast.question({
+                    color: '#15172e',
+                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                    titleColor: '#fff',
+                    messageColor: '#fff',
+                    overlayColor: 'rgba(0, 0, 0, 0.7)',
 
-                        $.ajax({
-                            method: "POST",
-                            url: "stkr_wallet_success.php",
-                            data: data,
-                            success: function(response) {
-                                $('#infoPurhaseTable').DataTable().ajax.reload();
-                                $('#profileAddress').DataTable().ajax.reload();
-                                $('#purchaseTable').DataTable().ajax.reload();
-                                $('#stkrTable').DataTable().ajax.reload();
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: '',
+                    message: 'Are you sure you want to purchase using STKR wallet? This can\'t be undone.',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
 
-                                $('#cartCount').DataTable().ajax.reload();
+                            var data = {
+                                "user_id": user_id,
+                                "shipping_discount": shipping_discount,
+                                "paypal_payment": paypal_payment,
+                                "fullname": fullname,
+                                "number": number,
+                                "region": region,
+                                "province": province,
+                                "city": city,
+                                "barangay": barangay,
+                                "zip": zip,
+                                "street": street,
+                                "carts_selected": carts_selected,
+                            };
 
-                                Swal.fire({
-                                    title: "Success",
-                                    text: "Purchased successfully!",
-                                    icon: "success",
-                                });
-                            },
-                            error: function() {
-                                Swal.fire({
-                                    title: "Error",
-                                    text: "Purchased unsuccessful!",
-                                    icon: "error",
-                                });
-                            },
-                        });
+                            $.ajax({
+                                method: "POST",
+                                url: "stkr_wallet_success.php",
+                                data: data,
+                                success: function(response) {
+                                    window.location.href = "profile_pending.php";
+                                },
+                                error: function() {
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: "Purchased unsuccessful!",
+                                        icon: "error",
+                                    });
+                                },
+                            });
 
+                        }, true],
+                        ['<button style="color: white;">NO</button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+                        }],
+                    ],
+
+                    onClosing: function(instance, toast, closedBy) {
+                        console.info('Closing | closedBy: ' + closedBy);
+                    },
+                    onClosed: function(instance, toast, closedBy) {
+                        console.info('Closed | closedBy: ' + closedBy);
                     }
                 });
+
+
             });
         });
 
@@ -1018,6 +1056,53 @@ $region = "SELECT * FROM region";
 
                 }
             }).render('#paypal-payment-button');
+
+
+
+
+            $('#stkr-payment-button').prop('disabled', true);
+            $('#stkr-payment-button').css({
+                'pointer-events': 'none',
+                'opacity': '0.2'
+            });
+
+            $('#stkr_wallet_checkbox').change(function() {
+                if ($('#stkr_wallet_checkbox').prop('checked')) {
+                    $('#stkr-payment-button').prop('disabled', false);
+                    $('#stkr-payment-button').css({
+                        'pointer-events': 'auto',
+                        'opacity': '1'
+                    });
+
+                } else if (!$('#stkr_wallet_checkbox').prop('checked')) {
+                    $('#stkr-payment-button').prop('disabled', true);
+                    $('#stkr-payment-button').css({
+                        'pointer-events': 'none',
+                        'opacity': '0.2'
+                    });
+                }
+            });
+
+            $('#paypal-payment-button').css({
+                'pointer-events': 'none',
+                'opacity': '0.2'
+            });
+
+            $('#paypal_checkbox').change(function() {
+                if ($('#paypal_checkbox').prop('checked')) {
+                    $('#paypal-payment-button').css({
+                        'pointer-events': 'auto',
+                        'opacity': '1'
+                    });
+
+                } else if (!$('#paypal_checkbox').prop('checked')) {
+                    $('#paypal-payment-button').css({
+                        'pointer-events': 'none',
+                        'opacity': '0.2'
+                    });
+                }
+            });
+
         });
     </script>
 

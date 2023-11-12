@@ -210,6 +210,7 @@ background-attachment: fixed;">
     $header_to_deliver = '';
     $header_received = '';
     $header_canceled = 'active';
+    $header_tickets = '';
 
     ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">

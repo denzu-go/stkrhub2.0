@@ -8,6 +8,9 @@
         <li class="nav-item <?php echo $header_in_production ?>">
             <a class="nav-link" href="profile_in_production.php">In Production</a>
         </li>
+        <li class="nav-item <?php echo $header_to_ship ?>">
+            <a class="nav-link" href="profile_to_ship.php">To Ship</a>
+        </li>
         <li class="nav-item <?php echo $header_to_deliver ?>">
             <a class="nav-link" href="profile_to_deliver.php">To Deliver</a>
         </li>
@@ -16,6 +19,9 @@
         </li>
         <li class="nav-item <?php echo $header_canceled ?>">
             <a class="nav-link" href="profile_canceled.php">Canceled</a>
+        </li>
+        <li class="nav-item <?php echo $header_tickets ?>">
+            <a class="nav-link" href="profile_tickets.php">Tickets</a>
         </li>
     </ol>
 </nav>

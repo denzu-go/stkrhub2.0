@@ -196,19 +196,19 @@ if (isset($_GET['unique_order_group_id'])) {
         }
 
         .step-line {
-            width: 200px;
+            width: 150px;
             height: 4px;
             background: #63d19e;
         }
 
         .step-line_not_yet {
-            width: 200px;
+            width: 150px;
             height: 4px;
             background: #777777;
         }
 
         .step-line-b {
-            width: 200px;
+            width: 150px;
             height: 4px;
             background: transparent;
         }
