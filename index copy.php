@@ -33,6 +33,9 @@ session_start();
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
@@ -42,11 +45,10 @@ session_start();
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Include jQuery and Isotope.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/css/isotope.min.css">
-
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+
 
 
     <style>
@@ -194,44 +196,36 @@ session_start();
         }
 
 
-        #cartCount .odd {
-            background-color: transparent;
-        }
-
-
-        #cartCount thead {
-            display: none;
-            /* Hide the table header */
-        }
-
-        #cartCount th {
-            display: none;
-            /* Hide table header cells */
-        }
-
-        table.dataTable.no-footer {
-            border-bottom: none;
-        }
-
-
-        .sticky-wrapper {
-            top: 20px !important;
-        }
-
-        .header_area .main_menu .main_box {
-            background: #fff;
-            margin: 0px auto 0;
-            max-width: 1200px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            -webkit-transition: all 0.3s ease 0s;
-            -moz-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-        }
-
         .features-inner {
             box-shadow: none !important;
             padding: 40px 0;
+        }
+
+
+        /* card */
+        .product_card {
+
+            background-image: linear-gradient(to bottom, transparent 60%, #272a4e 100%);
+            border-radius: 10px;
+            display: flex;
+            padding: 1.7px;
+            transition: background-image 0.3s, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product_card:hover {
+            background-image: linear-gradient(to bottom, transparent 60%, #b660e8 100%);
+            transform: scale(1.03);
+        }
+
+        .product_card .card {
+            background: linear-gradient(to top, #272a4e 0%, #272a4e 25%);
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .product_card .card:hover {
+            background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
         }
 
         <?php include 'css/header.css'; ?>
@@ -248,8 +242,11 @@ session_start();
 
     $header_home = 'active';
     include 'html/page_header.php';
-
     ?>
+
+    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
 
     <div class="swiper-container">
@@ -281,13 +278,9 @@ session_start();
             </div>
         </div>
 
-
-
-
-
         <!-- start features Area -->
-        <section class="features-area ">
-            <div class="container">
+        <section class="features-area">
+            <div class="container scroll_reveal">
                 <div class="row features-inner">
                     <!-- single features -->
                     <div class="col-lg-3 col-md-6 col-sm-6">
@@ -331,18 +324,17 @@ session_start();
                     </div>
                 </div>
             </div>
-
         </section>
         <!-- end features Area -->
 
 
 
         <!-- Start category Area -->
-        <section class="category-area section_gap" style="
-        background-image: url('img/Backgrounds/bg1.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-        /* background-attachment: fixed; */
+        <section class="pb-5" style="
+            background-image: url('img/Backgrounds/bg1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            /* background-attachment: fixed; */
         ">
 
             <div class="container" style="display:flex; flex-direction:column; gap: 20px;">
@@ -362,7 +354,7 @@ session_start();
                     $time_added = $fetchedTutorials['time_added'];
 
                     echo '
-                    <div class="row s_product_inner">
+                    <div class="row s_product_inner scroll_reveal">
                         <div class="col-lg-8">
                             <div class="iframe-container">
                             <iframe class="iframe" src="' . $tutorial_link . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -388,172 +380,305 @@ session_start();
         </section>
         <!-- End category Area -->
 
+
+
         <!-- start product Area -->
         <section class="" style=" background-image: url('img/Backgrounds/bg2.png');
         background-size: cover;
         background-repeat: no-repeat;
         /* background-attachment: fixed; */
         ">
-            <!-- single product slide -->
+            <!-- popular games -->
             <div class="single-product-slider">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6 text-center">
-                            <div class="section-title">
-                                <h1>Latest Products</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et
-                                    dolore
-                                    magna aliqua.</p>
+
+                    <div class="row">
+
+                        <div class="container mx-auto mt-4 justify-content-around">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6 text-center">
+                                    <div class="section-title">
+                                        <h1 class="scroll_reveal">Popular Games</h1>
+                                        <span class="scroll_reveal">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                            incididunt ut labore et
+                                            dolore
+                                            magna aliqua.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-around">
+
+                                <?php
+                                $sql = "SELECT * FROM published_built_games WHERE is_hidden = 0 ORDER BY published_date DESC LIMIT 9";
+
+                                $result = $conn->query($sql);
+
+                                while ($fetched = $result->fetch_assoc()) {
+                                    $published_game_id = $fetched['published_game_id'];
+                                    $game_name = $fetched['game_name'];
+                                    $category = $fetched['category'];
+                                    $edition = $fetched['edition'];
+                                    $published_date = $fetched['published_date'];
+                                    $formatted_date = date("M. d, Y", strtotime($published_date));
+                                    $creator_id = $fetched['creator_id'];
+                                    $age_id = $fetched['age_id'];
+                                    $short_description = $fetched['short_description'];
+                                    $long_description = $fetched['long_description'];
+                                    $category = $fetched['category'];
+                                    $website = $fetched['website'];
+                                    $logo_path = $fetched['logo_path'];
+                                    $min_players = $fetched['min_players'];
+                                    $max_players = $fetched['max_players'];
+                                    $min_playtime = $fetched['min_playtime'];
+                                    $max_playtime = $fetched['max_playtime'];
+                                    $marketplace_price = $fetched['marketplace_price'];
+
+                                    // avatar users
+                                    $getAvatarUser = "SELECT * FROM users WHERE user_id = $creator_id";
+                                    $sqlGetAvatarUser = $conn->query($getAvatarUser);
+                                    while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
+                                        $avatar = $fetchedAvatarUser['avatar'];
+                                        $username = $fetchedAvatarUser['username'];
+                                        $firstLetter = strtoupper(substr($username, 0, 1));
+
+                                        if (!is_null($avatar)) {
+                                            $avatar_value = '
+                                            <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
+                                                <img src="' . $avatar . '" alt="" style="
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                
+                                                        height: 100%;
+                                                        width: 100%;
+                                                        object-fit: cover;
+                                                        border-radius: 50%;
+                                                ">
+                                
+                                            </div>
+                                            ';
+                                        } else {
+                                            $avatar_value = '
+                                                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
+                                                background: rgb(38,211,224);
+                                                background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
+                                                
+                                                    <span style="font-family: sans-serif; color: white; font-weight: bold; font-size:17px; padding-top: 0px;">' . $firstLetter . '</span>
+                                    
+                                                </div>
+                                            ';
+                                        }
+                                    }
+
+
+
+                                    // rating
+                                    $rating = "SELECT rating FROM ratings WHERE published_game_id = $published_game_id";
+                                    $sqlGetRating = $conn->query($rating);
+                                    $ratingsArray = [];
+                                    while ($fetchedRating = $sqlGetRating->fetch_assoc()) {
+                                        $ratingsArray[] = $fetchedRating['rating'];
+                                    }
+
+
+                                    $ratingCounts = array(
+                                        '5' => 0,
+                                        '4' => 0,
+                                        '3' => 0,
+                                        '2' => 0,
+                                        '1' => 0
+                                    );
+
+                                    foreach ($ratingsArray as $ratingValue) {
+                                        if (array_key_exists($ratingValue, $ratingCounts)) {
+                                            $ratingCounts[$ratingValue]++;
+                                        }
+                                    }
+
+                                    // Now you have the count of each rating value
+                                    $count5 = $ratingCounts['5'];
+                                    $count4 = $ratingCounts['4'];
+                                    $count3 = $ratingCounts['3'];
+                                    $count2 = $ratingCounts['2'];
+                                    $count1 = $ratingCounts['1'];
+
+
+                                    $ratingSum = array_sum($ratingsArray);
+                                    $ratingCount = count($ratingsArray);
+                                    $averageRating = ($ratingCount > 0) ? ($ratingSum / $ratingCount) : 0;
+
+                                    // Round to one decimal place
+                                    $roundedRating = round($averageRating, 1);
+
+                                    // Round to the nearest half
+                                    $roundedRating = round($roundedRating * 2) / 2;
+
+                                    if (isset($_SESSION['user_id'])) {
+                                        $a_cart = '
+                                            <a href="#" id="ajax-link" data-published-game-id="' . $published_game_id . '" class="social-info">
+                                        ';
+                                    } else {
+                                        $a_cart = '
+                                            <a href="login_page.php" class="social-info">
+                                        ';
+                                    }
+
+                                    include 'html/latest_games.php';
+                                }
+                                ?>
+
+
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <br>
+            <hr>
+
+            <!-- latest games -->
+            <div class="single-product-slider">
+                <div class="container">
+
                     <div class="row">
 
-                        <?php
-                        $sql = "SELECT * FROM published_built_games ORDER BY published_date DESC LIMIT 8";
-                        $result = $conn->query($sql);
+                        <div class="container mx-auto mt-4 justify-content-around">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6 text-center">
+                                    <div class="section-title">
+                                        <h1 class="scroll_reveal">Latest Games</h1>
+                                        <span class="scroll_reveal">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                            incididunt ut labore et
+                                            dolore
+                                            magna aliqua.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-around">
 
-                        while ($fetched = $result->fetch_assoc()) {
-                            $published_game_id = $fetched['published_game_id'];
-                            $game_name = $fetched['game_name'];
-                            $category = $fetched['category'];
-                            $edition = $fetched['edition'];
-                            $published_date = $fetched['published_date'];
-                            $creator_id = $fetched['creator_id'];
-                            $age_id = $fetched['age_id'];
-                            $short_description = $fetched['short_description'];
-                            $long_description = $fetched['long_description'];
-                            $category = $fetched['category'];
-                            $website = $fetched['website'];
-                            $logo_path = $fetched['logo_path'];
-                            $min_players = $fetched['min_players'];
-                            $max_players = $fetched['max_players'];
-                            $min_playtime = $fetched['min_playtime'];
-                            $max_playtime = $fetched['max_playtime'];
-                            $marketplace_price = $fetched['marketplace_price'];
+                                <?php
+                                $sql = "SELECT * FROM published_built_games WHERE is_hidden = 0 ORDER BY published_date DESC LIMIT 9";
 
-                            $rating = "SELECT rating FROM ratings WHERE published_game_id = $published_game_id";
-                            $sqlGetRating = $conn->query($rating);
-                            $ratingsArray = [];
-                            while ($fetchedRating = $sqlGetRating->fetch_assoc()) {
-                                $ratingsArray[] = $fetchedRating['rating'];
-                            }
-                            $ratingSum = array_sum($ratingsArray);
-                            $ratingCount = count($ratingsArray);
-                            $averageRating = ($ratingCount > 0) ? ($ratingSum / $ratingCount) : 0;
+                                $result = $conn->query($sql);
 
-                            echo '
-                
-                        <!-- single product -->
-                        <div class="col-lg-3 col-md-6">
-                            
-                        <div class="single-product" style="border: 5px solid green;">
+                                while ($fetched = $result->fetch_assoc()) {
+                                    $published_game_id = $fetched['published_game_id'];
+                                    $game_name = $fetched['game_name'];
+                                    $category = $fetched['category'];
+                                    $edition = $fetched['edition'];
+                                    $published_date = $fetched['published_date'];
+                                    $formatted_date = date("M. d, Y", strtotime($published_date));
+                                    $creator_id = $fetched['creator_id'];
+                                    $age_id = $fetched['age_id'];
+                                    $short_description = $fetched['short_description'];
+                                    $long_description = $fetched['long_description'];
+                                    $category = $fetched['category'];
+                                    $website = $fetched['website'];
+                                    $logo_path = $fetched['logo_path'];
+                                    $min_players = $fetched['min_players'];
+                                    $max_players = $fetched['max_players'];
+                                    $min_playtime = $fetched['min_playtime'];
+                                    $max_playtime = $fetched['max_playtime'];
+                                    $marketplace_price = $fetched['marketplace_price'];
 
-                        <div class="content">
-                          <div class="content-overlay" style="height: 132px; width: 100%;"></div>
-                  
-                          <div class="image-mini-container">
-                            <img class="image-mini" src="img/16x9.jpg" class="card-img-top" alt="...">
-                          </div>
-                  
-                          <div class="content-details fadeIn-bottom">
-                            <p class="card-subtitle mb-2 text-muted h6" style="font-size: 0.58rem;">
-                                ' . $short_description . '
-                            </p>
-                  
-                            <i class="fa-solid fa-clock"></i>
-                            <small>
-                              ' . $max_playtime . '
-                            </small>
-                          </div>
-                  
+                                    // avatar users
+                                    $getAvatarUser = "SELECT * FROM users WHERE user_id = $creator_id";
+                                    $sqlGetAvatarUser = $conn->query($getAvatarUser);
+                                    while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
+                                        $avatar = $fetchedAvatarUser['avatar'];
+                                        $username = $fetchedAvatarUser['username'];
+                                        $firstLetter = strtoupper(substr($username, 0, 1));
+
+                                        if (!is_null($avatar)) {
+                                            $avatar_value = '
+                                            <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
+                                                <img src="' . $avatar . '" alt="" style="
+                                                        position: absolute;
+                                                        top: 0;
+                                                        left: 0;
+                                
+                                                        height: 100%;
+                                                        width: 100%;
+                                                        object-fit: cover;
+                                                        border-radius: 50%;
+                                                ">
+                                
+                                            </div>
+                                            ';
+                                        } else {
+                                            $avatar_value = '
+                                                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
+                                                background: rgb(38,211,224);
+                                                background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
+                                                
+                                                    <span style="font-family: sans-serif; color: white; font-weight: bold; font-size:17px; padding-top: 0px;">' . $firstLetter . '</span>
+                                    
+                                                </div>
+                                            ';
+                                        }
+                                    }
+
+
+
+                                    // rating
+                                    $rating = "SELECT rating FROM ratings WHERE published_game_id = $published_game_id";
+                                    $sqlGetRating = $conn->query($rating);
+                                    $ratingsArray = [];
+                                    while ($fetchedRating = $sqlGetRating->fetch_assoc()) {
+                                        $ratingsArray[] = $fetchedRating['rating'];
+                                    }
+
+
+                                    $ratingCounts = array(
+                                        '5' => 0,
+                                        '4' => 0,
+                                        '3' => 0,
+                                        '2' => 0,
+                                        '1' => 0
+                                    );
+
+                                    foreach ($ratingsArray as $ratingValue) {
+                                        if (array_key_exists($ratingValue, $ratingCounts)) {
+                                            $ratingCounts[$ratingValue]++;
+                                        }
+                                    }
+
+                                    // Now you have the count of each rating value
+                                    $count5 = $ratingCounts['5'];
+                                    $count4 = $ratingCounts['4'];
+                                    $count3 = $ratingCounts['3'];
+                                    $count2 = $ratingCounts['2'];
+                                    $count1 = $ratingCounts['1'];
+
+
+                                    $ratingSum = array_sum($ratingsArray);
+                                    $ratingCount = count($ratingsArray);
+                                    $averageRating = ($ratingCount > 0) ? ($ratingSum / $ratingCount) : 0;
+
+                                    // Round to one decimal place
+                                    $roundedRating = round($averageRating, 1);
+
+                                    // Round to the nearest half
+                                    $roundedRating = round($roundedRating * 2) / 2;
+
+                                    if (isset($_SESSION['user_id'])) {
+                                        $a_cart = '
+                                            <a href="#" id="ajax-link" data-published-game-id="' . $published_game_id . '" class="social-info">
+                                        ';
+                                    } else {
+                                        $a_cart = '
+                                            <a href="login_page.php" class="social-info">
+                                        ';
+                                    }
+
+                                    include 'html/latest_games.php';
+                                }
+                                ?>
+
+
+                            </div>
                         </div>
-                  
-                        <div class="product-details">
-                          <div>
-                            <i class="fa fa-star text-primary"></i>
-                  
-                            <span class="rating-number">
-                              ' . $averageRating . '
-                            </span>
-                  
-                            <h5 class="card-title">
-                              ' . $game_name . '
-                            </h5>
-                            
-                          </div>
-                  
-                          <div>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                              <small>
-                                Genre: ' . $category . '
-                              </small>
-                            </h6>
-                  
-                            <h6 class="card-subtitle mb-2 text-muted">
-                              <small>
-                                Creator ID: ' . $creator_id . '
-                              </small>
-                            </h6>
-                  
-                            <h6 class="card-subtitle mb-2 text-muted">
-                              <small>
-                                ' . $published_date . '
-                              </small>
-                            </h6>
-                          </div>
-                  
-                          <span class="lnr" style="color: #26d3e0; padding-left: 5px; padding-right: 5px; border-radius: 10%;">
-                            <i class="fa-solid fa-peso-sign">
-                              ' . $marketplace_price . '
-                            </i>
-                          </span>
-                  
-                          <div class="prd-bottom">';
-
-
-                            if (isset($_SESSION['user_id'])) {
-                                echo '
-                            <a href="#" id="ajax-link" data-published-game-id="' . $published_game_id . '" class="social-info">
-                              <span class="ti-bag"></span>
-                              <p class="hover-text">add to bag</p>
-                            </a>
-
-                            <!--<a href="#" id="ajax-link" data-published-game-id="' . $published_game_id . '">
-                                Click me to trigger AJAX
-                            </a>-->
-                            
-                            ';
-                            } else {
-                                echo '
-                            <a href="login_page.php" class="social-info">
-                              <span class="ti-bag"></span>
-                              <p class="hover-text">add to bag</p>
-                            </a>
-                            ';
-                            }
-                            echo '
-
-                            
-                  
-                            <a href="marketplace_item_page.php?id=' . $published_game_id . '" class="social-info view">
-                              <span class="lnr lnr-move"></span>
-                              <p class="hover-text">View</p>
-                            </a>
-                            
-                          </div>
-                        </div>
-                  
-                      </div>
-
-                        </div>
-                        
-                        ';
-                        }
-                        ?>
-
-
                     </div>
                 </div>
             </div>
@@ -674,9 +799,6 @@ session_start();
         <script src="js/gmaps.min.js"></script>
         <script src="js/main.js"></script>
 
-
-
-
         <!-- Include DataTables JavaScript -->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
@@ -689,6 +811,9 @@ session_start();
         <!-- Include DataTables JavaScript -->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+        <!-- scroll reveal js -->
+        <script src="https://unpkg.com/scrollreveal"></script>
+
 
 
 
@@ -696,6 +821,7 @@ session_start();
         <script>
             $(document).ready(function() {
 
+                // mahalaga toh
                 <?php include 'js/essential.php'; ?>
 
                 var swiper = new Swiper(".mySwiper", {
@@ -716,6 +842,11 @@ session_start();
                 });
 
 
+                $(".product_card").click(function() {
+                    var published_game_id = $(this).data("published_game_id");
+
+                    windows.location.href = "marketplace_item_page.php?id=" + published_game_id;
+                });
 
 
             });
