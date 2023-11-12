@@ -10,8 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     date_default_timezone_set('Asia/Manila');
     
-    $name = $_POST["name"];
-    $description = $_POST["description"];
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $description = mysqli_real_escape_string($conn, $_POST["description"]);
+    
     $currentTimestamp = date('Y-m-d H:i:s');
 
     $sqlCreateGame = "INSERT INTO games (name, description, user_id, date_modified) VALUES ('$name', '$description', '$user_id', '$currentTimestamp')";
