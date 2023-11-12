@@ -8,6 +8,52 @@
 
                     <li><a href="index.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Dashboard</span></a></li>
 
+                    <?php 
+                   
+                    if (isset($_SESSION['admin_id'])){
+                        $admin_id = $_SESSION['admin_id'];
+
+                        $sql = "SELECT * FROM admins WHERE admin_id = $admin_id";
+                        $query = mysqli_query($conn, $sql);
+                        $result = mysqli_fetch_assoc($query);
+
+                        if ($result["is_super_admin"] == 1){ 
+
+                            echo '<li class="nav-label">Account Management</li>
+                            <li><a href="admin_user_management.php">User Accounts</a></li>
+                            <li><a href="admin_account_management.php">Admin Accounts</a></li>
+        
+                            <li class="nav-label">Service Charges & Others</li>
+                            <li><a href="admin_weight_charges.php">Weight Charges</a></li>
+                            <li><a href="admin_service_percentage.php">Service Fees</a></li>
+                            <li><a href="admin_constant_thumbnail.php">Thumbnail Images</a></li>
+                            <li><a href="admin_paypal_royalty.php">Paypal Account & Royalties</a></li>';
+                        }
+
+                    }
+                    
+                    ?>
+
+                    
+
+
+            
+
+                    <li class="nav-label">Approve / Deny</li>
+                    <li><a href="games_approval_requests.php">Games Pending Approval</a></li>
+                    <li><a href="pending_details_request.php">Publish Game Details Requests</a></li>
+                    <li><a href="./app-calender.html">Edit Published Game Requests</a></li>
+
+                    <li class="nav-label">Cash Out</li>
+                    <li><a href="cashout_requests.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Cashout Requests</span></a></li>
+
+                    <li class="nav-label">Orders</li>
+                    <li><a href="pending_all.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">All Pending Orders</span></a></li>
+                    <li><a href="in_production.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">In Production Orders</span></a></li>
+                    <li><a href="to_ship.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">To Ship</span></a></li>
+                    <li><a href="to_deliver.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Completed Orders</span></a></li>
+                    <li><a href="canceled.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Canceled Orders</span></a></li>
+
 
                     <li class="nav-label"></li>
                     <li>
@@ -56,33 +102,6 @@
                             <a class="btn btn-outline-primary" id="addCategory" style="display: block;" role="button" style="text-align:center;">Add New Category</a>
                         </ul>
                     </li>
-
-                    <li class="nav-label">Account Management</li>
-                    <li><a href="admin_user_management.php">User Accounts</a></li>
-                    <li><a href="admin_service_percentage.php">Admin Accounts</a></li>
-
-                    <li class="nav-label">Service Charges & Others</li>
-                    <li><a href="admin_weight_charges.php">Weight Charges</a></li>
-                    <li><a href="admin_service_percentage.php">Service Fees</a></li>
-                    <li><a href="admin_constant_thumbnail.php">Thumbnail Images</a></li>
-                    <li><a href="admin_paypal_royalty.php">Paypal Account & Royalties</a></li>
-
-                    
-
-                    <li class="nav-label">Approve / Deny</li>
-                    <li><a href="games_approval_requests.php">Games Pending Approval</a></li>
-                    <li><a href="pending_details_request.php">Publish Game Details Requests</a></li>
-                    <li><a href="./app-calender.html">Edit Published Game Requests</a></li>
-
-                    <li class="nav-label">Cash Out</li>
-                    <li><a href="cashout_requests.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Cashout Requests</span></a></li>
-
-                    <li class="nav-label">Orders</li>
-                    <li><a href="pending_all.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">All Pending Orders</span></a></li>
-                    <li><a href="in_production.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">In Production Orders</span></a></li>
-                    <li><a href="to_ship.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">To Ship</span></a></li>
-                    <li><a href="to_deliver.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Completed Orders</span></a></li>
-                    <li><a href="canceled.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Canceled Orders</span></a></li>
 
 
                 </ul>

@@ -1,42 +1,31 @@
 <?php
-session_start();
-include 'connection.php';
-
-$component_id;
+include("connection.php");
 
 if (isset($_GET['id'])) {
-    $component_id = $_GET['id'];
-    
-    // Retrieve the category from the database
-    $SQL = "SELECT * FROM game_components WHERE component_id = $component_id";
-    $result = mysqli_query($conn, $SQL);
-    $row = mysqli_fetch_assoc($result);
-    $category = $row['category'];
+    $componentID = $_GET['id'];
 
-    // Delete records from various tables
-    $sql = "DELETE FROM component_colors WHERE component_id = $component_id";
-    if ($conn->query($sql) !== TRUE) {
-        echo "Error: " . $conn->error;
+    $component_sql = "SELECT *
+                      FROM game_components
+                      WHERE component_id = $componentID";
+
+    $user_query = $conn->query($component_sql);
+    $user_row = $user_query->fetch_assoc();
+
+    if ($user_query->num_rows > 0) {
+        $sql = "UPDATE game_components
+                SET is_deleted = 1
+                WHERE component_id = $componentID";
+
+        // Execute the SQL query
+        if ($conn->query($sql) === TRUE) {
+            echo "Data deleted successfully!";
+            header("Location: add_game_piece.php?category=" . $user_row['category']); // Use "." for concatenation
+            exit; // Exit to prevent further execution
+        } else {
+            echo "Error: " . $conn->error;
+        }
+    } else {
+        echo "Component not found.";
     }
-
-    $sql = "DELETE FROM component_templates WHERE component_id = $component_id";
-    if ($conn->query($sql) !== TRUE) {
-        echo "Error: " . $conn->error;
-    }
-
-    $sql = "DELETE FROM component_assets WHERE component_id = $component_id";
-    if ($conn->query($sql) !== TRUE) {
-        echo "Error: " . $conn->error;
-    }
-
-    $sql = "DELETE FROM game_components WHERE component_id = $component_id";
-    if ($conn->query($sql) !== TRUE) {
-        echo "Error: " . $conn->error;
-    }
-
-    // Redirect to the 'add_game_piece.php' page with the category parameter
-    header("Location: add_game_piece.php?category=" . $category);
 }
-
-
-
+?>

@@ -20,13 +20,23 @@ if (isset($_GET['id'])) {
 
         // Execute the SQL query
         if ($conn->query($sql) === TRUE) {
-            echo "Data updated successfully!";
-            header("Location: admin_user_management.php"); // Use "." for concatenation
-            exit; // Exit to prevent further execution
+
+            $sql = "UPDATE published_built_games
+            SET 
+                is_hidden = 1
+            WHERE creator_id = $userID"; // Use $tutID instead of $id
+
+            if ($conn->query($sql) === TRUE) {
+
+
+                echo "Data updated successfully!";
+                header("Location: admin_user_management.php"); // Use "." for concatenation
+                exit; // Exit to prevent further execution
+            } else {
+                echo "Error: " . $conn->error;
+            }
         } else {
             echo "Error: " . $conn->error;
         }
     }
 }
-?>
-

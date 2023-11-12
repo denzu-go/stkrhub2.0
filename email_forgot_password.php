@@ -70,12 +70,12 @@ if(isset($_SESSION['credentials'])){
 
                 <div class="col-lg-6" id = "forgotPassForm" style="display:block;">
                     <div class="login_form_inner">
-                        <h3>Enter your Email</h3>
+                        <h3>Enter your Username & Email</h3>
 
                         <?php 
                 
                     if ($credentials == 'false') {
-                        echo '<p style="color:red;">Email Does not Exist</p>';
+                        echo '<p style="color:red;">Email or Username Does not Exist</p>';
                         unset($_SESSION['credentials']);
                     }
                         
@@ -83,6 +83,12 @@ if(isset($_SESSION['credentials'])){
 
                         <form class="row login_form" action="process_email_forgot_pass.php" method="post" id="contactForm"
                             novalidate="novalidate">
+                            <div class="col-md-12 form-group">
+
+                                <input required type="text" class="form-control" id="username" name="username"
+                                    placeholder="Username" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Email'">
+                            </div>
                             <div class="col-md-12 form-group">
 
                                 <input required type="text" class="form-control" id="email" name="email"

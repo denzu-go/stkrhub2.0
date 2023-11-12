@@ -22,7 +22,7 @@
         </li>
 
         <li class="<?php echo $logout ?>">
-            <a href="#">Logout</a>
+            <a href="logout.php">Logout</a>
         </li>
     </ul>
 </nav>

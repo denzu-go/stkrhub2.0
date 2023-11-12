@@ -23,45 +23,53 @@ if (isset($_SESSION['category'])) {
         $has_colors = $row['has_colors'];
         $colors = array(); // Initialize an empty array for colors
         $templates = array(); // Initialize an empty array for templates
+        $is_deleted = $row['is_deleted'];
 
-        if ($has_colors == 1) {
-            $colorQuery = "SELECT * FROM component_colors WHERE component_id = $component_id";
-            $colorResult = mysqli_query($conn, $colorQuery);
-            
-            while ($colorRow = mysqli_fetch_assoc($colorResult)) {
-                $colors[] = $colorRow['color_name']; // Add color to the array
-            }
-        } else {
-            $colors [] = 'No Color';
-        }
-
-        $templateQuery = "SELECT * FROM component_templates WHERE component_id = $component_id";
-        $templateResult = mysqli_query($conn, $templateQuery);
-            
-        while ($templateRow = mysqli_fetch_assoc($templateResult)) {
-            $templates[] = $templateRow['template_name']; // Add template to the array
-        }
-
-        $available = '';
-
-                if ($row["is_available"] == 1) {
-                    $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:green;"> Available </a>';
-                } else {
-                    $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:red;"> Not Available </a>';
+        if ($is_deleted == 0) {
+            if ($has_colors == 1) {
+                $colorQuery = "SELECT * FROM component_colors WHERE component_id = $component_id";
+                $colorResult = mysqli_query($conn, $colorQuery);
+                
+                while ($colorRow = mysqli_fetch_assoc($colorResult)) {
+                    $colors[] = $colorRow['color_name']; // Add color to the array
                 }
+            } else {
+                $colors [] = 'No Color';
+            }
+    
+            $templateQuery = "SELECT * FROM component_templates WHERE component_id = $component_id";
+            $templateResult = mysqli_query($conn, $templateQuery);
+                
+            while ($templateRow = mysqli_fetch_assoc($templateResult)) {
+                $templates[] = $templateRow['template_name']; // Add template to the array
+            }
+    
+            $available = '';
+    
+                    if ($row["is_available"] == 1) {
+                        $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:green;"> Available </a>';
+                    } else {
+                        $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:red;"> Not Available </a>';
+                    }
+    
+            $actions = '<a href="edit_game_components.php?id=' . $component_id . '">Edit</a> <a href="delete_game_component.php?id=' . $component_id . '" Style = "color:red;">Delete</a>' ;
+    
+            $data[] = array(
+                "name" => $name,
+                "description" => $description,
+                "price" => $price,
+                "size" => $size,
+                "colors" => $colors, // Store colors as an array
+                "templates" => $templates,
+                "available" => $available, // Store templates as an array
+                "actions" => $actions,
+            );
 
-        $actions = '<a href="edit_game_components.php?id=' . $component_id . '">Edit</a> <a href="delete_game_component.php?id=' . $component_id . '" Style = "color:red;">Delete</a>' ;
+        }
 
-        $data[] = array(
-            "name" => $name,
-            "description" => $description,
-            "price" => $price,
-            "size" => $size,
-            "colors" => $colors, // Store colors as an array
-            "templates" => $templates,
-            "available" => $available, // Store templates as an array
-            "actions" => $actions,
-        );
+
+
+
     }
 
     // Send a JSON content type header
