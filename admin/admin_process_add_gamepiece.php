@@ -150,16 +150,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
             // Assuming you have a valid $componentId
         
             foreach ($thumbnailUploadedFiles as $index => $thumbnailUploadedFile) {
-        
+
+                if ($index == 0 ) {
+                    $is_thumbnail = 1;
                 // Use prepared statement to prevent SQL injection
-                $stmt = $conn->prepare("INSERT INTO component_assets (component_id, asset_path) VALUES (?, ?)");
-                $stmt->bind_param("is", $componentId, $thumbnailUploadedFile);
+                $stmt = $conn->prepare("INSERT INTO component_assets (component_id, asset_path,is_thumbnail) VALUES (?, ?, ?)");
+                $stmt->bind_param("isi", $componentId, $thumbnailUploadedFile, $is_thumbnail);
         
                 if ($stmt->execute()) {
                     echo "Thumbnail recorded successfully.";
                 } else {
                     echo "Error inserting thumbnail: " . $stmt->error;
                 }
+
+
+                }else {
+                    $is_thumbnail = 0;
+                // Use prepared statement to prevent SQL injection
+                $stmt = $conn->prepare("INSERT INTO component_assets (component_id, asset_path,is_thumbnail) VALUES (?, ?, ?)");
+                $stmt->bind_param("isi", $componentId, $thumbnailUploadedFile, $is_thumbnail);
+        
+                if ($stmt->execute()) {
+                    echo "Thumbnail recorded successfully.";
+                } else {
+                    echo "Error inserting thumbnail: " . $stmt->error;
+                }
+
+                }
+                
             }
         }
 

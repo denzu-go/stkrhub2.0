@@ -257,7 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo "Error uploading file for thumbnail with ID $thumbnailId.";
                     }
                 }
-                $conn->close();
+              
             }
             
     // end of update thumbnail
@@ -266,7 +266,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numberOfThumbnails = isset($_POST["No_thumbnail"]) ? intval($_POST["No_thumbnail"]) : 0; // Number of thumbnails submitted
 
     $thumbnailUploadedFiles = array(); // Array for thumbnail uploaded file paths
-
+    
     for ($i = 1; $i <= $numberOfThumbnails; $i++) {
         $thumbnailFileKey = "thumbnailCode$i";
     
@@ -293,15 +293,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
+    
     if (!empty($thumbnailUploadedFiles)) {
         // Assuming you have a valid $componentId
     
         foreach ($thumbnailUploadedFiles as $index => $thumbnailUploadedFile) {
     
-            // Use prepared statement to prevent SQL injection
-            $stmt = $conn->prepare("INSERT INTO component_assets (component_id, asset_path) VALUES (?, ?)");
-            $stmt->bind_param("is", $component_id, $thumbnailUploadedFile);
+            $is_thumbnail = 0;
+                // Use prepared statement to prevent SQL injection
+                $stmt = $conn->prepare("INSERT INTO component_assets (component_id, asset_path,is_thumbnail) VALUES (?, ?, ?)");
+                $stmt->bind_param("isi", $component_id, $thumbnailUploadedFile, $is_thumbnail);
     
             if ($stmt->execute()) {
                 echo "Thumbnail recorded successfully.";
@@ -310,6 +311,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
+    
 
     
 

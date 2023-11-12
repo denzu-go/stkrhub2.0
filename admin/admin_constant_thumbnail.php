@@ -178,7 +178,7 @@ include 'connection.php';
                         confirmButtonText: 'Close'
                     });
                 });
-            });
+            });  
 
             $('body').on('click', '[id^="uploadImage_"]', function() {
                 // Extract the constant_id from the button's ID

@@ -197,13 +197,6 @@ $thumbnail_query = $conn->query($thumbnail_sql);
                                         </div>
 
                                         <div class="row mb-3 color-row">
-                                            <label class="col-sm-3 col-form-label"> Template Link:</label>
-                                            <div class="col-sm-6">
-                                            <a href="' . $template_row['template_file_path'] . '" download style = "color:blue;"> ' . $template_row['template_name'] . '</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3 color-row">
                                             <label class="col-sm-3 col-form-label"> Update Template File</label>
                                             <div class="col-sm-6">
                                                 <input type="file" class="form-control" name="template_file[]" accept = "image/*" id="template_file_' . $template_row['template_id'] . '">
@@ -253,14 +246,7 @@ $thumbnail_query = $conn->query($thumbnail_sql);
                                         <input type="hidden" name="thumbnail_id[]" value="' . $thumbnail_row['asset_id'] . '">
 
                                         <div class="row mb-3 color-row">
-                                            <label class="col-sm-3 col-form-label"> Thumbnail Link:</label>
-                                            <div class="col-sm-6">
-                                                <a href="' . $thumbnail_row['asset_path'] . '" download style = "color:blue;"> Thumbnail ' . $index . ' </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3 color-row">
-                                            <label class="col-sm-3 col-form-label"> Update Thumbnail File</label>
+                                            <label class="col-sm-3 col-form-label"> Update Thumbnail '.$index .' File</label>
                                             <div class="col-sm-6">
                                             <input type="file" class="form-control" name="thumbnail_file[]" accept="image/*" id="thumbnail_file_' . $thumbnail_row['asset_id'] . '">
                                             <a href="#" class="remove-thumbnail" data-thumbnail-id="' . $thumbnail_row['asset_id'] . '" style = "color:red;">Remove</a>
@@ -395,7 +381,7 @@ $thumbnail_query = $conn->query($thumbnail_sql);
                 fileInput.val('');
             });
 
-            $("#myForm").submit(function(e) {
+           $("#myForm").submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
                 var formData = new FormData(this); // Create a FormData object
 

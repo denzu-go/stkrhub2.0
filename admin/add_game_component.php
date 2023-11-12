@@ -154,6 +154,7 @@ if (isset($_GET['category'])) {
                                             <label class="col-sm-3 col-form-label" for="No_thumbnail">No. Thumbnail</label>
                                             <div class="col-sm-6">
                                                 <input type="number" id="No_thumbnail" name="No_thumbnail" min="0" placeholder="0">
+                                                <p> note: first upload will always be the thumbnail.</p>
 
                                                 <div id="thumbnailFields" style="display: block;"> </div>
                                             </div>
