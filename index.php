@@ -410,7 +410,7 @@ session_start();
 
                                 <?php
                                 $sql = "SELECT * FROM published_built_games WHERE is_hidden = 0 ORDER BY published_date DESC LIMIT 9";
-
+    
                                 $result = $conn->query($sql);
 
                                 while ($fetched = $result->fetch_assoc()) {

@@ -25,7 +25,7 @@
 
                                     <form action="admin_process_login.php" method="post" id="contactForm" novalidate="novalidate">
                                         <div class="form-group">
-                                            <label><strong>Email</strong></label>
+                                            <label><strong>Username</strong></label>
                                             <input type="email" name="username" class="form-control">
                                         </div>
                                         <div class="form-group">
