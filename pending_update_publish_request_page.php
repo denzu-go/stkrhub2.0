@@ -2,7 +2,67 @@
 session_start();
 include 'connection.php';
 
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    header("Location: login_page.php");
+    exit;
+}
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
+
 $published_game_id = $_GET['published_game_id'];
+
+
+// PENDINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+$query_markup = "SELECT percentage FROM markup_percentage";
+$result_markup = mysqli_query($conn, $query_markup);
+$markup_percentage = mysqli_fetch_assoc($result_markup)['percentage'];
+
+$sqlGetPendingPublishRequest = "SELECT * FROM pending_update_published_built_games WHERE published_built_game_id = $published_game_id";
+$queryGetPendingPublishRequest = $conn->query($sqlGetPendingPublishRequest);
+while ($fetchedPendingPublishRequest = $queryGetPendingPublishRequest->fetch_assoc()) {
+    $pending_update_published_built_games_id = $fetchedPendingPublishRequest['pending_update_published_built_games_id'];
+
+    $pending_game_name = $fetchedPendingPublishRequest['game_name'];
+    $pending_edition = $fetchedPendingPublishRequest['edition'];
+    $pending_category = $fetchedPendingPublishRequest['category'];
+    $pending_age_id = $fetchedPendingPublishRequest['age_id'];
+
+    $pending_min_players = $fetchedPendingPublishRequest['min_players'];
+    $pending_max_players = $fetchedPendingPublishRequest['max_players'];
+    $pending_min_playtime = $fetchedPendingPublishRequest['min_playtime'];
+    $pending_max_playtime = $fetchedPendingPublishRequest['max_playtime'];
+
+    $pending_short_description = $fetchedPendingPublishRequest['short_description'];
+    $pending_long_description = $fetchedPendingPublishRequest['long_description'];
+
+    $pending_logo_path = $fetchedPendingPublishRequest['logo_path'];
+
+    $pending_desired_markup = $fetchedPendingPublishRequest['desired_markup'];
+    $pending_manufacturer_profit = $fetchedPendingPublishRequest['manufacturer_profit'];
+    $pending_creator_profit = $fetchedPendingPublishRequest['creator_profit'];
+    $pending_marketplace_price = $fetchedPendingPublishRequest['marketplace_price'];
+}
+
+// category
+$sqlGetCategory = "SELECT * FROM categories WHERE category_id = $pending_category";
+$queryGetCategory = $conn->query($sqlGetCategory);
+while ($fetchedCategory = $queryGetCategory->fetch_assoc()) {
+    $pending_category_name = $fetchedCategory['category_name'];
+}
+
+// age
+$sqlGetAge = "SELECT * FROM age WHERE age_id = $pending_age_id";
+$queryGetAge = $conn->query($sqlGetAge);
+while ($fetchedAge = $queryGetAge->fetch_assoc()) {
+    $pending_age_value = $fetchedAge['age_value'];
+}
+
 
 // CURRENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 $sqlGetCurrentPublishRequest = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
@@ -55,7 +115,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
     <link rel="stylesheet" href="css/ion.rangeSlider.css?<?php echo time(); ?>" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css?<?php echo time(); ?>" />
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="css/main.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
@@ -76,7 +136,21 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
     <style>
-        <?php include 'css/body.css'; ?>.swiper-slide {
+        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
+
+        /* start header */
+        .sticky-wrapper {
+            top: 0px !important;
+        }
+
+
+        .header_area .main_menu .main_box {
+            max-width: 100%;
+        }
+
+        /* end */
+
+        .swiper-slide {
             background: #fff;
             display: flex;
             justify-content: center;
@@ -158,36 +232,43 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
         /* cancel button */
         #cancelButton {
-            background-color: transparent !important;
+            background-color: #dc3545 !important;
             border: none;
             cursor: pointer;
+            border-radius: 14px;
 
-            color: #dc3545;
+            color: #fff;
         }
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php include 'html/page_header.php'; ?>
+    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!--================Blog Area =================-->
-    <section class="blog_area single-post-area section_gap">
+    <section class="blog_area single-post-area section_gap" style="background: none;">
         <div class="container">
 
-            <div class="row py-5">
-                
-            </div>
-
-            <div class="row">
-                <h4 class="mx-auto">Edit Details Request</h4>
-            </div>
-            <hr>
+        <a href="javascript:history.back()" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a> 
 
             <div class="row">
                 <!-- -- -->
                 <div class="col-6">
                     <div class="container">
+
+                        <div class="row">
+                            <h4 class="mx-auto">Current Details</h4>
+                        </div>
+
                         <div class="row">
                             <h6 class="">Final Publishing Game Name: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_game_name ?></h6>
                         </div>
@@ -233,29 +314,6 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
                         <hr>
 
-                        <div class="row">
-                            <h6 class="">Cost: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_marketplace_price - $current_desired_markup, 2) ?></h6>
-                        </div>
-                        <div class="row">
-                            <h6 class="">Desired Markup: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_desired_markup, 2) ?></h6>
-                        </div>
-                        <div class="row">
-                            <h6 class="">Manufacturer's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_manufacturer_profit, 2) ?></h6>
-                        </div>
-                        <div class="row">
-                            <h6 class="">Creator's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_creator_profit, 2) ?></h6>
-                        </div>
-                        <div class="row">
-                            <h6 class="">Marketplace Price: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_marketplace_price, 2) ?></h6>
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-                <div class="col-6">
-                    <div class="container">
                         <div class="row">
                             <h6 class="">Logo: </h6> &nbsp; <h6 style="color: #777777"></h6>
 
@@ -358,7 +416,207 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                         </div>
 
                         <hr>
+
+                        <div class="row">
+                            <h6 class="">Cost: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_marketplace_price - $current_desired_markup, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Desired Markup: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_desired_markup, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Manufacturer's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_manufacturer_profit, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Creator's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_creator_profit, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Marketplace Price: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_marketplace_price, 2) ?></h6>
+                        </div>
+
+                        <hr>
+
+
                     </div>
+
+                </div>
+
+                <!-- -- -->
+                <div class="col-6">
+                    <div class="container">
+
+                        <div class="row">
+                            <h4 class="mx-auto">Your Edit Request Details</h4>
+                        </div>
+
+                        <div class="row">
+                            <h6 class="">Final Publishing Game Name: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_game_name ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Edition: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_edition ?></h6>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Category: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_category_name ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Age: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_age_value ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Number of Players (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_min_players ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Number of Players (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_max_players ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Play Time (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_min_playtime ?> minutes</h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Play Time (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_max_playtime ?> minutes</h6>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Short Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <div class="container m-0 p-0"><?php echo $pending_short_description ?></div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <div class="container m-0" style="background-color: #222f3e;"><?php echo $pending_long_description ?></div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Logo: </h6> &nbsp; <h6 style="color: #777777"></h6>
+
+                            <div class="image-banner-container">';
+                                <img class="image-banner" src="<?php echo $pending_logo_path ?>" alt="">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Swiper -->
+                        <h6 class="">Game Images: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                        <div class="swiper-container">
+
+                            <div class="swiper mySwiper2" style="margin-bottom: 10px;">
+                                <div class="swiper-wrapper">
+
+                                    <?php
+                                    $sqlBig = "SELECT * FROM pending_update_published_multiple_files WHERE published_built_game_id = $published_game_id";
+                                    $resultBig = $conn->query($sqlBig);
+
+                                    while ($fetchedBig = $resultBig->fetch_assoc()) {
+                                        $file_path = $fetchedBig['file_path'];
+
+                                        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                        $file_extension = strtolower($extension);
+
+                                        // Check if the file extension is "mp4"
+                                        if ($file_extension === "mp4") {
+                                            echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-carousel-container">
+                                                                            <video class="image-carousel" controls>
+                                                                                <source src="' . $file_path . '" type="video/mp4">
+                                                                                Your browser does not support the video tag.
+                                                                            </video>
+                                                                        </div>
+                                                                    </div>
+                                                                ';
+                                        } else {
+                                            echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-carousel-container">
+                                                                            <img class="image-carousel" src="' . $file_path . '" />
+                                                                        </div>
+                                                                    </div>
+                                                                ';
+                                        }
+                                    }
+                                    ?>
+
+                                </div>
+
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            </div>
+
+                            <div thumbsSlider="" class="swiper mySwiper">
+                                <div class="swiper-wrapper">
+
+                                    <?php
+                                    $sqlSmall = "SELECT * FROM pending_update_published_multiple_files WHERE published_built_game_id = $published_game_id";
+                                    $resultSmall = $conn->query($sqlSmall);
+
+                                    while ($fetchedSmall = $resultSmall->fetch_assoc()) {
+
+                                        $file_path = $fetchedSmall['file_path'];
+
+                                        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                        $file_extension = strtolower($extension);
+
+                                        // Check if the file extension is "mp4"
+                                        if ($file_extension === "mp4") {
+                                            echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-slide-container">
+                                                                            <video class="image-slide">
+                                                                                <source src="' . $file_path . '">
+                                                                                Your browser does not support the video tag.
+                                                                            </video>
+                                                                        </div>
+                                                                    </div>
+                                                                ';
+                                        } else {
+                                            echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-slide-container">
+                                                                            <img class="image-slide" src="' . $file_path . '" />
+                                                                        </div>
+                                                                    </div>
+                    
+                                                                ';
+                                        }
+                                    }
+                                    ?>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Cost: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_marketplace_price - $pending_desired_markup, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Desired Markup: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_desired_markup, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Manufacturer's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_manufacturer_profit, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Creator's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_creator_profit, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Marketplace Price: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_marketplace_price, 2) ?></h6>
+                        </div>
+
+                        <hr>
+
+
+                    </div>
+
                 </div>
 
             </div>
@@ -385,6 +643,9 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
     <!-- new jquery version -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
@@ -401,6 +662,51 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
     <script>
         $(document).ready(function() {
 
+            var user_id = <?php echo $user_id ?>;
+            $("#cartCount").DataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                ajax: {
+                    url: "json_cart_count.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    dataSrc: "",
+                },
+                columns: [{
+                    data: "cart_count",
+                }],
+            });
+
+            //Get the button
+            let mybutton = document.getElementById("btn-back-to-top");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {
+                scrollFunction();
+            };
+
+            function scrollFunction() {
+                if (
+                    document.body.scrollTop > 20 ||
+                    document.documentElement.scrollTop > 20
+                ) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+            // When the user clicks on the button, scroll to the top of the document
+            mybutton.addEventListener("click", backToTop);
+
+            function backToTop() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+
+
             // CURRENT
             var swiper_current = new Swiper(".mySwiper_current", {
                 spaceBetween: 10,
@@ -416,6 +722,23 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                 },
                 thumbs: {
                     swiper: swiper_current,
+                },
+            });
+
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 10,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+            });
+            var swiper2 = new Swiper(".mySwiper2", {
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                thumbs: {
+                    swiper: swiper,
                 },
             });
 

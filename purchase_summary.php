@@ -2,6 +2,12 @@
 session_start();
 include 'connection.php';
 
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
@@ -143,7 +149,12 @@ $region_qry = mysqli_query($conn, $region);
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php include 'html/page_header.php'; ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
@@ -151,7 +162,7 @@ $region_qry = mysqli_query($conn, $region);
     </button>
 
     <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
+    <section class="banner-area organic-breadcrumb" style="background: none;">
         <div class="container">
 
         </div>
@@ -159,7 +170,7 @@ $region_qry = mysqli_query($conn, $region);
     <!-- End Banner Area -->
 
     <!--================Cart Area =================-->
-    <section class="cart_area">
+    <section class="cart_area" style="background: none;">
         <div class="container">
             <div class="row">
                 <div class="col">

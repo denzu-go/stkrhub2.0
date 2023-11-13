@@ -2246,7 +2246,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 var publishedGameId = $(this).data('published_game_id');
 
                 $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: 'update_game_page.php',
                     data: {
                         published_game_id: publishedGameId

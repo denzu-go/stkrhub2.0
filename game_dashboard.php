@@ -11,6 +11,13 @@ if ($_SERVER['REQUEST_METHOD']) {
     $game_id = $_GET['game_id'];
 }
 
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -182,7 +189,12 @@ if ($_SERVER['REQUEST_METHOD']) {
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
     <?php include 'html/page_header.php'; ?>
 
     <!-- Back to top button -->
@@ -191,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD']) {
     </button>
 
     <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
             <h1><a href="create_game_page.php#section1" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>

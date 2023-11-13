@@ -516,7 +516,7 @@ background-attachment: fixed;">
                         <!-- long description -->
                         <div class="form-outline">
                             <label class="form-label" for="form8Example1">Long Description</label>
-                            <textarea class="form-control input_color" id="long_description" name="long_description" required>LONG DESCRIPTION</textarea>
+                            <textarea class="form-control input_color" id="long_description" name="long_description" required>&nbsp;</textarea>
                         </div>
                     </div>
                 </div>

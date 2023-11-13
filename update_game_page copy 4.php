@@ -462,16 +462,12 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        <hr>
-
-                        <div class="row">
                             <div class="col">
                                 <div class="form-outline">
 
                                     <input type="number" id="min_players" name="min_players" class="form-control input_color" required />
-                                    <label class="form-label small" for="form8Example4">Number of Players (Minimum)</label>
+                                    <label class="form-label" for="form8Example4">Number of Players (Minimum)</label>
                                 </div>
                             </div>
 
@@ -479,7 +475,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <div class="form-outline">
 
                                     <input type="number" id="max_players" name="max_players" class="form-control input_color" required />
-                                    <label class="form-label small" for="form8Example4">Number of Players (Maximum)</label>
+                                    <label class="form-label" for="form8Example4">Number of Players (Maximum)</label>
                                 </div>
                             </div>
 
@@ -487,7 +483,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <div class="form-outline">
 
                                     <input type="number" id="min_playtime" name="min_playtime" class="form-control input_color" required />
-                                    <label class="form-label small" for="form8Example4">Play Time (Minimum)</label>
+                                    <label class="form-label" for="form8Example4">Play Time (Minimum)</label>
                                 </div>
                             </div>
 
@@ -495,7 +491,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <div class="form-outline">
 
                                     <input type="number" id="max_playtime" name="max_playtime" class="form-control input_color" required />
-                                    <label class="form-label small" for="form8Example4">Play Time (Maximum)</label>
+                                    <label class="form-label" for="form8Example4">Play Time (Maximum)</label>
                                 </div>
                             </div>
                         </div>
@@ -519,7 +515,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <!-- long description -->
                                 <div class="form-outline">
                                     <label class="form-label" for="form8Example1">Long Description</label>
-                                    <textarea class="form-control input_color" id="long_description" name="long_description" required>LONG DESCRIPTION</textarea>
+                                    <textarea class="form-control input_color" id="long_description" name="long_description" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -720,76 +716,34 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
 
 
-            // Handle form submission using AJAX
             $('#uploadForm').submit(function(event) {
-                event.preventDefault();
+                event.preventDefault(); // Prevent the form from submitting normally
 
-                var formData = new FormData();
-
-                formData.append('published_game_id', $("#published_game_id").val());
-                formData.append('creator_id', $("#creator_id").val());
-
-                formData.append('game_name', $("#game_name").val());
-                formData.append('edition', $("#edition").val());
-                formData.append('category', $("#category").val());
-                formData.append('age', $("#age").val());
-
-                formData.append('min_players', $("#min_players").val());
-                formData.append('max_players', $("#max_players").val());
-                formData.append('min_playtime', $("#min_playtime").val());
-                formData.append('max_playtime', $("#max_playtime").val());
-
-                var short_description = $("#short_description").val();
-                var long_description = tinymce.get('long_description').getContent();
-
-                var fileInput = $("#logo");
-                var logo = fileInput.prop("files")[0];
-
-                var gameImagesInput = $("input[name='game_images[]']");
-                var gameImages = gameImagesInput.prop("files");
-
-                formData.append('short_description', short_description);
-                formData.append('long_description', long_description);
-                formData.append("logo", logo);
-
-                for (var i = 0; i < gameImages.length; i++) {
-                    formData.append("game_images[]", gameImages[i]);
-                }
-
-                formData.append('desired_markup', $("#desired_markup").val());
-                formData.append('manufacturer_profit', $("#manufacturerProfitInput").val());
-                formData.append('creator_profit', $("#creatorProfitInput").val());
-                formData.append('marketplace_price', $("#marketplacePriceInput").val());
-
-                // Perform an AJAX request
                 Swal.fire({
                     title: '',
-                    text: 'Are you sure?',
+                    text: 'Are you sure to edit the Published Game details?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes',
                     cancelButtonText: 'Cancel',
-                }).then(function(result) {
+                }).then((result) => {
                     if (result.isConfirmed) {
+                        // If user clicks "Yes," perform the AJAX submission here
                         $.ajax({
-                            type: 'POST',
-                            url: 'process_update_publish_built_game.php',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
+                            url: 'your_ajax_endpoint.php', // Replace with your actual AJAX endpoint
+                            type: 'POST', // Adjust the method if needed
+                            data: $('#uploadForm').serialize(), // Serialize form data
                             success: function(response) {
-                                console.log(response);
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Success',
-                                }).then(function() {
-                                    window.location.href = 'create_game_page.php#section5';
-                                });
+                                // Handle the success response
+                                Swal.fire('Success!', 'Published Game details edited.', 'success');
                             },
+                            error: function(error) {
+                                // Handle the error response
+                                Swal.fire('Error!', 'An error occurred.', 'error');
+                            }
                         });
                     }
                 });
-
             });
 
 

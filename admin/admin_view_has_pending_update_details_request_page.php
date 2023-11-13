@@ -3,7 +3,7 @@ include 'connection.php';
 
 $pending_update_published_built_games_id = $_GET['pending_update_published_built_games_id'];
 
-// Retrieve the markup percentage from the database
+// PENDINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 $query_markup = "SELECT percentage FROM markup_percentage";
 $result_markup = mysqli_query($conn, $query_markup);
 $markup_percentage = mysqli_fetch_assoc($result_markup)['percentage'];
