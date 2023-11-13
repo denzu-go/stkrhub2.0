@@ -300,10 +300,10 @@ while ($fetched = $result->fetch_assoc()) {
 
             $sqlConstantComponent = "SELECT * FROM component_assets WHERE component_id = $fetched_component_id AND is_thumbnail = 1";
             $queryConstantComponent = $conn->query($sqlConstantComponent);
-
             if ($queryConstantComponent) {
                 $fetchedConstantComponent = $queryConstantComponent->fetch_assoc();
-                $asset_path = $fetchedConstantComponent['asset_path'];
+                // $asset_path = $fetchedConstantComponent['asset_path'];
+                $asset_path = $fetchedConstantComponent['asset_path'] ?? 'default_path.jpg';
 
                 $img_src = $asset_path;
             }

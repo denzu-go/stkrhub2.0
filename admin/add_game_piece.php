@@ -66,7 +66,7 @@ $_SESSION['category'] = $category;
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="row">
 
@@ -108,7 +108,8 @@ $_SESSION['category'] = $category;
                                             <th>Price</th>
                                             <th>Size</th>
                                             <th>Colors</th>
-                                            <th>Template</th>
+                                            <th>Templates</th>
+                                            <th>Thumbnails</th>
                                             <th>Available</th>
                                             <th>Actions</th>
                                         </tr>
@@ -182,20 +183,20 @@ $_SESSION['category'] = $category;
         $(document).ready(function() {
 
 
-            $(document).ready(function() {
 
-                $('#gameComponent').DataTable({
-                    searching: false,
-                    info: false,
-                    paging: false,
-                    ordering: false,
 
-                    "ajax": {
-                        "url": "admin_json_game_component.php",
-                        data: {},
-                        "dataSrc": ""
-                    },
-                    "columns": [{
+            $('#gameComponent').DataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+
+                "ajax": {
+                    "url": "admin_json_game_component.php",
+                    data: {},
+                    "dataSrc": ""
+                },
+                "columns": [{
                         "data": "title"
                     },
                     {
@@ -214,45 +215,81 @@ $_SESSION['category'] = $category;
                     },
 
 
-                    ]
-                });
+                ]
+            });
 
 
-                $('#gamePieceTable').DataTable({
-                    searching: true,
-                    info: false,
-                    paging: true,
-                    ordering: true,
-                    ajax: {
-                        url: "admin_json_gamepiece_table.php",
-                        data: {}, // You can add additional data parameters if needed
-                        dataSrc: ""
+            $('#gamePieceTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+                ajax: {
+                    url: "admin_json_gamepiece_table.php",
+                    data: {}, // You can add additional data parameters if needed
+                    dataSrc: ""
+                },
+                columns: [{
+                        data: "name"
                     },
-                    columns: [{
-                            data: "name"
-                        },
-                        {
-                            data: "description"
-                        },
-                        {
-                            data: "price"
-                        },
-                        {
-                            data: "size"
-                        },
-                        {
-                            data: "colors"
-                        },
-                        {
-                            data: "templates"
-                        },
-                        {
-                            data: "available"
-                        },
-                        {
-                            data: "actions"
-                        }
-                    ]
+                    {
+                        data: "description"
+                    },
+                    {
+                        data: "price"
+                    },
+                    {
+                        data: "size"
+                    },
+                    {
+                        data: "colors"
+                    },
+                    {
+                        data: "templates"
+                    },
+                    {
+                        data: "thumbnails"
+                    },
+                    {
+                        data: "available"
+                    },
+                    {
+                        data: "actions"
+                    }
+                ]
+            });
+
+
+
+            $('body').on('click', '.showTemplateBtn', function() {
+                // Extract the data-id and data-name attributes from the button
+                var imageId = $(this).data('id');
+                var imageName = $(this).data('name');
+
+                // Generate the HTML for the image
+                var imageHTML = '<div><img src="../' + imageId + '" alt="Image" style="width:300px;height:300px;"><p>' + imageName + '</p></div>';
+
+                // Use SweetAlert to display the image with its name
+                Swal.fire({
+                    title: 'Image Preview',
+                    html: imageHTML,
+                    confirmButtonText: 'Close'
+                });
+            });
+
+            $('body').on('click', '.showTemplateBtn', function() {
+                // Extract the data-id and data-name attributes from the button
+                var imageId = $(this).data('id');
+                var imageName = $(this).data('name');
+
+                // Generate the HTML for the image
+                var imageHTML = '<div><img src="../' + imageId + '" alt="Image" style="width:300px;height:300px;"><p>Thumbnail ' + imageName + '</p></div>';
+
+                // Use SweetAlert to display the image with its name
+                Swal.fire({
+                    title: 'Image Preview',
+                    html: imageHTML,
+                    confirmButtonText: 'Close'
                 });
             });
 
@@ -260,14 +297,17 @@ $_SESSION['category'] = $category;
 
 
 
-            
+
+
+
+
+
 
 
 
 
 
         });
-
     </script>
 
 
