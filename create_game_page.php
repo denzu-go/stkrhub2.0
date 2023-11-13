@@ -1,6 +1,11 @@
 <?php
 session_start();
 include 'connection.php';
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +46,9 @@ include 'connection.php';
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
 
     <style>
         <?php include 'css/body.css'; ?>.multi-step-bar {
@@ -189,6 +197,16 @@ include 'connection.php';
             color: #e7e7e7;
         }
 
+        /* viewEditButton */
+        #viewEditButton {
+            background-color: #272a4e !important;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+
+            color: #e7e7e7;
+        }
+
         /* editButton */
         #editButton {
             background-color: transparent !important;
@@ -313,10 +331,24 @@ include 'connection.php';
         table.dataTable tbody tr.odd {
             border: none !important;
         }
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
+        }
+
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
     <?php
     $header_create_game = 'active';
     include 'html/page_header.php';
@@ -527,7 +559,6 @@ include 'connection.php';
                         <tr>
                             <th style="min-width: 120px; max-width: 120px;">Built Game Name</th>
                             <th style="min-width: 80px; max-width: 80px;">Description</th>
-                            <th style="min-width: 80px; max-width: 80px;">Game Source</th>
                             <th style="min-width: 80px; max-width: 80px;">Price</th>
                             <th style="min-width: 80px; max-width: 80px;">Date Approved</th>
                             <th style="min-width: 120px; max-width: 120px;">Recent Status</th>
@@ -662,6 +693,9 @@ include 'connection.php';
 
     <!-- Filepond JavaScript -->
     <script src="https://unpkg.com/filepond@4.23.1/dist/filepond.min.js"></script>
+
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
 
 
     <script>
@@ -828,7 +862,7 @@ include 'connection.php';
                             }).then(function(result) {
                                 if (result.isConfirmed) {
                                     if (result.value.success) {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#createGameTable').DataTable().ajax.reload();
                                         $('#builtGameTable').DataTable().ajax.reload();
@@ -840,8 +874,19 @@ include 'connection.php';
                                         $('#publishedGameTable').DataTable().ajax.reload();
 
                                         $('#cartCount').DataTable().ajax.reload();
+
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
                                     } else {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#createGameTable').DataTable().ajax.reload();
                                         $('#builtGameTable').DataTable().ajax.reload();
@@ -853,6 +898,17 @@ include 'connection.php';
                                         $('#publishedGameTable').DataTable().ajax.reload();
 
                                         $('#cartCount').DataTable().ajax.reload();
+
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
                                     }
                                 }
                             });
@@ -960,7 +1016,7 @@ include 'connection.php';
                             dataType: 'json',
                             success: function(response) {
                                 if (response.success) {
-                                    Swal.fire('Success', response.message, 'success');
+                                    // Swal.fire('Success', response.message, 'success');
 
                                     // Optionally, you can refresh the DataTables table after building
                                     $('#createGameTable').DataTable().ajax.reload();
@@ -973,6 +1029,17 @@ include 'connection.php';
                                     $('#publishedGameTable').DataTable().ajax.reload();
 
                                     $('#cartCount').DataTable().ajax.reload();
+
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Your ticket is in the cart',
+                                        message: 'Purchase the ticket so that the admin can start reviewing and approve your game',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 10000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                    });
                                 } else {
                                     Swal.fire('Error', response.message, 'error');
 
@@ -1028,7 +1095,19 @@ include 'connection.php';
                                     $('#publishedGameTable').DataTable().ajax.reload();
 
                                     $('#cartCount').DataTable().ajax.reload();
-                                    Swal.fire('Success', response.message, 'success');
+                                    // Swal.fire('Success', response.message, 'success');
+
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Ticket Canceled',
+                                        message: '',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 4000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                    });
+
                                 } else {
                                     $('#createGameTable').DataTable().ajax.reload();
                                     $('#builtGameTable').DataTable().ajax.reload();
@@ -1117,9 +1196,6 @@ include 'connection.php';
                         "data": "description"
                     },
                     {
-                        "data": "from_what_game"
-                    },
-                    {
                         "data": "total_price"
                     },
                     {
@@ -1181,7 +1257,7 @@ include 'connection.php';
                             }).then(function(result) {
                                 if (result.isConfirmed) {
                                     if (result.value.success) {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#createGameTable').DataTable().ajax.reload();
                                         $('#builtGameTable').DataTable().ajax.reload();
@@ -1193,8 +1269,20 @@ include 'connection.php';
                                         $('#publishedGameTable').DataTable().ajax.reload();
 
                                         $('#cartCount').DataTable().ajax.reload();
+
+
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
                                     } else {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#createGameTable').DataTable().ajax.reload();
                                         $('#builtGameTable').DataTable().ajax.reload();
@@ -1206,6 +1294,17 @@ include 'connection.php';
                                         $('#publishedGameTable').DataTable().ajax.reload();
 
                                         $('#cartCount').DataTable().ajax.reload();
+
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
                                     }
                                 }
                             });
@@ -1349,9 +1448,6 @@ include 'connection.php';
                         "data": "description"
                     },
                     {
-                        "data": "from_what_game"
-                    },
-                    {
                         "data": "total_price"
                     },
                     {
@@ -1445,9 +1541,6 @@ include 'connection.php';
                         "data": "description"
                     },
                     {
-                        "data": "from_what_game"
-                    },
-                    {
                         "data": "total_price"
                     },
                     {
@@ -1494,9 +1587,6 @@ include 'connection.php';
                         "data": "description"
                     },
                     {
-                        "data": "from_what_game"
-                    },
-                    {
                         "data": "total_price"
                     },
                     {
@@ -1514,7 +1604,7 @@ include 'connection.php';
 
             // search bar
             var searchInput = $('div.dataTables_filter input');
-            $('#approvedGameTable thead th:nth-child(7)').append(searchInput);
+            $('#approvedGameTable thead th:nth-child(6)').append(searchInput);
             searchInput.attr('placeholder', 'Search here');
             searchInput.addClass('form-control');
             searchInput.css('width', '100%');
@@ -1569,7 +1659,7 @@ include 'connection.php';
                         user_id: user_id,
                     },
                     success: function(response) {
-                        Swal.fire('Success', 'Your ticket cost (' + ticket_cost + ') has been deducted from the total price.', 'success');
+                        // Swal.fire('Success', 'Your ticket cost (' + ticket_cost + ') has been deducted from the total price.', 'success');
 
                         $('#createGameTable').DataTable().ajax.reload();
                         $('#builtGameTable').DataTable().ajax.reload();
@@ -1581,6 +1671,17 @@ include 'connection.php';
                         $('#publishedGameTable').DataTable().ajax.reload();
 
                         $('#cartCount').DataTable().ajax.reload();
+
+                        iziToast.success({
+                            color: '#15172e',
+                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                            title: 'Added To Cart',
+                            message: 'Your ticket cost has been deducted from the total price.',
+                            titleColor: '#fff',
+                            messageColor: '#fff',
+                            timeout: 10000,
+                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                        });
 
                     },
                     error: function() {
@@ -1601,7 +1702,7 @@ include 'connection.php';
                         user_id: user_id,
                     },
                     success: function(response) {
-                        Swal.fire('Success', response.message, 'success');
+                        // Swal.fire('Success', response.message, 'success');
 
                         $('#createGameTable').DataTable().ajax.reload();
                         $('#builtGameTable').DataTable().ajax.reload();
@@ -1614,6 +1715,16 @@ include 'connection.php';
 
                         $('#cartCount').DataTable().ajax.reload();
 
+                        iziToast.success({
+                            color: '#15172e',
+                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                            title: 'Added To Cart',
+                            message: '',
+                            titleColor: '#fff',
+                            messageColor: '#fff',
+                            timeout: 4000,
+                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                        });
                     },
                     error: function() {
                         Swal.fire('Error', 'Failed to delete the game', 'error');
@@ -1670,7 +1781,7 @@ include 'connection.php';
                             }).then(function(result) {
                                 if (result.isConfirmed) {
                                     if (result.value.success) {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#createGameTable').DataTable().ajax.reload();
                                         $('#builtGameTable').DataTable().ajax.reload();
@@ -1682,8 +1793,19 @@ include 'connection.php';
                                         $('#publishedGameTable').DataTable().ajax.reload();
 
                                         $('#cartCount').DataTable().ajax.reload();
+
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
                                     } else {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#createGameTable').DataTable().ajax.reload();
                                         $('#builtGameTable').DataTable().ajax.reload();
@@ -1695,6 +1817,17 @@ include 'connection.php';
                                         $('#publishedGameTable').DataTable().ajax.reload();
 
                                         $('#cartCount').DataTable().ajax.reload();
+
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
                                     }
                                 }
                             });
@@ -1903,62 +2036,95 @@ include 'connection.php';
 
                 var published_game_id = $(this).data('published_game_id');
 
+                iziToast.question({
+                    color: '#15172e',
+                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                    titleColor: '#fff',
+                    messageColor: '#fff',
+                    overlayColor: 'rgba(0, 0, 0, 0.7)',
 
-                Swal.fire({
-                    title: 'Confirmation',
-                    text: 'Are you sure you want to hide published game ID ' + published_game_id + '?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel'
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        // User clicked "Yes," send an AJAX request
-                        $.ajax({
-                            url: 'process_hide_published_game.php', // URL to your PHP script
-                            type: 'POST',
-                            data: {
-                                published_game_id: published_game_id
-                            },
-                            success: function(response) {
-                                // Handle the response from the PHP script
-                                if (response === 'success') {
-                                    Swal.fire('Hidden!', 'The published game has been hidden.', 'success');
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: '',
+                    message: 'Are you sure you want to hide this Published Game?',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
 
-                                    // Optionally, you can refresh the DataTables table after building
-                                    $('#createGameTable').DataTable().ajax.reload();
-                                    $('#builtGameTable').DataTable().ajax.reload();
-                                    $('#pendingGameTable').DataTable().ajax.reload();
+                            $.ajax({
+                                url: 'process_hide_published_game.php', // URL to your PHP script
+                                type: 'POST',
+                                data: {
+                                    published_game_id: published_game_id
+                                },
+                                success: function(response) {
+                                    // Handle the response from the PHP script
+                                    if (response === 'success') {
+                                        // Swal.fire('Hidden!', 'The published game has been hidden.', 'success');
 
-                                    $('#canceledGameTable').DataTable().ajax.reload();
-                                    $('#approvedGameTable').DataTable().ajax.reload();
-                                    $('#purchasedGameTable').DataTable().ajax.reload();
-                                    $('#publishedGameTable').DataTable().ajax.reload();
+                                        // Optionally, you can refresh the DataTables table after building
+                                        $('#createGameTable').DataTable().ajax.reload();
+                                        $('#builtGameTable').DataTable().ajax.reload();
+                                        $('#pendingGameTable').DataTable().ajax.reload();
 
-                                    $('#cartCount').DataTable().ajax.reload();
-                                } else {
-                                    Swal.fire('Error', 'An error occurred while hiding the game.', 'error');
+                                        $('#canceledGameTable').DataTable().ajax.reload();
+                                        $('#approvedGameTable').DataTable().ajax.reload();
+                                        $('#purchasedGameTable').DataTable().ajax.reload();
+                                        $('#publishedGameTable').DataTable().ajax.reload();
 
-                                    // Optionally, you can refresh the DataTables table after building
-                                    $('#createGameTable').DataTable().ajax.reload();
-                                    $('#builtGameTable').DataTable().ajax.reload();
-                                    $('#pendingGameTable').DataTable().ajax.reload();
+                                        $('#cartCount').DataTable().ajax.reload();
 
-                                    $('#canceledGameTable').DataTable().ajax.reload();
-                                    $('#approvedGameTable').DataTable().ajax.reload();
-                                    $('#purchasedGameTable').DataTable().ajax.reload();
-                                    $('#publishedGameTable').DataTable().ajax.reload();
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Hidden',
+                                            message: 'Your Published Game has been hidden',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 10000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
+                                    } else {
+                                        Swal.fire('Error', 'An error occurred while hiding the game.', 'error');
 
-                                    $('#cartCount').DataTable().ajax.reload();
+                                        // Optionally, you can refresh the DataTables table after building
+                                        $('#createGameTable').DataTable().ajax.reload();
+                                        $('#builtGameTable').DataTable().ajax.reload();
+                                        $('#pendingGameTable').DataTable().ajax.reload();
+
+                                        $('#canceledGameTable').DataTable().ajax.reload();
+                                        $('#approvedGameTable').DataTable().ajax.reload();
+                                        $('#purchasedGameTable').DataTable().ajax.reload();
+                                        $('#publishedGameTable').DataTable().ajax.reload();
+
+                                        $('#cartCount').DataTable().ajax.reload();
+                                    }
+                                },
+                                error: function() {
+                                    Swal.fire('Error', 'An error occurred while processing your request.', 'error');
                                 }
-                            },
-                            error: function() {
-                                Swal.fire('Error', 'An error occurred while processing your request.', 'error');
-                            }
-                        });
-                    } else {
-                        // User clicked "Cancel" or closed the dialog
-                        Swal.fire('Cancelled', 'The action was cancelled.', 'info');
+                            });
+
+                        }, true],
+                        ['<button style="color: white;">NO</button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+                        }],
+                    ],
+
+                    onClosing: function(instance, toast, closedBy) {
+                        console.info('Closing | closedBy: ' + closedBy);
+                    },
+                    onClosed: function(instance, toast, closedBy) {
+                        console.info('Closed | closedBy: ' + closedBy);
                     }
                 });
 
@@ -1973,64 +2139,99 @@ include 'connection.php';
 
                 var published_game_id = $(this).data('published_game_id');
 
+                iziToast.question({
+                    color: '#15172e',
+                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                    titleColor: '#fff',
+                    messageColor: '#fff',
+                    overlayColor: 'rgba(0, 0, 0, 0.7)',
 
-                Swal.fire({
-                    title: 'Confirmation',
-                    text: 'Are you sure you want to unhide published game ID ' + published_game_id + '?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Cancel'
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        // User clicked "Yes," send an AJAX request
-                        $.ajax({
-                            url: 'process_unhide_published_game.php',
-                            type: 'POST',
-                            data: {
-                                published_game_id: published_game_id
-                            },
-                            success: function(response) {
-                                // Handle the response from the PHP script
-                                if (response === 'success') {
-                                    Swal.fire('Hidden!', 'The published game has been unhidden.', 'success');
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: '',
+                    message: 'Are you sure you want this Published Game to be visible again?',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
 
-                                    // Optionally, you can refresh the DataTables table after building
-                                    $('#createGameTable').DataTable().ajax.reload();
-                                    $('#builtGameTable').DataTable().ajax.reload();
-                                    $('#pendingGameTable').DataTable().ajax.reload();
+                            $.ajax({
+                                url: 'process_unhide_published_game.php',
+                                type: 'POST',
+                                data: {
+                                    published_game_id: published_game_id
+                                },
+                                success: function(response) {
+                                    // Handle the response from the PHP script
+                                    if (response === 'success') {
+                                        // Swal.fire('Hidden!', 'The published game has been unhidden.', 'success');
 
-                                    $('#canceledGameTable').DataTable().ajax.reload();
-                                    $('#approvedGameTable').DataTable().ajax.reload();
-                                    $('#purchasedGameTable').DataTable().ajax.reload();
-                                    $('#publishedGameTable').DataTable().ajax.reload();
+                                        // Optionally, you can refresh the DataTables table after building
+                                        $('#createGameTable').DataTable().ajax.reload();
+                                        $('#builtGameTable').DataTable().ajax.reload();
+                                        $('#pendingGameTable').DataTable().ajax.reload();
 
-                                    $('#cartCount').DataTable().ajax.reload();
-                                } else {
-                                    Swal.fire('Error', 'An error occurred while unhiding the game.', 'error');
+                                        $('#canceledGameTable').DataTable().ajax.reload();
+                                        $('#approvedGameTable').DataTable().ajax.reload();
+                                        $('#purchasedGameTable').DataTable().ajax.reload();
+                                        $('#publishedGameTable').DataTable().ajax.reload();
 
-                                    // Optionally, you can refresh the DataTables table after building
-                                    $('#createGameTable').DataTable().ajax.reload();
-                                    $('#builtGameTable').DataTable().ajax.reload();
-                                    $('#pendingGameTable').DataTable().ajax.reload();
+                                        $('#cartCount').DataTable().ajax.reload();
 
-                                    $('#canceledGameTable').DataTable().ajax.reload();
-                                    $('#approvedGameTable').DataTable().ajax.reload();
-                                    $('#purchasedGameTable').DataTable().ajax.reload();
-                                    $('#publishedGameTable').DataTable().ajax.reload();
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Visible',
+                                            message: 'Your Published Game is now visible again to Marketplace',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 10000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
+                                    } else {
+                                        Swal.fire('Error', 'An error occurred while unhiding the game.', 'error');
 
-                                    $('#cartCount').DataTable().ajax.reload();
+                                        // Optionally, you can refresh the DataTables table after building
+                                        $('#createGameTable').DataTable().ajax.reload();
+                                        $('#builtGameTable').DataTable().ajax.reload();
+                                        $('#pendingGameTable').DataTable().ajax.reload();
+
+                                        $('#canceledGameTable').DataTable().ajax.reload();
+                                        $('#approvedGameTable').DataTable().ajax.reload();
+                                        $('#purchasedGameTable').DataTable().ajax.reload();
+                                        $('#publishedGameTable').DataTable().ajax.reload();
+
+                                        $('#cartCount').DataTable().ajax.reload();
+                                    }
+                                },
+                                error: function() {
+                                    Swal.fire('Error', 'An error occurred while processing your request.', 'error');
                                 }
-                            },
-                            error: function() {
-                                Swal.fire('Error', 'An error occurred while processing your request.', 'error');
-                            }
-                        });
-                    } else {
-                        // User clicked "Cancel" or closed the dialog
-                        Swal.fire('Cancelled', 'The action was cancelled.', 'info');
+                            });
+
+                        }, true],
+                        ['<button style="color: white;">NO</button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+                        }],
+                    ],
+
+                    onClosing: function(instance, toast, closedBy) {
+                        console.info('Closing | closedBy: ' + closedBy);
+                    },
+                    onClosed: function(instance, toast, closedBy) {
+                        console.info('Closed | closedBy: ' + closedBy);
                     }
                 });
+
+
 
 
             });

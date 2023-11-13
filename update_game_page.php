@@ -100,7 +100,7 @@ if (mysqli_num_rows($result_categories) > 0) {
     <link rel="stylesheet" href="css/ion.rangeSlider.css?<?php echo time(); ?>" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css?<?php echo time(); ?>" />
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="css/main.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
     <!-- sweetalert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -122,33 +122,38 @@ if (mysqli_num_rows($result_categories) > 0) {
 
     <style>
         <?php include 'css/body.css'; ?>
+        <?php include 'css/header.css'; ?>
+
+
+        /* header */
+        .sticky-wrapper {
+            top: 0px !important;
+        }
+
+        .header_area .main_menu .main_box {
+            max-width: 100%;
+        }
+
+        /* header end */
     </style>
 </head>
 
 <body>
 
     <?php include 'html/page_header.php'; ?>
-    <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
 
-        </div>
-    </section>
-    <!-- End Banner Area -->
+    
+    <!-- Back to top button -->
+    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!--================Blog Area =================-->
     <section class="blog_area single-post-area section_gap">
         <div class="container">
 
             <div class="row py-5">
-                <div class="col-lg-4">
-                    <div class="details_item">
-                        <h4>Make Game Page</h4>
-                        <ul class="list">
-                            <!-- <li><a href="#"><span>Order number</span> : 60235</a></li> -->
-                        </ul>
-                    </div>
-                </div>
+                <a href="javascript:history.back()" style=" cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
             </div>
 
             <div class="row">
@@ -414,6 +419,10 @@ if (mysqli_num_rows($result_categories) > 0) {
 
     <script>
         $(document).ready(function() {
+
+
+            // mahalaga toh
+            <?php include 'js/essential.php'; ?>
 
             $('#uploadForm').on('submit', function(e) {
                 e.preventDefault();

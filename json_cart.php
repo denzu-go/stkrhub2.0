@@ -17,8 +17,6 @@ if ($totalRowsA > 0) {
 $item = '
 ';
 
-
-
 $item .=
     '
     <div class="row" style="padding-bottom:20px;">
@@ -110,6 +108,8 @@ while ($fetched = $result->fetch_assoc()) {
     $quantity = $fetched['quantity'];
     $price = $fetched['price'];
     $is_active = $fetched['is_active'];
+
+    $is_only_one_quantity = $fetched['is_only_one_quantity'];
 
     $total_price = $quantity * $price;
 
@@ -206,10 +206,10 @@ while ($fetched = $result->fetch_assoc()) {
             $edition = $fetchedGetTitle['edition'];
         }
         $description = '
-        <span class="text-muted text-truncate" data-toggle="' . $category . '" title="Title" style="max-width:270px;">
+        <span class="text-muted text-truncate" data-toggle="' . $category . '" title="" style="max-width:270px;">
             Category: 
         </span>' . $category . '<br>
-        <span class="text-muted text-truncate" data-toggle="' . $edition . '" title="Title" style="max-width:270px;">
+        <span class="text-muted text-truncate" data-toggle="' . $edition . '" title="" style="max-width:270px;">
             Edition: 
         </span>' . $edition . '
         ';
@@ -220,7 +220,7 @@ while ($fetched = $result->fetch_assoc()) {
             $desc = $fetchedGetTitle['description'];
         }
         $description = '
-        <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="Title" style="max-width:270px;">
+        <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="" style="max-width:270px;">
             Category: 
         </span>' . $desc . '
         ';
@@ -264,8 +264,8 @@ while ($fetched = $result->fetch_assoc()) {
                 $name = $fetchedGetTitle['name'];
             }
 
-            $description = '<span class="text-muted text-truncate" data-toggle="' . $game_id . '" title="Title" style="max-width:270px;">Game ID: </span>' . $game_id . ' <br>';
-            $description .= '<span class="text-muted text-truncate" data-toggle="' . $name . '" title="Title" style="max-width:270px;">Game Name: </span>' . $name;
+            $description = '<span class="text-muted text-truncate" data-toggle="' . $game_id . '" title="Game ID" style="max-width:270px;">Game ID: </span>' . $game_id . ' <br>';
+            $description .= '<span class="text-muted text-truncate" data-toggle="' . $name . '" title="Game Name" style="max-width:270px;">Game Name: </span>' . $name;
         }
     } else {
         $description = '
@@ -328,6 +328,12 @@ while ($fetched = $result->fetch_assoc()) {
         style="border: 0px; margin: 0px; cursor: not-allowed"
         />
         ';
+    } elseif ($built_game_id && $is_only_one_quantity) {
+        $quantity_input = '
+        <input min="1" max="99" data-cart_id="' . $cart_id . '" value="' . $quantity . '" type="number" class="form-control form-control-sm col-5" id="quantity_input" disabled data-toggle="tooltip" title="You need to buy it once before you can buy it bulk" 
+        style="border: 0px; margin: 0px; cursor: not-allowed"
+        />
+        ';
     } else {
         $quantity_input = '
             <input min="1" max="99" data-cart_id="' . $cart_id . '" value="' . $quantity . '" type="number" class="form-control form-control-sm col-5" id="quantity_input"
@@ -383,7 +389,7 @@ while ($fetched = $result->fetch_assoc()) {
                         </div>
 
                         <div class="col-3 overflow-hidden">
-                            <p class="lead fw-normal mb-2 text-truncate" data-toggle="tooltip" title="Title" style="max-width:270px;">
+                            <p class="lead fw-normal mb-2 text-truncate" data-toggle="tooltip" title="'.$fetched_title.'" style="max-width:270px;">
                                 ' . $fetched_title . '
                             </p>
                                 ' . $description . '

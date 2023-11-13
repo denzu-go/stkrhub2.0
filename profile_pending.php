@@ -6,6 +6,12 @@ include 'connection.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -190,10 +196,12 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
+
 
     <?php
     include 'connection.php';

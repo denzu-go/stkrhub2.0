@@ -6,6 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $textValue = $_POST["text"];
     $selectValue = $_POST["select"];
     
+    date_default_timezone_set('Asia/Manila');
     $currentDateTime = date('Y-m-d H:i:s');
 
     $conn->begin_transaction();

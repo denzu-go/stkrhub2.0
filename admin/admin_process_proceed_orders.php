@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $quantity = $fetched['quantity'];
             $price = $fetched['price'];
 
+            date_default_timezone_set('Asia/Manila');
             $currentDateTime = date('Y-m-d H:i:s');
 
             if ($ticket_id) {

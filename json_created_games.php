@@ -46,7 +46,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
         </div>
 
         <div class="row">
-            <span class="small text-muted" style="padding: 0px; margin:0px">game ID: ' . $game_id . '</span>
+            <span class="small text-muted" style="padding: 0px; margin:0px; color: #b660e8 !important;">Created Game ID: ' . $game_id . '</span>
         </div>
     </div>
     

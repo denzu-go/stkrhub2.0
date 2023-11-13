@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     // Insert data into the cart table
-    $insert_query = "INSERT INTO cart (user_id, game_id, built_game_id, quantity, price) 
-    VALUES ('$user_id', '$game_id', '$built_game_id', 1, '$price_value')";
+    $insert_query = "INSERT INTO cart (user_id, game_id, built_game_id, quantity, price, is_only_one_quantity) 
+    VALUES ('$user_id', '$game_id', '$built_game_id', 1, '$price_value', 1)";
 
     if (mysqli_query($conn, $insert_query)) {
         echo 'sucessfully inserted';
