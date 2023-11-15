@@ -23,9 +23,9 @@ $currentMonthStart = date('Y-m-01');
 $currentMonthEnd = date('Y-m-t');
 
 // Query to calculate the total manufacturer_profit for orders in production during the current month
-$sql = "SELECT SUM(manufacturer_profit) AS total_profit
+$sql = "SELECT SUM(manufacturer_profit * quantity) AS total_profit
         FROM orders
-        WHERE in_production = 1
+        WHERE is_pending != 1 AND is_canceled != 1
         AND order_date BETWEEN '$currentMonthStart' AND '$currentMonthEnd'";
 
 $result = $conn->query($sql);
@@ -40,9 +40,9 @@ function calculateManufacturerProfit($conn, $monthsAgo)
         $startOfMonth = date('Y-m-01', strtotime("first day of -$monthsAgo months"));
         $endOfMonth = date('Y-m-t', strtotime("last day of -$monthsAgo months"));
 
-        $sql = "SELECT SUM(manufacturer_profit) AS total_profit
+        $sql = "SELECT SUM(manufacturer_profit * quantity) AS total_profit
                 FROM orders
-                WHERE in_production = 1
+                WHERE is_pending != 1 AND is_canceled != 1
                 AND order_date BETWEEN '$startOfMonth' AND '$endOfMonth'";
 
         $result = $conn->query($sql);

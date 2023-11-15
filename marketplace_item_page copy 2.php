@@ -753,18 +753,16 @@ background-attachment: fixed;">
                                 <div class="col">
                                     <div class="">
                                         <?php
-                                        if (isset($user_id)) {
+                                        $avatar = "SELECT * FROM users WHERE user_id = $user_id";
+                                        $result = $conn->query($avatar);
+                                        while ($fetchedAvatar = $result->fetch_assoc()) {
+                                            $avatar = $fetchedAvatar['avatar'];
+                                            $username = $fetchedAvatar['username'];
 
-                                            $avatar = "SELECT * FROM users WHERE user_id = $user_id";
-                                            $result = $conn->query($avatar);
-                                            while ($fetchedAvatar = $result->fetch_assoc()) {
-                                                $avatar = $fetchedAvatar['avatar'];
-                                                $username = $fetchedAvatar['username'];
-
-                                                $firstLetter = strtoupper(substr($username, 0, 1));
-                                            }
-                                            if (!is_null($avatar)) {
-                                                $avatar_value = '
+                                            $firstLetter = strtoupper(substr($username, 0, 1));
+                                        }
+                                        if (!is_null($avatar)) {
+                                            $avatar_value = '
                                                 <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
                                                     <img src="' . $avatar . '" alt="" style="
                                                             position: absolute;
@@ -779,8 +777,8 @@ background-attachment: fixed;">
                                     
                                                 </div>
                                             ';
-                                            } else {
-                                                $avatar_value = '
+                                        } else {
+                                            $avatar_value = '
                                                 <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; border-radius: 50%;
                                                 background: rgb(38,211,224);
                                                 background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);">
@@ -789,29 +787,29 @@ background-attachment: fixed;">
                                     
                                                 </div>
                                             ';
+                                        }
+
+
+                                        $sqlCheckThere = "SELECT * FROM orders WHERE user_id = $user_id AND published_game_id = $published_game_id AND is_pending != 1";
+                                        $resultCheck = mysqli_query($conn, $sqlCheckThere);
+                                        if (mysqli_num_rows($resultCheck) > 0) {
+                                            $sqlCheckRating = "SELECT * FROM ratings WHERE user_id = $user_id AND published_game_id = $published_game_id";
+                                            $resultRating = $conn->query($sqlCheckRating);
+                                            while ($fetchedRatingResult = $resultRating->fetch_assoc()) {
+                                                $rating_id = $fetchedRatingResult['rating_id'];
+                                                $rating = $fetchedRatingResult['rating'];
+                                                $comment = $fetchedRatingResult['comment'];
+                                                $date_time = $fetchedRatingResult['date_time'];
+
+                                                // Convert the date_time string to a DateTime object
+                                                $dateTimeObj = new DateTime($date_time);
+
+                                                // Format the DateTime object as per the desired format
+                                                $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
                                             }
 
-
-                                            $sqlCheckThere = "SELECT * FROM orders WHERE user_id = $user_id AND published_game_id = $published_game_id AND is_pending != 1";
-                                            $resultCheck = mysqli_query($conn, $sqlCheckThere);
-                                            if (mysqli_num_rows($resultCheck) > 0) {
-                                                $sqlCheckRating = "SELECT * FROM ratings WHERE user_id = $user_id AND published_game_id = $published_game_id";
-                                                $resultRating = $conn->query($sqlCheckRating);
-                                                while ($fetchedRatingResult = $resultRating->fetch_assoc()) {
-                                                    $rating_id = $fetchedRatingResult['rating_id'];
-                                                    $rating = $fetchedRatingResult['rating'];
-                                                    $comment = $fetchedRatingResult['comment'];
-                                                    $date_time = $fetchedRatingResult['date_time'];
-
-                                                    // Convert the date_time string to a DateTime object
-                                                    $dateTimeObj = new DateTime($date_time);
-
-                                                    // Format the DateTime object as per the desired format
-                                                    $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
-                                                }
-
-                                                if (mysqli_num_rows($resultRating) > 0) {
-                                                    echo '
+                                            if (mysqli_num_rows($resultRating) > 0) {
+                                                echo '
                                                 <div class="review_item" style="
                                                 padding: 20px;    
                                                 background: rgba(39, 42, 78, 0.27);
@@ -854,8 +852,8 @@ background-attachment: fixed;">
 
                                                 </div>
                                                 ';
-                                                } else {
-                                                    echo '
+                                            } else {
+                                                echo '
                                                 <div class="review_item" style="
                                                 padding: 20px;    
                                                 background: rgba(39, 42, 78, 0.27);
@@ -903,10 +901,10 @@ background-attachment: fixed;">
 
                                                 </div>
                                                 ';
-                                                }
-                                            } else {
+                                            }
+                                        } else {
 
-                                                echo '
+                                            echo '
                                                 <div class="review_item" style="
                                                 padding: 20px;    
                                                 background: rgba(39, 42, 78, 0.27);
@@ -956,7 +954,6 @@ background-attachment: fixed;">
 
                                                 </div>
                                                 ';
-                                            }
                                         }
                                         ?>
 

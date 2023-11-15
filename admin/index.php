@@ -44,7 +44,7 @@ if ($resultC) {
 }
 
 // SQL query to count the rows in the table
-$sqlD = "SELECT COUNT(*) AS total_count FROM orders";
+$sqlD = "SELECT COUNT(*) AS total_count FROM orders WHERE is_pending != 1 AND is_canceled !=1";
 $resultD = $conn->query($sqlD);
 if ($resultD) {
     $rowD = $resultD->fetch_assoc();
@@ -137,8 +137,13 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                     <i class="ti-user text-primary border-primary"></i>
                                 </div>
                                 <div class="stat-content d-inline-block">
-                                    <div class="stat-text">Players (<?php echo $users_total_count ?>) Earnings</div>
-                                    <div class="stat-digit"><?php echo $totalManufacturerProfit ?></div>
+                                    <div class="stat-text">STKR Players
+                                        <!-- (<?php echo $users_total_count ?>) Earnings -->
+                                    </div>
+                                    <div class="stat-digit">
+                                        <!-- <?php echo $totalManufacturerProfit ?> -->
+                                        <?php echo $users_total_count ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +168,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                     <i class="ti-link text-danger border-danger"></i>
                                 </div>
                                 <div class="stat-content d-inline-block">
-                                    <div class="stat-text">Orders</div>
+                                    <div class="stat-text">Completed Orders</div>
                                     <div class="stat-digit"><?php echo $orders_total_count ?></div>
                                 </div>
                             </div>
@@ -203,8 +208,12 @@ $total_component_produced = $rowTotalComponents['total_components'];
 
                     </div>
                 </div>
+
+
+
                 <div class="row">
                     <div class="col-lg-12">
+                        <!-- BEST SELLER TABLE -->
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Best Seller</h4>
@@ -216,12 +225,17 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                     <table id="bestSeller" class="display" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Title</th>
+                                                <th>Published Game Title</th>
+                                                <th>Published Game ID</th>
                                                 <th>Category</th>
-                                                <th>Price</th>
-                                                <th>Creator</th>
+                                                <th>Cost</th>
+                                                <th>Marketplace Price</th>
+                                                <th>Manufacturer's Profit</th>
+                                                <th>User's Profit</th>
+                                                <th>User ID</th>
                                                 <th>Status</th>
-                                                <th>Bought</th>
+                                                <th>Number of Purchases</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -232,6 +246,42 @@ $total_component_produced = $rowTotalComponents['total_components'];
                             </div>
 
                         </div>
+
+                        <!-- Users TABLE -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">STKR Players</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <table id="usersTable" class="display" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>User ID</th>
+                                                <th>Username</th>
+                                                <th>Firstname</th>
+                                                <th>Lastname</th>
+                                                <th>Phone Number</th>
+                                                <th>Email</th>
+                                                <th>Completed Orders</th>
+                                                <th>Orders Canceled</th>
+                                                <th>Published Games</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                     <div class="col-lg-6 col-xl-4 col-xxl-6 col-md-6">
                         <div class="card">
@@ -413,6 +463,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         </div>
                     </div>
                 </div>
+
+
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="card">
@@ -657,12 +709,23 @@ $total_component_produced = $rowTotalComponents['total_components'];
                 },
                 "columns": [{
                         "data": "title"
+                    }, {
+                        "data": "id"
                     },
                     {
                         "data": "category"
                     },
                     {
+                        "data": "cost"
+                    },
+                    {
                         "data": "price"
+                    },
+                    {
+                        "data": "manufacturer_profit"
+                    },
+                    {
+                        "data": "creator_profit"
                     },
                     {
                         "data": "creator"
@@ -673,10 +736,69 @@ $total_component_produced = $rowTotalComponents['total_components'];
                     {
                         "data": "frequency"
                     },
+                    {
+                        "data": "action"
+                    },
 
                 ],
-                order: [[5, 'desc']] 
+
             });
+
+
+
+
+            $('#usersTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+
+                "ajax": {
+                    "url": "admin_json_users.php",
+                    data: {},
+                    "dataSrc": ""
+                },
+                "columns": [{
+                        "data": "number"
+                    },
+                    {
+                        "data": "id"
+                    },
+                    {
+                        "data": "username"
+                    },
+                    {
+                        "data": "firstname"
+                    },
+                    {
+                        "data": "lastname"
+                    },
+                    {
+                        "data": "phone_number"
+                    },
+                    {
+                        "data": "email"
+                    },
+                    {
+                        "data": "completed_orders"
+                    },
+                    {
+                        "data": "orders_canceled"
+                    },
+                    {
+                        "data": "published_games"
+                    },
+                    {
+                        "data": "status"
+                    },
+
+                ],
+
+            });
+
+
+
+
 
 
 
@@ -748,13 +870,14 @@ $total_component_produced = $rowTotalComponents['total_components'];
 
             // Get the canvas element
             var ctx = document.getElementById('myBarChart').getContext('2d');
+            var peso_sign = '₱';
 
             $.getJSON('admin_monthly_manufacturer_earning.php', function(data) {
                 // Define chart data using JSON data
                 var chartData = {
                     labels: data.labels,
                     datasets: [{
-                        label: 'Sample Data',
+                        label: 'Profit on Published Games',
                         data: data.data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.5)',

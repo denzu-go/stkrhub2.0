@@ -39,43 +39,29 @@ while ($row = $resultGames->fetch_assoc()) {
     $queryCreator = $conn->query($sqlCreator);
     while ($fetchedCreator = $queryCreator->fetch_assoc()) {
         $username = $fetchedCreator['username'];
-        $unique_user_id = $fetchedCreator['unique_user_id'];
         $avatar = $fetchedCreator['avatar'];
     }
     
     $creator = $username;
 
     if($is_hidden){
-        $status_value = 'hidden';
+        $status = 'hidden';
     } else {
-        $status_value = 'visible';
+        $status = 'visible';
     }
 
-    $cost = $marketplace_price - $desired_markup;
-    $cost_value = '&#8369;' .number_format($cost, 2);
-
-    $marketplace_price_value = '&#8369;' .number_format($marketplace_price, 2);
-    $manufacturer_profit_value = '&#8369;' .number_format($manufacturer_profit, 2);
-    $creator_profit_value = '&#8369;' .number_format($creator_profit, 2);
-
-    $action = '
-    <a href="../marketplace_item_page.php?published_game_id='.$published_game_id.'" target="_blank">View</a>
-
+    $actions = '
+        <button type="button" class="btn btn-primary">View</button>
     ';
 
     
     $data[] = array(
-        "id" => $published_game_id,
         "title" => $title,
         "category" => $category,
-        "cost" => $cost_value,
-        "price" => $marketplace_price_value,
-        "manufacturer_profit" => $manufacturer_profit_value,
-        "creator_profit" => $creator_profit_value,
-        "creator" => $unique_user_id,
-        "status" => $status_value,
+        "price" => $marketplace_price,
+        "creator" => $creator,
+        "status" => $status,
         "frequency" => $frequency,
-        "action" => $action,
     );
 }
 
