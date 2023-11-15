@@ -1,4 +1,7 @@
 <?php 
+
+include 'connection.php';
+
 session_start();
 if (isset($_SESSION['user_id'])) {
     header('location:index.php');
@@ -9,6 +12,8 @@ $credentials = '';
 if(isset($_SESSION['credentials'])){
     $credentials = $_SESSION['credentials'];
 }
+
+include 'html/get_bg.php';
 ?>
 
 <!DOCTYPE html>
@@ -48,17 +53,21 @@ if(isset($_SESSION['credentials'])){
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php
-    include 'connection.php';
     include 'html/page_header.php';
 
     
     ?>
 
     <!--================Login Box Area =================-->
-    <section class="login_box_area section_gap">
+    <section class="login_box_area section_gap" style="background: none;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">

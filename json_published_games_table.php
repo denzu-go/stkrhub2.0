@@ -50,13 +50,13 @@ while ($fetched = $result->fetch_assoc()) {
     // status
     if ($is_hidden == 1) {
         $status = 'Hidden';
-        $status_icon = '<i class="fa-solid fa-eye" style="color: #dc3545"></i>';
+        $status_icon = '<i class="fa-solid fa-eye-slash" style="color: #dc3545"></i>';
     } elseif ($is_hidden == 0) {
         $status = 'Visible';
-        $status_icon = '<i class="fa-solid fa-eye-slash" style="color: #63d19e"></i>';
+        $status_icon = '<i class="fa-solid fa-eye" style="color: #63d19e"></i>';
     } else {
         $status = 'Visible';
-        $status_icon = '<i class="fa-solid fa-eye-slash" style="color: #63d19e"></i>';
+        $status_icon = '<i class="fa-solid fa-eye" style="color: #63d19e"></i>';
     }
 
     // Count number of buyer
@@ -103,7 +103,7 @@ while ($fetched = $result->fetch_assoc()) {
         </div>
 
         <div class="row">
-            <span class="small text-muted" style="padding: 0px; margin:0px">Published Game ID: ' . $published_game_id . '</span>
+            <span class="small text-muted" style="padding: 0px; margin:0px; color: #b660e8 !important;">Published Game ID: ' . $published_game_id . '</span>
         </div>
 
     </div>
@@ -214,7 +214,7 @@ while ($fetched = $result->fetch_assoc()) {
 
     if ($has_pending_update === '1') {
         $action2 = '
-            <button id="viewEditButton" data-published_game_id="' . $published_game_id . '">View Edit Request</button>
+            <button class="view_edit_request" id="viewEditButton" data-published_game_id="' . $published_game_id . '">View Edit Request</button>
         ';
     } elseif ($is_update_request_denied === '1') {
         $action2 = '

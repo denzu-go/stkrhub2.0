@@ -2,8 +2,9 @@
 include "connection.php";
 
 // Query to find the user with the highest total creator_profit
-$sqlUsers = "SELECT user_id, SUM(creator_profit) AS total_creator_profit
+$sqlUsers = "SELECT user_id, SUM(creator_profit * quantity) AS total_creator_profit
              FROM orders
+             WHERE is_pending != 1 AND is_canceled != 1
              GROUP BY user_id
              ORDER BY total_creator_profit DESC";
 

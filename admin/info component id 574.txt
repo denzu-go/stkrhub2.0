@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 574
+                COMPONENT NAME: Box
+                CATEGORY: box
+                SIZE: 7x7
+
+                QUANTITY: 1
+                COLOR: N/A 
+                FILE: 65546e921f6a7_mbi maginhawa_102223 to 110623.txt
+                

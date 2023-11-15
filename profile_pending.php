@@ -6,6 +6,8 @@ include 'connection.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
+
+include 'html/get_bg.php';
 ?>
 
 <!DOCTYPE html>
@@ -190,10 +192,12 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
+
 
     <?php
     include 'connection.php';

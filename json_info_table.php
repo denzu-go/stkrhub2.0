@@ -241,7 +241,7 @@ while ($fetched = $result->fetch_assoc()) {
 
                 <div class="row">
                     <h6>Description: 
-                        <span class="d-block text-truncate" style="max-width: 500px" title="' . $description . '">ajsdjahdasdasdhadsahdjwkhajwdhabjsdjahwdamnwdvajkwdhjahwdajwdvajhwdajkdhwjahdwjahwdjkahwd</span>
+                        <span class="d-block text-truncate" style="max-width: 500px" title="' . $description . '">'.$description.'</span>
                     </h6>
                 </div>
 

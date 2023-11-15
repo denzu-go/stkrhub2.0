@@ -4,6 +4,7 @@ include 'connection.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $unique_order_group_id = $_POST['unique_order_group_id'];
 
+    date_default_timezone_set('Asia/Manila');
     $currentDateTime = date('Y-m-d H:i:s');
 
     $conn->begin_transaction();

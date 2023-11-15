@@ -3,7 +3,7 @@ include "connection.php";
 
 $user_id = $_GET['user_id'];
 
-$sqlApproved = "SELECT * FROM built_games WHERE creator_id = $user_id AND is_approved = 1";
+$sqlApproved = "SELECT * FROM built_games WHERE creator_id = $user_id AND is_approved = 1 ORDER BY build_date DESC";
 $resultApproved = $conn->query($sqlApproved);
 
 $data = array();
@@ -54,7 +54,6 @@ while ($fetched = $resultApproved->fetch_assoc()) {
 
 
     $game_link = '
-    
 
     <div class="container">
         <div class="row">
@@ -66,7 +65,27 @@ while ($fetched = $resultApproved->fetch_assoc()) {
         </div>
 
         <div class="row">
-            <span class="small text-muted" style="padding: 0px; margin:0px">Approved Game ID: ' . $built_game_id . '</span>
+            <span class="small text-muted" style="padding: 0px; margin:0px; color: #b660e8 !important;">Approved Game ID: ' . $built_game_id . '</span>
+        </div>';
+
+        if($is_published){
+            $getPublishedD = "SELECT * FROM published_built_games WHERE built_game_id = $built_game_id";
+            $queryPublishedD = $conn->query($getPublishedD);
+            while($fetchedPD = $queryPublishedD->fetch_assoc()){
+                $published_game_id = $fetchedPD['published_game_id'];
+            }
+            $game_link .='
+            <div class="row">
+                <span class="small text-muted" style="padding: 0px; margin:0px">Published Game ID: ' . $published_game_id . '</span>
+            </div>
+            ';
+        }
+        
+
+        $game_link .='
+
+        <div class="row">
+            <span class="small text-muted" style="padding: 0px; margin:0px">Created Game ID: ' . $game_id . '</span>
         </div>
     </div>
     ';
@@ -207,14 +226,21 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     ';
 
 
-    // extra actions
-    $extra_actions = '
+    // old extra actions
+    $old_extra_actions = '
     <button class="edit-built_game" data-built_game_id="' . $built_game_id . '">
         <i class="fa-solid fa-pen-to-square"></i>
     </button>
 
     <button class="delete-built_game" data-built_game_id="' . $built_game_id . '">
         <i class="fa-solid fa-trash"></i>
+    </button>
+    ';
+
+    // extra actions
+    $extra_actions = '
+    <button class="edit-built_game" data-built_game_id="' . $built_game_id . '">
+        <i class="fa-solid fa-pen-to-square"></i>
     </button>
     ';
 
@@ -314,7 +340,6 @@ while ($fetched = $resultApproved->fetch_assoc()) {
     $data[] = array(
         "built_game_link" => $built_game_link,
         "description" => $description_value,
-        "from_what_game" => $from_what_game,
         "total_price" => $total_price,
         "formatted_date" => $formatted_date,
         "status" => $status,

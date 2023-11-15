@@ -11,6 +11,13 @@ if ($_SERVER['REQUEST_METHOD']) {
     $game_id = $_GET['game_id'];
 }
 
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD']) {
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
 
     <style>
         <?php include 'css/body.css' ?><?php include 'css/header.css'; ?>#infoTable .odd {
@@ -167,10 +177,24 @@ if ($_SERVER['REQUEST_METHOD']) {
             color: #777;
             cursor: not-allowed;
         }
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
+        }
+
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
     <?php include 'html/page_header.php'; ?>
 
     <!-- Back to top button -->
@@ -179,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD']) {
     </button>
 
     <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
             <h1><a href="create_game_page.php#section1" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>
@@ -292,6 +316,9 @@ if ($_SERVER['REQUEST_METHOD']) {
 
 
 
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+
     <!-- Include DataTables JavaScript -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
@@ -361,7 +388,17 @@ if ($_SERVER['REQUEST_METHOD']) {
                                     $('#infoTable').DataTable().ajax.reload();
                                     $('#cartCount').DataTable().ajax.reload();
                                     $('#userTable').DataTable().ajax.reload();
-                                    Swal.fire('Success', response.message, 'success');
+                                    // Swal.fire('Success', response.message, 'success');
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Your ticket is in the cart',
+                                        message: 'Purchase the ticket so that the admin can start reviewing and approve your game',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 10000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                    });
                                 } else {
                                     $('#infoTable').DataTable().ajax.reload();
                                     $('#cartCount').DataTable().ajax.reload();
@@ -414,7 +451,17 @@ if ($_SERVER['REQUEST_METHOD']) {
                                     $('#infoTable').DataTable().ajax.reload();
                                     $('#cartCount').DataTable().ajax.reload();
                                     $('#userTable').DataTable().ajax.reload();
-                                    Swal.fire('Success', response.message, 'success');
+                                    // Swal.fire('Success', response.message, 'success');
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Ticket Canceled',
+                                        message: '',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 4000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                    });
                                 } else {
                                     $('#infoTable').DataTable().ajax.reload();
                                     $('#cartCount').DataTable().ajax.reload();
@@ -566,6 +613,16 @@ if ($_SERVER['REQUEST_METHOD']) {
                         // Reload the DataTable
                         $('#userTable').DataTable().ajax.reload();
                         $('#infoTable').DataTable().ajax.reload();
+                        iziToast.success({
+                            color: '#15172e',
+                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                            title: 'Color Changed',
+                            message: '',
+                            titleColor: '#fff',
+                            messageColor: '#fff',
+                            timeout: 4000,
+                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                        });
                     },
                     error: function(error) {
                         // Handle errors if needed
@@ -610,6 +667,17 @@ if ($_SERVER['REQUEST_METHOD']) {
                                 // Refresh the DataTable after successful deletion
                                 $('#userTable').DataTable().ajax.reload();
                                 $('#infoTable').DataTable().ajax.reload();
+
+                                iziToast.success({
+                                    color: '#15172e',
+                                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                    title: 'Component Deleted',
+                                    message: '',
+                                    titleColor: '#fff',
+                                    messageColor: '#fff',
+                                    timeout: 4000,
+                                    overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                });
                             }
                         });
                     }
@@ -703,10 +771,21 @@ if ($_SERVER['REQUEST_METHOD']) {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if (result.value.success) {
-                            Swal.fire("Success", result.value.message, "success");
+                            // Swal.fire("Success", result.value.message, "success");
                             // Reload the DataTable
                             $("#userTable").DataTable().ajax.reload();
                             $("#infoTable").DataTable().ajax.reload();
+
+                            iziToast.success({
+                                color: '#15172e',
+                                progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                title: 'Successfully Updated',
+                                message: '',
+                                titleColor: '#fff',
+                                messageColor: '#fff',
+                                timeout: 4000,
+                                overlayColor: 'rgba(0, 0, 0, 0.7)',
+                            });
                         } else {
                             Swal.fire("Error", result.value.message, "error");
                         }
@@ -761,16 +840,37 @@ if ($_SERVER['REQUEST_METHOD']) {
                             }).then(function(result) {
                                 if (result.isConfirmed) {
                                     if (result.value.success) {
-                                        Swal.fire('Success', result.value.message, 'success');
+                                        // Swal.fire('Success', result.value.message, 'success');
+                                        // Reload the DataTable
+                                        $('#userTable').DataTable().ajax.reload();
+                                        $('#infoTable').DataTable().ajax.reload();
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
+
+                                    } else {
+                                        // Swal.fire('Success', result.value.message, 'success');
                                         // Reload the DataTable
                                         $('#userTable').DataTable().ajax.reload();
                                         $('#infoTable').DataTable().ajax.reload();
 
-                                    } else {
-                                        Swal.fire('Success', result.value.message, 'success');
-                                        // Reload the DataTable
-                                        $('#userTable').DataTable().ajax.reload();
-                                        $('#infoTable').DataTable().ajax.reload();
+                                        iziToast.success({
+                                            color: '#15172e',
+                                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                            title: 'Successfully Edited',
+                                            message: '',
+                                            titleColor: '#fff',
+                                            messageColor: '#fff',
+                                            timeout: 4000,
+                                            overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        });
 
                                     }
                                 }

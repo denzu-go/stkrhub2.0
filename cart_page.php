@@ -5,6 +5,12 @@ include 'connection.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +130,12 @@ if (isset($_SESSION['user_id'])) {
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php include 'html/page_header.php'; ?>
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
@@ -132,7 +143,7 @@ if (isset($_SESSION['user_id'])) {
     </button>
 
     <!--================Cart Area =================-->
-    <section class="cart_area">
+    <section class="cart_area" style="background: none;">
         <div class="container">
             <div class="cart_inner">
 
