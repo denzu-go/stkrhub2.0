@@ -286,20 +286,19 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         <!-- Published -->
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">STKR Players</h4>
+                                <h4 class="card-title">Published Games</h4>
                             </div>
 
                             <div class="card-body">
                                 <div class="table-responsive">
 
-                                    <table id="usersTable" class="display" style="width: 100%;">
+                                    <table id="publishedTable" class="display" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th></th>
                                                 <th>Published Game ID</th>
                                                 <th>Game Name</th>
                                                 <th>Category</th>
-                                                <th>Edition</th>
                                                 <th>Published Date</th>
                                                 <th>Creator/User ID</th>
                                                 <th>Cost</th>
@@ -307,7 +306,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                                 <th>Manufacturer's Profit</th>
                                                 <th>Creator's Profit</th>
                                                 <th>Status</th>
-                                                <th>Status</th>
+                                                <th>Number of Purchases</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -734,6 +734,64 @@ $total_component_produced = $rowTotalComponents['total_components'];
                 ]
             });
 
+
+
+
+            $('#publishedTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+
+                "ajax": {
+                    "url": "admin_json_published_games.php",
+                    data: {},
+                    "dataSrc": ""
+                },
+                "columns": [{
+                        "data": "number"
+                    },
+                    {
+                        "data": "id"
+                    },
+                    {
+                        "data": "title"
+                    },
+                    {
+                        "data": "category"
+                    },
+                    {
+                        "data": "published_date"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "cost"
+                    },
+                    {
+                        "data": "price"
+                    },
+                    {
+                        "data": "manufacturer_profit"
+                    },
+                    {
+                        "data": "creator_profit"
+                    },
+                    
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "frequency"
+                    },
+                    {
+                        "data": "action"
+                    },
+
+                ],
+
+            });
 
 
 
