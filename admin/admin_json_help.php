@@ -70,7 +70,7 @@ if (isset($_SESSION['help_category'])) {
 
         $stmt = $conn->prepare($sql);
         if ($stmt) {
-            $stmt->bind_param("s", $category);
+            $stmt->bind_param("s", $category);  
             $stmt->execute();
             $help_result = $stmt->get_result();
 
@@ -80,8 +80,16 @@ if (isset($_SESSION['help_category'])) {
 
                     while ($row = $help_result->fetch_assoc()) {
                         $imagePath = $row['help_image_path'];
+                        $image='';
 
-                $image = '<button class="btn btn-primary" id="showImage_' . $imagePath . '" data-id="../' . $imagePath . '">Show Image</button>';
+                if(!is_null($imagePath)){
+                    $image = '<button class="btn btn-primary" id="showImage_' . $imagePath . '" data-id="../' . $imagePath . '">Show Image</button>';
+                } else {
+                    $image = 'No Image';
+                }
+
+
+                
 
                 $actions = '<a href="edit_help.php?id=' . $row['help_id'] . '">Edit</a> <a href="delete_help.php?id=' . $row['help_id'] . '" style = "color:red;">Delete</a>';
 

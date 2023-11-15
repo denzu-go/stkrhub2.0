@@ -79,6 +79,9 @@ if(isset($_SESSION['credentials'])){
                     if ($credentials == 'false') {
                         echo '<p style="color:red;">Username or Password is Wrong</p>';
                         unset($_SESSION['credentials']);
+                    }else if ($credentials == 'success') {
+                        echo '<p style="color:lightgreen;">Password Changed Successful</p>';
+                        unset($_SESSION['credentials']);
                     }
                         
                         ?>

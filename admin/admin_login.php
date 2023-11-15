@@ -1,3 +1,16 @@
+<?php 
+session_start();
+if (isset($_SESSION['admin_id'])) {
+    header('location:index.php');
+    exit();
+    }
+$credentials = '';
+
+if(isset($_SESSION['credentials'])){
+    $credentials = $_SESSION['credentials'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
@@ -23,6 +36,15 @@
                                 <div class="auth-form">
                                     <h4 class="text-center mb-4">Sign in your account</h4>
 
+                                    <?php 
+                
+                    if ($credentials == 'false') {
+                        echo '<p style="color:red;">Username or Password is Wrong</p>';
+                        unset($_SESSION['credentials']);
+                    }
+                        
+                        ?>
+
                                     <form action="admin_process_login.php" method="post" id="contactForm" novalidate="novalidate">
                                         <div class="form-group">
                                             <label><strong>Username</strong></label>
@@ -34,18 +56,14 @@
                                         </div>
                                         <div class="form-row d-flex justify-content-between mt-4 mb-2">
 
-                                            <div class="form-group">
-                                                <a href="page-forgot-password.html">Forgot Password?</a>
-                                            </div>
+                                            
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary btn-block">Sign me in</button>
                                         </div>
                                     </form>
 
-                                    <div class="new-account mt-3">
-                                        <p>Don't have an account? <a class="text-primary" href="admin_register.php">Sign up</a></p>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

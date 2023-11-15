@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // File uploaded successfully, update the database
                 // Assuming you have the FAQ ID available, replace $faq_id with the actual FAQ ID
                 $uploadDirectory = "assets/help_assets/";
+                $uploadPath = $uploadDirectory . $uniqueFilename;
     
                 // Use prepared statements to update the database safely
                 $sql = "UPDATE faq SET faq_image_path = ? WHERE faq_id = ?";

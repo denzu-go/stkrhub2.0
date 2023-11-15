@@ -77,6 +77,12 @@ if(isset($_SESSION['credentials'])){
                     if ($credentials == 'false') {
                         echo '<p style="color:red;">Email or Username Does not Exist</p>';
                         unset($_SESSION['credentials']);
+                    } else if ($credentials == 'true') {
+                        echo '<p style="color:lightgreen;">Reset Link has been sent to your Email</p>';
+                        unset($_SESSION['credentials']);
+                    }else if ($credentials == 'expires') {
+                        echo '<p style="color:red;">Reset Link has Expired</p>';
+                        unset($_SESSION['credentials']);
                     }
                         
                         ?>

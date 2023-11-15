@@ -265,7 +265,8 @@ if(isset($_SESSION['user_id'])){
                     $result = $conn->query($sql);
 
                     while ($fetched_banner = $result->fetch_assoc()) {
-                        $banner = $fetched_banner['image_path'];
+                        if($fetched_banner["is_showcased"] == 1){
+                            $banner = $fetched_banner['image_path'];
 
                         echo '<div class="swiper-slide">';
 
@@ -274,6 +275,9 @@ if(isset($_SESSION['user_id'])){
                         echo '</div>';
 
                         echo '</div>';
+
+                        }
+                        
                     }
                     ?>
                 </div>

@@ -28,11 +28,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             header("Location: index.php");
             exit;
+        } else {
+            $credentials = 'false';
+            session_start(); // Start or resume the session
+            $_SESSION['credentials'] = $credentials;
+            header("Location: admin_login.php");
+            exit;
         }
+    } else {
+
+        $credentials = 'false';
+        session_start(); // Start or resume the session
+        $_SESSION['credentials'] = $credentials;
+        header("Location: admin_login.php");
+        exit;
     }
 
-    // Handle the error if the admin login fails
-    echo "Invalid username or password.";
-    exit;
+    
 }
-?>

@@ -267,7 +267,7 @@ $_SESSION['help_category'] = $help_category;
                     "url": "admin_json_help.php",
                     data: {},
                     "dataSrc": ""
-                },
+                },  
                 "columns": [{
                         "data": "title"
                     },
@@ -335,6 +335,8 @@ $_SESSION['help_category'] = $help_category;
                     });
                 });
             });
+
+            
 
 
 
