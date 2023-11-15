@@ -273,6 +273,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 $result = $conn->query($sql);
 
                     while ($fetched_banner = $result->fetch_assoc()) {
+
                         if($fetched_banner["is_showcased"] == 1){
                             $banner = $fetched_banner['image_path'];
 
@@ -284,6 +285,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                         echo '</div>';
                     }
+                }
                     ?>
                 </div>
 

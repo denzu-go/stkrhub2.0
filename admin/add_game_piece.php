@@ -111,7 +111,18 @@ $_SESSION['category'] = $category;
                                             <th>Templates</th>
                                             <th>Thumbnails</th>
                                             <th>Available</th>
-                                            <th>Actions</th>
+                                            <?php
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin = $conn->query($getAdmin);
+                    $row = $queryAdmin->fetch_assoc();
+
+                    if ($row["is_super_admin"] == 1) {
+                        echo '<th> action </th>';
+                    }
+                }
+                ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -253,9 +264,18 @@ $_SESSION['category'] = $category;
                     {
                         data: "available"
                     },
-                    {
-                        data: "actions"
+                    <?php
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin = $conn->query($getAdmin);
+                    $row = $queryAdmin->fetch_assoc();
+
+                    if ($row["is_super_admin"] == 1) {
+                        echo '{ data : "action"}';
                     }
+                }
+                ?>
                 ]
             });
 

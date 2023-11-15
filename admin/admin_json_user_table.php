@@ -23,7 +23,24 @@ include "connection.php";
                     $active = '<a href="admin_user_active.php?id=' . $row['user_id'] . '" style="color:red;"> Deactivated </a>';
                 }
 
-        $actions = '<a href="admin_delete_user.php?id=' . $row['user_id'] . '" Style = "color:red;">Delete</a>' ;
+
+                $actions = '';
+
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin= $conn->query($getAdmin);
+                    $row2 = $queryAdmin->fetch_assoc();
+
+                    if ($row2["is_super_admin"] == 1) {
+                        $actions = '<a href="admin_delete_user.php?id=' . $row['user_id'] . '" Style = "color:red;">Delete</a>' ;
+                    } else {
+                        $actions = 'No Action';
+                    }
+                }
+
+        
 
         $data[] = array(
             "userID" => $row['unique_user_id'],

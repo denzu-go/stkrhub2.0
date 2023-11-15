@@ -77,7 +77,24 @@ include 'connection.php';
                                             <th>Email</th>
                                             <th>Date Created</th>
                                             <th>Active</th>
-                                            <th>Action</th>
+
+                                            <?php
+
+                                            if (isset($_SESSION['admin_id'])) {
+                                                $id = $_SESSION['admin_id'];
+
+                                                $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                                                $queryAdmin= $conn->query($getAdmin);
+                                                $row = $queryAdmin->fetch_assoc();
+
+                                                if ($row["is_super_admin"] == 1) {
+                                                    echo '<th>Action</th>';
+
+                                                }
+                                            }
+                                            
+                                            ?>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -185,9 +202,18 @@ include 'connection.php';
                             return data;
                         }
                         },
-                        {
-                            data: "action"
-                        }
+                        <?php
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin = $conn->query($getAdmin);
+                    $row = $queryAdmin->fetch_assoc();
+
+                    if ($row["is_super_admin"] == 1) {
+                        echo '{ data : "action"}';
+                    }
+                }
+                ?>
                     ]
                 });
             });
