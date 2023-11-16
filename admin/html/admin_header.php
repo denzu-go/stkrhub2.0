@@ -28,7 +28,14 @@ $row = mysqli_fetch_array($result);
 
 <div class="nav-header">
     <a href="admin_profile.php" class="brand-logo">
-        <img class="logo-abbr" style="height:40px;border-radius:100%;" src="<?php echo $row['avatar']?>" alt="">
+        <?php 
+        if(!is_null($row['avatar'])) {
+            echo '<img class="logo-abbr" style="height:40px;border-radius:100%;" src="'.$row['avatar'].'" alt="">';
+        }else {
+            echo '<img class="logo-abbr" style="height:40px;border-radius:100%;" src="../img/constant/default.png" alt="">';
+        }
+        ?>
+        
         <img class="logo-compact" src="./images/admin_text.png" alt="">
         <img class="brand-title" src="./images/admin_text.png" alt="">   
     </a>

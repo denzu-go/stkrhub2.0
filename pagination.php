@@ -325,8 +325,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
         <!-- Start Best Seller -->
-        <section class="lattest-product-area pb-40 category-list" style="">
-          <div class="row" id="movies" style="">
+        <section class="lattest-product-area pb-40 category-list">
+          <div class="row" id="movies">
           
             
 

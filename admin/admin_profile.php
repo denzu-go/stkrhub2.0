@@ -24,7 +24,7 @@ $admin = $resultadminDetails->fetch_assoc();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Focus - Bootstrap Admin Dashboard </title>
+    <title>STKR Admin - Profile</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
@@ -230,8 +230,18 @@ $admin = $resultadminDetails->fetch_assoc();
                                                             <tbody>
                                                                 <div class="row pl-4 pr-4" style="display: flex; flex-direction: row; justify-content: center; align-items:center;">
                                                                     <div class="image-mini-container">
+                                                                        <?php 
+                                                                        if (!is_null($admin['avatar'])) {
+                                                                            echo '<img src="'. $admin['avatar'].'" alt="Admin" class="image-mini" style="padding:10px;border-radius:25px;">';
+                                                                        } else {
+                                                                            echo '<img src="../img/constant/default.png" alt="Admin" class="image-mini" style="padding:10px;border-radius:25px;">';
+                                                                        }
+
                                                                         
-                                                                        <img src="<?php echo $admin['avatar'] ?>" alt="Admin" class="image-mini" style="padding:10px;border-radius:25px;">
+                                                                        ?>
+
+
+                                                                        
                                                                     </div>
 
                                                                     <hr>

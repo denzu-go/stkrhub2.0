@@ -15,7 +15,9 @@ while ($fetched = $resultUsers->fetch_assoc()) {
     $email = $fetched['email'];
     $avatar = $fetched['avatar'];
     
+    $row = '';
 
+    if(!is_null($avatar)) {
 
     $row = '
 
@@ -36,6 +38,28 @@ while ($fetched = $resultUsers->fetch_assoc()) {
 
 
     ';
+
+    } else {
+        $row = '
+
+    <div class="row pl-4 pr-4" style="display: flex; flex-direction: row; justify-content: center; align-items:center;">
+        <div class="image-mini-container">
+            <img src="img/constant/default.png" alt="Admin" class="image-mini">
+        </div>
+        <button type="button" class="btn edit-btn-avatar"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+    </div>
+
+
+
+    <div class="container">
+        <h4 class="d-flex justify-content-center">'.$username.'</h4>
+        <p class="text-secondary mb-1 d-flex justify-content-center">'.$firstname .'&nbsp;'. $lastname.'</p>
+        <p class="text-muted font-size-sm d-flex justify-content-center">'.$email.'</p>
+    </div>
+
+
+    ';
+    }
 
 
     $json[] = array(

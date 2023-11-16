@@ -29,8 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (mysqli_num_rows($result) > 0) {
         // Username or email already exists, handle the error (e.g., display an error message)
-        echo "Username or email already exists. Please choose another one.";
-        exit;
+        $credentials = 'false';
+                session_start(); // Start or resume the session
+                $_SESSION['credentials'] = $credentials;
+                header("Location: registration_page.php");
+                exit;
     }
 
     // Insert the new user into the "users" table with the current timestamp for created_at
@@ -54,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo mysqli_error($conn);
         }
 
-        // header("Location: login_page.php");
-        // exit;
+        header("Location: login_page.php");
+        exit;
     } else {
         // Handle the error if the insertion fails
         

@@ -21,9 +21,9 @@
                         if ($result["is_super_admin"] == 1) {
 
                             echo '<li class="nav-label">Account Management</li>
-                            <li><a href="admin_user_management.php">User Accounts</a></li>
-                            <li><a href="admin_account_management.php"><i class="icon icon-globe-2"></i><span class="nav-text">Admin Accounts</span></a></li>
-        
+                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>
+                            <li><a href="admin_account_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">Admin Accounts</span></a></li>
+
                             <li class="nav-label"><span class="nav-text">Service Charges & Others</li>
                             <li><a href="admin_weight_charges.php"><i class="icon icon-globe-2"></i><span class="nav-text">Weight Charges</span></a></li>
                             <li><a href="admin_service_percentage.php"><i class="icon icon-globe-2"></i><span class="nav-text">Service Fees</span></a></li>

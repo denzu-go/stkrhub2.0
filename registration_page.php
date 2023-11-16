@@ -1,3 +1,22 @@
+<?php 
+
+include 'connection.php';
+
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header('location:index.php');
+    exit();
+    }
+$credentials = '';
+
+if(isset($_SESSION['credentials'])){
+    $credentials = $_SESSION['credentials'];
+}
+
+include 'html/get_bg.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -33,8 +52,13 @@
         ?>
     </style>
 </head>
-
-<body>
+ 
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php
     include 'connection.php';
@@ -48,6 +72,17 @@
                 <div class="col-lg-6">
                     <div class="login_form_inner">
                         <h3>Registration Form</h3>
+
+                        <?php 
+                
+                    if ($credentials == 'false') {
+                        echo '<p style="color:red;">Username or Email is already Taken</p>';
+                        unset($_SESSION['credentials']);
+                    }
+                        
+                        ?>
+
+
                         <form class="row login_form" action="process_registration.php" method="post" id="contactForm"
                             novalidate="novalidate">
                             <div class="col-md-12 form-group">
