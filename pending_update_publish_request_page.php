@@ -262,7 +262,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
             <div class="row">
                 <!-- -- -->
-                <div class="col-6">
+                <div class="col-6" style="border-right: 2px white solid;">
                     <div class="container">
 
                         <div class="row">

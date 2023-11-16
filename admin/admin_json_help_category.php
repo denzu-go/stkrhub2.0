@@ -22,10 +22,19 @@ if (isset($_SESSION['help_category'])) {
         
         $actions = '<a href="edit_help_category.php?id=' . $row['faq_id'] . '">Edit</a>';
 
+        $imagePath = $row['faq_image_path'];
+                        $image='';
+
+                if(!is_null($imagePath)){
+                    $image = '<button class="btn btn-primary" id="showImage_' . $imagePath . '" data-id="../' . $imagePath . '">Show Image</button>';
+                } else {
+                    $image = 'No Image';
+                }
+
         $data[] = array(
             "title" => $row["faq_category"],
             "description" => $row["faq_description"],
-            "image" => $row["faq_image_path"],
+            "image" => $image,
             "actions" => $actions,
         );
     }

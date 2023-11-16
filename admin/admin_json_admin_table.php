@@ -12,7 +12,7 @@ include "connection.php";
     $data = array();
     while ($row = $result->fetch_assoc()) {
 
-        $actions = '<a href="admin_delete_admin.php?id=' . $row['admin_id'] . '" Style = "color:red;">Delete</a>' ;
+        $actions = '<a href="admin_edit_admin.php?id=' . $row['admin_id'] . '">Edit   </a>   <a href="admin_delete_admin.php?id=' . $row['admin_id'] . '" Style = "color:red;">Delete</a>' ;
 
         $data[] = array(
             

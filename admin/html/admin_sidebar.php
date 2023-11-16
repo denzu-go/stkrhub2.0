@@ -7,17 +7,18 @@
                     <li class="nav-label first">Main Menu</li>
 
                     <li><a href="index.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="admin_banner.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Banners</span></a></li>
 
-                    <?php 
-                   
-                    if (isset($_SESSION['admin_id'])){
+                    <?php
+
+                    if (isset($_SESSION['admin_id'])) {
                         $admin_id = $_SESSION['admin_id'];
 
                         $sql = "SELECT * FROM admins WHERE admin_id = $admin_id";
                         $query = mysqli_query($conn, $sql);
                         $result = mysqli_fetch_assoc($query);
 
-                        if ($result["is_super_admin"] == 1){ 
+                        if ($result["is_super_admin"] == 1) {
 
                             echo '<li class="nav-label">Account Management</li>
                             <li><a href="admin_user_management.php">User Accounts</a></li>
@@ -28,16 +29,19 @@
                             <li><a href="admin_service_percentage.php">Service Fees</a></li>
                             <li><a href="admin_constant_thumbnail.php">Thumbnail Images</a></li>
                             <li><a href="admin_paypal_royalty.php">Paypal Account & Royalties</a></li>';
-                        }
+                        } else {
 
+                            echo '<li class="nav-label">Account Management</li>
+                            <li><a href="admin_user_management.php">User Accounts</a></li>';
+                        }
                     }
-                    
+
                     ?>
 
-                    
 
 
-            
+
+
 
                     <li class="nav-label">Approve / Deny</li>
                     <li><a href="games_approval_requests.php">Games Pending Approval</a></li>
@@ -75,7 +79,7 @@
                             }
                             ?>
 
-                            <a class="btn btn-outline-primary" id="addComponent" style="display: block;" role="button" style="text-align:center;">Add New Component</a>
+                            <a class="btn btn-outline-primary" id="addComponent" style="display: block; margin:20px;" role="button" style="text-align:center;">Add New Component</a>
 
 
                         </ul>
@@ -99,7 +103,7 @@
 
                             ?>
 
-                            <a class="btn btn-outline-primary" id="addCategory" style="display: block;" role="button" style="text-align:center;">Add New Category</a>
+                            <a class="btn btn-outline-primary" id="addCategory" style="width:200px;margin:20px;" role="button" style="text-align:center;">Add New Category</a>
                         </ul>
                     </li>
 
@@ -155,12 +159,15 @@
                             // For example, you can clear the form fields.
                         },
                     }).then((result) => {
-                        // Handle the AJAX response
+                        // Check if the result is confirmed or if the modal was closed without confirmation
                         if (result.isConfirmed) {
                             Swal.fire("Success", "New Game Component added successfully", "success").then(() => {
                                 // Redirect to the specified location
                                 window.location.href = "add_game_piece.php?category=" + categoryValue;
                             });
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            // Handle the cancel action
+                            // You can add any specific logic for cancel here, or leave it empty if no action is needed
                         } else {
                             // Error handling
                             Swal.fire("Error", "Error adding Game Component", "error");
@@ -169,14 +176,21 @@
                 });
 
 
+
                 $('#addCategory').on('click', function() {
                     let categoryValue; // Variable to store the category value
 
                     Swal.fire({
-                        title: "Add New Game Component",
+                        title: "Add New Category",
                         html: '<div class="form-container">' +
-                            '<label for="category">Component Name:</label>' +
-                            '<input type="text" id="category" name="category" required><br>',
+                            '<label for="category">Category Name:</label>' +
+                            '<input type="text" id="category" name="category" required><br>' +
+
+                            '<label for="type"> Category Type: </label>' +
+                            '<select id="type" name="type" required><br>' +
+                            '<option value="1"> Tutorial </option>' +
+                            '<option value="0"> Help </option>' +
+                            '</select><br>',
                         showCancelButton: true,
                         confirmButtonText: "Add",
                         cancelButtonText: "Cancel",
@@ -185,6 +199,7 @@
                             categoryValue = $('#category').val(); // Store the category value
                             var formData = {
                                 category: categoryValue,
+                                type: $('#type').val(), // Use $('#type').val() to get the selected value
                             };
 
                             // Send an AJAX request to add the category
@@ -200,18 +215,24 @@
                             // For example, you can clear the form fields.
                         },
                     }).then((result) => {
-                        // Handle the AJAX response
+                        // Check if the result is confirmed or if the modal was closed without confirmation
                         if (result.isConfirmed) {
-                            Swal.fire("Success", "New Game Component added successfully", "success").then(() => {
+                            Swal.fire("Success", "New Category added successfully", "success").then(() => {
                                 // Redirect to the specified location
                                 window.location.href = "admin_help.php?category=" + categoryValue;
                             });
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            // Handle the cancel action
+                            // You can add any specific logic for cancel here, or leave it empty if no action is needed
                         } else {
                             // Error handling
-                            Swal.fire("Error", "Error adding Game Component", "error");
+                            Swal.fire("Error", "Error adding Category", "error");
                         }
                     });
                 });
+
+
+
 
 
             });

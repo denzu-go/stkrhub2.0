@@ -1,11 +1,12 @@
 <?php
 session_start();
-$email = '';
+$token = '';
 
-if (isset($_SESSION["email"])) {
-    $email = $_SESSION["email"];
+if (isset($_GET["token"])) {
+    $token = $_GET["token"];
 } else {
     header("location:email_forgot_password.php");
+   
 }
 
 $change = '';
@@ -89,7 +90,7 @@ if (isset($_SESSION['credentials'])) {
                 <?php
                 if ($change == 'true') {
                     unset($_SESSION['change']);
-                    unset($_SESSION['email']);
+                  
                     echo '<div class="col-lg-6" id="forgotPassForm" style="display:block;">
                     <div class="login_form_inner">
                         <h3>Password has been Successfully Changed</h3>
@@ -117,7 +118,7 @@ if (isset($_SESSION['credentials'])) {
                         
 
                         echo '<form class="row login_form" action="process_forgot_password.php" method="post" id="contactForm" novalidate="novalidate">
-                        <input type="hidden" name="email" value="' . $email . '">
+                        <input type="hidden" name="token" value="' . $token . '">
                         <div class="col-md-12 form-group">
                             <input required type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = \'\'" onblur="this.placeholder = \'Password\'">
                         </div>

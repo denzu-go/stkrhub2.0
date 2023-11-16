@@ -111,7 +111,18 @@ $_SESSION['category'] = $category;
                                             <th>Templates</th>
                                             <th>Thumbnails</th>
                                             <th>Available</th>
-                                            <th>Actions</th>
+                                            <?php
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin = $conn->query($getAdmin);
+                    $row = $queryAdmin->fetch_assoc();
+
+                    if ($row["is_super_admin"] == 1) {
+                        echo '<th> action </th>';
+                    }
+                }
+                ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -253,9 +264,18 @@ $_SESSION['category'] = $category;
                     {
                         data: "available"
                     },
-                    {
-                        data: "actions"
+                    <?php
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin = $conn->query($getAdmin);
+                    $row = $queryAdmin->fetch_assoc();
+
+                    if ($row["is_super_admin"] == 1) {
+                        echo '{ data : "action"}';
                     }
+                }
+                ?>
                 ]
             });
 
@@ -283,7 +303,7 @@ $_SESSION['category'] = $category;
                 var imageName = $(this).data('name');
 
                 // Generate the HTML for the image
-                var imageHTML = '<div><img src="../' + imageId + '" alt="Image" style="width:300px;height:300px;"><p>Thumbnail ' + imageName + '</p></div>';
+                var imageHTML = '<div><img src="../' + imageId + '" alt="Image" style="width:300px;height:300px;"><p>Thumbnail ' + imageName + '</p><a class="btn btn-outline-primary" data-id = "' + imageId + '"role="button" id="thumbnailButton">Make Thumbnail</a></div>';
 
                 // Use SweetAlert to display the image with its name
                 Swal.fire({
@@ -294,6 +314,42 @@ $_SESSION['category'] = $category;
             });
 
 
+            $('body').on('click', '#thumbnailButton', function(e) {
+    // Prevent the default behavior of the link
+    e.preventDefault();
+
+    // Get the data-id attribute value
+    var imageId = $(this).data("id");
+    console.log('Make Thumbnail clicked for image ID: ' + imageId);
+    
+    // Display a confirmation dialog using SweetAlert2
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This image will be the thumbnail for this component',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, make thumbnail!'
+    }).then((result) => {
+        // If the user clicks "Yes," proceed with the AJAX request
+        if (result.isConfirmed) {
+            // Make the AJAX request using the fetched imageId
+            $.ajax({
+                type: "GET",
+                url: "admin_process_thumbnail.php?id=" + imageId, // Use 'id' instead of 'imageId'
+                success: function(response) {
+                    // Handle the success response
+                    console.log("Thumbnail request successful", response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error("Error making thumbnail request", error);
+                }
+            });
+        }
+    });
+});
 
 
 

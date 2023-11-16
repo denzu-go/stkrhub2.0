@@ -231,8 +231,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                                 <th>Cost</th>
                                                 <th>Marketplace Price</th>
                                                 <th>Manufacturer's Profit</th>
-                                                <th>User's Profit</th>
-                                                <th>User ID</th>
+                                                <th>Creator's Profit</th>
+                                                <th>Creator/User ID</th>
                                                 <th>Status</th>
                                                 <th>Number of Purchases</th>
                                                 <th>Actions</th>
@@ -282,8 +282,47 @@ $total_component_produced = $rowTotalComponents['total_components'];
 
                         </div>
 
+
+                        <!-- Published -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Published Games</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <table id="publishedTable" class="display" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Published Game ID</th>
+                                                <th>Game Name</th>
+                                                <th>Category</th>
+                                                <th>Published Date</th>
+                                                <th>Creator/User ID</th>
+                                                <th>Cost</th>
+                                                <th>Marketplace Price</th>
+                                                <th>Manufacturer's Profit</th>
+                                                <th>Creator's Profit</th>
+                                                <th>Status</th>
+                                                <th>Number of Purchases</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
+                    <!--  
                     <div class="col-lg-6 col-xl-4 col-xxl-6 col-md-6">
+                        
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Most Earnings</h4>
@@ -310,6 +349,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
 
                     <div class="col-xl-4 col-lg-6 col-xxl-6 col-md-6">
@@ -371,6 +411,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
                             </div>
                         </div>
                     </div>
+
+                     -->
 
 
 
@@ -462,6 +504,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                             </div>
                         </div>
                     </div>
+
                 </div>
 
 
@@ -691,6 +734,64 @@ $total_component_produced = $rowTotalComponents['total_components'];
                 ]
             });
 
+
+
+
+            $('#publishedTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+
+                "ajax": {
+                    "url": "admin_json_published_games.php",
+                    data: {},
+                    "dataSrc": ""
+                },
+                "columns": [{
+                        "data": "number"
+                    },
+                    {
+                        "data": "id"
+                    },
+                    {
+                        "data": "title"
+                    },
+                    {
+                        "data": "category"
+                    },
+                    {
+                        "data": "published_date"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "cost"
+                    },
+                    {
+                        "data": "price"
+                    },
+                    {
+                        "data": "manufacturer_profit"
+                    },
+                    {
+                        "data": "creator_profit"
+                    },
+                    
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "frequency"
+                    },
+                    {
+                        "data": "action"
+                    },
+
+                ],
+
+            });
 
 
 

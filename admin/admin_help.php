@@ -101,55 +101,78 @@ $_SESSION['help_category'] = $help_category;
                         <div class="card">
                             <div class="card-body">
 
-                            <?php
-                            if ($faq['faq_type'] == 1) {
-
-
-                                echo '
-                                        <table id="helpContentTable" class="display" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                                <th>Tutorial Link</th>
-                                                <th>Showcased</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                    <div class="row mb-3">
-                                    <div class="col-sm-3 d-grid">
-                                        <a class="btn btn-outline-primary" href="add_help_content.php?category='.$help_category.'" role="button">Add Content</a>
-                                    </div>
-                                </div>
-                                ';
-                            } else {
-                                echo '<table id="helpContentTable2" class="display" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Image</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                            <div class="row mb-3">
-                                    <div class="col-sm-3 d-grid">
-                                        <a class="btn btn-outline-primary" href="add_help.php?category='.$help_category.'" role="button">Add Content</a>
-                                    </div>
-                                </div>
-                            ';
-                            }
-                            ?>
-
+                                <?php
                                
+                               if ($faq['faq_type'] == 1) {
+                                   // Table for faq_type 1
+                                   echo '
+                                       <table id="helpContentTable" class="display" style="width: 100%;">
+                                       <thead>
+                                           <tr>
+                                               <th>Title</th>
+                                               <th>Description</th>
+                                               <th>Tutorial Link</th>
+                                               <th>Showcased</th>';
+                               
+                                   if (isset($_SESSION['admin_id'])) {
+                                       $id = $_SESSION['admin_id'];
+                                       $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                                       $queryAdmin = $conn->query($getAdmin);
+                                       $row2 = $queryAdmin->fetch_assoc();
+                               
+                                       if ($row2["is_super_admin"] == 1) {
+                                           echo '<th>Action</th>';
+                                       }
+                                   }
+                               
+                                   echo '</tr>
+                                       </thead>
+                                       <tbody>
+                                       </tbody>
+                                   </table>
+                                   <div class="row mb-3">
+                                       <div class="col-sm-3 d-grid">
+                                           <a class="btn btn-outline-primary" href="add_help_content.php?category=' . $help_category . '" role="button">Add Content</a>
+                                       </div>
+                                   </div>';
+                               } else {
+                                   // Table for faq_type other than 1
+                                   echo '<table id="helpContentTable2" class="display" style="width: 100%;">
+                                       <thead>
+                                           <tr>
+                                               <th>Title</th>
+                                               <th>Description</th>
+                                               <th>Image</th> ';
+                               
+                                   if (isset($_SESSION['admin_id'])) {
+                                       $id = $_SESSION['admin_id'];
+                                       $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                                       $queryAdmin = $conn->query($getAdmin);
+                                       $row2 = $queryAdmin->fetch_assoc();
+                               
+                                       if ($row2["is_super_admin"] == 1) {
+                                           echo '<th>Action</th>';
+                                       }
+                                   }
+                               
+                                   echo '</tr>
+                                       </thead>
+                                       <tbody>
+                                       </tbody>
+                                   </table>
+                                   <div class="row mb-3">
+                                       <div class="col-sm-3 d-grid">
+                                           <a class="btn btn-outline-primary" href="add_help.php?category=' . $help_category . '" role="button">Add Content</a>
+                                       </div>
+                                   </div>';
+                               }
+                               
+                               
+                                ?>
 
-                                
+
+
+
                             </div>
 
                         </div>
@@ -247,11 +270,18 @@ $_SESSION['help_category'] = $help_category;
                             return data;
                         }
                     },
-                    {
-                        "data": "actions",
-                        width: '10%',
-                        className: 'dt-center'
-                    },
+                    <?php
+                    if (isset($_SESSION['admin_id'])) {
+                        $id = $_SESSION['admin_id'];
+                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                        $queryAdmin = $conn->query($getAdmin);
+                        $row = $queryAdmin->fetch_assoc();
+
+                        if ($row["is_super_admin"] == 1) {
+                            echo '{ data : "action"}';
+                        }
+                    }
+                    ?>
 
 
                 ]
@@ -277,12 +307,18 @@ $_SESSION['help_category'] = $help_category;
                     {
                         "data": "image"
                     },
-                    {
-                        "data": "actions",
-                        width: '10%',
-                        className: 'dt-center'
-                    },
+                    <?php
+                    if (isset($_SESSION['admin_id'])) {
+                        $id = $_SESSION['admin_id'];
+                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                        $queryAdmin = $conn->query($getAdmin);
+                        $row = $queryAdmin->fetch_assoc();
 
+                        if ($row["is_super_admin"] == 1) {
+                            echo '{ data : "action"}';
+                        }
+                    }
+                    ?>
 
                 ]
             });
@@ -298,7 +334,7 @@ $_SESSION['help_category'] = $help_category;
                     data: {},
                     "dataSrc": ""
                 },
-                "columns": [{
+                "columns": [{   
                         "data": "title"
                     },
                     {
@@ -308,10 +344,10 @@ $_SESSION['help_category'] = $help_category;
                         "data": "image"
                     },
                     {
-                        "data": "actions",
-                        width: '10%',
-                        className: 'dt-center'
+                        "data": "actions"
                     },
+
+                    
 
 
                 ]
@@ -335,6 +371,8 @@ $_SESSION['help_category'] = $help_category;
                     });
                 });
             });
+
+
 
 
 

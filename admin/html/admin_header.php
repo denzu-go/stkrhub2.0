@@ -1,11 +1,36 @@
 <!--**********************************
             Nav header start
         ***********************************-->
+<?php
+$admin_id;
+
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+}
+
+$sql = "SELECT * FROM admins WHERE admin_id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+
+// Bind the parameter
+mysqli_stmt_bind_param($stmt, "i", $admin_id);
+
+// Execute the query
+mysqli_stmt_execute($stmt);
+
+// Get the result
+$result = mysqli_stmt_get_result($stmt);
+
+// Fetch the row
+$row = mysqli_fetch_array($result);
+
+?>
+
+
 <div class="nav-header">
-    <a href="index.php" class="brand-logo">
-        <img class="logo-abbr" src="./images/logo.png" alt="">
-        <img class="logo-compact" src="./images/logo-text.png" alt="">
-        <img class="brand-title" src="./images/logo-text.png" alt="">
+    <a href="admin_profile.php" class="brand-logo">
+        <img class="logo-abbr" style="height:40px;border-radius:100%;" src="<?php echo $row['avatar']?>" alt="">
+        <img class="logo-compact" src="./images/admin_text.png" alt="">
+        <img class="brand-title" src="./images/admin_text.png" alt="">   
     </a>
 
     <div class="nav-control">
@@ -27,11 +52,11 @@
             <div class="collapse navbar-collapse justify-content-between">
 
                 <div class="header-left">
-                    
+
                 </div>
 
                 <ul class="navbar-nav header-right">
-                    
+
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                             <i class="mdi mdi-account"></i>

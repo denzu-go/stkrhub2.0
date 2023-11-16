@@ -272,8 +272,10 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 $sql = "SELECT * FROM index_banner";
                 $result = $conn->query($sql);
 
-                while ($fetched_banner = $result->fetch_assoc()) {
-                    $banner = $fetched_banner['image_path'];
+                    while ($fetched_banner = $result->fetch_assoc()) {
+
+                        if($fetched_banner["is_showcased"] == 1){
+                            $banner = $fetched_banner['image_path'];
 
                     echo '<div class="swiper-slide">';
 
@@ -281,10 +283,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                     echo '<img class="image-banner" src="' . $banner . '" alt="">';
                     echo '</div>';
 
-                    echo '</div>';
+                        echo '</div>';
+                    }
                 }
-                ?>
-            </div>
+                    ?>
+                </div>
 
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>

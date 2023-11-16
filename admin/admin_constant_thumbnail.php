@@ -52,8 +52,8 @@ include 'connection.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Services Fees</h4>
-                            <p class="mb-0">Percentage Charges</p>
+                            <h4>Thumbnails</h4>
+                            <p class="mb-0"></p>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ include 'connection.php';
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="servicePercentage" class="display" style="width: 100%;">
+                                <table id="thumbnail" class="display" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <th>Thumbnail</th>
@@ -141,7 +141,7 @@ include 'connection.php';
 
 
 
-            $('#servicePercentage').DataTable({
+            $('#thumbnail').DataTable({
                 searching: false,
                 info: false,
                 paging: false,
