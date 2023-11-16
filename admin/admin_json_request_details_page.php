@@ -7,6 +7,7 @@ $resultGames = $conn->query($sqlGames);
 
 $data = array();
 
+$number = 1;
 while ($fetchedGames = $resultGames->fetch_assoc()) {
     $pending_published_built_game_id = $fetchedGames['pending_published_built_game_id'];
     $built_game_id = $fetchedGames['built_game_id'];
@@ -40,9 +41,15 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
         $price = $fetchedBuiltGames['price'];
     }
 
+    $sqlGetUsers = "SELECT * FROM users WHERE user_id = $creator_id";
+    $queryGetUsers = $conn->query($sqlGetUsers);
+    while($fetchedUsers = $queryGetUsers->fetch_assoc()){
+        $unique_user_id = $fetchedUsers['unique_user_id'];
+    }
+
 
     $game_link = '
-        <a href="admin_view_has_pending_details_request_page.php?built_game_id=' . $built_game_id . '">' . $name . '</a>
+        <a href="admin_view_has_pending_details_request_page.php?built_game_id=' . $built_game_id . '&creator_id='.$creator_id.'">'.$name.'</a>
     ';
 
     $status = 'Has Publishing Request';
@@ -51,11 +58,15 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
     <a href="admin_view_has_pending_details_request_page.php?built_game_id=' . $built_game_id . '&creator_id='.$creator_id.'">View</a>
     ';
 
+
+    $number_value = $number++;
+    $id = $built_game_id;
+
     $data[] = array(
+        "number" => $number_value,
+        "id" => $id,
         "game_link" => $game_link,
-        "category" => $category,
-        "edition" => $edition,
-        "creator_id" => $creator_id,
+        "creator_id" => $unique_user_id,
         "status" => $status,
         "actions" => $actions,
     );

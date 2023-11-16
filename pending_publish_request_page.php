@@ -227,17 +227,11 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
             <a href="javascript:history.back()" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
             <div class="row">
-                <h4 class="mx-auto">Current Details</h4>
+                <h4 class="mx-auto">Current Details Pending Request</h4>
             </div>
             <hr>
 
-            <div class="row" style="
-        background: rgba(39, 42, 78, 0.57);
-        border-radius: 14px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(5.7px);
-        -webkit-backdrop-filter: blur(5.7px);
-        ">
+            <div class="row">
         <br>
                 <!-- -- -->
                 <div class="col-6">
@@ -315,7 +309,7 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
                     <div class="row">
                         <h6 class="">Logo: </h6> &nbsp; <h6 style="color: #777777"></h6>
 
-                        <div class="image-banner-container">';
+                        <div class="image-banner-container">
                             <img class="image-banner" src="<?php echo $pending_logo_path ?>" alt="">
                         </div>
                     </div>
@@ -573,7 +567,7 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
                                     confirmButtonText: 'OK'
                                 }).then(function() {
                                     // After the user clicks "OK" in the SweetAlert, redirect
-                                    window.location.href = 'create_game_page.php#section6';
+                                    window.location.href = 'create_game_page.php#section5';
                                 });
                             },
                             error: function() {

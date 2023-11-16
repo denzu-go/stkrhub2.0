@@ -6,8 +6,8 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
 
-                    <li><a href="index.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Dashboard</span></a></li>
-                    <li><a href="admin_banner.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Banners</span></a></li>
+                    <li><a href="index.php" aria-expanded="false"><i class="fa-solid fa-chart-simple"></i><span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="admin_banner.php" aria-expanded="false"><i class="fa-solid fa-panorama"></i></i><span class="nav-text">Banners</span></a></li>
 
                     <?php
 
@@ -22,41 +22,37 @@
 
                             echo '<li class="nav-label">Account Management</li>
                             <li><a href="admin_user_management.php">User Accounts</a></li>
-                            <li><a href="admin_account_management.php">Admin Accounts</a></li>
+                            <li><a href="admin_account_management.php"><i class="icon icon-globe-2"></i><span class="nav-text">Admin Accounts</span></a></li>
         
-                            <li class="nav-label">Service Charges & Others</li>
-                            <li><a href="admin_weight_charges.php">Weight Charges</a></li>
-                            <li><a href="admin_service_percentage.php">Service Fees</a></li>
-                            <li><a href="admin_constant_thumbnail.php">Thumbnail Images</a></li>
-                            <li><a href="admin_paypal_royalty.php">Paypal Account & Royalties</a></li>';
+                            <li class="nav-label"><span class="nav-text">Service Charges & Others</li>
+                            <li><a href="admin_weight_charges.php"><i class="icon icon-globe-2"></i><span class="nav-text">Weight Charges</span></a></li>
+                            <li><a href="admin_service_percentage.php"><i class="icon icon-globe-2"></i><span class="nav-text">Service Fees</span></a></li>
+                            <li><a href="admin_constant_thumbnail.php"><i class="icon icon-globe-2"></i><span class="nav-text">Thumbnail Images</span></a></li>
+                            <li><a href="admin_paypal_royalty.php"><i class="icon icon-globe-2"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>';
                         } else {
 
                             echo '<li class="nav-label">Account Management</li>
-                            <li><a href="admin_user_management.php">User Accounts</a></li>';
+                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>';
                         }
                     }
 
                     ?>
 
 
-
-
-
-
                     <li class="nav-label">Approve / Deny</li>
-                    <li><a href="games_approval_requests.php">Games Pending Approval</a></li>
-                    <li><a href="pending_details_request.php">Publish Game Details Requests</a></li>
-                    <li><a href="edit_published_game_requests.php">Edit Published Game Requests</a></li>
+                    <li><a href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>
+                    <li><a href="pending_details_request.php"><i class="fa-solid fa-flag-checkered"></i><span class="nav-text">Publish Game Details Requests</span></a></li>
+                    <li><a href="edit_published_game_requests.php"><i class="fa-solid fa-font-awesome"></i><span class="nav-text">Edit Published Game Requests</span></a></li>
 
                     <li class="nav-label">Cash Out</li>
-                    <li><a href="cashout_requests.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Cashout Requests</span></a></li>
+                    <li><a href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
 
                     <li class="nav-label">Orders</li>
-                    <li><a href="pending_all.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">All Pending Orders</span></a></li>
-                    <li><a href="in_production.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">In Production Orders</span></a></li>
-                    <li><a href="to_ship.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">To Ship</span></a></li>
-                    <li><a href="to_deliver.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Completed Orders</span></a></li>
-                    <li><a href="canceled.php" aria-expanded="false"><i class="icon icon-globe-2"></i><span class="nav-text">Canceled Orders</span></a></li>
+                    <li><a href="pending_all.php" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i><span class="nav-text">All Pending Orders</span></a></li>
+                    <li><a href="in_production.php" aria-expanded="false"><i class="fa-solid fa-person-digging"></i><span class="nav-text">In Production Orders</span></a></li>
+                    <li><a href="to_ship.php" aria-expanded="false"><i class="fa-solid fa-truck-ramp-box"></i><span class="nav-text">To Ship</span></a></li>
+                    <li><a href="to_deliver.php" aria-expanded="false"><i class="fa-solid fa-check-to-slot"></i><span class="nav-text">Completed Orders</span></a></li>
+                    <li><a href="canceled.php" aria-expanded="false"><i class="fa-solid fa-ban"></i><span class="nav-text">Canceled Orders</span></a></li>
 
 
                     <li class="nav-label"></li>
@@ -87,7 +83,7 @@
 
 
                     <li class="nav-label"></li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="icon icon-app-store"></i><span class="nav-text">Help Desk</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="fa-solid fa-hand-holding-hand"></i><span class="nav-text">Help Desk</span></a>
                         <ul aria-expanded="false">
                             <?php
                             include("connection.php");

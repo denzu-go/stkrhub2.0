@@ -47,6 +47,9 @@ $_SESSION['help_category'] = $help_category;
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
 
@@ -102,10 +105,10 @@ $_SESSION['help_category'] = $help_category;
                             <div class="card-body">
 
                                 <?php
-                               
-                               if ($faq['faq_type'] == 1) {
-                                   // Table for faq_type 1
-                                   echo '
+
+                                if ($faq['faq_type'] == 1) {
+                                    // Table for faq_type 1
+                                    echo '
                                        <table id="helpContentTable" class="display" style="width: 100%;">
                                        <thead>
                                            <tr>
@@ -113,19 +116,19 @@ $_SESSION['help_category'] = $help_category;
                                                <th>Description</th>
                                                <th>Tutorial Link</th>
                                                <th>Showcased</th>';
-                               
-                                   if (isset($_SESSION['admin_id'])) {
-                                       $id = $_SESSION['admin_id'];
-                                       $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                                       $queryAdmin = $conn->query($getAdmin);
-                                       $row2 = $queryAdmin->fetch_assoc();
-                               
-                                       if ($row2["is_super_admin"] == 1) {
-                                           echo '<th>Action</th>';
-                                       }
-                                   }
-                               
-                                   echo '</tr>
+
+                                    if (isset($_SESSION['admin_id'])) {
+                                        $id = $_SESSION['admin_id'];
+                                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                                        $queryAdmin = $conn->query($getAdmin);
+                                        $row2 = $queryAdmin->fetch_assoc();
+
+                                        if ($row2["is_super_admin"] == 1) {
+                                            echo '<th>Action</th>';
+                                        }
+                                    }
+
+                                    echo '</tr>
                                        </thead>
                                        <tbody>
                                        </tbody>
@@ -135,27 +138,27 @@ $_SESSION['help_category'] = $help_category;
                                            <a class="btn btn-outline-primary" href="add_help_content.php?category=' . $help_category . '" role="button">Add Content</a>
                                        </div>
                                    </div>';
-                               } else {
-                                   // Table for faq_type other than 1
-                                   echo '<table id="helpContentTable2" class="display" style="width: 100%;">
+                                } else {
+                                    // Table for faq_type other than 1
+                                    echo '<table id="helpContentTable2" class="display" style="width: 100%;">
                                        <thead>
                                            <tr>
                                                <th>Title</th>
                                                <th>Description</th>
                                                <th>Image</th> ';
-                               
-                                   if (isset($_SESSION['admin_id'])) {
-                                       $id = $_SESSION['admin_id'];
-                                       $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                                       $queryAdmin = $conn->query($getAdmin);
-                                       $row2 = $queryAdmin->fetch_assoc();
-                               
-                                       if ($row2["is_super_admin"] == 1) {
-                                           echo '<th>Action</th>';
-                                       }
-                                   }
-                               
-                                   echo '</tr>
+
+                                    if (isset($_SESSION['admin_id'])) {
+                                        $id = $_SESSION['admin_id'];
+                                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                                        $queryAdmin = $conn->query($getAdmin);
+                                        $row2 = $queryAdmin->fetch_assoc();
+
+                                        if ($row2["is_super_admin"] == 1) {
+                                            echo '<th>Action</th>';
+                                        }
+                                    }
+
+                                    echo '</tr>
                                        </thead>
                                        <tbody>
                                        </tbody>
@@ -165,9 +168,9 @@ $_SESSION['help_category'] = $help_category;
                                            <a class="btn btn-outline-primary" href="add_help.php?category=' . $help_category . '" role="button">Add Content</a>
                                        </div>
                                    </div>';
-                               }
-                               
-                               
+                                }
+
+
                                 ?>
 
 
@@ -187,29 +190,7 @@ $_SESSION['help_category'] = $help_category;
 
 
 
-
-
-    </div>
-
-
-
-    <div class="footer">
-
-
-
-
-
-
-        <div class="copyright">
-            <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-            <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-        </div>
-    </div>
-
-
-
-    </div>
-
+    <?php include 'html/admin_footer.php'; ?>
 
 
 
@@ -334,7 +315,7 @@ $_SESSION['help_category'] = $help_category;
                     data: {},
                     "dataSrc": ""
                 },
-                "columns": [{   
+                "columns": [{
                         "data": "title"
                     },
                     {
@@ -347,7 +328,7 @@ $_SESSION['help_category'] = $help_category;
                         "data": "actions"
                     },
 
-                    
+
 
 
                 ]

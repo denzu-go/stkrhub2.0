@@ -4,49 +4,49 @@ include 'connection.php';
 $built_game_id = $_GET['built_game_id'];
 $creator_id = $_GET['creator_id'];
 
-// Retrieve the markup percentage from the database
+// PENDINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 $query_markup = "SELECT percentage FROM markup_percentage";
 $result_markup = mysqli_query($conn, $query_markup);
 $markup_percentage = mysqli_fetch_assoc($result_markup)['percentage'];
-
-$query = "SELECT built_game_id, name, description, game_id, creator_id, price, is_published, is_purchased, is_pending_published FROM built_games WHERE built_game_id = '$built_game_id'";
-$result = mysqli_query($conn, $query);
 
 $sqlGetPendingPublishRequest = "SELECT * FROM pending_published_built_games WHERE built_game_id = $built_game_id";
 $queryGetPendingPublishRequest = $conn->query($sqlGetPendingPublishRequest);
 while ($fetchedPendingPublishRequest = $queryGetPendingPublishRequest->fetch_assoc()) {
     $pending_published_built_game_id = $fetchedPendingPublishRequest['pending_published_built_game_id'];
-    $game_name = $fetchedPendingPublishRequest['game_name'];
-    $category = $fetchedPendingPublishRequest['category'];
-    $edition = $fetchedPendingPublishRequest['edition'];
-    $published_date = $fetchedPendingPublishRequest['published_date'];
-    $age_id = $fetchedPendingPublishRequest['age_id'];
-    $short_description = $fetchedPendingPublishRequest['short_description'];
-    $long_description = $fetchedPendingPublishRequest['long_description'];
-    $website = $fetchedPendingPublishRequest['website'];
-    $logo_path = $fetchedPendingPublishRequest['logo_path'];
-    $min_players = $fetchedPendingPublishRequest['min_players'];
-    $max_players = $fetchedPendingPublishRequest['max_players'];
-    $min_playtime = $fetchedPendingPublishRequest['min_playtime'];
-    $max_playtime = $fetchedPendingPublishRequest['max_playtime'];
-    $has_pending_update = $fetchedPendingPublishRequest['has_pending_update'];
-    $desired_markup = $fetchedPendingPublishRequest['desired_markup'];
-    $manufacturer_profit = $fetchedPendingPublishRequest['manufacturer_profit'];
-    $creator_profit = $fetchedPendingPublishRequest['creator_profit'];
-    $marketplace_price = $fetchedPendingPublishRequest['marketplace_price'];
+
+    $pending_game_name = $fetchedPendingPublishRequest['game_name'];
+    $pending_edition = $fetchedPendingPublishRequest['edition'];
+    $pending_category = $fetchedPendingPublishRequest['category'];
+    $pending_age_id = $fetchedPendingPublishRequest['age_id'];
+
+    $pending_min_players = $fetchedPendingPublishRequest['min_players'];
+    $pending_max_players = $fetchedPendingPublishRequest['max_players'];
+    $pending_min_playtime = $fetchedPendingPublishRequest['min_playtime'];
+    $pending_max_playtime = $fetchedPendingPublishRequest['max_playtime'];
+
+    $pending_short_description = $fetchedPendingPublishRequest['short_description'];
+    $pending_long_description = $fetchedPendingPublishRequest['long_description'];
+
+    $pending_logo_path = $fetchedPendingPublishRequest['logo_path'];
+
+    $pending_desired_markup = $fetchedPendingPublishRequest['desired_markup'];
+    $pending_manufacturer_profit = $fetchedPendingPublishRequest['manufacturer_profit'];
+    $pending_creator_profit = $fetchedPendingPublishRequest['creator_profit'];
+    $pending_marketplace_price = $fetchedPendingPublishRequest['marketplace_price'];
 }
 
-// Fetch category data from the categories table
-$query_categories = "SELECT category_id, category_name FROM categories";
-$result_categories = mysqli_query($conn, $query_categories);
-
-// Check if there are categories available
-if (mysqli_num_rows($result_categories) > 0) {
-    $categories = mysqli_fetch_all($result_categories, MYSQLI_ASSOC);
+// category
+$sqlGetCategory = "SELECT * FROM categories WHERE category_id = $pending_category";
+$queryGetCategory = $conn->query($sqlGetCategory);
+while ($fetchedCategory = $queryGetCategory->fetch_assoc()) {
+    $pending_category_name = $fetchedCategory['category_name'];
 }
 
-if (mysqli_num_rows($result) > 0) {
-    $gameInfo = mysqli_fetch_assoc($result);
+// age
+$sqlGetAge = "SELECT * FROM age WHERE age_id = $pending_age_id";
+$queryGetAge = $conn->query($sqlGetAge);
+while ($fetchedAge = $queryGetAge->fetch_assoc()) {
+    $pending_age_value = $fetchedAge['age_value'];
 }
 
 ?>
@@ -81,7 +81,93 @@ if (mysqli_num_rows($result) > 0) {
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <style>
+        .swiper-slide {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-banner-container {
+            overflow: hidden;
+            width: 100%;
+
+
+            position: relative;
+            padding-top: 45.25%;
+            /* 9/16 aspect ratio (16:9) */
+        }
+
+        .image-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+
+
+        .mySwiper .swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        .mySwiper .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+        .image-carousel-container {
+            overflow: hidden;
+            width: 100%;
+
+
+            position: relative;
+            padding-top: 45.25%;
+            /* 9/16 aspect ratio (16:9) */
+        }
+
+        .image-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .image-slide-container {
+            overflow: hidden;
+            width: 100%;
+
+
+            position: relative;
+            padding-top: 45.25%;
+            /* 9/16 aspect ratio (16:9) */
+        }
+
+        .image-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 
@@ -102,9 +188,18 @@ if (mysqli_num_rows($result) > 0) {
                             <h4>Games Approval Requests</h4>
                             <p class="mb-0">Users are now expeting the their order is being processed.</p>
                         </div>
+                        <div class="container">
+                            <div class="col-sm">
+                                <button class="btn" id="approvePublish" data-built-game-id="<?php echo $built_game_id; ?>" style="background-color: #63d19e; color: white;">Approve Publish
+                                    Request</button>
+
+                                <button class="btn" id="cancelPublish" data-built-game-id="<?php echo $built_game_id; ?>"style="background-color: #dc3545; color: white;">Deny Publish
+                                    Request</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- row -->
+
 
 
                 <div class="row">
@@ -113,187 +208,193 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="card">
                             <div class="card-body">
 
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm">
+                                <div class="row">
+
+
+                                    <!-- -- -->
+                                    <div class="col-6" style="border-right: 2px solid #e7e7e7;">
+                                        <div class="row">
+                                            <h4 class="mx-auto">Pending Publish Details</h4>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="container">
                                             <div class="row">
+                                                <h6 class="">Final Publishing Game Name: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_game_name ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Edition: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_edition ?></h6>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <h6 class="">Category: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_category_name ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Age: </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_age_value ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Number of Players (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_min_players ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Number of Players (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_max_players ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Play Time (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_min_playtime ?> minutes</h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Play Time (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $pending_max_playtime ?> minutes</h6>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <h6 class="">Short Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                                                <div class="container m-0 p-0"><?php echo $pending_short_description ?></div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                                                <div class="container m-0" style="background-color: #222f3e;"><?php echo $pending_long_description ?></div>
+
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <h6 class="">Logo: </h6> &nbsp; <h6 style="color: #777777"></h6>
+
+                                                <div class="image-banner-container">';
+                                                    <img class="image-banner" src="../<?php echo $pending_logo_path ?>" alt="">';
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <h6 class="">Cost: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_marketplace_price - $pending_desired_markup, 2) ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Desired Markup: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_desired_markup, 2) ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Manufacturer's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_manufacturer_profit, 2) ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Creator's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_creator_profit, 2) ?></h6>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="">Marketplace Price: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($pending_marketplace_price, 2) ?></h6>
+                                            </div>
 
 
-                                                <div class="blog_right_sidebar">
-                                                    <aside class="single_sidebar_widget post_category_widget">
-                                                        <h4 class="widget_title">Post Catgories</h4>
-                                                        <ul class="list cat-list">
-                                                            <li>
-                                                                <a class=" justify-content-between">
-                                                                    <p>Built Game Name: </p>
-                                                                    <p>
-                                                                        <?php echo $gameInfo['name'] ?>
-                                                                    </p>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class=" justify-content-between">
-                                                                    <p>Description: </p>
-                                                                    <p>
-                                                                        <?php echo $gameInfo['description'] ?>
-                                                                    </p>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="d-flex justify-content-between">
-                                                                    <p>Price: </p>
-                                                                    <p>
-                                                                        <?php echo $gameInfo['price'] ?>
-                                                                    </p>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" class="d-flex justify-content-between">
-                                                                    <p>Status: </p>
-                                                                    <p>
-                                                                        <?php if ($gameInfo['is_purchased'] == 1) {
-                                                                            echo 'PURCHASED';
-                                                                        } ?>
-                                                                    </p>
-                                                                </a>
-                                                            </li>
+                                        </div>
 
-                                                        </ul>
+                                    </div>
 
-                                                    </aside>
+                                    <!-- -- -->
+                                    <div class="col-6" style="border-right: 2px solid #e7e7e7;">
+
+                                        <div class="container">
+                                            <!-- Swiper -->
+                                            <h6 class="">Game Images: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                                            <div class="swiper-container">
+
+                                                <div class="swiper mySwiper2" style="margin-bottom: 10px;">
+                                                    <div class="swiper-wrapper">
+
+                                                        <?php
+                                                        $sqlBig = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = $built_game_id";
+                                                        $resultBig = $conn->query($sqlBig);
+
+                                                        while ($fetchedBig = $resultBig->fetch_assoc()) {
+                                                            $file_path = $fetchedBig['file_path'];
+
+                                                            $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                                            $file_extension = strtolower($extension);
+
+                                                            // Check if the file extension is "mp4"
+                                                            if ($file_extension === "mp4") {
+                                                                echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-carousel-container">
+                                                                            <video class="image-carousel" controls>
+                                                                                <source src="../' . $file_path . '" type="video/mp4">
+                                                                                Your browser does not support the video tag.
+                                                                            </video>
+                                                                        </div>
+                                                                    </div>
+                                                                ';
+                                                            } else {
+                                                                echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-carousel-container">
+                                                                            <img class="image-carousel" src="../' . $file_path . '" />
+                                                                        </div>
+                                                                    </div>
+                                                                ';
+                                                            }
+                                                        }
+                                                        ?>
+
+                                                    </div>
+
+                                                    <div class="swiper-button-next"></div>
+                                                    <div class="swiper-button-prev"></div>
                                                 </div>
 
+                                                <div thumbsSlider="" class="swiper mySwiper">
+                                                    <div class="swiper-wrapper">
 
-                                                <div class="single-post row">
+                                                        <?php
+                                                        $sqlSmall = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = $built_game_id";
+                                                        $resultSmall = $conn->query($sqlSmall);
 
-                                                    <div class="col-lg-12">
+                                                        while ($fetchedSmall = $resultSmall->fetch_assoc()) {
 
-                                                        <div class="row">
-                                                            <div class="col-lg-12 mt-25">
+                                                            $file_path = $fetchedSmall['file_path'];
 
-                                                                <div class="container">
-                                                                    <h3>Your Page Info Requests:</h3>
-                                                                    <br>
+                                                            $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                                            $file_extension = strtolower($extension);
 
-                                                                    <h5>Final Game Name:</h5>
-                                                                    <h6>
-                                                                        <?php echo $game_name ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Category:</h5>
-                                                                    <h6>
-                                                                        <?php echo $category ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Edition:</h5>
-                                                                    <h6>
-                                                                        <?php echo $edition ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Age:</h5>
-                                                                    <h6>
-                                                                        <?php echo $age_id ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Short Description:</h5>
-                                                                    <h6>
-                                                                        <?php echo $short_description ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Long Description:</h5>
-                                                                    <h6>
-                                                                        <?php echo $long_description ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Website:</h5>
-                                                                    <h6>
-                                                                        <?php echo $website ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Logo:</h5>
-                                                                    <img src="<?php echo $logo_path ?>" alt="">
-                                                                    <br>
-
-                                                                    <h5>Minimum Players:</h5>
-                                                                    <h6>
-                                                                        <?php echo $min_players ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Maximum Players:</h5>
-                                                                    <h6>
-                                                                        <?php echo $max_players ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Minimum Playtime:</h5>
-                                                                    <h6>
-                                                                        <?php echo $min_playtime ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Maximum Playtime:</h5>
-                                                                    <h6>
-                                                                        <?php echo $max_playtime ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Desired Markup:</h5>
-                                                                    <h6>
-                                                                        <?php echo $desired_markup ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Manufacturer Profit:</h5>
-                                                                    <h6>
-                                                                        <?php echo $manufacturer_profit ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Creator Profit:</h5>
-                                                                    <h6>
-                                                                        <?php echo $creator_profit ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <h5>Marketplace Profit:</h5>
-                                                                    <h6>
-                                                                        <?php echo $marketplace_price ?>
-                                                                    </h6>
-                                                                    <br>
-
-                                                                    <?php
-                                                                    $imageQuery = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = '$built_game_id'";
-                                                                    $imageResult = mysqli_query($conn, $imageQuery);
-
-                                                                    echo '<h2>Game Images</h2>';
-                                                                    while ($imageRow = mysqli_fetch_assoc($imageResult)) {
-                                                                        $imagePath = $imageRow['file_path'];
-                                                                        echo '<img src="../' . $imagePath . '" alt="Game Image">';
-                                                                    }
-                                                                    ?>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
+                                                            // Check if the file extension is "mp4"
+                                                            if ($file_extension === "mp4") {
+                                                                echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-slide-container">
+                                                                            <video class="image-slide">
+                                                                                <source src="../' . $file_path . '">
+                                                                                Your browser does not support the video tag.
+                                                                            </video>
+                                                                        </div>
+                                                                    </div>
+                                                                ';
+                                                            } else {
+                                                                echo '
+                                                                    <div class="swiper-slide">
+                                                                        <div class="image-slide-container">
+                                                                            <img class="image-slide" src="../' . $file_path . '" />
+                                                                        </div>
+                                                                    </div>
+                    
+                                                                ';
+                                                            }
+                                                        }
+                                                        ?>
 
                                                     </div>
                                                 </div>
 
-
-
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm">
+                                            <hr>
+
+                                            <h4>Components Included</h4>
+
                                             <!-- DataTables Game Components -->
                                             <table id="builtGameTable" class="display">
                                                 <thead>
@@ -310,18 +411,13 @@ if (mysqli_num_rows($result) > 0) {
                                                 </tbody>
                                             </table>
                                             <!-- /DataTables Game Components -->
+
                                         </div>
-
-                                        <div class="col-sm">
-                                            <button id="approvePublish" data-built-game-id="<?php echo $built_game_id; ?>">Approve Publish
-                                                Request</button>
-
-                                            <button id="cancelPublish" data-built-game-id="<?php echo $built_game_id; ?>">Deny Publish
-                                                Request</button>
-                                        </div>
-
 
                                     </div>
+
+
+
                                 </div>
 
                             </div>
@@ -333,22 +429,10 @@ if (mysqli_num_rows($result) > 0) {
             </div>
         </div>
 
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
-
+        <?php include 'html/admin_footer.php'; ?>
 
 
     </div>
-
-
-
-
-
-
 
 
     <!-- Include global.min.js first -->
@@ -356,6 +440,9 @@ if (mysqli_num_rows($result) > 0) {
 
     <!-- Include DataTables JS after global.min.js -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -442,7 +529,7 @@ if (mysqli_num_rows($result) > 0) {
                                     showCancelButton: false,
                                     confirmButtonText: 'OK'
                                 }).then(function() {
-                                    window.location.href = 'admin_has_pending_details_request_page.php';
+                                    window.location.href = 'pending_details_request.php';
                                 });
                             },
                             error: function() {
@@ -465,8 +552,8 @@ if (mysqli_num_rows($result) > 0) {
 
                 // Create a SweetAlert pop-up with an input field for reasons and a file upload field
                 Swal.fire({
-                    title: 'Deny Publish Request',
-                    html: '<input type="text" id="denyReason" class="swal2-input" placeholder="Enter reasons for denial" required>' +
+                    title: 'Deny Publish Details Request',
+                    html: '<textarea type="text" id="denyReason" class="swal2-input" placeholder="Enter reasons for denial" required></textarea>' +
                         '<input type="file" id="fileUpload" class="swal2-input" accept=".pdf,.jpg,.jpeg,.png">',
                     showCancelButton: true,
                     confirmButtonText: 'Deny',
@@ -499,13 +586,13 @@ if (mysqli_num_rows($result) > 0) {
                             success: function(response) {
                                 // Display a SweetAlert to inform success
                                 Swal.fire({
-                                    title: 'Success!',
-                                    text: 'Your request has been Published.',
+                                    title: 'Denied!',
+                                    text: 'Request Publish Denied',
                                     icon: 'success',
                                     showCancelButton: false,
                                     confirmButtonText: 'OK'
                                 }).then(function() {
-                                    window.location.href = '';
+                                    window.location.href = 'pending_details_request.php';
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -514,6 +601,24 @@ if (mysqli_num_rows($result) > 0) {
                         });
                     }
                 });
+            });
+
+
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 10,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+            });
+            var swiper2 = new Swiper(".mySwiper2", {
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                thumbs: {
+                    swiper: swiper,
+                },
             });
 
 

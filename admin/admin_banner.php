@@ -31,6 +31,16 @@ include 'connection.php';
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Adjust the width as needed */
+        .wide-swal {
+            width: 800px;
+        }
+    </style>
+
 
 </head>
 
@@ -94,31 +104,7 @@ include 'connection.php';
         </div>
     </div>
 
-    <div class="footer">
-
-
-
-
-
-
-        <div class="copyright">
-            <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-            <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-        </div>
-    </div>
-
-
-
-    </div>
-
-
-
-
-
-
-
-
-
+    <?php include 'html/admin_footer.php'; ?>
 
 
     <!-- Include global.min.js first -->
@@ -141,8 +127,6 @@ include 'connection.php';
 
     <script>
         $(document).ready(function() {
-
-
 
             $('#banners').DataTable({
                 searching: false,
@@ -175,64 +159,67 @@ include 'connection.php';
                     var imagePath = $(this).data('id');
 
                     // Generate the HTML for the image
-                    var imageHTML = '<img src="' + imagePath + '" alt="Image" style = "width:300px;height:300px;">';
+                    var imageHTML = '<img src="' + imagePath + '" alt="Image" style = "width:700px;">';
 
                     // Use SweetAlert to display the image
                     Swal.fire({
                         title: 'Image Preview',
                         html: imageHTML,
-                        confirmButtonText: 'Close'
+                        confirmButtonText: 'Close',
+                        customClass: {
+                            popup: 'wide-swal'
+                        }
                     });
                 });
             });
 
-            $('body').on('click', '[id^="uploadImage_"]', function () {
-    var constant_id = $(this).data('id');
+            $('body').on('click', '[id^="uploadImage_"]', function() {
+                var constant_id = $(this).data('id');
 
-    Swal.fire({
-        title: 'Upload Image',
-        html: '<div class="form-container">' +
-            '<label for="category">Banner Name:</label>' +
-            '<input type="text" id="category" name="category" required><br>' +
-            '<input type="file" id="imageUploadInput" accept="image/*">',
-        showCancelButton: true,
-        confirmButtonText: 'Save',
-        preConfirm: () => {
-            const fileInput = document.getElementById('imageUploadInput');
-            const file = fileInput.files[0];
+                Swal.fire({
+                    title: 'Upload Image',
+                    html: '<div class="form-container">' +
+                        '<label for="category">Banner Name:</label>' +
+                        '<input type="text" id="category" name="category" required><br>' +
+                        '<input type="file" id="imageUploadInput" accept="image/*">',
+                    showCancelButton: true,
+                    confirmButtonText: 'Save',
+                    preConfirm: () => {
+                        const fileInput = document.getElementById('imageUploadInput');
+                        const file = fileInput.files[0];
 
-            if (!file) {
-                Swal.showValidationMessage('Please select an image to upload.');
-                return false;
-            }
+                        if (!file) {
+                            Swal.showValidationMessage('Please select an image to upload.');
+                            return false;
+                        }
 
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('constant_id', constant_id);
-            formData.append('category', $('#category').val());
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        formData.append('constant_id', constant_id);
+                        formData.append('category', $('#category').val());
 
-            return $.ajax({
-                url: 'admin_process_banner.php',
-                method: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-            }).then(data => {
-                if (data.success) {
-                    Swal.fire('Image uploaded successfully!', '', 'success');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
-                } else {
-                    Swal.fire('Error uploading image', data.message, 'error');
-                }
-            }).fail((jqXHR, textStatus, errorThrown) => {
-                console.error(errorThrown);
-                Swal.fire('Error uploading image', 'An error occurred.', 'error');
+                        return $.ajax({
+                            url: 'admin_process_banner.php',
+                            method: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                        }).then(data => {
+                            if (data.success) {
+                                Swal.fire('Image uploaded successfully!', '', 'success');
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            } else {
+                                Swal.fire('Error uploading image', data.message, 'error');
+                            }
+                        }).fail((jqXHR, textStatus, errorThrown) => {
+                            console.error(errorThrown);
+                            Swal.fire('Error uploading image', 'An error occurred.', 'error');
+                        });
+                    },
+                });
             });
-        },
-    });
-});
 
 
 

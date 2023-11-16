@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 576
+                COMPONENT NAME: Tarrot Card 2jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                CATEGORY: game cards
+                SIZE: 10x10
+
+                QUANTITY: 1
+                COLOR: N/A 
+                FILE: 6555ad727d08a_index_banner.sql
+                

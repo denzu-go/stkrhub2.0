@@ -40,6 +40,9 @@ $_SESSION['category'] = $category;
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
 
@@ -145,29 +148,7 @@ $_SESSION['category'] = $category;
         </div>
     </div>
 
-    <div class="footer">
-
-
-
-
-
-
-        <div class="copyright">
-            <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-            <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-        </div>
-    </div>
-
-
-
-    </div>
-
-
-
-
-
-
-
+    <?php include 'html/admin_footer.php'; ?>
 
 
 
