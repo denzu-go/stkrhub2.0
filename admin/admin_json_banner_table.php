@@ -19,9 +19,9 @@ while ($row = $result->fetch_assoc()) {
     $primary = '';
 
                 if ($row["is_showcased"] == 1) {
-                    $primary = '<a href="admin_showcase_banner.php?id=' . $row['id'] . '" style="color:green;"> Showcased </a>';
+                    $primary = '<a href="admin_showcase_banner.php?id=' . $row['id'] . '" style="color:white; padding:10px; border-radius: 14px; background-color: violet;"> Showcased </a>';
                 } else {
-                    $primary = '<a href="admin_showcase_banner.php?id=' . $row['id'] . '" style="color:red;"> Not Showcased </a>';
+                    $primary = '<a href="admin_showcase_banner.php?id=' . $row['id'] . '" style="color:white;padding:10px; border-radius: 14px; background-color: red;"> Not Showcased </a>';
                 }
 
     $data[] = array(

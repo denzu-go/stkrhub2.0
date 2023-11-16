@@ -34,6 +34,8 @@ include 'connection.php';
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -69,10 +71,11 @@ include 'connection.php';
                                 <table id="hasRequest" class="display">
                                     <thead>
                                         <tr>
-                                            <th>Built Game Name</th>
-                                            <th>Category</th>
+                                            <th></th>
                                             <th>Published Game ID</th>
-                                            <th>Creator ID</th>
+                                            <th>Published Game Name</th>
+                                            <th>Category</th>
+                                            <th>Creator/User ID</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -90,12 +93,7 @@ include 'connection.php';
             </div>
         </div>
 
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
+        <?php include 'html/admin_footer.php'; ?>
     </div>
 
 
@@ -132,18 +130,20 @@ include 'connection.php';
                 ordering: true,
                 "ajax": {
                     "url": "admin_json_edit_request_details_page.php",
-                    data: {
-                    },
+                    data: {},
                     "dataSrc": ""
                 },
                 "columns": [{
+                        "data": "number"
+                    },
+                    {
+                        "data": "published_built_game_id"
+                    },
+                    {
                         "data": "game_link"
                     },
                     {
                         "data": "category"
-                    },
-                    {
-                        "data": "published_built_game_id"
                     },
                     {
                         "data": "creator_id"

@@ -41,7 +41,7 @@ echo '
 
                     <div class="row">
                         <span class="d-inline-block small text-muted text-truncate" style="max-width: 180px;" data-toggle="tooltip" title="Edition">
-                            '.$edition.'
+                            Edition: '.$edition.' 
                         </span>
                     </div>
 

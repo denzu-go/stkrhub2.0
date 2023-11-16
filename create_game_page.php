@@ -198,7 +198,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         }
 
         /* viewEditButton */
-        #viewEditButton {
+        #viewEditButton, #viewReason {
             background-color: #272a4e !important;
             border: none;
             border-radius: 10px;
@@ -263,7 +263,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         }
 
         /* view-reason */
-        .view-reason {
+        .view-reason, #viewReason {
             background-color: #dc3545 !important;
             border: none;
             border-radius: 10px;
@@ -602,7 +602,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                             <th style="min-width: 50px; max-width: 50px;">Published Date</th>
                             <th style="min-width: 140px; max-width: 140px;" style="min-width: 80px; max-width: 80px;">Price and Markup</th>
                             <th style="min-width: 120px; max-width: 120px;">Total Earnings</th>
-                            <th style="min-width: 50px; max-width: 50px;">Status</th>
+                            <th style="min-width: 50px; max-width: 50px;">Recent Status</th>
                             <th style="min-width: 80px; max-width: 80px;"></th>
                         </tr>
                     </thead>

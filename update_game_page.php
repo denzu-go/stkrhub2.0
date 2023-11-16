@@ -519,7 +519,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <!-- long description -->
                                 <div class="form-outline">
                                     <label class="form-label" for="form8Example1">Long Description</label>
-                                    <textarea class="form-control input_color" id="long_description" name="long_description" required>LONG DESCRIPTION</textarea>
+                                    <textarea class="form-control input_color" id="long_description" name="long_description" required>&nbsp;</textarea>
                                 </div>
                             </div>
                         </div>
@@ -532,6 +532,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <div class="form-outline">
                                     <label class="form-label" for="form8Example1">Logo</label>
                                     <input type="file" class="filepond input_color" id="logo" name="logo" accept="image/*" required>
+
                                 </div>
                             </div>
                         </div>
@@ -543,7 +544,8 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <!-- Images input -->
                                 <div class="form-outline">
                                     <label class="form-label" for="form8Example1">Game Images</label>
-                                    <input type="file" class="filepond input_color" name="game_images[]" multiple required>
+                                    <input type="file" class="filepond input_color" name="game_images[]" accept="image/*, video/*" multiple required>
+
                                 </div>
                             </div>
                         </div>
@@ -783,7 +785,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                     icon: 'success',
                                     title: 'Success',
                                 }).then(function() {
-                                    window.location.href = 'create_game_page.php#section5';
+                                    window.location.href = 'create_game_page.php#section7';
                                 });
                             },
                         });

@@ -100,6 +100,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -121,11 +123,11 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         <div class="card">
                             <div class="stat-widget-one card-body">
                                 <div class="stat-icon d-inline-block">
-                                    <i class="ti-money text-success border-success"></i>
+                                    
                                 </div>
                                 <div class="stat-content d-inline-block">
-                                    <div class="stat-text">STKRHub Earnings</div>
-                                    <div class="stat-digit"><?php echo $totalManufacturerProfit ?></div>
+                                    <div class="stat-text muted">Profit from Published Games</div>
+                                    <div class="stat-digit">&#8369;<?php echo number_format($totalManufacturerProfit, 2) ?></div>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +154,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         <div class="card">
                             <div class="stat-widget-one card-body">
                                 <div class="stat-icon d-inline-block">
-                                    <i class="ti-layout-grid2 text-pink border-pink"></i>
+                                    <i class="fa-solid fa-flag text-primary border-primary"></i>
                                 </div>
                                 <div class="stat-content d-inline-block">
                                     <div class="stat-text">Published Games</div>
@@ -165,7 +167,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         <div class="card">
                             <div class="stat-widget-one card-body">
                                 <div class="stat-icon d-inline-block">
-                                    <i class="ti-link text-danger border-danger"></i>
+                                    <i class="fa-solid fa-check-to-slot text-primary border-primary"></i>
                                 </div>
                                 <div class="stat-content d-inline-block">
                                     <div class="stat-text">Completed Orders</div>
@@ -231,8 +233,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
                                                 <th>Cost</th>
                                                 <th>Marketplace Price</th>
                                                 <th>Manufacturer's Profit</th>
-                                                <th>User's Profit</th>
-                                                <th>User ID</th>
+                                                <th>Creator's Profit</th>
+                                                <th>Creator/User ID</th>
                                                 <th>Status</th>
                                                 <th>Number of Purchases</th>
                                                 <th>Actions</th>
@@ -282,326 +284,50 @@ $total_component_produced = $rowTotalComponents['total_components'];
 
                         </div>
 
-                    </div>
-                    <div class="col-lg-6 col-xl-4 col-xxl-6 col-md-6">
+
+                        <!-- Published -->
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Most Earnings</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="widget-timeline">
-
-                                    <ul class="timeline">
-
-                                        <table id="bestEarnings" class="display" style="width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Avatar</th>
-                                                    <th>Name</th>
-                                                    <th>Earnings</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-xxl-6 col-md-6">
-                        <div class="card">
-
-                            <div class="card-header">
-                                <h4 class="card-title">Most Spent and Orders</h4>
+                                <h4 class="card-title">Published Games</h4>
                             </div>
 
-                            <div class="card-body">
-                                <div class="recent-comment m-t-15">
-
-
-
-                                    <table id="bestOrders" class="display" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>Avatar</th>
-                                                <th>Name</th>
-                                                <th>Spent</th>
-                                                <th>Orders</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-xxl-6 col-md-6">
-                        <div class="card">
-
-                            <div class="card-header">
-                                <h4 class="card-title">Most Published</h4>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="recent-comment m-t-15">
-
-
-                                    <table id="bestPublished" class="display" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>Avatar</th>
-                                                <th>Name</th>
-                                                <th>Published</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-facebook">
-                                        <span class="s-icon"><i class="fa fa-facebook"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter"><?php echo $total_component_produced ?></span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-linkedin">
-                                        <span class="s-icon"><i class="fa fa-linkedin"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-googleplus">
-                                        <span class="s-icon"><i class="fa fa-google-plus"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-twitter">
-                                        <span class="s-icon"><i class="fa fa-twitter"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="year-calendar"></div>
-                            </div>
-                        </div>
-                        <!-- /# card -->
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">All Expense</h4>
-                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
+
+                                    <table id="publishedTable" class="display" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Expense Type</th>
-                                                <th>Amount</th>
+                                                <th></th>
+                                                <th>Published Game ID</th>
+                                                <th>Game Name</th>
+                                                <th>Category</th>
+                                                <th>Published Date</th>
+                                                <th>Creator/User ID</th>
+                                                <th>Cost</th>
+                                                <th>Marketplace Price</th>
+                                                <th>Manufacturer's Profit</th>
+                                                <th>Creator's Profit</th>
                                                 <th>Status</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
+                                                <th>Number of Purchases</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-warning">Pending</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-danger">Due</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
+
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
-            </div>
-        </div>
-
-        <div class="footer">
 
 
 
 
-
-
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
             </div>
         </div>
 
@@ -691,6 +417,64 @@ $total_component_produced = $rowTotalComponents['total_components'];
                 ]
             });
 
+
+
+
+            $('#publishedTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+
+                "ajax": {
+                    "url": "admin_json_published_games.php",
+                    data: {},
+                    "dataSrc": ""
+                },
+                "columns": [{
+                        "data": "number"
+                    },
+                    {
+                        "data": "id"
+                    },
+                    {
+                        "data": "title"
+                    },
+                    {
+                        "data": "category"
+                    },
+                    {
+                        "data": "published_date"
+                    },
+                    {
+                        "data": "creator"
+                    },
+                    {
+                        "data": "cost"
+                    },
+                    {
+                        "data": "price"
+                    },
+                    {
+                        "data": "manufacturer_profit"
+                    },
+                    {
+                        "data": "creator_profit"
+                    },
+
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "frequency"
+                    },
+                    {
+                        "data": "action"
+                    },
+
+                ],
+
+            });
 
 
 

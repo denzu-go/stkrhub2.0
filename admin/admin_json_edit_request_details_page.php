@@ -3,6 +3,7 @@ include "connection.php";
 
 $data = array();
 
+$number = 1;
 $sqlGames = "SELECT * FROM pending_update_published_built_games";
 $resultGames = $conn->query($sqlGames);
 while ($fetchedGames = $resultGames->fetch_assoc()) {
@@ -41,19 +42,23 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
 
 
     $game_link = '
-        <a href="admin_view_has_pending_update_details_request_page.php?pending_update_published_built_games_id=' . $pending_update_published_built_games_id . '">' . $game_name . '</a>
+        <a href="admin_view_has_pending_update_details_request_page.php?pending_update_published_built_games_id=' . $pending_update_published_built_games_id . ' &creator_id='.$creator_id.'">' . $game_name . '</a>
+
     ';
 
     $status = 'Has Edit Publishing Request';
 
     $actions = '
-    <a href="admin_view_has_pending_update_details_request_page.php?pending_update_published_built_games_id=' . $pending_update_published_built_games_id . '">View</a>
+    <a href="admin_view_has_pending_update_details_request_page.php?pending_update_published_built_games_id=' . $pending_update_published_built_games_id . ' &creator_id='.$creator_id.'">View</a>
     ';
 
+    $number_value = $number++;
+
     $data[] = array(
+        "number" => $number_value,
+        "published_built_game_id" => $published_built_game_id,
         "game_link" => $game_link,
         "category" => $category,
-        "published_built_game_id" => $published_built_game_id,
         "creator_id" => $creator_id,
         "status" => $status,
         "actions" => $actions,

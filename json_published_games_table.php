@@ -208,24 +208,41 @@ while ($fetched = $result->fetch_assoc()) {
         }
     }
 
-    $reason = '';
-    $file_path = '';
-
 
     if ($has_pending_update === '1') {
+        $view_edit_req = '
+        <button class="view_edit_request" id="viewEditButton" data-published_game_id="' . $published_game_id . '">View Edit Request</button>
+        ';
         $action2 = '
-            <button class="view_edit_request" id="viewEditButton" data-published_game_id="' . $published_game_id . '">View Edit Request</button>
+            
+        ';
+        $action3 = '
+        
         ';
     } elseif ($is_update_request_denied === '1') {
+        $view_edit_req = '';
         $action2 = '
-        <button id="viewReason" data-published_game_id="' . $published_game_id . '" data-reason="' . $reason . '" data-file_path="' . $file_path . '">
+        
+        ';
+        $action3 = '
+            <span class="" style="color: #e7e7e7; font-size: 12px;" 
+            data-toggle="tooltip" title="Your request has beed denied"
+            > 
+            <i class="fa-solid fa-heart-crack" style="color: #dc3545;"></i> Denied
+            </span>
+
+            <button id="viewReason" data-published_game_id="' . $published_game_id . '" data-reason="' . $reason . '" data-file_path="' . $file_path . '">
             View Reason
-        </button>
+            </button>
         ';
     } else {
+        $view_edit_req = '';
         $action2 = '
             <button id="editButton" data-published_game_id="' . $published_game_id . '"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
 
+        ';
+        $action3 = '
+        
         ';
     }
 
@@ -238,6 +255,12 @@ while ($fetched = $result->fetch_assoc()) {
         > 
         ' . $status . '
         </span>
+        <br>
+
+        '.$view_edit_req.'
+
+        ' . $action3 . '
+        
     ';
 
 

@@ -268,13 +268,13 @@ if ($_SERVER['REQUEST_METHOD']) {
                     <h5 class="modal-title" id="exampleModalLongTitle">My Address</h5>
                 </div>
                 <form id="denyForm" enctype="multipart/form-data">
-                    <div class="modal-body">
+                    <div class="modal-body form-group">
 
-                        <label for="reason">Reason:</label>
-                        <input type="text" id="reason" name="reason" required><br>
+                        <label for="reason" style="color: #777777;">Reason:</label>
+                        <textarea class="form-control" id="reason" name="reason" required></textarea>
 
-                        <label for="fileupload">File Upload:</label>
-                        <input type="file" id="fileupload" name="fileupload"><br>
+                        <label for="fileupload" style="color: #777777;">File Upload:</label>
+                        <input class="form-control" type="file" id="fileupload" name="fileupload"><br>
 
                     </div>
                     <div class="modal-footer">

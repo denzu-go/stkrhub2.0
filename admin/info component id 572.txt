@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 572
+                COMPONENT NAME: Box
+                CATEGORY: box
+                SIZE: 7x7
+
+                QUANTITY: 3
+                COLOR: N/A 
+                FILE: 65556e5af3002_admins.sql
+                

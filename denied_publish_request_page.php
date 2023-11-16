@@ -2,38 +2,14 @@
 session_start();
 include 'connection.php';
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
+if (isset($_GET['built_game_id'])) {
+    $built_game_id = $_GET['built_game_id'];
 } else {
-    header("Location: login_page.php");
-    exit;
+    echo "Published Game ID not found in the URL.";
 }
 
-$built_game_id = $_GET['built_game_id'];
-
-
-$sqlGetPendingPublishRequest = "SELECT * FROM pending_published_built_games WHERE built_game_id = $built_game_id";
-$queryGetPendingPublishRequest = $conn->query($sqlGetPendingPublishRequest);
-while ($fetchedPendingPublishRequest = $queryGetPendingPublishRequest->fetch_assoc()) {
-    $pending_published_built_game_id = $fetchedPendingPublishRequest['pending_published_built_game_id'];
-    $game_name = $fetchedPendingPublishRequest['game_name'];
-    $category = $fetchedPendingPublishRequest['category'];
-    $edition = $fetchedPendingPublishRequest['edition'];
-    $published_date = $fetchedPendingPublishRequest['published_date'];
-    $age_id = $fetchedPendingPublishRequest['age_id'];
-    $short_description = $fetchedPendingPublishRequest['short_description'];
-    $long_description = $fetchedPendingPublishRequest['long_description'];
-    $website = $fetchedPendingPublishRequest['website'];
-    $logo_path = $fetchedPendingPublishRequest['logo_path'];
-    $min_players = $fetchedPendingPublishRequest['min_players'];
-    $max_players = $fetchedPendingPublishRequest['max_players'];
-    $min_playtime = $fetchedPendingPublishRequest['min_playtime'];
-    $max_playtime = $fetchedPendingPublishRequest['max_playtime'];
-    $has_pending_update = $fetchedPendingPublishRequest['has_pending_update'];
-    $desired_markup = $fetchedPendingPublishRequest['desired_markup'];
-    $manufacturer_profit = $fetchedPendingPublishRequest['manufacturer_profit'];
-    $creator_profit = $fetchedPendingPublishRequest['creator_profit'];
-    $marketplace_price = $fetchedPendingPublishRequest['marketplace_price'];
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
 }
 
 // Retrieve the markup percentage from the database
@@ -41,26 +17,51 @@ $query_markup = "SELECT percentage FROM markup_percentage";
 $result_markup = mysqli_query($conn, $query_markup);
 $markup_percentage = mysqli_fetch_assoc($result_markup)['percentage'];
 
-$query = "SELECT built_game_id, name, description, game_id, creator_id, price, is_published, is_purchased FROM built_games WHERE built_game_id = '$built_game_id'";
-$result = mysqli_query($conn, $query);
-
 // Fetch category data from the categories table
 $query_categories = "SELECT category_id, category_name FROM categories";
 $result_categories = mysqli_query($conn, $query_categories);
-
 // Check if there are categories available
 if (mysqli_num_rows($result_categories) > 0) {
     $categories = mysqli_fetch_all($result_categories, MYSQLI_ASSOC);
 }
 
-if (mysqli_num_rows($result) > 0) {
-    $gameInfo = mysqli_fetch_assoc($result);
+// CURRENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+$sqlGetCurrentPublishRequest = "SELECT * FROM pending_published_built_games WHERE built_game_id = $built_game_id";
+$queryGetCurrentPublishRequest = $conn->query($sqlGetCurrentPublishRequest);
+while ($fetchedCurrentPublishRequest = $queryGetCurrentPublishRequest->fetch_assoc()) {
+
+    $current_game_name = $fetchedCurrentPublishRequest['game_name'];
+    $current_edition = $fetchedCurrentPublishRequest['edition'];
+    $current_category_name = $fetchedCurrentPublishRequest['category'];
+    $current_age_id = $fetchedCurrentPublishRequest['age_id'];
+
+    $current_min_players = $fetchedCurrentPublishRequest['min_players'];
+    $current_max_players = $fetchedCurrentPublishRequest['max_players'];
+    $current_min_playtime = $fetchedCurrentPublishRequest['min_playtime'];
+    $current_max_playtime = $fetchedCurrentPublishRequest['max_playtime'];
+
+    $current_short_description = $fetchedCurrentPublishRequest['short_description'];
+    $current_long_description = $fetchedCurrentPublishRequest['long_description'];
+
+    $current_logo_path = $fetchedCurrentPublishRequest['logo_path'];
+
+    $current_desired_markup = $fetchedCurrentPublishRequest['desired_markup'];
+    $current_manufacturer_profit = $fetchedCurrentPublishRequest['manufacturer_profit'];
+    $current_creator_profit = $fetchedCurrentPublishRequest['creator_profit'];
+    $current_marketplace_price = $fetchedCurrentPublishRequest['marketplace_price'];
+}
+
+// age
+$sqlGetCurrentAge = "SELECT * FROM age WHERE age_id = $current_age_id";
+$queryGetCurrentAge = $conn->query($sqlGetCurrentAge);
+while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
+    $current_age_value = $fetchedCurrentAge['age_value'];
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <title>Navigation with Hidden Sections</title>
@@ -77,38 +78,19 @@ if (mysqli_num_rows($result) > 0) {
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
-    <!-- Include DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-
     <!-- sweetalert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-    <!-- Filepond -->
-    <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
-
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css?<?php echo time(); ?>" />
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
     <style>
-        <?php include 'css/body.css' ?><?php include 'css/header.css'; ?>#infoTable .odd {
-            background-color: transparent;
-        }
+        <?php include 'css/body.css'; ?><?php include 'css/header.css'; ?>
 
-
-        table.dataTable,
-        table.dataTable thead,
-        table.dataTable tbody,
-        table.dataTable tr,
-        table.dataTable td,
-        table.dataTable th,
-        table.dataTable tbody tr.even,
-        table.dataTable tbody tr.odd {
-            border: none !important;
-        }
-
+        /* header */
         .sticky-wrapper {
             top: 0px !important;
         }
@@ -117,145 +99,37 @@ if (mysqli_num_rows($result) > 0) {
             max-width: 100%;
         }
 
-        .form-control::placeholder {
-            font-size: 14px;
-            /* Adjust the font size as needed */
+        /* header end */
+
+
+        .swiper-slide {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-
-
-        /* edit button */
-        .edit-game {
-            background-color: transparent !important;
-            border: none;
-            cursor: pointer;
-
-            color: #90ee90;
-        }
-
-        /* delete button */
-        .delete-game {
-            background-color: transparent !important;
-            border: none;
-            cursor: pointer;
-
-            color: #dc3545;
-        }
-
-        .delete-component {
-            background-color: transparent !important;
-            border: none;
-            cursor: pointer;
-
-            color: #dc3545;
-        }
-
-        .approve-game {
-            background-color: #1f2243 !important;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-
-            color: #f7f799;
-        }
-
-        .cancel-ticket {
-            background-color: #dc3545 !important;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-
-            color: #f7f799;
-        }
-
-        label {
-            color: white;
-        }
-
-
-        /* datatables */
-        table.dataTable.stripe tbody tr.even,
-        table.dataTable.display tbody tr.even {
-            background-color: #15172e;
-        }
-
-        table.dataTable.stripe tbody tr.odd,
-        table.dataTable.display tbody tr.odd {
-            background-color: #1f2243;
-        }
-
-        .odd {
-            margin: 20px;
-        }
-
-        #userTable {
-            box-shadow: 0 0 10px #000000;
-        }
-
-        tr .odd {
-            padding: 10rem;
-        }
-
-        table.dataTable,
-        table.dataTable thead,
-        table.dataTable tbody,
-        table.dataTable tr,
-        table.dataTable td,
-        table.dataTable th,
-        table.dataTable tbody tr.even,
-        table.dataTable tbody tr.odd {
-            border: none !important;
-        }
-
-        input[type="search"] {
-            color: white;
-        }
-
-        .approve-game[disabled] {
-            background-color: #ccc;
-            color: #777;
-            cursor: not-allowed;
-        }
-
-        .dataTables_length {
-            display: none;
-            /* Hide the length dropdown */
-        }
-
-
-
-        /* filepond */
-        .filepond--item {
-            width: calc(25% - 0.5em)
-        }
-
-        .filepond--drop-label {
-            color: #4c4e53;
-        }
-
-        .filepond--label-action {
-            text-decoration-color: #babdc0;
-        }
-
-        .filepond--panel-root {
-            border-radius: 2em;
-            background-color: #edf0f4;
-            height: 1em;
-        }
-
-        .filepond--item-panel {
-            background-color: #595e68;
-        }
-
-        .filepond--drip-blob {
-            background-color: #7f8a9a;
-        }
-
-
-        /* swiper */
-        .swiper-container {
+        .image-banner-container {
+            overflow: hidden;
             width: 100%;
+
+
+            position: relative;
+            padding-top: 45.25%;
+            /* 9/16 aspect ratio (16:9) */
         }
+
+        .image-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+
 
         .mySwiper .swiper-slide {
             width: 25%;
@@ -306,513 +180,485 @@ if (mysqli_num_rows($result) > 0) {
             width: 100%;
             object-fit: cover;
         }
+
+
+        /* form */
+        .input_color {
+            background-color: #222f3e;
+            color: #ffffff;
+            border: none;
+        }
+
+        li.option {
+            color: #777777;
+        }
     </style>
 </head>
 
 <body>
+
     <?php include 'html/page_header.php'; ?>
+
 
     <!-- Back to top button -->
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <!--================Blog Area =================-->
+    <section class="blog_area single-post-area section_gap">
         <div class="container">
 
-            <h1><a href="create_game_page.php#section5" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Approved Game Dashboard</h1>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <table id="infoTable" class="display" style="width: 100%;"></table>
-                        <tbody>
-                        </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col">
-                        <div class="container" style="display:flex; flex-direction:column; gap: 20px;">
-                            <?php
-                            $sqlTutorials = "SELECT * FROM tutorials WHERE designation = 'publish_game' LIMIT 1";
-                            $result = $conn->query($sqlTutorials);
-
-                            while ($fetchedTutorials = $result->fetch_assoc()) {
-                                $tutorial_id = $fetchedTutorials['tutorial_id'];
-                                $tutorial_title = $fetchedTutorials['tutorial_title'];
-                                $tutorial_description = $fetchedTutorials['tutorial_description'];
-                                $tutorial_link = $fetchedTutorials['tutorial_link'];;
-                                $is_primary = $fetchedTutorials['is_primary'];
-                                $time_added = $fetchedTutorials['time_added'];
-
-                                echo '
-                            <div class="row s_product_inner">
-                                <div class="col-lg-8">
-                                    <div class="iframe-container">
-                                        <iframe class="iframe" src="' . $tutorial_link . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 offset-lg-1" style="margin-left: 0px; margin-top: 0px;">
-                                    <div class="s_product_text" style="margin-top: 20px;line-height: 10px;">
-                                        <h6>' . $tutorial_title . '</h6>
-
-                                        <div style="
-                                            width: 100%;
-                                            display: -webkit-box;
-                                            -webkit-line-clamp: 7;
-                                            -webkit-box-orient:vertical;
-                                            overflow: hidden;
-                                            ">
-                                            <span class="small">
-                                                ' . $tutorial_description . '
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            ';
-                            }
-                            ?>
-                        </div>
-
-                    </div>
-                </div>
+            <div class="row py-5">
+                <a href="javascript:history.back()" style=" cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
             </div>
 
-
-        </div>
-
-        <div class="container">
-
-            <table id="builtGameTable" class="display">
-                <thead>
-                    <tr>
-                        <th>Component Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Info</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-
-
-        </div>
-
-        <div class="container">
             <div class="row">
-                <div class="col" style="position: relative;">
-                    <h3>Your Page Info Requests:</h3>
-                    <br>
 
-                    <h5>Final Game Name:</h5>
-                    <h6>
-                        <?php echo $game_name ?>
-                    </h6>
-                    <br>
-
-                    <h5>Category:</h5>
-                    <h6>
-                        <?php echo $category ?>
-                    </h6>
-                    <br>
-
-                    <h5>Edition:</h5>
-                    <h6>
-                        <?php echo $edition ?>
-                    </h6>
-                    <br>
-
-                    <h5>Age:</h5>
-                    <h6>
-                        <?php echo $age_id ?>
-                    </h6>
-                    <br>
-
-                    <h5>Short Description:</h5>
-                    <h6>
-                        <?php echo $short_description ?>
-                    </h6>
-                    <br>
-
-                    <h5>Long Description:</h5>
-                    <h6>
-                        <?php echo $long_description ?>
-                    </h6>
-                    <br>
-
-                    <h5>Website:</h5>
-                    <h6>
-                        <?php echo $website ?>
-                    </h6>
-                    <br>
-
-                    <!-- <h5>Logo:</h5>
-                            <img src="<?php echo $logo_path ?>" alt="">
-                            <br> -->
-
-                    <h5>Minimum Players:</h5>
-                    <h6>
-                        <?php echo $min_players ?>
-                    </h6>
-                    <br>
-
-                    <h5>Maximum Players:</h5>
-                    <h6>
-                        <?php echo $max_players ?>
-                    </h6>
-                    <br>
-
-                    <h5>Minimum Playtime:</h5>
-                    <h6>
-                        <?php echo $min_playtime ?>
-                    </h6>
-                    <br>
-
-                    <h5>Maximum Playtime:</h5>
-                    <h6>
-                        <?php echo $max_playtime ?>
-                    </h6>
-                    <br>
-
-                    <h5>Desired Markup:</h5>
-                    <h6>
-                        <?php echo $desired_markup ?>
-                    </h6>
-                    <br>
-
-                    <h5>Manufacturer Profit:</h5>
-                    <h6>
-                        <?php echo $manufacturer_profit ?>
-                    </h6>
-                    <br>
-
-                    <h5>Creator Profit:</h5>
-                    <h6>
-                        <?php echo $creator_profit ?>
-                    </h6>
-                    <br>
-
-                    <h5>Marketplace Profit:</h5>
-                    <h6>
-                        <?php echo $marketplace_price ?>
-                    </h6>
-                    <br>
-
-                    <div class="swiper-container" style="position: absolute;">
-
-                        <div class="swiper mySwiper2" style="margin-bottom: 10px;">
-                            <div class="swiper-wrapper">
-
-                                <?php
-                                $sqlBig = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = $built_game_id";
-                                $resultBig = $conn->query($sqlBig);
-
-                                while ($fetchedBig = $resultBig->fetch_assoc()) {
-                                    $pending_published_file_id = $fetchedBig['pending_published_file_id'];
-                                    $file_path = $fetchedBig['file_path'];
-
-                                    $extension = pathinfo($file_path, PATHINFO_EXTENSION);
-                                    $file_extension = strtolower($extension);
-
-                                    // Check if the file extension is "mp4"
-                                    if ($file_extension === "mp4") {
-                                        echo '
-                                                    <div class="swiper-slide">
-                                                        <div class="image-carousel-container">
-                                                            <video class="image-carousel" controls>
-                                                                <source src="' . $file_path . '" type="video/mp4">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        </div>
-                                                    </div>
-                                                ';
-                                    } else {
-                                        echo '
-                                                    <div class="swiper-slide">
-                                                        <div class="image-carousel-container">
-                                                            <img class="image-carousel" src="' . $file_path . '" />
-                                                        </div>
-                                                    </div>
-                                                ';
-                                    }
-                                }
-                                ?>
-
-                            </div>
-
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                        </div>
-
-                        <div thumbsSlider="" class="swiper mySwiper">
-                            <div class="swiper-wrapper">
-
-                                <?php
-                                $sqlSmall = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = $built_game_id";
-                                $resultSmall = $conn->query($sqlSmall);
-
-                                while ($fetchedSmall = $resultSmall->fetch_assoc()) {
-                                    $pending_published_file_id = $fetchedSmall['pending_published_file_id'];
-                                    $file_path = $fetchedSmall['file_path'];
-
-                                    $extension = pathinfo($file_path, PATHINFO_EXTENSION);
-                                    $file_extension = strtolower($extension);
-
-                                    // Check if the file extension is "mp4"
-                                    if ($file_extension === "mp4") {
-                                        echo '
-                                                    <div class="swiper-slide">
-                                                        <div class="image-slide-container">
-                                                            <video class="image-slide">
-                                                                <source src="' . $file_path . '">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        </div>
-                                                    </div>
-                                                ';
-                                    } else {
-                                        echo '
-                                                    <div class="swiper-slide">
-                                                        <div class="image-slide-container">
-                                                            <img class="image-slide" src="' . $file_path . '" />
-                                                        </div>
-                                                    </div>
-    
-                                                ';
-                                    }
-                                }
-                                ?>
-
-
-                            </div>
-                        </div>
-
+                <!-- -- -->
+                <div class="col-6" style="border-right: 2px solid #e7e7e7;">
+                    <div class="row">
+                        <h4 class="mx-auto">Previous Denied Publish Details Requested</h4>
                     </div>
-                </div>
-                <div class="col">
+
+                    <hr>
+
                     <div class="container">
-                        <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <h6 class="">Final Publishing Game Name: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_game_name ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Edition: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_edition ?></h6>
+                        </div>
 
-                            <input type="hidden" name="built_game_id" value="<?php echo $built_game_id; ?>">
+                        <hr>
 
-                            <input type="hidden" name="creator_id" value="<?php echo $gameInfo['creator_id']; ?>">
+                        <div class="row">
+                            <h6 class="">Category: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_category_name ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Age: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_age_value ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Number of Players (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_min_players ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Number of Players (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_max_players ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Play Time (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_min_playtime ?> minutes</h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Play Time (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_max_playtime ?> minutes</h6>
+                        </div>
 
+                        <hr>
 
+                        <div class="row">
+                            <h6 class="">Short Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <div class="container m-0 p-0"><?php echo $current_short_description ?></div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="text" id="game_name" name="game_name" class="form-control" required />
-                                        <label class="form-label" for="form8Example1">Final Publishing Game Name</label>
-                                    </div>
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <div class="container m-0" style="background-color: #222f3e;"><?php echo $current_long_description ?></div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <h6 class="">Logo: </h6> &nbsp; <h6 style="color: #777777"></h6>
+
+                            <div class="image-banner-container">';
+                                <img class="image-banner" src="<?php echo $current_logo_path ?>" alt="">';
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Swiper -->
+                        <h6 class="">Game Images: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                        <div class="swiper-container">
+
+                            <div class="swiper mySwiper2_current" style="margin-bottom: 10px;">
+                                <div class="swiper-wrapper">
+
+                                    <?php
+                                    $sqlBig = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = $built_game_id";
+                                    $resultBig = $conn->query($sqlBig);
+
+                                    while ($fetchedBig = $resultBig->fetch_assoc()) {
+                                        $file_path = $fetchedBig['file_path'];
+
+                                        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                        $file_extension = strtolower($extension);
+
+                                        // Check if the file extension is "mp4"
+                                        if ($file_extension === "mp4") {
+                                            echo '
+                                                <div class="swiper-slide">
+                                                    <div class="image-carousel-container">
+                                                        <video class="image-carousel" controls>
+                                                            <source src="' . $file_path . '" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                </div>
+                                            ';
+                                        } else {
+                                            echo '
+                                                <div class="swiper-slide">
+                                                    <div class="image-carousel-container">
+                                                        <img class="image-carousel" src="' . $file_path . '" />
+                                                    </div>
+                                                </div>
+                                            ';
+                                        }
+                                    }
+                                    ?>
+
                                 </div>
-                                <div class="col">
-                                    <!-- Email input -->
-                                    <div class="form-outline">
-                                        <input type="text" id="edition" name="edition" class="form-control" required />
-                                        <label class="form-label" for="form8Example2">Edition</label>
-                                    </div>
+
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            </div>
+
+                            <div thumbsSlider="" class="swiper mySwiper_current">
+                                <div class="swiper-wrapper">
+
+                                    <?php
+                                    $sqlSmall = "SELECT * FROM pending_published_multiple_files WHERE built_game_id = $built_game_id";
+                                    $resultSmall = $conn->query($sqlSmall);
+
+                                    while ($fetchedSmall = $resultSmall->fetch_assoc()) {
+
+                                        $file_path = $fetchedSmall['file_path'];
+
+                                        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                        $file_extension = strtolower($extension);
+
+                                        // Check if the file extension is "mp4"
+                                        if ($file_extension === "mp4") {
+                                            echo '
+                                                <div class="swiper-slide">
+                                                    <div class="image-slide-container">
+                                                        <video class="image-slide">
+                                                            <source src="' . $file_path . '">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                </div>
+                                            ';
+                                        } else {
+                                            echo '
+                                                <div class="swiper-slide">
+                                                    <div class="image-slide-container">
+                                                        <img class="image-slide" src="' . $file_path . '" />
+                                                    </div>
+                                                </div>
+
+                                            ';
+                                        }
+                                    }
+                                    ?>
+
                                 </div>
                             </div>
 
-                            <hr />
+                        </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <select class="" id="category" name="category" required>
-                                            <option class="form-control" value="" disabled selected>Select a category</option>
-                                            <?php
-                                            // Loop through the categories and populate the dropdown
-                                            foreach ($categories as $category) {
-                                                echo '<option value="' . $category['category_id'] . '">' . $category['category_name'] . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
+                        <hr>
 
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <select id="age" name="age" required>
-                                            <option class="form-control" value="" disabled selected>Select a Age</option>
-                                            <?php
-                                            // Retrieve age values from the Age table and populate the dropdown
-                                            $ageQuery = "SELECT * FROM age";
-                                            $ageResult = mysqli_query($conn, $ageQuery);
-
-                                            while ($ageRow = mysqli_fetch_assoc($ageResult)) {
-                                                echo '<option value="' . $ageRow['age_id'] . '">' . $ageRow['age_value'] . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-outline">
-                                        <input type="number" id="min_players" name="min_players" class="form-control" required />
-                                        <label class="form-label" for="form8Example4">Number of Players (Minimum)</label>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-outline">
-                                        <input type="number" id="max_players" name="max_players" class="form-control" required />
-                                        <label class="form-label" for="form8Example4">Number of Players (Maximum)</label>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-outline">
-                                        <input type="number" id="min_playtime" name="min_playtime" class="form-control" required />
-                                        <label class="form-label" for="form8Example4">Play Time (Minimum)</label>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-outline">
-                                        <input type="number" id="max_playtime" name="max_playtime" class="form-control" required />
-                                        <label class="form-label" for="form8Example4">Play Time (Maximum)</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr>
-
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-outline">
-                                        <input type="url" id="website" name="website" class="form-control" />
-                                        <label class="form-label" for="form8Example4">Website</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <textarea class="form-control" id="short_description" name="short_description" required></textarea>
-                                        <label class="form-label" for="form8Example1">Short Description</label>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <textarea class="form-control" id="long_description" name="long_description" required></textarea>
-                                        <label class="form-label" for="form8Example1">Long Description</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <div class="row">
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="file" class="filepond" name="logo" accept="image/*" required>
-                                        <label class="form-label" for="form8Example1">Logo</label>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="file" class="filepond" name="game_images[]" multiple required>
-                                        <label class="form-label" for="form8Example1">Game Images</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <p>Percentage:
-                                <span id="cost">
-                                    <?php echo $markup_percentage . '%'; ?>
-                                </span>
-                            </p>
-                            <div class="row" id="partitions">
-
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="number" id="desired_markup" name="desired_markup" class="form-control" required />
-                                        <label class="form-label" for="form8Example1">Desired Markup</label>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="number" id="manufacturerProfitInput" name="manufacturer_profit" class="form-control" readonly />
-                                        <label class="form-label" for="form8Example1">STKR LAB's profit</label>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="number" id="creatorProfitInput" name="creator_profit" class="form-control" readonly />
-                                        <label class="form-label" for="form8Example1">Your profit</label>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <!-- Name input -->
-                                    <div class="form-outline">
-                                        <input type="number" id="marketplacePriceInput" name="marketplace_price" class="form-control" readonly />
-                                        <label class="form-label" for="form8Example1">Marketplace Price</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <button type="submit" name="update">Publish Game</button>
-
-                        </form>
+                        <div class="row">
+                            <h6 class="">Cost: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_marketplace_price - $current_desired_markup, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Desired Markup: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_desired_markup, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Manufacturer's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_manufacturer_profit, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Creator's Profit: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_creator_profit, 2) ?></h6>
+                        </div>
+                        <div class="row">
+                            <h6 class="">Marketplace Price: </h6> &nbsp; <h6 style="color: #777777">&#8369;<?php echo number_format($current_marketplace_price, 2) ?></h6>
+                        </div>
 
 
                     </div>
+
                 </div>
+
+
+                <!-- -- -->
+                <div class="col-6">
+                    <div class="row">
+                        <h4 class="mx-auto">Resubmit Publish Request Details</h4>
+                    </div>
+
+                    <hr>
+
+                    <form id="uploadForm">
+
+                        <input type="hidden" id="built_game_id" name="built_game_id" value="<?php echo $built_game_id; ?>">
+
+                        <input type="hidden" id="creator_id" name="creator_id" value="<?php echo $user_id; ?>">
+
+
+                        <div class="row ">
+                            <div class="col">
+                                <!-- Name input -->
+                                <div class="form-outline">
+                                    <label class="form-label" for="form8Example1">Final Publishing Game Name</label>
+                                    <input type="text" id="game_name" name="game_name" class="form-control input_color" required />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!-- Email input -->
+                                <div class="form-outline">
+                                    <label class="form-label" for="form8Example2">Edition</label>
+                                    <input type="text" id="edition" name="edition" class="form-control input_color" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- Name input -->
+                                <div class="form-outline">
+                                    <select class="input_color" id="category" name="category" required>
+                                        <option class="form-control" value="" disabled selected>Select a category</option>
+                                        <?php
+                                        // Loop through the categories and populate the dropdown
+                                        foreach ($categories as $category) {
+                                            echo '<option value="' . $category['category_id'] . '">' . $category['category_name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <!-- Name input -->
+                                <div class="form-outline">
+                                    <select class="input_color" id="age" name="age" required>
+                                        <option class="form-control" value="" disabled selected>Select a Age</option>
+                                        <?php
+                                        // Retrieve age values from the Age table and populate the dropdown
+                                        $ageQuery = "SELECT * FROM age";
+                                        $ageResult = mysqli_query($conn, $ageQuery);
+
+                                        while ($ageRow = mysqli_fetch_assoc($ageResult)) {
+                                            echo '<option value="' . $ageRow['age_id'] . '">' . $ageRow['age_value'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-outline">
+
+                                    <input type="number" id="min_players" name="min_players" class="form-control input_color" required />
+                                    <label class="form-label small" for="form8Example4">Number of Players (Minimum)</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-outline">
+
+                                    <input type="number" id="max_players" name="max_players" class="form-control input_color" required />
+                                    <label class="form-label small" for="form8Example4">Number of Players (Maximum)</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-outline">
+
+                                    <input type="number" id="min_playtime" name="min_playtime" class="form-control input_color" required />
+                                    <label class="form-label small" for="form8Example4">Play Time (Minimum)</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-outline">
+
+                                    <input type="number" id="max_playtime" name="max_playtime" class="form-control input_color" required />
+                                    <label class="form-label small" for="form8Example4">Play Time (Maximum)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- short description -->
+                                <div class="form-outline">
+                                    <label class="form-label" for="form8Example1">Short Description</label>
+                                    <textarea class="form-control input_color" id="short_description" name="short_description" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- long description -->
+                                <div class="form-outline">
+                                    <label class="form-label" for="form8Example1">Long Description</label>
+                                    <textarea class="form-control input_color" id="long_description" name="long_description" required>LONG DESCRIPTION</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <!-- Logo input -->
+                                <div class="form-outline">
+                                    <label class="form-label" for="form8Example1">Logo</label>
+                                    <input type="file" class="filepond input_color" id="logo" name="logo" accept="image/*" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- Images input -->
+                                <div class="form-outline">
+                                    <label class="form-label" for="form8Example1">Game Images</label>
+                                    <input type="file" class="filepond input_color" name="game_images[]" multiple required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row" id="partitions">
+
+                            <div class="col">
+                                <!-- markup input -->
+                                <div class="form-outline">
+                                    <label class="form-label small" for="form8Example1">Desired Markup</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">&#8369;</span>
+                                        </div>
+                                        <input type="number" class="form-control input_color" id="desired_markup" name="desired_markup" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <!-- manufacturer input -->
+                                <div class="form-outline">
+                                    <label class="form-label small" for="form8Example1">Manufacturer's Profit</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">&#8369;</span>
+                                        </div>
+                                        <input type="number" id="manufacturerProfitInput" name="manufacturer_profit" class="form-control input_color" disabled style="background-color: #222F3E; border: none;" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col">
+                                <!-- crator profit input -->
+                                <div class="form-outline">
+                                    <label class="form-label small" for="form8Example1">Your profit</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">&#8369;</span>
+                                        </div>
+                                        <input type="number" id="creatorProfitInput" name="creator_profit" class="form-control input_color" disabled style="background-color: #222F3E; border: none;" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <!-- marketplace input -->
+                                <div class="form-outline">
+                                    <label class="form-label small" for="form8Example1">Marketplace Price</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">&#8369;</span>
+                                        </div>
+                                        <input type="number" id="marketplacePriceInput" name="marketplace_price" class="form-control input_color" disabled style="background-color: #222F3E; border: none;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <button type="submit" name="update">Publish Game</button>
+                    </form>
+
+
+                </div>
+
             </div>
         </div>
-
-
-
     </section>
-    <!-- End Sample Area -->
+    <!--================Blog Area =================-->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
 
     <!-- new jquery version -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js?<?php echo time(); ?>"></script>
-
-
-    <!-- <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/nouislider.min.js"></script>
-    <script src="js/countdown.js"></script>
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <!--gmaps Js-->
@@ -820,109 +666,101 @@ if (mysqli_num_rows($result) > 0) {
     <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
 
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-
-
-    <!-- Include DataTables JavaScript -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- tinymce -->
+    <script src="https://cdn.tiny.cloud/1/rpa89s3fugo121yri1pvn1d4pp53s29njc2y5x6asbbn1t39/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- filepond -->
-    <script src="https://unpkg.com/filepond@4.28.2/dist/filepond.js"></script>
-
 
 
 
     <script>
         $(document).ready(function() {
 
+            tinymce.init({
+                selector: '#long_description',
+                branding: false,
+                icons: 'material',
+                menubar: false,
+                plugins: 'table advlist lists image media anchor link autoresize alignleft aligncenter alignright', // Add alignment plugins
+                toolbar: 'a11ycheck | blocks bold forecolor backcolor | alignleft aligncenter alignright | bullist numlist | link anchor | table | code',
+                a11y_advanced_options: true,
+                a11ychecker_html_version: 'html5',
+                a11ychecker_level: 'aaa',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                skin: 'oxide-dark',
+                content_css: 'dark',
+            });
 
-            // swiper
-            var swiper = new Swiper(".mySwiper", {
+
+
+
+
+            // CURRENT
+            var swiper_current = new Swiper(".mySwiper_current", {
                 spaceBetween: 10,
                 slidesPerView: 4,
                 freeMode: true,
                 watchSlidesProgress: true,
             });
-            var swiper2 = new Swiper(".mySwiper2", {
+            var swiper2_current = new Swiper(".mySwiper2_current", {
                 spaceBetween: 10,
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",
                 },
                 thumbs: {
-                    swiper: swiper,
+                    swiper: swiper_current,
                 },
             });
 
 
 
-            $('#infoTable').DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
-                ajax: {
-                    url: "json_info_table_built_game.php",
-                    data: {
-                        built_game_id: <?php echo $built_game_id; ?>,
-                        user_id: <?php echo $user_id; ?>
-                    },
-                    dataSrc: ""
-                },
-                columns: [{
-                    data: "item"
-                }, ]
-            });
+            // Handle form submission using AJAX
+            $('#uploadForm').submit(function(event) {
+                event.preventDefault();
 
+                var formData = new FormData();
 
-            var user_id = <?php echo $user_id; ?>;
-            var built_game_id = <?php echo $built_game_id; ?>;
+                formData.append('built_game_id', $("#built_game_id").val());
+                formData.append('creator_id', $("#creator_id").val());
 
-            $('#builtGameTable').DataTable({
+                formData.append('game_name', $("#game_name").val());
+                formData.append('edition', $("#edition").val());
+                formData.append('category', $("#category").val());
+                formData.append('age', $("#age").val());
 
-                searching: false,
-                info: false,
-                paging: true,
-                "pageLength": 5,
-                ordering: false,
-                "ajax": {
-                    "url": "json_built_game_dashboard.php",
-                    data: {
-                        user_id: user_id,
-                        built_game_id: built_game_id,
-                    },
-                    "dataSrc": ""
-                },
-                "columns": [{
-                        "data": "component_name"
-                    },
-                    {
-                        "data": "category"
-                    },
-                    {
-                        "data": "price"
-                    },
-                    {
-                        "data": "quantity"
-                    },
-                    {
-                        "data": "individual_price"
-                    },
-                    {
-                        "data": "info"
-                    },
-                ]
-            });
+                formData.append('min_players', $("#min_players").val());
+                formData.append('max_players', $("#max_players").val());
+                formData.append('min_playtime', $("#min_playtime").val());
+                formData.append('max_playtime', $("#max_playtime").val());
 
+                var short_description = $("#short_description").val();
+                var long_description = tinymce.get('long_description').getContent();
 
-            $('#uploadForm').on('submit', function(e) {
-                e.preventDefault();
+                var fileInput = $("#logo");
+                var logo = fileInput.prop("files")[0];
 
-                var formData = new FormData(this);
+                var gameImagesInput = $("input[name='game_images[]']");
+                var gameImages = gameImagesInput.prop("files");
 
+                formData.append('short_description', short_description);
+                formData.append('long_description', long_description);
+                formData.append("logo", logo);
+
+                for (var i = 0; i < gameImages.length; i++) {
+                    formData.append("game_images[]", gameImages[i]);
+                }
+
+                formData.append('desired_markup', $("#desired_markup").val());
+                formData.append('manufacturer_profit', $("#manufacturerProfitInput").val());
+                formData.append('creator_profit', $("#creatorProfitInput").val());
+                formData.append('marketplace_price', $("#marketplacePriceInput").val());
+
+                // Perform an AJAX request
                 Swal.fire({
                     title: '',
                     text: 'Are you sure?',
@@ -933,50 +771,24 @@ if (mysqli_num_rows($result) > 0) {
                 }).then(function(result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: 'process_publish_built_game_request_again.php',
                             type: 'POST',
+                            url: 'process_publish_built_game_request_again.php',
                             data: formData,
-                            processData: false,
                             contentType: false,
+                            processData: false,
                             success: function(response) {
                                 console.log(response);
-
-                                // Display a SweetAlert success notification
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success',
                                 }).then(function() {
-                                    window.location.href = 'create_game_page.php#section6';
+                                    window.location.href = 'create_game_page.php#section5';
                                 });
                             },
                         });
                     }
                 });
-            });
 
-
-
-            // Initialize FilePond with the specified settings
-            const inputElement = document.querySelector('input[name="logo"]');
-            const pond = FilePond.create(inputElement, {
-                allowMultiple: false, // Each input handles a single file
-                allowReplace: true,
-                allowRemove: true,
-                allowBrowse: true,
-                storeAsFile: true,
-                required: true
-            });
-
-            // Initialize FilePond for the game images input
-            const imageInput = document.querySelector('input[name="game_images[]"]');
-            const imagePond = FilePond.create(imageInput, {
-                allowMultiple: true, // Allow multiple files to be uploaded
-                allowReplace: true,
-                allowRemove: true,
-                allowBrowse: true,
-                storeAsFile: true,
-                required: true,
-                maxFiles: 10,
             });
 
 
@@ -984,8 +796,9 @@ if (mysqli_num_rows($result) > 0) {
 
 
             // Get the initial cost from PHP variable
-            var cost = <?php echo $gameInfo['price']; ?>;
-            var markupPercentage = <?php echo $markup_percentage; ?>; // Get the markup percentage
+            var cost = <?php echo $current_marketplace_price - $current_desired_markup; ?>;
+
+            var markupPercentage = <?php echo $markup_percentage; ?>;
 
             // Set up event listener for desired markup change
             $('#desired_markup').on('input', function() {
@@ -1013,7 +826,6 @@ if (mysqli_num_rows($result) > 0) {
 
         });
     </script>
-
 </body>
 
 </html>

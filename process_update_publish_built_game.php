@@ -5,7 +5,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $published_built_game_id = $_POST['published_game_id'];
 
-    $built_game_id = $_POST['built_game_id'];
+    $sqlGetBuiltGame = "SELECT * FROM published_built_games WHERE published_game_id = $published_built_game_id";
+    $queryGetBuiltGame = $conn->query($sqlGetBuiltGame);
+    while ($rowGetBuiltGame = $queryGetBuiltGame->fetch_assoc()) {
+        $built_game_id = $rowGetBuiltGame['built_game_id'];
+    }
+
     $creator_id = $_POST['creator_id'];
     $game_name = $_POST['game_name'];
     $category = $_POST['category'];

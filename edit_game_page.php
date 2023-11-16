@@ -540,7 +540,7 @@ background-attachment: fixed;">
                         <!-- Images input -->
                         <div class="form-outline">
                             <label class="form-label" for="form8Example1">Game Images</label>
-                            <input type="file" class="filepond input_color" name="game_images[]" multiple required>
+                            <input type="file" class="filepond input_color" name="game_images[]" accept="image/*, video/*" multiple required>
                         </div>
                     </div>
                 </div>

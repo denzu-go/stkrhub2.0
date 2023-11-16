@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 567
+                COMPONENT NAME: Box
+                CATEGORY: box
+                SIZE: 7x7
+
+                QUANTITY: 1
+                COLOR: N/A 
+                FILE: 
+                

@@ -32,6 +32,8 @@ include 'connection.php';
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -112,28 +114,7 @@ include 'connection.php';
         </div>
     </div>
 
-    <div class="footer">
-
-
-
-
-
-
-        <div class="copyright">
-            <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-            <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-        </div>
-    </div>
-
-
-
-    </div>
-
-
-
-
-
-
+    <?php include 'html/admin_footer.php'; ?>
 
 
 
@@ -198,8 +179,49 @@ include 'connection.php';
                     {
                         data: "active",
                         "render": function(data, type, row) {
+            $('#userTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+                ajax: {
+                    url: "admin_json_user_table.php",
+                    data: {}, // You can add additional data parameters if needed
+                    dataSrc: ""
+                },
+                columns: [{
+                        data: "userID"
+                    },
+                    {
+                        data: "username"
+                    },
+                    {
+                        data: "fname"
+                    },
+                    {
+                        data: "lname"
+                    },
+                    {
+                        data: "phone"
+                    },
+                    {
+                        data: "email"
+                    },
+                    {
+                        data: "date"
+                    },
+                    {
+                        data: "active",
+                        "render": function(data, type, row) {
                             return data;
                         }
+                    },
+                    <?php
+                    if (isset($_SESSION['admin_id'])) {
+                        $id = $_SESSION['admin_id'];
+                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                        $queryAdmin = $conn->query($getAdmin);
+                        $row = $queryAdmin->fetch_assoc();
                     },
                     <?php
                     if (isset($_SESSION['admin_id'])) {

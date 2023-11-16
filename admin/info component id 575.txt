@@ -1,10 +1,10 @@
 
                 ADDED COMPONENT ID: 575
-                COMPONENT NAME: Box
-                CATEGORY: box
-                SIZE: 7x7
+                COMPONENT NAME: Tarrot Card 2jkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                CATEGORY: game cards
+                SIZE: 10x10
 
                 QUANTITY: 1
                 COLOR: N/A 
-                FILE: 65546e9fd3a82_FMC Masterlist 110923.xls
+                FILE: 
                 
