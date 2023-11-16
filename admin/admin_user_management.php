@@ -141,44 +141,6 @@ include 'connection.php';
     <script>
         $(document).ready(function() {
 
-
-
-
-
-            $('#userTable').DataTable({
-                searching: true,
-                info: false,
-                paging: true,
-                ordering: true,
-                ajax: {
-                    url: "admin_json_user_table.php",
-                    data: {}, // You can add additional data parameters if needed
-                    dataSrc: ""
-                },
-                columns: [{
-                        data: "userID"
-                    },
-                    {
-                        data: "username"
-                    },
-                    {
-                        data: "fname"
-                    },
-                    {
-                        data: "lname"
-                    },
-                    {
-                        data: "phone"
-                    },
-                    {
-                        data: "email"
-                    },
-                    {
-                        data: "date"
-                    },
-                    {
-                        data: "active",
-                        "render": function(data, type, row) {
             $('#userTable').DataTable({
                 searching: true,
                 info: false,
@@ -215,13 +177,6 @@ include 'connection.php';
                         "render": function(data, type, row) {
                             return data;
                         }
-                    },
-                    <?php
-                    if (isset($_SESSION['admin_id'])) {
-                        $id = $_SESSION['admin_id'];
-                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                        $queryAdmin = $conn->query($getAdmin);
-                        $row = $queryAdmin->fetch_assoc();
                     },
                     <?php
                     if (isset($_SESSION['admin_id'])) {
