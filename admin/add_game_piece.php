@@ -111,18 +111,8 @@ $_SESSION['category'] = $category;
                                             <th>Templates</th>
                                             <th>Thumbnails</th>
                                             <th>Available</th>
-                                            <?php
-                if (isset($_SESSION['admin_id'])) {
-                    $id = $_SESSION['admin_id'];
-                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                    $queryAdmin = $conn->query($getAdmin);
-                    $row = $queryAdmin->fetch_assoc();
-
-                    if ($row["is_super_admin"] == 1) {
-                        echo '<th> action </th>';
-                    }
-                }
-                ?>
+                                            <th> Actions </th>
+                                              
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -264,18 +254,10 @@ $_SESSION['category'] = $category;
                     {
                         data: "available"
                     },
-                    <?php
-                if (isset($_SESSION['admin_id'])) {
-                    $id = $_SESSION['admin_id'];
-                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                    $queryAdmin = $conn->query($getAdmin);
-                    $row = $queryAdmin->fetch_assoc();
-
-                    if ($row["is_super_admin"] == 1) {
-                        echo '{ data : "action"}';
+                    {
+                        data: "actions"
                     }
-                }
-                ?>
+
                 ]
             });
 
@@ -297,7 +279,7 @@ $_SESSION['category'] = $category;
                 });
             });
 
-            $('body').on('click', '.showTemplateBtn', function() {
+            $('body').on('click', '.showThumbnailBtn', function() {
                 // Extract the data-id and data-name attributes from the button
                 var imageId = $(this).data('id');
                 var imageName = $(this).data('name');
@@ -315,45 +297,75 @@ $_SESSION['category'] = $category;
 
 
             $('body').on('click', '#thumbnailButton', function(e) {
-    // Prevent the default behavior of the link
-    e.preventDefault();
+                // Prevent the default behavior of the link
+                e.preventDefault();
 
-    // Get the data-id attribute value
-    var imageId = $(this).data("id");
-    console.log('Make Thumbnail clicked for image ID: ' + imageId);
-    
-    // Display a confirmation dialog using SweetAlert2
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'This image will be the thumbnail for this component',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, make thumbnail!'
-    }).then((result) => {
-        // If the user clicks "Yes," proceed with the AJAX request
-        if (result.isConfirmed) {
-            // Make the AJAX request using the fetched imageId
-            $.ajax({
-                type: "GET",
-                url: "admin_process_thumbnail.php?id=" + imageId, // Use 'id' instead of 'imageId'
-                success: function(response) {
-                    // Handle the success response
-                    console.log("Thumbnail request successful", response);
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    console.error("Error making thumbnail request", error);
-                }
+                // Get the data-id attribute value
+                var imageId = $(this).data("id");
+                console.log('Make Thumbnail clicked for image ID: ' + imageId);
+
+                // Display a confirmation dialog using SweetAlert2
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This image will be the thumbnail for this component',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, make thumbnail!'
+                }).then((result) => {
+                    // If the user clicks "Yes," proceed with the AJAX request
+                    if (result.isConfirmed) {
+                        // Make the AJAX request using the fetched imageId
+                        $.ajax({
+                            type: "GET",
+                            url: "admin_process_thumbnail.php?id=" + imageId, // Use 'id' instead of 'imageId'
+                            success: function(response) {
+                                // Handle the success response
+                                console.log("Thumbnail request successful", response);
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle errors
+                                console.error("Error making thumbnail request", error);
+                            }
+                        });
+                    }
+                });
             });
-        }
-    });
-});
 
 
 
+            $('#gamePieceTable').on('click', '.delete-component', function() {
+                var ComponentID = $(this).data('component-id');
 
+                Swal.fire({
+                    title: "Confirm Delete",
+                    text: "Are you sure you want to delete this Game Component?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    confirmButtonClass: 'btn btn-danger', // Add this line to assign the red color
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Delete," send AJAX request to delete the address
+                        $.ajax({
+                            url: "delete_game_component.php", // Create this PHP file to delete the address
+                            method: "POST",
+                            data: {
+                                ComponentID: ComponentID,
+                            },
+                            success: function(response) {
+                                // Reload the DataTable
+                                $('#gamePieceTable').DataTable().ajax.reload();
+                            },
+                            error: function() {
+                                // Handle any AJAX errors here
+                            },
+                        });
+                    }
+                });
+            });
 
 
 

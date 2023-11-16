@@ -102,30 +102,19 @@ $_SESSION['help_category'] = $help_category;
                             <div class="card-body">
 
                                 <?php
-                               
-                               if ($faq['faq_type'] == 1) {
-                                   // Table for faq_type 1
-                                   echo '
+
+                                if ($faq['faq_type'] == 1) {
+                                    // Table for faq_type 1
+                                    echo '
                                        <table id="helpContentTable" class="display" style="width: 100%;">
                                        <thead>
                                            <tr>
                                                <th>Title</th>
                                                <th>Description</th>
                                                <th>Tutorial Link</th>
-                                               <th>Showcased</th>';
-                               
-                                   if (isset($_SESSION['admin_id'])) {
-                                       $id = $_SESSION['admin_id'];
-                                       $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                                       $queryAdmin = $conn->query($getAdmin);
-                                       $row2 = $queryAdmin->fetch_assoc();
-                               
-                                       if ($row2["is_super_admin"] == 1) {
-                                           echo '<th>Action</th>';
-                                       }
-                                   }
-                               
-                                   echo '</tr>
+                                               <th>Showcased</th>
+                                               <th>Actions</th>
+                                               </tr>
                                        </thead>
                                        <tbody>
                                        </tbody>
@@ -135,27 +124,16 @@ $_SESSION['help_category'] = $help_category;
                                            <a class="btn btn-outline-primary" href="add_help_content.php?category=' . $help_category . '" role="button">Add Content</a>
                                        </div>
                                    </div>';
-                               } else {
-                                   // Table for faq_type other than 1
-                                   echo '<table id="helpContentTable2" class="display" style="width: 100%;">
+                                } else {
+                                    // Table for faq_type other than 1
+                                    echo '<table id="helpContentTable2" class="display" style="width: 100%;">
                                        <thead>
                                            <tr>
                                                <th>Title</th>
                                                <th>Description</th>
-                                               <th>Image</th> ';
-                               
-                                   if (isset($_SESSION['admin_id'])) {
-                                       $id = $_SESSION['admin_id'];
-                                       $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                                       $queryAdmin = $conn->query($getAdmin);
-                                       $row2 = $queryAdmin->fetch_assoc();
-                               
-                                       if ($row2["is_super_admin"] == 1) {
-                                           echo '<th>Action</th>';
-                                       }
-                                   }
-                               
-                                   echo '</tr>
+                                               <th>Image</th> 
+                                               <th>Actions</th>
+                                               </tr>
                                        </thead>
                                        <tbody>
                                        </tbody>
@@ -165,9 +143,9 @@ $_SESSION['help_category'] = $help_category;
                                            <a class="btn btn-outline-primary" href="add_help.php?category=' . $help_category . '" role="button">Add Content</a>
                                        </div>
                                    </div>';
-                               }
-                               
-                               
+                                }
+
+
                                 ?>
 
 
@@ -270,18 +248,9 @@ $_SESSION['help_category'] = $help_category;
                             return data;
                         }
                     },
-                    <?php
-                    if (isset($_SESSION['admin_id'])) {
-                        $id = $_SESSION['admin_id'];
-                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                        $queryAdmin = $conn->query($getAdmin);
-                        $row = $queryAdmin->fetch_assoc();
-
-                        if ($row["is_super_admin"] == 1) {
-                            echo '{ data : "action"}';
-                        }
+                    {
+                        "data": "actions"
                     }
-                    ?>
 
 
                 ]
@@ -307,18 +276,11 @@ $_SESSION['help_category'] = $help_category;
                     {
                         "data": "image"
                     },
-                    <?php
-                    if (isset($_SESSION['admin_id'])) {
-                        $id = $_SESSION['admin_id'];
-                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                        $queryAdmin = $conn->query($getAdmin);
-                        $row = $queryAdmin->fetch_assoc();
 
-                        if ($row["is_super_admin"] == 1) {
-                            echo '{ data : "action"}';
-                        }
+                    {
+                        "data": "actions"
                     }
-                    ?>
+
 
                 ]
             });
@@ -334,7 +296,7 @@ $_SESSION['help_category'] = $help_category;
                     data: {},
                     "dataSrc": ""
                 },
-                "columns": [{   
+                "columns": [{
                         "data": "title"
                     },
                     {
@@ -347,7 +309,7 @@ $_SESSION['help_category'] = $help_category;
                         "data": "actions"
                     },
 
-                    
+
 
 
                 ]
@@ -369,6 +331,75 @@ $_SESSION['help_category'] = $help_category;
                         html: imageHTML,
                         confirmButtonText: 'Close'
                     });
+                });
+            });
+
+
+
+
+
+
+            $('#helpContentTable').on('click', '.delete-tutorial', function() {
+                var tutID = $(this).data('tutorial-id');
+
+                Swal.fire({
+                    title: "Confirm Delete",
+                    text: "Are you sure you want to delete this Tutorial?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    confirmButtonClass: 'btn btn-danger', // Add this line to assign the red color
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Delete," send AJAX request to delete the address
+                        $.ajax({
+                            url: "delete_help_content.php", // Create this PHP file to delete the address
+                            method: "POST",
+                            data: {
+                                tutID: tutID,
+                            },
+                            success: function(response) {
+                                // Reload the DataTable
+                                $('#helpContentTable').DataTable().ajax.reload();
+                            },
+                            error: function() {
+                                // Handle any AJAX errors here
+                            },
+                        });
+                    }
+                });
+            });
+
+            $('#helpContentTable2').on('click', '.delete-help', function() {
+                var helpID = $(this).data('help-id');
+
+                Swal.fire({
+                    title: "Confirm Delete",
+                    text: "Are you sure you want to delete this Help Content?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    confirmButtonClass: 'btn btn-danger', // Add this line to assign the red color
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Delete," send AJAX request to delete the address
+                        $.ajax({
+                            url: "delete_help.php", // Create this PHP file to delete the address
+                            method: "POST",
+                            data: {
+                                helpID: helpID,
+                            },
+                            success: function(response) {
+                                // Reload the DataTable
+                                $('#helpContentTable2').DataTable().ajax.reload();
+                            },
+                            error: function() {
+                                // Handle any AJAX errors here
+                            },
+                        });
+                    }
                 });
             });
 

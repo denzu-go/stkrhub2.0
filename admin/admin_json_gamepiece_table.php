@@ -82,7 +82,7 @@ if (isset($_SESSION['category'])) {
 
             if (!empty($thumbnailData)) {
                 foreach ($thumbnailData as $image) {
-                    $thumbnails .= '<button class="btn btn-primary showTemplateBtn" style = "margin:5px;" data-id="' . $image['id'] . '" data-name="' . $image['name'] . '"> Thumbnail' . $image['name'] . '</button>';
+                    $thumbnails .= '<button class="btn btn-primary showThumbnailBtn" style = "margin:5px;" data-id="' . $image['id'] . '" data-name="' . $image['name'] . '"> Thumbnail' . $image['name'] . '</button>';
                 }
             } else {
                 $thumbnails = 'No Thumbnails';
@@ -96,7 +96,34 @@ if (isset($_SESSION['category'])) {
                 $available = '<a href="admin_available_product.php?id=' . $row['component_id'] . '" style="color:red;"> Not Available </a>';
             }
 
-            $actions = '<a href="edit_game_components.php?id=' . $component_id . '">Edit</a> <a href="delete_game_component.php?id=' . $component_id . '" Style = "color:red;">Delete</a>';
+
+            $actions = '';
+
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin= $conn->query($getAdmin);
+                    $row2 = $queryAdmin->fetch_assoc();
+
+                    if ($row2["is_super_admin"] == 1) {
+                        $actions = '<a class="btn btn-outline-primary " href="edit_game_components.php?id=' . $component_id . '" style = "margin:5px;">Edit   
+                        </a>
+                        
+                        <button type="button" class="delete-component btn btn-danger" data-component-id =" '.$row['component_id'].'" style = "margin:5px;">Delete</a>' ;
+                    } else {
+                        $actions = '<a class="btn btn-outline-primary " href="edit_game_components.php?id=' . $component_id . '" style = "margin:5px;">Edit   
+                        </a>
+                        
+                    ';
+                    }
+                }
+
+
+           
+
+
+            
 
             $data[] = array(
                 "name" => $name,

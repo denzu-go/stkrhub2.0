@@ -58,7 +58,7 @@ include 'connection.php';
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="row">
 
@@ -84,24 +84,23 @@ include 'connection.php';
                                                 $id = $_SESSION['admin_id'];
 
                                                 $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                                                $queryAdmin= $conn->query($getAdmin);
+                                                $queryAdmin = $conn->query($getAdmin);
                                                 $row = $queryAdmin->fetch_assoc();
 
                                                 if ($row["is_super_admin"] == 1) {
                                                     echo '<th>Action</th>';
-
                                                 }
                                             }
-                                            
+
                                             ?>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                 </table>
 
-                                
+
                             </div>
 
                         </div>
@@ -162,63 +161,110 @@ include 'connection.php';
         $(document).ready(function() {
 
 
-    
 
 
-                $('#userTable').DataTable({
-                    searching: true,
-                    info: false,
-                    paging: true,
-                    ordering: true,
-                    ajax: {
-                        url: "admin_json_user_table.php",
-                        data: {}, // You can add additional data parameters if needed
-                        dataSrc: ""
+
+            $('#userTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+                ajax: {
+                    url: "admin_json_user_table.php",
+                    data: {}, // You can add additional data parameters if needed
+                    dataSrc: ""
+                },
+                columns: [{
+                        data: "userID"
                     },
-                    columns: [{
-                            data: "userID"
-                        },
-                        {
-                            data: "username"
-                        },
-                        {
-                            data: "fname"
-                        },
-                        {
-                            data: "lname"
-                        },
-                        {
-                            data: "phone"
-                        },
-                        {
-                            data: "email"
-                        },
-                        {
-                            data: "date"
-                        },
-                        {
-                            data: "active",
-                            "render": function(data, type, row) {
+                    {
+                        data: "username"
+                    },
+                    {
+                        data: "fname"
+                    },
+                    {
+                        data: "lname"
+                    },
+                    {
+                        data: "phone"
+                    },
+                    {
+                        data: "email"
+                    },
+                    {
+                        data: "date"
+                    },
+                    {
+                        data: "active",
+                        "render": function(data, type, row) {
                             return data;
                         }
-                        },
-                        <?php
-                if (isset($_SESSION['admin_id'])) {
-                    $id = $_SESSION['admin_id'];
-                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
-                    $queryAdmin = $conn->query($getAdmin);
-                    $row = $queryAdmin->fetch_assoc();
+                    },
+                    <?php
+                    if (isset($_SESSION['admin_id'])) {
+                        $id = $_SESSION['admin_id'];
+                        $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                        $queryAdmin = $conn->query($getAdmin);
+                        $row = $queryAdmin->fetch_assoc();
 
-                    if ($row["is_super_admin"] == 1) {
-                        echo '{ data : "action"}';
+                        if ($row["is_super_admin"] == 1) {
+                            echo '{ data : "action"}';
+                        }
                     }
-                }
-                ?>
-                    ]
+                    ?>
+                ]
+            });
+
+
+            $('#userTable').on('click', '.delete-user', function() {
+                var userID = $(this).data('user-id');
+
+                Swal.fire({
+                    title: "Confirm Delete",
+                    text: "Are you sure you want to delete this User?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    confirmButtonClass: 'btn btn-danger', // Add this line to assign the red color
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Delete," send AJAX request to delete the address
+                        $.ajax({
+                            url: "admin_delete_user.php", // Create this PHP file to delete the address
+                            method: "POST",
+                            data: {
+                                userID: userID,
+                            },
+                            success: function(response) {
+                                // Reload the DataTable
+                                $('#userTable').DataTable().ajax.reload();
+                            },
+                            error: function() {
+                                // Handle any AJAX errors here
+                            },
+                        });
+                    }
                 });
             });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        });
     </script>
 
 

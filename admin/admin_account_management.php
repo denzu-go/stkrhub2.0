@@ -237,9 +237,76 @@ include 'connection.php';
                     ]
                 });
 
+                $('#superTable').on('click', '.delete-super', function() {
+                var userID = $(this).data('admin-id');
 
+                Swal.fire({
+                    title: "Confirm Delete",
+                    text: "Are you sure you want to delete this Super Admin Account?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    confirmButtonClass: 'btn btn-danger', // Add this line to assign the red color
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Delete," send AJAX request to delete the address
+                        $.ajax({
+                            url: "admin_delete_admin.php", // Create this PHP file to delete the address
+                            method: "POST",
+                            data: {
+                                userID: userID,
+                            },
+                            success: function(response) {
+                                // Reload the DataTable
+                                $('#superTable').DataTable().ajax.reload();
+                            },
+                            error: function() {
+                                // Handle any AJAX errors here
+                            },
+                        });
+                    }
+                });
             });
 
+
+
+
+            $('#adminTable').on('click', '.delete-admin', function() {
+                var userID = $(this).data('admin-id');
+
+                Swal.fire({
+                    title: "Confirm Delete",
+                    text: "Are you sure you want to delete this Admin Account?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    confirmButtonClass: 'btn btn-danger', // Add this line to assign the red color
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Delete," send AJAX request to delete the address
+                        $.ajax({
+                            url: "admin_delete_admin.php", // Create this PHP file to delete the address
+                            method: "POST",
+                            data: {
+                                userID: userID,
+                            },
+                            success: function(response) {
+                                // Reload the DataTable
+                                $('#adminTable').DataTable().ajax.reload();
+                            },
+                            error: function() {
+                                // Handle any AJAX errors here
+                            },
+                        });
+                    }
+                });
+            });
+
+
+            });
+ 
 
     </script>
 

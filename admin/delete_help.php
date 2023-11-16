@@ -3,11 +3,11 @@ session_start();
 include 'connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $tutorial_id = $_POST['tutID'];
+    $id = $_POST['helpID'];
     
     // Retrieve the category from the database
-    $sql = "DELETE FROM tutorials
-                WHERE tutorial_id = $tutorial_id";
+    $sql = "DELETE FROM help
+                WHERE help_id = $id";
 
         // Execute the SQL query
         if ($conn->query($sql) === TRUE) {
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $conn->error;
         }
     } else {
-        echo "tutorial not found.";
+        echo "Help not found.";
     }
 
 

@@ -12,7 +12,7 @@ include "connection.php";
     $data = array();
     while ($row = $result->fetch_assoc()) {
 
-        $actions = '<a href="admin_edit_admin.php?id=' . $row['admin_id'] . '">Edit   </a>   <a href="admin_delete_admin.php?id=' . $row['admin_id'] . '" Style = "color:red;">Delete</a>' ;
+        $actions = '<a class="btn btn-outline-primary " href="admin_edit_admin.php?id=' . $row['admin_id'] . '">Edit   </a>   <button type="button" class="delete-admin btn btn-danger" data-admin-id =" '.$row['admin_id'].'">Delete</a>' ;
 
         $data[] = array(
             
@@ -23,7 +23,7 @@ include "connection.php";
         );
     }
 
-    // Send a JSON content type header
+    // Send a JSON content type header 
     header('Content-Type: application/json');
     
     echo json_encode($data);

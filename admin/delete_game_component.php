@@ -1,8 +1,8 @@
 <?php
 include("connection.php");
 
-if (isset($_GET['id'])) {
-    $componentID = $_GET['id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $componentID = $_POST['ComponentID'];
 
     $component_sql = "SELECT *
                       FROM game_components
@@ -19,8 +19,7 @@ if (isset($_GET['id'])) {
         // Execute the SQL query
         if ($conn->query($sql) === TRUE) {
             echo "Data deleted successfully!";
-            header("Location: add_game_piece.php?category=" . $user_row['category']); // Use "." for concatenation
-            exit; // Exit to prevent further execution
+           
         } else {
             echo "Error: " . $conn->error;
         }

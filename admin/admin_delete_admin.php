@@ -1,8 +1,8 @@
 <?php
 include("connection.php");
 
-if (isset($_GET['id'])) {
-    $userID = $_GET['id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $userID = $_POST['userID'];
 
     $user_sql = "SELECT *
                  FROM admins
@@ -18,8 +18,7 @@ if (isset($_GET['id'])) {
         // Execute the SQL query
         if ($conn->query($sql) === TRUE) {
             echo "Data deleted successfully!";
-            header("Location: admin_account_management.php"); // Use "." for concatenation
-            exit; // Exit to prevent further execution
+           
         } else {
             echo "Error: " . $conn->error;
         }

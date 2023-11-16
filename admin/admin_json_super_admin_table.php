@@ -10,9 +10,9 @@ include "connection.php";
     $result = $stmt->get_result();
 
     $data = array();
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) { 
 
-        $actions = '<a href="admin_edit_admin.php?id=' . $row['admin_id'] . '">Edit   </a>   <a href="admin_delete_admin.php?id=' . $row['admin_id'] . '" Style = "color:red;">Delete</a>' ;
+        $actions = '<a class="btn btn-outline-primary " href="admin_edit_admin.php?id=' . $row['admin_id'] . '">Edit   </a>   <button type="button" class="delete-super btn btn-danger" data-admin-id =" '.$row['admin_id'].'">Delete</a>' ;
 
         $data[] = array(
             

@@ -45,7 +45,24 @@ if (isset($_SESSION['help_category'])) {
                     $primary = '<a href="admin_showcase_tutorial.php?id=' . $row['tutorial_id'] . '" style="color:red;"> Not Showcased </a>';
                 }
 
-                $actions = '<a href="edit_help_content.php?id=' . $row['tutorial_id'] . '">Edit</a> <a href="delete_help_content.php?id=' . $row['tutorial_id'] . '" style = "color:red;">Delete</a>';
+                $actions = '';
+
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin= $conn->query($getAdmin);
+                    $row2 = $queryAdmin->fetch_assoc();
+
+                    if ($row2["is_super_admin"] == 1) {
+                        $actions = '<a  class="btn btn-outline-primary " href="edit_help_content.php?id=' . $row['tutorial_id'] . '">Edit</a> 
+                <button type="button" class="delete-tutorial btn btn-danger" data-tutorial-id =" '.$row['tutorial_id'].'" style = "margin:5px;">Delete</a>';
+                    } else {
+                        $actions = '<a  class="btn btn-outline-primary " href="edit_help_content.php?id=' . $row['tutorial_id'] . '">Edit</a> ';
+                    }
+                }
+
+
 
                 $data[] = array(
                     "title" => $row["tutorial_title"],
@@ -91,7 +108,22 @@ if (isset($_SESSION['help_category'])) {
 
                 
 
-                $actions = '<a href="edit_help.php?id=' . $row['help_id'] . '">Edit</a> <a href="delete_help.php?id=' . $row['help_id'] . '" style = "color:red;">Delete</a>';
+                $actions = '';
+
+                if (isset($_SESSION['admin_id'])) {
+                    $id = $_SESSION['admin_id'];
+
+                    $getAdmin = "SELECT * FROM admins WHERE admin_id = $id";
+                    $queryAdmin= $conn->query($getAdmin);
+                    $row2 = $queryAdmin->fetch_assoc();
+
+                    if ($row2["is_super_admin"] == 1) {
+                        $actions = '<a  class="btn btn-outline-primary " href="edit_help_content.php?id=' . $row['help_id'] . '">Edit</a> 
+                <button type="button" class="delete-help btn btn-danger" data-help-id =" '.$row['help_id'].'" style = "margin:5px;">Delete</a>';
+                    } else {
+                        $actions = '<a  class="btn btn-outline-primary " href="edit_help_content.php?id=' . $row['help_id'] . '">Edit</a> ';
+                    }
+                }
 
                 $data[] = array(
                     "title" => $row["help_title"],
