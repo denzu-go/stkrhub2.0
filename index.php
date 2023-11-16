@@ -66,7 +66,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
     <style>
-        <?php include 'css/body.css'; ?>.header_area {
+        <?php include 'css/body.css'; ?>
+        
+        .header_area {
             position: relative;
         }
 
@@ -259,6 +261,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     $header_home = 'active';
     include 'html/page_header.php';
     ?>
+  
 
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
@@ -276,7 +279,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                         if($fetched_banner["is_showcased"] == 1){
                             $banner = $fetched_banner['image_path'];
-
+ 
                     echo '<div class="swiper-slide">';
 
                     echo '<div class="image-banner-container">';
