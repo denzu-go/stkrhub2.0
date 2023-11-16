@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2023 at 03:24 PM
+-- Generation Time: Nov 16, 2023 at 02:04 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -44,12 +44,8 @@ CREATE TABLE `added_game_components` (
 --
 
 INSERT INTO `added_game_components` (`added_component_id`, `game_id`, `component_id`, `is_custom_design`, `custom_design_file_path`, `quantity`, `color_id`, `size`, `user_id`) VALUES
-(563, 219, 3, 0, NULL, 20, 1, '7x7', 3),
-(564, 219, 3, 0, NULL, 2, 2, '7x7', 3),
-(565, 219, 1, 1, 'uploads/6550c14200be8_Untitled.png', 1, NULL, '7x7', 3),
-(566, 219, 1, 1, 'uploads/6550c178c1bad_Untitled.png', 1, NULL, '7x7', 3),
-(567, 219, 1, 1, 'uploads/6550c1dd2522d_IMG_20231112_154523.jpg', 1, NULL, '7x7', 3),
-(568, 221, 3, 0, NULL, 1, 1, '7x7', 15);
+(574, 0, 2, 1, 'uploads/65546e921f6a7_mbi maginhawa_102223 to 110623.txt', 1, NULL, '7x7', 3),
+(575, 0, 2, 1, 'uploads/65546e9fd3a82_FMC Masterlist 110923.xls', 1, NULL, '7x7', 3);
 
 -- --------------------------------------------------------
 
@@ -188,7 +184,10 @@ INSERT INTO `admin_logs` (`log_id`, `admin_id`, `event_type`, `timestamp`) VALUE
 (61, 2, 'login', '2023-11-12 06:31:22'),
 (62, 2, 'login', '2023-11-12 12:18:58'),
 (63, 2, 'login', '2023-11-12 12:30:32'),
-(64, 2, 'login', '2023-11-13 07:58:46');
+(64, 2, 'login', '2023-11-13 07:58:46'),
+(65, 2, 'login', '2023-11-15 05:18:30'),
+(66, 2, 'login', '2023-11-15 07:40:54'),
+(67, 2, 'login', '2023-11-15 08:05:20');
 
 -- --------------------------------------------------------
 
@@ -653,7 +652,13 @@ INSERT INTO `audit_logs` (`log_id`, `user_id`, `action`, `details`, `timestamp`)
 (406, 15, 'PAY USING STKR WALLET', 'Purchase built_game_id: 150', '2023-11-12 23:58:16'),
 (407, 3, 'PAY USING STKR WALLET', 'Purchase ticket_id: 146', '2023-11-13 09:13:35'),
 (408, 15, 'PAY USING STKR WALLET', 'Purchase built_game_id: 153', '2023-11-13 09:14:10'),
-(409, 15, 'PAY USING STKR WALLET', 'Purchase ticket_id: 145', '2023-11-13 09:14:10');
+(409, 15, 'PAY USING STKR WALLET', 'Purchase ticket_id: 145', '2023-11-13 09:14:10'),
+(410, 3, 'PAY USING STKR WALLET', 'Purchase published_game_id: 187', '2023-11-15 06:18:48'),
+(411, 3, 'PAY USING STKR WALLET', 'Purchase published_game_id: 188', '2023-11-15 07:06:21'),
+(412, 3, 'PAY USING STKR WALLET', 'Purchase added_component_id: 575', '2023-11-15 07:09:30'),
+(413, 3, 'PAY USING STKR WALLET', 'Purchase added_component_id: 574', '2023-11-15 07:09:30'),
+(414, 3, 'PAY USING STKR WALLET', 'Purchase published_game_id: 187', '2023-11-15 08:11:24'),
+(415, 3, 'PAY USING STKR WALLET', 'Purchase published_game_id: 187', '2023-11-15 08:17:36');
 
 -- --------------------------------------------------------
 
@@ -891,7 +896,13 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `published_game_id`, `game_id`, `built
 (967, 15, NULL, 221, NULL, NULL, 145, 1, 0.74, 1, 0, 0),
 (968, 3, NULL, 219, NULL, NULL, 146, 1, 19.88, 1, 0, 0),
 (969, 15, NULL, 221, 153, NULL, NULL, 2, 6.66, 1, 0, 1),
-(970, 15, NULL, 221, 153, NULL, NULL, 2, 7.40, 1, 1, 0);
+(970, 15, NULL, 221, 153, NULL, NULL, 2, 7.40, 1, 1, 0),
+(971, 3, 187, NULL, NULL, NULL, NULL, 3, 104.40, 1, 0, 0),
+(972, 3, 188, NULL, NULL, NULL, NULL, 5, 74.40, 1, 0, 0),
+(976, 3, NULL, NULL, NULL, 574, NULL, 1, 11.00, 1, 0, 0),
+(977, 3, NULL, NULL, NULL, 575, NULL, 1, 11.00, 1, 0, 0),
+(978, 3, 187, NULL, NULL, NULL, NULL, 10, 104.40, 1, 0, 0),
+(979, 3, 187, NULL, NULL, NULL, NULL, 2, 104.40, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2512,7 +2523,13 @@ INSERT INTO `orders` (`order_id`, `unique_order_id`, `unique_order_group_id`, `c
 (500, '150655166988a5d9', '2023111300581615', 939, 15, NULL, 150, NULL, NULL, 1, 54.40, 1, 0, 0, 0, 0, 0, NULL, 0, '2023-11-13 07:58:16', 0.00, 0.00, 0.00, 0.00, 0, 'Ian Balayan', '09999999999', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', 'Bukid', 102.34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 42.50),
 (501, '1466551e8bf5db01', '202311131013353', 968, 3, NULL, NULL, NULL, 146, 1, 19.88, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-13 17:13:35', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 19.88, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
 (502, '1536551e8e268795', '2023111310141015', 969, 15, NULL, 153, NULL, NULL, 1, 6.66, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-13 17:14:10', 0.00, 0.00, 0.00, 0.00, 0, 'Ian Balayan', '09999999999', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', 'Bukid', 49.90, NULL, NULL, NULL, '2023-11-13 17:14:23', NULL, NULL, NULL, NULL, NULL, 42.50),
-(503, '1456551e8e26ee7e', '2023111310141015', 967, 15, NULL, NULL, NULL, 145, 1, 0.74, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-13 17:14:10', 0.00, 0.00, 0.00, 0.00, 0, 'Ian Balayan', '09999999999', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', 'Bukid', 49.90, NULL, NULL, NULL, '2023-11-13 17:14:23', NULL, NULL, NULL, NULL, NULL, 42.50);
+(503, '1456551e8e26ee7e', '2023111310141015', 967, 15, NULL, NULL, NULL, 145, 1, 0.74, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-10-03 17:14:10', 0.00, 0.00, 0.00, 0.00, 0, 'Ian Balayan', '09999999999', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', 'Bukid', 49.90, NULL, NULL, NULL, '2023-11-13 17:14:23', NULL, NULL, NULL, NULL, NULL, 42.50),
+(504, '187655462c8349e2', '202311150718483', 971, 3, 187, NULL, NULL, NULL, 3, 104.40, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-10-04 14:18:48', 50.00, 10.00, 40.00, 104.40, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 355.70, NULL, NULL, NULL, '2023-11-15 14:31:01', NULL, NULL, NULL, NULL, NULL, 42.50),
+(505, '18865546ded8dffc', '202311150806213', 972, 3, 188, NULL, NULL, NULL, 5, 74.40, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-10-15 15:06:21', 20.00, 4.00, 16.00, 74.40, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 414.50, NULL, NULL, NULL, '2023-11-15 15:06:30', NULL, NULL, NULL, NULL, NULL, 42.50),
+(506, '57565546eaa2dd3d', '202311150809303', 977, 3, NULL, NULL, 575, NULL, 1, 11.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-10-15 15:09:30', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 64.50, NULL, NULL, NULL, '2023-11-15 15:10:26', NULL, NULL, NULL, NULL, NULL, 42.50),
+(507, '57465546eaa30a95', '202311150809303', 976, 3, NULL, NULL, 574, NULL, 1, 11.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-10-15 15:09:30', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 64.50, NULL, NULL, NULL, '2023-11-15 15:10:26', NULL, NULL, NULL, NULL, NULL, 42.50),
+(508, '18765547d2c160cc', '202311150911243', 978, 3, 187, NULL, NULL, NULL, 10, 104.40, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-10-15 16:11:24', 50.00, 10.00, 40.00, 104.40, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 1086.50, NULL, NULL, NULL, '2023-11-15 16:11:32', NULL, NULL, NULL, NULL, NULL, 42.50),
+(509, '18765547ea046936', '202311150917363', 979, 3, 187, NULL, NULL, NULL, 2, 104.40, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-10-15 16:17:36', 50.00, 10.00, 40.00, 104.40, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'San Juan', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 251.30, NULL, NULL, NULL, '2023-11-15 16:17:50', NULL, NULL, NULL, NULL, NULL, 42.50);
 
 -- --------------------------------------------------------
 
@@ -2849,6 +2866,13 @@ CREATE TABLE `ratings` (
   `user_id` int(11) DEFAULT NULL,
   `date_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ratings`
+--
+
+INSERT INTO `ratings` (`rating_id`, `order_id`, `published_game_id`, `rating`, `comment`, `user_id`, `date_time`) VALUES
+(37, NULL, 188, 3, 'asdasdasd', 3, '2023-11-15 07:57:38');
 
 -- --------------------------------------------------------
 
@@ -3280,7 +3304,10 @@ INSERT INTO `user_logs` (`log_id`, `user_id`, `event_type`, `timestamp`) VALUES
 (271, 15, 'login', '2023-11-13 07:57:19'),
 (272, 3, 'login', '2023-11-13 08:35:16'),
 (273, 3, 'login', '2023-11-13 08:51:50'),
-(274, 15, 'login', '2023-11-13 09:13:47');
+(274, 15, 'login', '2023-11-13 09:13:47'),
+(275, 3, 'login', '2023-11-15 05:17:48'),
+(276, 3, 'login', '2023-11-15 07:57:11'),
+(277, 3, 'login', '2023-11-15 08:10:50');
 
 -- --------------------------------------------------------
 
@@ -3478,7 +3505,16 @@ INSERT INTO `wallet_transactions` (`wallet_transaction_id`, `user_id`, `transact
 (347, 15, 'Pay', '2023-11-12 15:19:31', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023111216193115', 'OTEuNDY=', NULL, NULL),
 (348, 15, 'Pay', '2023-11-12 23:58:16', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023111300581615', 'MTAyLjM0', NULL, NULL),
 (349, 3, 'Pay', '2023-11-13 09:13:35', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '202311131013353', 'MTkuODg=', NULL, NULL),
-(350, 15, 'Pay', '2023-11-13 09:14:10', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023111310141015', 'NDkuOQ==', NULL, NULL);
+(350, 15, 'Pay', '2023-11-13 09:14:10', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023111310141015', 'NDkuOQ==', NULL, NULL),
+(351, 3, 'Pay', '2023-11-15 06:18:48', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '202311150718483', 'MzU1Ljc=', NULL, NULL),
+(352, 15, 'Profit', '2023-11-15 06:31:01', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'MTIw', 187, NULL),
+(353, 3, 'Pay', '2023-11-15 07:06:21', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '202311150806213', 'NDE0LjU=', NULL, NULL),
+(354, 15, 'Profit', '2023-11-15 07:06:30', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'ODA=', 188, NULL),
+(355, 3, 'Pay', '2023-11-15 07:09:30', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '202311150809303', 'NjQuNQ==', NULL, NULL),
+(356, 3, 'Pay', '2023-11-15 08:11:24', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '202311150911243', 'MTA4Ni41', NULL, NULL),
+(357, 15, 'Profit', '2023-11-15 08:11:32', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'NDAw', 187, NULL),
+(358, 3, 'Pay', '2023-11-15 08:17:36', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '202311150917363', 'MjUxLjM=', NULL, NULL),
+(359, 15, 'Profit', '2023-11-15 08:17:50', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'ODA=', 187, NULL);
 
 --
 -- Indexes for dumped tables
@@ -3820,7 +3856,7 @@ ALTER TABLE `wallet_transactions`
 -- AUTO_INCREMENT for table `added_game_components`
 --
 ALTER TABLE `added_game_components`
-  MODIFY `added_component_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=571;
+  MODIFY `added_component_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=576;
 
 --
 -- AUTO_INCREMENT for table `addresses`
@@ -3838,7 +3874,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `admin_logs`
 --
 ALTER TABLE `admin_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `admin_review_response`
@@ -3856,7 +3892,7 @@ ALTER TABLE `age`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=410;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=416;
 
 --
 -- AUTO_INCREMENT for table `barangay`
@@ -3886,7 +3922,7 @@ ALTER TABLE `cancel_order_reasons`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=971;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=980;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -4012,7 +4048,7 @@ ALTER TABLE `markup_percentage`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=504;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=510;
 
 --
 -- AUTO_INCREMENT for table `paypal_transactions`
@@ -4066,7 +4102,7 @@ ALTER TABLE `published_multiple_files`
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `region`
@@ -4102,7 +4138,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
 
 --
 -- AUTO_INCREMENT for table `user_review_response`
@@ -4114,7 +4150,7 @@ ALTER TABLE `user_review_response`
 -- AUTO_INCREMENT for table `wallet_transactions`
 --
 ALTER TABLE `wallet_transactions`
-  MODIFY `wallet_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=351;
+  MODIFY `wallet_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=360;
 
 --
 -- Constraints for dumped tables
@@ -4125,7 +4161,6 @@ ALTER TABLE `wallet_transactions`
 --
 ALTER TABLE `added_game_components`
   ADD CONSTRAINT `FK_added_game_components_color` FOREIGN KEY (`color_id`) REFERENCES `component_colors` (`color_id`),
-  ADD CONSTRAINT `added_game_components_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `added_game_components_ibfk_2` FOREIGN KEY (`component_id`) REFERENCES `game_components` (`component_id`);
 
 --
