@@ -2298,7 +2298,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                 // Check if file_path is not NULL before creating the download link
                 if (file_path === 0) {
-                    downloadLink = 'wala attachment';
+                    downloadLink = '';
                 } else {
                     downloadLink = '<br><a href="' + file_path + '" download>Download Attachment</a>';
                 }

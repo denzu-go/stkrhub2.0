@@ -265,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD']) {
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">My Address</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
                 </div>
                 <form id="denyForm" enctype="multipart/form-data">
                     <div class="modal-body form-group">

@@ -403,6 +403,12 @@ if ($is_pending == 1) {
     </div>
     ';
 
+    $sqlGetCancelReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
+    $queryGetCancelReason = $conn->query($sqlGetCancelReason);
+    while ($fetchedCancelReason = $queryGetCancelReason->fetch_assoc()) {
+        $reason_text = $fetchedCancelReason['reason_text'];
+    }
+
     $cancelation_reason = '
     <div class="container">
         <div class="row">
@@ -410,11 +416,7 @@ if ($is_pending == 1) {
         </div>
     </div>
     ';
-    $sqlGetCancelReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
-    $queryGetCancelReason = $conn->query($sqlGetCancelReason);
-    while ($fetchedCancelReason = $queryGetCancelReason->fetch_assoc()) {
-        $reason_text = $fetchedCancelReason['reason_text'];
-    }
+    
 } elseif ($is_canceled == 1) {
     $progresses_taas = '
     <div class="steps">
@@ -444,6 +446,12 @@ if ($is_pending == 1) {
     </div>
     ';
 
+    $sqlGetCancelReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
+    $queryGetCancelReason = $conn->query($sqlGetCancelReason);
+    while ($fetchedCancelReason = $queryGetCancelReason->fetch_assoc()) {
+        $reason_text = $fetchedCancelReason['reason_text'];
+    }
+
     $cancelation_reason = '
     <div class="container">
         <div class="row">
@@ -451,11 +459,7 @@ if ($is_pending == 1) {
         </div>
     </div>
     ';
-    $sqlGetCancelReason = "SELECT * FROM cancel_order_reasons WHERE cancel_order_reason_id = $cancel_order_reason_id";
-    $queryGetCancelReason = $conn->query($sqlGetCancelReason);
-    while ($fetchedCancelReason = $queryGetCancelReason->fetch_assoc()) {
-        $reason_text = $fetchedCancelReason['reason_text'];
-    }
+    
 } else {
     $progresses_taas = '
     <div class="steps">
