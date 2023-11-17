@@ -495,7 +495,7 @@ button:hover {
 
                                                     <div class="image-mini-container" style="overflow: hidden; width: 100%; border-radius: 10px; position: relative; padding-top: 45.25%;">
 
-                                                        <img class="card-img-top image-mini" src="img/16x9.jpg" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%); mask-image: linear-gradient(to bottom, transparent 0%, black 40%);">
+                                                        <img class="card-img-top image-mini" src="' . $faq_row['faq_image_path'] . '" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%); mask-image: linear-gradient(to bottom, transparent 0%, black 40%);">
                                                     
                                                     </div>
 

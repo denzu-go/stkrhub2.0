@@ -1,6 +1,7 @@
 <?php
 
 include "database.php";
+
 $query = mysqli_query($conn, "SELECT MIN(product_price) as min_price, MAX(product_price) as max_price FROM product ");
 $row = mysqli_fetch_array($query);
 $min = (int) $row["min_price"];
@@ -10,7 +11,7 @@ $max = (int) $row["max_price"];
 
 <!DOCTYPE html>
 <html lang="en">
-
+  
 <head>
     <title>Jamsrworld.com</title>
 
@@ -97,6 +98,27 @@ $max = (int) $row["max_price"];
                                             <div class="card card-flush ">
                                                 <div class="card-header">
                                                     <div class="card-title">
+                                                        <h4>Price</h4>
+                                                    </div>
+                                                    <div class="card-toolbar drop-active">
+                                                        <svg width="12" height="12" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278" ></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="pt-0 card-body">
+                                                    <div class="price-slider">
+                                                        <input autocomplete="off" type="hidden" id="minimum_price" value="<?php echo $min; ?>" />
+                                                        <input autocomplete="off" type="hidden" id="maximum_price" value="<?php echo $max; ?>" />
+                                                        <p id="price_text">₹<?php echo $min; ?> - ₹<?php echo $max; ?></p>
+                                                        <div id="text_range"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="separator "></div>
+                                            <div class="card card-flush ">
+                                                <div class="card-header">
+                                                    <div class="card-title">
                                                         <h4>Brand</h4>
                                                     </div>
                                                     <div class="card-toolbar drop-active">
@@ -107,12 +129,12 @@ $max = (int) $row["max_price"];
                                                 </div>
                                                 <div class="pt-0 card-body">
                                                     <?php
-                                                    $query = mysqli_query($conn, "SELECT DISTINCT(product_brand) FROM product ORDER BY product_brand ASC ");
+                                                    $query = mysqli_query($conn, "SELECT * FROM categories ORDER BY category_name ASC ");
                                                     while ($row = mysqli_fetch_array($query)) {
                                                         echo '<div class="mb-2 form-check form-check-custom form-check-solid me-10">
-                                                            <input class="form-check-input" data-filter="brand" type="checkbox" value="' . $row["product_brand"] . '" id="brand' . $row["product_brand"] . '" />
-                                                            <label class="form-check-label" for="brand' . $row["product_brand"] . '">
-                                                                ' . $row["product_brand"] . '
+                                                            <input class="form-check-input" data-filter="brand" type="checkbox" value="' . $row["category_name"] . '" id="brand' . $row["category_name"] . '" />
+                                                            <label class="form-check-label" for="brand' . $row["category_name"] . '">
+                                                            ' . $row["category_name"] . '
                                                             </label>
                                                         </div>';
                                                     }

@@ -3,9 +3,10 @@
 echo '
 
 <div class="product_card m-3 scroll_reveal" id="published_game" data-published_game_id="' . $published_game_id . '" style="width: 20rem;">
+<a href="marketplace_item_page.php?published_game_id=' . $published_game_id . '" data-toggle="tooltip" title="'.$game_name.'">
     <div class="card" style="border: none;">
 
-        <a href="marketplace_item_page.php?published_game_id=' . $published_game_id . '" data-toggle="tooltip" title="'.$game_name.'">
+        
             <div class="container p-0" style="margin-bottom: 4rem;">
                 <div class="image-mini-container" style="overflow: hidden; width: 100%; border-radius: 10px; position: relative; padding-top: 45.25%;">
                     <img class="card-img-top image-mini" src="'.$logo_path.'" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%); mask-image: linear-gradient(to bottom, transparent 0%, black 40%);">

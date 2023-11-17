@@ -93,10 +93,10 @@
 	--bs-body-font-size: 1rem;
 	--bs-body-font-weight: 400;
 	--bs-body-line-height: 1.5;
-	--bs-body-color: #181C32;
+	
 	--bs-body-bg: #ffffff;
 	/* --original-color:#3e5569; */
-	--original-color: #3F3F3F;
+	
 }
 
 *,
@@ -111,7 +111,7 @@ body {
 	font-size: var(--bs-body-font-size);
 	font-weight: var(--bs-body-font-weight);
 	line-height: var(--bs-body-line-height);
-	color: var(--bs-body-color);
+	
 	text-align: var(--bs-body-text-align);
 	background-color: var(--bs-body-bg);
 	-webkit-text-size-adjust: 100%;
@@ -146,7 +146,7 @@ h6 {
 	margin-bottom: .5rem;
 	font-weight: 600;
 	line-height: 1.2;
-	color: var(--original-color)
+	/*color: var(--original-color) ;*/
 }
 
 .h1,
@@ -55788,7 +55788,7 @@ html {
 	font-size: 13px !important;
 	font-weight: 400;
 	font-family: Poppins, Helvetica, sans-serif;
-	font-family: Helvetica Neue !important;
+	
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale
 }
@@ -55821,7 +55821,7 @@ html a:hover {
 body {
 	display: flex;
 	flex-direction: column;
-	color: var(--original-color)
+	
 }
 
 router-outlet {
