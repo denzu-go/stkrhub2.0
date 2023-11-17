@@ -745,12 +745,19 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 user_id: creator_id,
                                 game_id: gameId,
                             },
-                            dataType: 'json',
                             success: function(response) {
-                                Swal.fire('Approved!', 'The game has been approved.', 'success');
+                                Swal.fire('Approved!', 'The game has been approved.', 'success').then(function() {
+                                    window.location.href = 'edit_published_game_requests.php';
+                                });
+
+
                             },
-                            error: function(xhr, status, error) {
+                            error: function(error) {
                                 Swal.fire('Error', 'An error occurred while approving the game.', 'error');
+                                // You can handle the error details if needed
+                                console.log(error);
+                                window.location.href = 'edit_published_game_requests.php';
+
                             }
                         });
                     }
