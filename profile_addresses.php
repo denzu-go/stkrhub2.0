@@ -1,5 +1,11 @@
 <?php
 session_start();
+include 'connection.php';
+if (isset($_SESSION["user_id"])) {
+    $user_id = $_SESSION["user_id"];
+}
+
+include 'html/get_bg.php';
 ?>
 
 <!DOCTYPE html>
@@ -163,19 +169,33 @@ session_start();
             cursor: pointer;
             color: #90ee90;
         }
+
+         /* sidebar active */
+         #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
     </style>
 
 
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
+
     <?php
     include 'connection.php';
     include 'html/page_header.php';
+    $my_profile = '';
+    $my_addresses = 'active';
+    $my_purchase = '';
+    $stkr_wallet = '';
+    $change_password = '';
+    ;
 
     $region = "SELECT * FROM region";
     $region_qry = mysqli_query($conn, $region);

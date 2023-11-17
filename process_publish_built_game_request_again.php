@@ -100,8 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $isRePublihsedQuery = "UPDATE built_games SET is_request_denied = 0 WHERE built_game_id = '$built_game_id'";
             mysqli_query($conn, $isRePublihsedQuery);
 
-            $deleteDenyQuery = "DELETE FROM denied_publish_requests WHERE built_game_id = $built_game_id";
-            mysqli_query($conn, $deleteDenyQuery);
+            // $deleteDenyQuery = "DELETE FROM denied_publish_requests WHERE built_game_id = $built_game_id";
+            // mysqli_query($conn, $deleteDenyQuery);
         }
     }
 }

@@ -190,10 +190,10 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
                         </div>
                         <div class="container">
                             <div class="col-sm">
-                                <button class="btn" id="approvePublish" data-built-game-id="<?php echo $built_game_id; ?>" style="background-color: #63d19e; color: white;">Approve Publish
+                                <button class="btn" id="approvePublish" data-built-game-id="<?php echo $built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #63d19e; color: white;">Approve Publish
                                     Request</button>
 
-                                <button class="btn" id="cancelPublish" data-built-game-id="<?php echo $built_game_id; ?>"style="background-color: #dc3545; color: white;">Deny Publish
+                                <button class="btn" id="cancelPublish" data-built-game-id="<?php echo $built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #dc3545; color: white;">Deny Publish
                                     Request</button>
                             </div>
                         </div>
@@ -393,10 +393,10 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
 
                                             <hr>
 
-                                            <h4>Components Included</h4>
+                                            <!-- <h4>Components Included</h4> -->
 
                                             <!-- DataTables Game Components -->
-                                            <table id="builtGameTable" class="display">
+                                            <!-- <table id="builtGameTable" class="display">
                                                 <thead>
                                                     <tr>
                                                         <th>Component Name</th>
@@ -409,7 +409,7 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
                                                 </thead>
                                                 <tbody>
                                                 </tbody>
-                                            </table>
+                                            </table> -->
                                             <!-- /DataTables Game Components -->
 
                                         </div>
@@ -430,9 +430,55 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
         </div>
 
         <?php include 'html/admin_footer.php'; ?>
-
-
     </div>
+
+
+    <!-- modals -->
+    <div class="modal fade" id="changeAddress">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                </div>
+                <form id="denyForm" enctype="multipart/form-data">
+                    <div class="modal-body form-group">
+
+                        <label for="reason" style="color: #777777;">Reason:</label>
+                        <textarea class="form-control" id="reason" name="reason" required></textarea>
+
+                        <label for="fileupload" style="color: #777777;">File Upload:</label>
+                        <input class="form-control" type="file" id="fileupload" name="fileupload"><br>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <!-- Include global.min.js first -->
@@ -546,8 +592,67 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
 
 
 
-            // Attach a click event handler to the button by its id
+
+
+
+
+
+
+
+
+
+
             $('#cancelPublish').on('click', function() {
+                var gameId = $(this).data('built-game-id');
+                var creator_id = $(this).data('creator_id');
+
+                $("#changeAddress").modal("show");
+
+                // You can also set hidden input fields to pass the gameId and creatorId to the PHP script
+                $('#denyForm').append('<input type="hidden" id="game_id" value="' + gameId + '">');
+                $('#denyForm').append('<input type="hidden" id="creator_id" value="' + creator_id + '">');
+            });
+
+
+            $("#denyForm").submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData();
+                formData.append('reason', $('#reason').val());
+                formData.append('fileupload', $('#fileupload')[0].files[0]);
+
+                formData.append('game_id', $('#game_id').val());
+                formData.append('creator_id', $('#creator_id').val());
+
+                // Make an AJAX request to submit the form data
+                $.ajax({
+                    url: 'admin_process_deny_publish_request.php',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Handle the success response here
+                        console.log("Form submitted successfully.");
+                        $("#changeAddress").modal('hide');
+                    },
+                    error: function(error) {
+                        // Handle any errors here
+                        console.error("Error submitting the form: " + error);
+                        // You can display an error message or take any other appropriate action
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+            // Attach a click event handler to the button by its id
+            $('#cancelPublisah').on('click', function() {
                 const builtGameId = $(this).data('built-game-id');
 
                 // Create a SweetAlert pop-up with an input field for reasons and a file upload field

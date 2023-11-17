@@ -33,6 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Update the orders table
             $sqlUpdateOrders = "UPDATE orders SET is_pending = 0, is_canceled = 1, cancel_order_reason_id = $cancel_order_reason_id, is_canceled_datetime = '$current_datetime' WHERE order_id = $order_id";
             $conn->query($sqlUpdateOrders);
+
+            if ($built_game_id) {
+                // Update the is_semi_purchased table
+                $sqlUpdateSemiPurchased = "UPDATE built_games SET is_semi_purchased = 0 WHERE built_game_id = $built_game_id";
+                $conn->query($sqlUpdateSemiPurchased);
+            }
         }
 
         // update wallet

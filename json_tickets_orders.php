@@ -41,7 +41,7 @@ while ($fetchedD = $queryUniqueOrderDates->fetch_assoc()) {
     } elseif($is_denied){
         $status = 'Denied';
     } else{
-        $status = 'Undefined';
+        $status = 'Pending';
     }
 
     $item = '

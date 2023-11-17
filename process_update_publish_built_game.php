@@ -19,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $age_id = $_POST['age'];
     $short_description = $_POST['short_description'];
     $long_description = $_POST['long_description'];
-    $website = $_POST['website'];
 
     // Get player counts and playtimes
     $min_players = $_POST['min_players'];
@@ -42,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (move_uploaded_file($logo_file['tmp_name'], $logo_path)) {
         // Logo upload successful
         // Insert data into the published_built_games table
-        $insertQuery = "INSERT INTO pending_update_published_built_games (published_built_game_id, built_game_id, game_name, category, edition, published_date, creator_id, age_id, short_description, long_description, logo_path, website, min_players, max_players, min_playtime, max_playtime, desired_markup, manufacturer_profit, creator_profit, marketplace_price) VALUES ('$published_built_game_id', '$built_game_id', '$game_name', '$category', '$edition', '$published_date', '$creator_id', '$age_id', '$short_description', '$long_description', '$logo_path', '$website', '$min_players', '$max_players', '$min_playtime', '$max_playtime', '$desired_markup', '$manufacturer_profit', '$creator_profit', '$marketplace_price')";
+        $insertQuery = "INSERT INTO pending_update_published_built_games (published_built_game_id, built_game_id, game_name, category, edition, published_date, creator_id, age_id, short_description, long_description, logo_path, min_players, max_players, min_playtime, max_playtime, desired_markup, manufacturer_profit, creator_profit, marketplace_price) VALUES ('$published_built_game_id', '$built_game_id', '$game_name', '$category', '$edition', '$published_date', '$creator_id', '$age_id', '$short_description', '$long_description', '$logo_path', '$min_players', '$max_players', '$min_playtime', '$max_playtime', '$desired_markup', '$manufacturer_profit', '$creator_profit', '$marketplace_price')";
 
         if (mysqli_query($conn, $insertQuery)) {
             // Retrieve the generated published_built_game_id
@@ -84,8 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (mysqli_query($conn, $updateHasPendingQuery)) {
                 echo 'has_pending_update updated successfully.';
 
-                $deleteQuery1 = "DELETE FROM denied_update_publish_requests WHERE published_built_game_id = $published_built_game_id";
-                mysqli_query($conn, $deleteQuery1);
+                // $deleteQuery1 = "DELETE FROM denied_update_publish_requests WHERE published_built_game_id = $published_built_game_id";
+                // mysqli_query($conn, $deleteQuery1);
             } else {
                 echo "Error updating has_pending_update: " . mysqli_error($conn);
             }

@@ -194,7 +194,8 @@ while ($fetched = $result->fetch_assoc()) {
     }
 
 
-
+    $reason = '';
+    $file_path = '';
     $sqlReason = "SELECT * FROM denied_update_publish_requests WHERE published_built_game_id = $published_game_id";
     $queryReason = $conn->query($sqlReason);
     while ($fetchedReason = $queryReason->fetch_assoc()) {
@@ -257,7 +258,7 @@ while ($fetched = $result->fetch_assoc()) {
         </span>
         <br>
 
-        '.$view_edit_req.'
+        ' . $view_edit_req . '
 
         ' . $action3 . '
         

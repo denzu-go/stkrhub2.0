@@ -21,6 +21,8 @@ $credentials = '';
 if (isset($_SESSION['credentials'])) {
     $credentials = $_SESSION['credentials'];
 }
+
+include 'html/get_bg.php';
 ?>
 
 <!DOCTYPE html>
@@ -187,19 +189,33 @@ if (isset($_SESSION['credentials'])) {
             border: none;
             cursor: pointer;
             color: #90ee90;
+        }   
+
+         /* sidebar active */
+         #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
         }
     </style>
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php
-    include 'connection.php';
+    
     include 'html/page_header.php';
+
+    $my_profile = '';
+    $my_addresses = '';
+    $my_purchase = '';
+    $stkr_wallet = '';
+    $change_password = 'active';
+
     ?>
 
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">

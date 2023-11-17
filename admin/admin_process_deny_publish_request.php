@@ -1,23 +1,19 @@
 <?php
-session_start();
 include 'connection.php';
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-// Check if the request is a POST request
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the data sent via POST
-    $builtGameId = $_POST['gameId'];
+    $game_id = $_POST['game_id'];
+    $creator_id = $_POST['creator_id'];
     $reason = $_POST['reason'];
-    $file = $_FILES['file'];
 
-    echo "Built Game ID: " . $builtGameId . "<br>";
-    echo "Reason: " . $reason . "<br>";
 
     $uploadDirectory = '../uploads/denied_publish_requests/';
 
-    if (isset($_FILES['file'])) {
-        $uniqueFilename = time() . '_' . $file['name'];
-        $uploadPath = $uploadDirectory . $uniqueFilename;
+    if (isset($_FILES['fileupload'])) {
+        $file = $_FILES['fileupload'];
 
+        $uniqueFilename = uniqid() . '_' . $file['name'];
+        $uploadPath = $uploadDirectory . $uniqueFilename;
         if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
         } else {
             echo "File upload failed.";
@@ -27,16 +23,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadPath = 0;
     }
 
+    echo "reason" . $reason . "<br>";
+    echo "game_id" . $game_id . "<br>";
+    echo "creator_id" . $creator_id . "<br>";
+    echo "uploadPath" . $uploadPath . "<br>";
+
+
 
     // Insert data into the database
-    $insertQuery = "INSERT INTO denied_publish_requests (built_game_id, reason, file_path) VALUES ('$builtGameId', '$reason', '$uploadPath')";
+    $insertQuery = "INSERT INTO denied_publish_requests (built_game_id, reason, file_path) VALUES ('$game_id', '$reason', '$uploadPath')";
     mysqli_query($conn, $insertQuery);
 
+
+
+
     // Update the built_games table
-    $updateQuery = "UPDATE built_games SET is_pending_published = 0, is_request_denied = 1 WHERE built_game_id = $builtGameId";
+    $updateQuery = "UPDATE built_games SET is_pending_published = 0, is_request_denied = 1 WHERE built_game_id = $game_id";
     if (mysqli_query($conn, $updateQuery)) {
 
-        $UpdateQuery1 = "UPDATE pending_published_built_games SET is_visible = 0 WHERE built_game_id = $builtGameId";
+        $UpdateQuery1 = "UPDATE pending_published_built_games SET is_visible = 0 WHERE built_game_id = $game_id";
         mysqli_query($conn, $UpdateQuery1);
 
         // $deleteQuery2 = "DELETE FROM pending_published_built_games WHERE built_game_id = $builtGameId";
