@@ -10,21 +10,52 @@
                     <li><a href="admin_banner.php" aria-expanded="false"><i class="fa-solid fa-panorama"></i></i><span class="nav-text">Banners</span></a></li>
 
                     <li class="nav-label">Orders</li>
-                    <li><a href="pending_all.php" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i><span class="nav-text">All Pending Orders</span></a></li>
-
-                    <li><a href="in_production.php" aria-expanded="false">
-                            <span>
-                                <table id="in_production_count_table" class="display">
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </span>
+                    <li>
+                        <a href="pending_all.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_pending_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
                         </a>
                     </li>
 
-                    <li><a href="to_ship.php" aria-expanded="false"><i class="fa-solid fa-truck-ramp-box"></i><span class="nav-text">To Ship</span></a></li>
-                    <li><a href="to_deliver.php" aria-expanded="false"><i class="fa-solid fa-check-to-slot"></i><span class="nav-text">Completed Orders</span></a></li>
-                    <li><a href="canceled.php" aria-expanded="false"><i class="fa-solid fa-ban"></i><span class="nav-text">Canceled Orders</span></a></li>
+                    <li class="m-0 p-0">
+                        <a href="in_production.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="in_production_count" class="display" style="width: 100%; padding: 0px; margin: 0px;">
+                                <tbody style="width: 100%; padding: 0px; margin: 0px; height: 20px;">
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="to_ship.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="to_ship_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="to_deliver.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="to_deliver_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="canceled.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_canceled_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+
 
                     <li class="nav-label">Approve / Deny</li>
                     <li><a href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>

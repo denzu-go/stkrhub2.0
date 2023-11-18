@@ -149,7 +149,11 @@ include 'connection.php';
 
             var passed_status = 'in_production';
 
-            <?php include 'html/count_orders_global.php'; ?>
+            <?php include 'html/count_orders.php'; ?>
+
+
+
+
 
             $('#allOrders').DataTable({
                 "columnDefs": [{
@@ -256,15 +260,37 @@ include 'connection.php';
                             success: function(response) {
                                 if (response.success) {
                                     $('#allOrders').DataTable().ajax.reload();
+
+                                    $('#cartCount').DataTable().ajax.reload();
+                                    $('#is_pending_count').DataTable().ajax.reload();
+                                    $('#in_production_count').DataTable().ajax.reload();
+                                    $('#to_ship_count').DataTable().ajax.reload();
+                                    $('#to_deliver_count').DataTable().ajax.reload();
+                                    $('#is_canceled_count').DataTable().ajax.reload();
+
                                     Swal.fire('Success', response.message, 'success');
                                 } else {
                                     $('#allOrders').DataTable().ajax.reload();
                                     $('#cartCount').DataTable().ajax.reload();
+                                    $('#cartCount').DataTable().ajax.reload();
+                                    $('#is_pending_count').DataTable().ajax.reload();
+                                    $('#in_production_count').DataTable().ajax.reload();
+                                    $('#to_ship_count').DataTable().ajax.reload();
+                                    $('#to_deliver_count').DataTable().ajax.reload();
+                                    $('#is_canceled_count').DataTable().ajax.reload();
+
                                     Swal.fire('Error', response.message, 'error');
                                 }
                             },
                             error: function() {
                                 $('#allOrders').DataTable().ajax.reload();
+
+                                $('#cartCount').DataTable().ajax.reload();
+                                $('#is_pending_count').DataTable().ajax.reload();
+                                $('#in_production_count').DataTable().ajax.reload();
+                                $('#to_ship_count').DataTable().ajax.reload();
+                                $('#to_deliver_count').DataTable().ajax.reload();
+                                $('#is_canceled_count').DataTable().ajax.reload();
                                 Swal.fire('Error', 'Failed to delete the game', 'error');
                             }
                         });

@@ -1,27 +1,27 @@
-#in_production_count_table {
+#is_pending_count, #in_production_count, #to_ship_count, #to_deliver_count, #is_received_count, #is_canceled_count {
     box-shadow: none !important;
     margin-top: 0rem !important;
     padding: 0px;
 }
 
-#in_production_count_table .odd {
+#is_pending_count .odd, #in_production_count .odd, #to_ship_count .odd, #to_deliver_count .odd, #is_received_count .odd, #is_canceled_count .odd {
     background-color: transparent;
     padding: 0px;
 }
 
-#in_production_count_table thead {
+#is_pending_count thead, #in_production_count thead, #to_ship_count thead, #to_deliver_count thead, #is_received_count thead, #is_canceled_count thead {
     display: none;
     /* Hide the table header */
     padding: 0px;
 }
 
-#in_production_count_table th {
+#is_pending_count th, #in_production_count th, #to_ship_count th, #to_deliver_count th, #is_received_count th, #is_canceled_count th {
     display: none;
     /* Hide table header cells */
     padding: 0px;
 }
 
-#in_production_count_table.dataTable.no-footer {
+#is_pending_count.dataTable.no-footer, #in_production_count.dataTable.no-footer, #to_ship_count.dataTable.no-footer, #to_deliver_count.dataTable.no-footer, #is_received_count.dataTable.no-footer, #is_canceled_count.dataTable.no-footer{
     border-bottom: none;
     padding: 0px;
 }

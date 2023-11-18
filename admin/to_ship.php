@@ -37,6 +37,10 @@ include 'connection.php';
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
+    <style>
+        <?php include 'css/orders_count.css'; ?>
+    </style>
 </head>
 
 
@@ -68,7 +72,7 @@ include 'connection.php';
                         <div class="card">
                             <div class="card-body">
 
-                            <?php
+                                <?php
                                 $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
                                 $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
@@ -140,6 +144,9 @@ include 'connection.php';
 
 
             var passed_status = 'to_ship';
+
+            <?php include 'html/count_orders.php'; ?>
+
 
             $('#allOrders').DataTable({
                 "columnDefs": [{
@@ -273,15 +280,36 @@ include 'connection.php';
                                         success: function(response) {
                                             if (response.success) {
                                                 $('#allOrders').DataTable().ajax.reload();
+
+                                                $('#cartCount').DataTable().ajax.reload();
+                                                $('#is_pending_count').DataTable().ajax.reload();
+                                                $('#in_production_count').DataTable().ajax.reload();
+                                                $('#to_ship_count').DataTable().ajax.reload();
+                                                $('#to_deliver_count').DataTable().ajax.reload();
+                                                $('#is_canceled_count').DataTable().ajax.reload();
                                                 Swal.fire('Success', response.message, 'success');
                                             } else {
                                                 $('#allOrders').DataTable().ajax.reload();
                                                 $('#cartCount').DataTable().ajax.reload();
+
+                                                $('#cartCount').DataTable().ajax.reload();
+                                                $('#is_pending_count').DataTable().ajax.reload();
+                                                $('#in_production_count').DataTable().ajax.reload();
+                                                $('#to_ship_count').DataTable().ajax.reload();
+                                                $('#to_deliver_count').DataTable().ajax.reload();
+                                                $('#is_canceled_count').DataTable().ajax.reload();
                                                 Swal.fire('Error', response.message, 'error');
                                             }
                                         },
                                         error: function() {
                                             $('#allOrders').DataTable().ajax.reload();
+
+                                            $('#cartCount').DataTable().ajax.reload();
+                                            $('#is_pending_count').DataTable().ajax.reload();
+                                            $('#in_production_count').DataTable().ajax.reload();
+                                            $('#to_ship_count').DataTable().ajax.reload();
+                                            $('#to_deliver_count').DataTable().ajax.reload();
+                                            $('#is_canceled_count').DataTable().ajax.reload();
                                             Swal.fire('Error', 'Failed to delete the game', 'error');
                                         }
                                     });
