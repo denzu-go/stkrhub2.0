@@ -31,6 +31,8 @@ $admin = $resultadminDetails->fetch_assoc();
     <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -49,6 +51,7 @@ $admin = $resultadminDetails->fetch_assoc();
 
     <!-- Bootstrap JS (optional) -->
     <script src="path/to/bootstrap.bundle.min.js"></script>
+
 
 
 
@@ -230,24 +233,24 @@ $admin = $resultadminDetails->fetch_assoc();
                                                             <tbody>
                                                                 <div class="row pl-4 pr-4" style="display: flex; flex-direction: row; justify-content: center; align-items:center;">
                                                                     <div class="image-mini-container">
-                                                                        <?php 
+                                                                        <?php
                                                                         if (!is_null($admin['avatar'])) {
-                                                                            echo '<img src="'. $admin['avatar'].'" alt="Admin" class="image-mini" style="padding:10px;border-radius:25px;">';
+                                                                            echo '<img src="' . $admin['avatar'] . '" alt="Admin" class="image-mini" style="padding:10px;border-radius:25px;">';
                                                                         } else {
                                                                             echo '<img src="../img/constant/default.png" alt="Admin" class="image-mini" style="padding:10px;border-radius:25px;">';
                                                                         }
 
-                                                                        
+
                                                                         ?>
 
 
-                                                                        
+
                                                                     </div>
 
                                                                     <hr>
 
                                                                     <div class="col-sm-3 d-grid">
-                                                                        <button type="button" id="upload" data-id = "<?php echo $admin_id; ?>"class="btn btn-outline-primary" style="color:lightgreen;border:none">Edit</a>
+                                                                        <button type="button" id="upload" data-id="<?php echo $admin_id; ?>" class="btn btn-outline-primary" style="color:lightgreen;border:none">Edit</a>
                                                                     </div>
                                                                 </div>
 
@@ -463,179 +466,176 @@ $admin = $resultadminDetails->fetch_assoc();
 
 
             $("#editPasswordForm").submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
-            var formData = new FormData(this); // Create a FormData object
+                e.preventDefault(); // Prevent the default form submission
+                var formData = new FormData(this); // Create a FormData object
 
-            // Send an AJAX POST request
-            $.ajax({
-                type: "POST",
-                url: "admin_process_change_password.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    // Parse the JSON response
-                    try {
-                        response = JSON.parse(response);
-                    } catch (e) {
-                        console.error("Error parsing JSON response:", e);
-                        return;
-                    }
-
-                    // Check the status in the response
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message,
-                        }).then(function() {
-                            // Redirect to admin_account_management.php on success
-                            window.location.href = "admin_profile.php";
-                        });
-
-                        // Reload DataTables if needed
-                        
-                    } else {
-                        // Display the error message
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.message,
-                        }).then(function() {
-                            // Redirect to admin_account_management.php on success
-                            $("#editPasswordForm")[0].reset();
-                        });
-                    }
-                },
-                error: function(error) {
-                    // Display a generic error message for AJAX errors
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error in submitting data: ' + error.responseText,
-                    }).then(function() {
-                            // Redirect to admin_account_management.php on success
-                            $("#editPasswordForm")[0].reset();
-                        });
-                }
-            });
-        });
-
-
-        $("#editProfileForm").submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
-            var formData = new FormData(this); // Create a FormData object
-
-            // Send an AJAX POST request
-            $.ajax({
-                type: "POST",
-                url: "admin_process_edit_profile.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    // Parse the JSON response
-                    try {
-                        response = JSON.parse(response);
-                    } catch (e) {
-                        console.error("Error parsing JSON response:", e);
-                        return;
-                    }
-
-                    // Check the status in the response
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message,
-                        }).then(function() {
-                            // Redirect to admin_account_management.php on success
-                            window.location.href = "admin_profile.php";
-                        });
-
-                        // Reload DataTables if needed
-                        
-                    } else {
-                        // Display the error message
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(error) {
-                    // Display a generic error message for AJAX errors
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error in submitting data: ' + error.responseText,
-                    });
-                }
-            });
-        });
-
-
-
-
-
-
-       // Assuming this script is included after jQuery and SweetAlert libraries
-
-// Assuming this script is included after jQuery and SweetAlert libraries
-
-$('body').on('click', '#upload', function() {
-    // Extract the admin_id from the button's data-id attribute
-    var admin_id = $(this).data('id');
-
-    // Create a SweetAlert form for image upload
-    Swal.fire({
-        title: 'Upload Image',
-        html: '<input type="file" id="imageUploadInput" accept="image/*">',
-        showCancelButton: true,
-        confirmButtonText: 'Upload',
-        preConfirm: () => {
-            const fileInput = document.getElementById('imageUploadInput');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                Swal.showValidationMessage('Please select an image to upload.');
-            } else {
-                // You can use FormData to send the file and admin_id to the server
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('admin_id', admin_id);
-
-                // You can use AJAX or fetch to send the file and admin_id to the server
-                // Example using fetch:
-                fetch('admin_process_avatar.php', {
-                        method: 'POST',
-                        body: formData,
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire('Image uploaded successfully!', '', 'success');
-                            setTimeout(() => {
-                                location.reload(); // Reload the page
-                            }, 2000); // Delay for 2 seconds (adjust as needed)
-                        } else {
-                            Swal.fire('Error uploading image', data.message, 'error');
+                // Send an AJAX POST request
+                $.ajax({
+                    type: "POST",
+                    url: "admin_process_change_password.php",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Parse the JSON response
+                        try {
+                            response = JSON.parse(response);
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                            return;
                         }
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        Swal.fire('Error uploading image', 'An error occurred.', 'error');
-                    });
-            }
-        },
-    });
-});
 
-});
+                        // Check the status in the response
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message,
+                            }).then(function() {
+                                // Redirect to admin_account_management.php on success
+                                window.location.href = "admin_profile.php";
+                            });
+
+                            // Reload DataTables if needed
+
+                        } else {
+                            // Display the error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: response.message,
+                            }).then(function() {
+                                // Redirect to admin_account_management.php on success
+                                $("#editPasswordForm")[0].reset();
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        // Display a generic error message for AJAX errors
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error in submitting data: ' + error.responseText,
+                        }).then(function() {
+                            // Redirect to admin_account_management.php on success
+                            $("#editPasswordForm")[0].reset();
+                        });
+                    }
+                });
+            });
+
+
+            $("#editProfileForm").submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+                var formData = new FormData(this); // Create a FormData object
+
+                // Send an AJAX POST request
+                $.ajax({
+                    type: "POST",
+                    url: "admin_process_edit_profile.php",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Parse the JSON response
+                        try {
+                            response = JSON.parse(response);
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                            return;
+                        }
+
+                        // Check the status in the response
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message,
+                            }).then(function() {
+                                // Redirect to admin_account_management.php on success
+                                window.location.href = "admin_profile.php";
+                            });
+
+                            // Reload DataTables if needed
+
+                        } else {
+                            // Display the error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        // Display a generic error message for AJAX errors
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error in submitting data: ' + error.responseText,
+                        });
+                    }
+                });
+            });
 
 
 
+
+
+
+            // Assuming this script is included after jQuery and SweetAlert libraries
+
+            // Assuming this script is included after jQuery and SweetAlert libraries
+
+            $('body').on('click', '#upload', function() {
+                // Extract the admin_id from the button's data-id attribute
+                var admin_id = $(this).data('id');
+
+                // Create a SweetAlert form for image upload
+                Swal.fire({
+                    title: 'Upload Image',
+                    html: '<input type="file" id="imageUploadInput" accept="image/*">',
+                    showCancelButton: true,
+                    confirmButtonText: 'Upload',
+                    preConfirm: () => {
+                        const fileInput = document.getElementById('imageUploadInput');
+                        const file = fileInput.files[0];
+
+                        if (!file) {
+                            Swal.showValidationMessage('Please select an image to upload.');
+                        } else {
+                            // You can use FormData to send the file and admin_id to the server
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            formData.append('admin_id', admin_id);
+
+                            // You can use AJAX or fetch to send the file and admin_id to the server
+                            // Example using fetch:
+                            fetch('admin_process_avatar.php', {
+                                    method: 'POST',
+                                    body: formData,
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire('Image uploaded successfully!', '', 'success');
+                                        setTimeout(() => {
+                                            location.reload(); // Reload the page
+                                        }, 2000); // Delay for 2 seconds (adjust as needed)
+                                    } else {
+                                        Swal.fire('Error uploading image', data.message, 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                    Swal.fire('Error uploading image', 'An error occurred.', 'error');
+                                });
+                        }
+                    },
+                });
+            });
+
+        });
     </script>
 
 

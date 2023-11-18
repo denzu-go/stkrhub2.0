@@ -32,6 +32,8 @@ include 'connection.php';
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -64,8 +66,8 @@ include 'connection.php';
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                            <h4>Super Admin Accounts</h4>
-                            <br>
+                                <h4>Super Admin Accounts</h4>
+                                <br>
                                 <table id="superTable" class="display" style="width: 100%;">
                                     <thead>
                                         <tr>
@@ -85,24 +87,24 @@ include 'connection.php';
                                     </div>
                                 </div>
 
-                                
+
                             </div>
 
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="row">
 
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                            <h4>Admin Accounts</h4>
-                            <br>
+                                <h4>Admin Accounts</h4>
+                                <br>
                                 <table id="adminTable" class="display" style="width: 100%;">
                                     <thead>
-                                        <tr> 
+                                        <tr>
                                             <th>Username</th>
                                             <th>Email</th>
                                             <th>Date Created</th>
@@ -119,7 +121,7 @@ include 'connection.php';
                                     </div>
                                 </div>
 
-                                
+
                             </div>
 
                         </div>
@@ -180,64 +182,62 @@ include 'connection.php';
         $(document).ready(function() {
 
 
-    
 
 
-                $('#superTable').DataTable({
-                    searching: true,
-                    info: false,
-                    paging: true,
-                    ordering: true,
-                    ajax: {
-                        url: "admin_json_super_admin_table.php",
-                        data: {}, // You can add additional data parameters if needed
-                        dataSrc: ""
+
+            $('#superTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+                ajax: {
+                    url: "admin_json_super_admin_table.php",
+                    data: {}, // You can add additional data parameters if needed
+                    dataSrc: ""
+                },
+                columns: [{
+                        data: "username"
                     },
-                    columns: [
-                        {
-                            data: "username"
-                        },
-                       
-                        {
-                            data: "email"
-                        },
-                        {
-                            data: "date"
-                        },
-                        {
-                            data: "action"
-                        }
-                    ]
-                });
 
-                $('#adminTable').DataTable({
-                    searching: true,
-                    info: false,
-                    paging: true,
-                    ordering: true,
-                    ajax: {
-                        url: "admin_json_admin_table.php",
-                        data: {}, // You can add additional data parameters if needed
-                        dataSrc: ""
+                    {
+                        data: "email"
                     },
-                    columns: [
-                        {
-                            data: "username"
-                        },
-                       
-                        {
-                            data: "email"
-                        },
-                        {
-                            data: "date"
-                        },
-                        {
-                            data: "action"
-                        }
-                    ]
-                });
+                    {
+                        data: "date"
+                    },
+                    {
+                        data: "action"
+                    }
+                ]
+            });
 
-                $('#superTable').on('click', '.delete-super', function() {
+            $('#adminTable').DataTable({
+                searching: true,
+                info: false,
+                paging: true,
+                ordering: true,
+                ajax: {
+                    url: "admin_json_admin_table.php",
+                    data: {}, // You can add additional data parameters if needed
+                    dataSrc: ""
+                },
+                columns: [{
+                        data: "username"
+                    },
+
+                    {
+                        data: "email"
+                    },
+                    {
+                        data: "date"
+                    },
+                    {
+                        data: "action"
+                    }
+                ]
+            });
+
+            $('#superTable').on('click', '.delete-super', function() {
                 var userID = $(this).data('admin-id');
 
                 Swal.fire({
@@ -305,9 +305,7 @@ include 'connection.php';
             });
 
 
-            });
- 
-
+        });
     </script>
 
 

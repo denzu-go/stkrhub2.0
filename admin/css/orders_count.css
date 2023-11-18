@@ -1,0 +1,27 @@
+#in_production_count_table {
+    box-shadow: none !important;
+    margin-top: 0rem !important;
+    padding: 0px;
+}
+
+#in_production_count_table .odd {
+    background-color: transparent;
+    padding: 0px;
+}
+
+#in_production_count_table thead {
+    display: none;
+    /* Hide the table header */
+    padding: 0px;
+}
+
+#in_production_count_table th {
+    display: none;
+    /* Hide table header cells */
+    padding: 0px;
+}
+
+#in_production_count_table.dataTable.no-footer {
+    border-bottom: none;
+    padding: 0px;
+}

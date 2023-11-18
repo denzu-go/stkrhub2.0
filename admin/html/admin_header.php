@@ -30,9 +30,35 @@ $row = mysqli_fetch_array($result);
     <a href="admin_profile.php" class="brand-logo">
         <?php 
         if(!is_null($row['avatar'])) {
-            echo '<img class="logo-abbr" style="height:40px;border-radius:100%;" src="'.$row['avatar'].'" alt="">';
+            echo '
+            <div class="img_wrapper" 
+            style="
+            overflow: hidden;
+            width: 40px;
+            height: 40px;
+            ">
+                <img class="logo-abbr" src="'.$row['avatar'].'" alt="" style="
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                ">
+            </div>
+            ';
         }else {
-            echo '<img class="logo-abbr" style="height:40px;border-radius:100%;" src="../img/constant/default.png" alt="">';
+            echo '
+            <div class="img_wrapper" 
+            style="
+            overflow: hidden;
+            width: 40px;
+            height: 40px;
+            ">
+                <img class="logo-abbr" src="../img/constant/default.png" alt="" style="
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                ">
+            </div>
+            ';
         }
         ?>
         
