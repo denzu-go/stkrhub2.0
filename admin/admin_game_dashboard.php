@@ -401,7 +401,10 @@ if ($_SERVER['REQUEST_METHOD']) {
                             },
                             dataType: 'json',
                             success: function(response) {
-                                Swal.fire('Approved!', 'The game has been approved.', 'success');
+                                Swal.fire('Approved!', 'The game has been approved.', 'success').then(function() {
+                                    window.location.href = 'games_approval_requests.php';
+                                });
+
                             },
                             error: function(xhr, status, error) {
                                 Swal.fire('Error', 'An error occurred while approving the game.', 'error');

@@ -68,6 +68,22 @@ $item = '
                             <div class="col">';
 
 $subtotal = 0;
+$fullname = '';
+$number = '';
+$region = '';
+$province = '';
+$city = '';
+$barangay = '';
+$zip = '';
+$street = '';
+$full_address_value = '';
+
+$shipping_fee = 0;
+$total_payment = 0;
+$subtotal = 0;
+$order_total_amount = 0;
+
+
 $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND $passed_status = 1 AND ticket_id IS NULL";
 $queryAll = $conn->query($sqlAll);
 while ($fetched = $queryAll->fetch_assoc()) {
@@ -97,14 +113,14 @@ while ($fetched = $queryAll->fetch_assoc()) {
     $is_canceled = $fetched['is_canceled'];
     $is_completely_canceled = $fetched['is_completely_canceled'];
 
-    $fullname = $fetched['fullname'];
-    $number = $fetched['number'];
-    $region = $fetched['region'];
-    $province = $fetched['province'];
-    $city = $fetched['city'];
-    $barangay = $fetched['barangay'];
-    $zip = $fetched['zip'];
-    $street = $fetched['street'];
+    $fullname = isset($fetched['fullname']) ? $fetched['fullname'] : null;
+    $number = isset($fetched['number']) ? $fetched['number'] : null;
+    $region = isset($fetched['region']) ? $fetched['region'] : null;
+    $province = isset($fetched['province']) ? $fetched['province'] : null;
+    $city = isset($fetched['city']) ? $fetched['city'] : null;
+    $barangay = isset($fetched['barangay']) ? $fetched['barangay'] : null;
+    $zip = isset($fetched['zip']) ? $fetched['zip'] : null;
+    $street = isset($fetched['street']) ? $fetched['street'] : null;
 
     $full_address_value = '
     ' . $street . '  ' . $barangay . '  ' . $city . '  ' . $barangay . '  ' . $province . '  ' . $region . '  ' . $zip . ' 
@@ -318,13 +334,14 @@ while ($fetched = $queryAll->fetch_assoc()) {
     // actions
     if ($is_pending) {
         $action = '
-                                        <div class="col text-end">
-                                            <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a>
-                                        </div>
-                                    ';
+            <div class="col text-end">
+                <a href="#!" class="text-danger small delete-cart-item" data-order_id="' . $order_id . '"><i class="fa-solid fa-ban"></i> Cancel Order</a> 
+            </div>
+        ';
     } else {
         $action = '';
     }
+
 
     if ($paypal_transaction_id === null) {
         $shipping_fee = $total_payment - $subtotal;
@@ -462,7 +479,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
         </div>        
         ';
     }
-    
+
 
 
 
@@ -580,15 +597,6 @@ $item .= '
                                         </div>
                                     </div>
 
-
-                                    <div class="row mr-0 d-flex justify-content-end">
-                                        <a href="#!" class="" id="cancel_orders" data-unique_order_group_id="' . $unique_order_group_id . '">Cancel</a>
-                                        
-                                        <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
-                                        class="" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
-                                            View Details
-                                        </a>
-                                    </div>
 
                                     <div class="row mr-0 d-flex justify-content-end">';
 

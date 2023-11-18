@@ -24,20 +24,27 @@ if ($passed_status == 'is_pending') {
     $icon = '<i class="fa-solid fa-truck-ramp-box"></i>';
     $title = 'To Ship Orders';
 } elseif ($passed_status == 'to_deliver') {
+    $icon = '<i class="fa-solid fa-truck-fast"></i>';
+    $title = 'To Deliver Orders';
+} elseif ($passed_status == 'is_received') {
     $icon = '<i class="fa-solid fa-check-to-slot"></i>';
-    $title = 'Completed Orders';
+    $title = 'Received Orders';
 } elseif ($passed_status == 'is_canceled') {
     $icon = '<i class="fa-solid fa-ban"></i>';
     $title = 'Canceled Orders';
+} else {
+    $icon = '<i class="fa-solid fa-check-to-slot"></i>';
+    $title = 'To Deliver Orders';
 }
 
 
 
 
 
+
 $item = '
-'.$icon.'
-<span class="nav-text"> '.$title.'
+' . $icon . '
+<span class="nav-text"> ' . $title . '
     <span class="p-1" style="background-color: red;">
         ' . $count_orders . '
     </span>

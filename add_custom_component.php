@@ -384,7 +384,7 @@ if (isset($_GET['category'])) {
                             $is_available = $rowInner["is_available"];
                             $is_deleted = $rowInner["is_deleted"];
 
-                            $sqlA = "SELECT * FROM component_assets WHERE component_id = $component_id";
+                            $sqlA = "SELECT * FROM component_assets WHERE component_id = $component_id AND is_thumbnail = 1";
                             $queryA = $conn->query($sqlA);
 
                             while ($rowA = $queryA->fetch_assoc()) {

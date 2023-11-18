@@ -67,6 +67,23 @@
         }],
     });
 
+    $("#is_received_count").DataTable({
+        searching: false,
+        info: false,
+        paging: false,
+        ordering: false,
+        ajax: {
+            url: "json_count_orders.php",
+            data: {
+                passed_status: 'is_received',
+            },
+            dataSrc: "",
+        },
+        columns: [{
+            data: "cart_count",
+        }],
+    });
+
     $("#is_canceled_count").DataTable({
         searching: false,
         info: false,

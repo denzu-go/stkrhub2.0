@@ -46,6 +46,15 @@
                         </a>
                     </li>
 
+                    <!-- <li>
+                        <a href="received.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_received_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li> -->
+
                     <li>
                         <a href="canceled.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="is_canceled_count" class="display" style="width: 100%;">

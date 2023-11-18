@@ -219,7 +219,7 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                         <div class="card" style="background-color: #272a4e !important">
                         <h5 class="card-header">Add With Design</h5>
                         <div class="card-body">
-                            <p class="card-text">Description</p>
+                            <p class="card-text">Customize your design using one of the templates below, download the selected template, add your design to it, and then upload the modified file.</p>
                             <h6 class="" >Downloadable Templates:</h6>
                         ';
 
@@ -328,7 +328,7 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                         <div class="card" style="background-color: #272a4e !important">
                             <h5 class="card-header">Add Without Design</h5>
                             <div class="card-body">
-                                <p class="card-text">Description</p>
+                                <p class="card-text">Add this game component without adding any design; you will only receive a plain game component.</p>
                             </div>
 
                             <div class="card-footer">
