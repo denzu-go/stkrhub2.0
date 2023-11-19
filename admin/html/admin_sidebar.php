@@ -9,34 +9,61 @@
                     <li><a href="index.php" aria-expanded="false"><i class="fa-solid fa-chart-simple"></i><span class="nav-text">Dashboard</span></a></li>
                     <li><a href="admin_banner.php" aria-expanded="false"><i class="fa-solid fa-panorama"></i></i><span class="nav-text">Banners</span></a></li>
 
-                    <?php
+                    <li class="nav-label">Orders</li>
+                    <li>
+                        <a href="pending_all.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_pending_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
 
-                    if (isset($_SESSION['admin_id'])) {
-                        $admin_id = $_SESSION['admin_id'];
+                    <li class="m-0 p-0">
+                        <a href="in_production.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="in_production_count" class="display" style="width: 100%; padding: 0px; margin: 0px;">
+                                <tbody style="width: 100%; padding: 0px; margin: 0px; height: 20px;">
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
 
-                        $sql = "SELECT * FROM admins WHERE admin_id = $admin_id";
-                        $query = mysqli_query($conn, $sql);
-                        $result = mysqli_fetch_assoc($query);
+                    <li>
+                        <a href="to_ship.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="to_ship_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
 
-                        if ($result["is_super_admin"] == 1) {
+                    <li>
+                        <a href="to_deliver.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="to_deliver_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
 
-                            echo '<li class="nav-label">Account Management</li>
-                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>
-                            <li><a href="admin_account_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">Admin Accounts</span></a></li>
+                    <!-- <li>
+                        <a href="received.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_received_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li> -->
 
-                            <li class="nav-label"><span class="nav-text">Service Charges & Others</li>
-                            <li><a href="admin_weight_charges.php"><i class="icon icon-globe-2"></i><span class="nav-text">Weight Charges</span></a></li>
-                            <li><a href="admin_service_percentage.php"><i class="icon icon-globe-2"></i><span class="nav-text">Service Fees</span></a></li>
-                            <li><a href="admin_constant_thumbnail.php"><i class="icon icon-globe-2"></i><span class="nav-text">Thumbnail Images</span></a></li>
-                            <li><a href="admin_paypal_royalty.php"><i class="icon icon-globe-2"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>';
-                        } else {
+                    <li>
+                        <a href="canceled.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_canceled_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
 
-                            echo '<li class="nav-label">Account Management</li>
-                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>';
-                        }
-                    }
-
-                    ?>
 
 
                     <li class="nav-label">Approve / Deny</li>
@@ -46,14 +73,6 @@
 
                     <li class="nav-label">Cash Out</li>
                     <li><a href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
-
-                    <li class="nav-label">Orders</li>
-                    <li><a href="pending_all.php" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i><span class="nav-text">All Pending Orders</span></a></li>
-                    <li><a href="in_production.php" aria-expanded="false"><i class="fa-solid fa-person-digging"></i><span class="nav-text">In Production Orders</span></a></li>
-                    <li><a href="to_ship.php" aria-expanded="false"><i class="fa-solid fa-truck-ramp-box"></i><span class="nav-text">To Ship</span></a></li>
-                    <li><a href="to_deliver.php" aria-expanded="false"><i class="fa-solid fa-check-to-slot"></i><span class="nav-text">Completed Orders</span></a></li>
-                    <li><a href="canceled.php" aria-expanded="false"><i class="fa-solid fa-ban"></i><span class="nav-text">Canceled Orders</span></a></li>
-
 
                     <li class="nav-label"></li>
                     <li>
@@ -102,6 +121,36 @@
                             <a class="btn btn-outline-primary" id="addCategory" style="width:200px;margin:20px;" role="button" style="text-align:center;">Add New Category</a>
                         </ul>
                     </li>
+
+
+                    <!-- ACCOUNT MANAGEMETN -->
+                    <?php
+                    if (isset($_SESSION['admin_id'])) {
+                        $admin_id = $_SESSION['admin_id'];
+
+                        $sql = "SELECT * FROM admins WHERE admin_id = $admin_id";
+                        $query = mysqli_query($conn, $sql);
+                        $result = mysqli_fetch_assoc($query);
+
+                        if ($result["is_super_admin"] == 1) {
+
+                            echo '<li class="nav-label">Account Management</li>
+                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>
+                            <li><a href="admin_account_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">Admin Accounts</span></a></li>
+
+                            <li class="nav-label"><span class="nav-text">Service Charges & Others</li>
+                            <li><a href="admin_weight_charges.php"><i class="fa-solid fa-box"></i><span class="nav-text">Weight Charges</span></a></li>
+                            <li><a href="admin_service_percentage.php"><i class="fa-solid fa-person-breastfeeding"></i><span class="nav-text">Service Fees</span></a></li>
+                            <li><a href="admin_constant_thumbnail.php"><i class="fa-regular fa-images"></i><span class="nav-text">Thumbnail Images</span></a></li>
+                            <li><a href="admin_paypal_royalty.php"><i class="fa-brands fa-paypal"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>';
+                        } else {
+
+                            echo '<li class="nav-label">Account Management</li>
+                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>';
+                        }
+                    }
+
+                    ?>
 
 
                 </ul>

@@ -21,6 +21,12 @@ while ($row = $result->fetch_assoc()) {
     $is_approved = $row['is_approved'];
     $is_visible = $row['is_visible'];
 
+    $sqlU = "SELECT * FROM users WHERE user_id = $user_id";
+    $queryU = $conn->query($sqlU);
+    while ($rowU = $queryU->fetch_assoc()) {
+        $unique_user_id = $rowU['unique_user_id'];
+    }
+
 
     // Get all game components for this game
     $sqlGameComponents = "SELECT gc.price, agc.quantity
@@ -37,14 +43,16 @@ while ($row = $result->fetch_assoc()) {
     }
 
     $action_value = '
-    <a href="admin_game_dashboard.php?creator_id='.$user_id.'&game_id='.$game_id.'">View</a>
+    <a href="admin_game_dashboard.php?creator_id=' . $user_id . '&game_id=' . $game_id . '">View</a>
     ';
 
 
 
     $id = $game_id;
     $title = $name;
-    $price = $total_price;
+    $price = '
+    &#8369; '.number_format($total_price, 2).'
+    ';
     $user = $user_id;
     $actions = $action_value;
 
@@ -52,7 +60,7 @@ while ($row = $result->fetch_assoc()) {
         "id" => $id,
         "title" => $title,
         "price" => $price,
-        "user" => $user,
+        "user" => $unique_user_id,
         "actions" => $actions,
     );
 }

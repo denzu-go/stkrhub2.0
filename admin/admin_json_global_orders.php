@@ -72,6 +72,9 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
         unlink($filename);
     }
 
+
+    $download = '';
+
     if ($zip->open($filename, ZipArchive::CREATE) === TRUE) {
 
         $sqlAll = "SELECT * FROM orders WHERE unique_order_group_id = $unique_order_group_id AND ticket_id IS NULL";
@@ -198,7 +201,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
     } elseif ($passed_status == 'to_deliver') {
         $next_order_button = '<button class="btn p-0 m-0" id="view_delivery_details" data-unique_order_group_id="' . $unique_order_group_id . '">Delivery Details</button>';
     } elseif ($passed_status == 'is_received') {
-        $next_order_button = '<button class="btn p-0 m-0" id="proceed_order" data-unique_order_group_id="' . $unique_order_group_id . '">Proceed Order</button>';
+        $next_order_button = '<button class="btn p-0 m-0" id="view_delivery_details" data-unique_order_group_id="' . $unique_order_group_id . '">Delivery Details</button>';
     } elseif ($passed_status == 'is_canceled') {
         $next_order_button = '<button class="btn p-0 m-0" id="view_cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">Cancelation Details</button>';
     } elseif ($passed_status == 'is_completely_canceled') {

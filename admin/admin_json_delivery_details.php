@@ -6,6 +6,8 @@ $passed_status = $_GET['passed_status'];
 
 $data = array();
 
+$tracking_number = '';
+$courier = '';
 $sqlOrderDetails = "SELECT * FROM to_deliver WHERE unique_order_group_id = $unique_order_group_id";
 $queryOrderDetails = $conn->query($sqlOrderDetails);
 while ($fetchedD = $queryOrderDetails->fetch_assoc()) {

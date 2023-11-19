@@ -31,6 +31,9 @@ include 'connection.php';
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
 
@@ -178,7 +181,7 @@ include 'connection.php';
                         confirmButtonText: 'Close'
                     });
                 });
-            });  
+            });
 
             $('body').on('click', '[id^="uploadImage_"]', function() {
                 // Extract the constant_id from the button's ID
