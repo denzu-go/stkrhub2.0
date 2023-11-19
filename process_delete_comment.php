@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $published_game_id = $row["published_game_id"];
-
+            echo $published_game_id;
             // Calculate the new average rating for the published_game_id
             $sqlRating = "SELECT published_game_id, AVG(rating) AS average_rating 
                 FROM ratings 
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
 
                 if ($row) {
                     $averageRating = $row['average_rating'];
+                    echo $averageRating;
 
                     // Update the average rating for the published_game_id in the published_built_games table
                     $sqlUpdate = "UPDATE published_built_games 
