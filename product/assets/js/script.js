@@ -24,9 +24,25 @@
         values: [min, max],
         step: 1,
         stop: function (event, ui) {
-            $('#price_text').html("₹" + ui.values[0] + ' - ' + "₹" + ui.values[1]);
+            $('#price_text').html("₱" + ui.values[0] + ' - ' + "₱" + ui.values[1]);
             $('#minimum_price').val(ui.values[0]);
             $('#maximum_price').val(ui.values[1]);
+            filterProduct(1);
+        }
+    });
+
+    const minRating = parseInt($('#minimum_rating').val());
+    const maxRating = parseInt($('#maximum_rating').val());
+    $('#rating_range').slider({
+        range: true,
+        min: minRating,
+        max: maxRating,
+        values: [minRating, maxRating],
+        step: 1,
+        stop: function (event, ui) {
+            $('#rating_text').html("<i class='fa-solid fa-star'></i>&nbsp;" + ui.values[0] + ' - ' + "<i class='fa-solid fa-star'></i>&nbsp;" + ui.values[1]);
+            $('#minimum_rating').val(ui.values[0]);
+            $('#maximum_rating').val(ui.values[1]);
             filterProduct(1);
         }
     });
@@ -46,6 +62,8 @@
     const filterProduct = page => {
         const minimumPrice = $('#minimum_price').val();
         const maximumPrice = $('#maximum_price').val();
+        const minimumRating = $('#minimum_rating').val();
+        const maximumRating = $('#maximum_rating').val();
         const brand = checkboxFilter('brand');
         const ram = checkboxFilter('ram');
         const storage = checkboxFilter('storage');
@@ -57,6 +75,8 @@
                 page: page,
                 minimumPrice: minimumPrice,
                 maximumPrice: maximumPrice,
+                minimumRating: minimumRating,
+                maximumRating: maximumRating,
                 brand: brand,
                 ram: ram,
                 storage: storage,

@@ -757,6 +757,7 @@ background-attachment: fixed;">
 
                                             $avatar = "SELECT * FROM users WHERE user_id = $user_id";
                                             $result = $conn->query($avatar);
+                                           
                                             while ($fetchedAvatar = $result->fetch_assoc()) {
                                                 $avatar = $fetchedAvatar['avatar'];
                                                 $username = $fetchedAvatar['username'];
@@ -873,7 +874,7 @@ background-attachment: fixed;">
                                                                     </div>
                                                                     
                                                                     <div class="media-body" style="line-height:0px;">
-                                                                        <h4>$username</h4>
+                                                                        <h4> '.$username .'</h4>
                                                                     </div>
                                                                 </div>
 

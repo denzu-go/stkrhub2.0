@@ -7,13 +7,15 @@ $sql = '';
 if (isset($_POST["minimumPrice"], $_POST["maximumPrice"])) {
     $minimumPrice = $_POST["minimumPrice"];
     $maximumPrice = $_POST["maximumPrice"];
-    $sql .= " marketplace_price BETWEEN '" . $minimumPrice . "' AND '" . $maximumPrice . "' ";
+    $sql .= " marketplace_price BETWEEN " . $minimumPrice . " AND " . $maximumPrice . " ";
 }
 
+// For game_rating
 if (isset($_POST["minimumRating"], $_POST["maximumRating"])) {
     $minimumRating = $_POST["minimumRating"];
     $maximumRating = $_POST["maximumRating"];
-    $sql .= " rating BETWEEN '" . $minimumRating . "' AND '" . $maximumRating . "' ";
+    $customSql = " game_rating BETWEEN " . $minimumRating . " AND " . $maximumRating . " ";
+    $sql .= empty($sql) ? $customSql : "AND ($customSql)";
 }
 
 if (isset($_POST["brand"])) {
@@ -82,6 +84,7 @@ while ($fetched = mysqli_fetch_array($query)) {
         $min_playtime = $fetched['min_playtime'];
         $max_playtime = $fetched['max_playtime'];
         $marketplace_price = $fetched['marketplace_price'];
+        $game_rating = $fetched['game_rating'];
 
         $getAvatarUser = "SELECT * FROM users WHERE user_id = $creator_id";
         $sqlGetAvatarUser = $conn->query($getAvatarUser);
@@ -224,7 +227,7 @@ while ($fetched = mysqli_fetch_array($query)) {
                     <div class="row d-flex justify-content-end p-0 m-0">
                         <span class="" style="color: #f7f799;" data-toggle="tooltip" title="Ratings">
                             <i class="fa-solid fa-star"></i>&nbsp;
-                            '.$roundedRating.'
+                            '.$game_rating.'
                         </span>
                     </div>
                     <span class="d-flex justify-content-end small">'.$formatted_date.'</span>

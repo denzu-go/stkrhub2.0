@@ -274,6 +274,11 @@ $maxRating = (int) 5;
 
 }
 
+.min-h-400px{
+    background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
+          color:aliceblue;
+}
+
 
 
         <?php include 'css/header.css'; ?>
@@ -382,8 +387,8 @@ $maxRating = (int) 5;
                                                     <div class="price-slider">
                                                         <input autocomplete="off" type="hidden" id="minimum_rating" value="<?php echo $minRating; ?>" />
                                                         <input autocomplete="off" type="hidden" id="maximum_rating" value="<?php echo $maxRating; ?>" />
-                                                        <p id="rating_text"><?php echo $minRating; ?> - <?php echo $maxRating; ?></p>
-                                                        <div id="price_range"></div>
+                                                        <p id="rating_text"><i class="fa-solid fa-star"></i>&nbsp;<?php echo $minRating; ?> - <i class="fa-solid fa-star"></i>&nbsp;<?php echo $maxRating; ?></p>
+                                                        <div id="rating_range"></div>
                                                     </div>
                                                 </div>
                                             </div>
