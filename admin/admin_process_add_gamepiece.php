@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
         for ($i = 1; $i <= $numberOfColors; $i++) {
             $colorNameKey = "colorName$i";
             $colorCodeKey = "colorCode$i";
-
+ 
             if (isset($_POST[$colorNameKey]) && isset($_POST[$colorCodeKey])) {
                 $color_name[] = $_POST[$colorNameKey];
                 $color_code[] = $_POST[$colorCodeKey];

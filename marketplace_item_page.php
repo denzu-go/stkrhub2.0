@@ -357,6 +357,12 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
             max-height: 500px;
             overflow: scroll;
         }
+
+        .col-3-2 {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 120px;
+}
     </style>
 </head>
 
@@ -897,11 +903,30 @@ background-attachment: fixed;">
                                                                 <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
                                                             </p>
                                                         </div>
+
+                                                       
+
+                                <div class="">
+                                    <div id="thumbnailInput" style="display: none;">
+                                        <label for="No_thumbnail">No. Images</label><br>
+                                        <p>(Maximum of 5 Images)</p>
+                                        <input type="number" id="No_thumbnail" name="No_thumbnail" min="0" max="5" placeholder="0"><br><br>
+                                    </div>
+
+                                    <div id="thumbnailFields" style="display: block;"> </div>
+
+                                </div>
+                                                
+
+                                                <div id="thumbnailFields" style="display: block;"> </div>
+                                            </div>
+                                        </div>
                                                         <hr class="m-0 p-1">
                                                         <div class="d-flex justify-content-end">
-                                                            <button type="submit" class="btn btn-primary" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8);">Submit</button>
+                                                            <button type="submit" class="btn btn-primary" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); margin:5px;">Submit</button>
+                                                            <button type="button" class="btn btn-primary" id="add_files" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); margin:5px;">upload images</button>
                                                         </div>
-                                                        <p style= "color:white;"> note: Your order must be in production to be able to rate & comment </p>
+                                                        
                                                     </form>
 
                                                 </div>
@@ -955,6 +980,8 @@ background-attachment: fixed;">
                                                             data-toggle="tooltip" title="Please Purchase First to Comment">
                                                             Submit</button>
                                                         </div>
+                                                        <p style= "color:white;"> note: Your order must be in production to be able to rate & comment </p>
+                                                        <p style= "color:white;"> (Go to Profile > MyPurchase > In Production) </p>
                                                     </form>
 
                                                 </div>
@@ -991,6 +1018,9 @@ background-attachment: fixed;">
 
                                         $avatar = "SELECT * FROM users WHERE user_id = $user_id";
                                         $result = $conn->query($avatar);
+
+                                        $sqlReviewImg = "SELECT * FROM ratings_images WHERE rating_id = $rating_id";
+                                        $resultReviewImg = $conn->query($sqlReviewImg);
 
                                         while ($fetchedAvatar = $result->fetch_assoc()) {
                                             $avatar = $fetchedAvatar['avatar'];
@@ -1060,7 +1090,26 @@ background-attachment: fixed;">
                                                 <p>
                                                     ' . $comment . '
                                                 </p>
-    
+
+                                        
+                                            <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                                                <div class="row py-3 shadow-5">';
+                                                   
+
+                                                        while( $fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                            echo '
+                                                        <div class="col-3-2 mt-1">
+                                                        <img
+                                                            src="'.$fetchedReviewImg['rating_image_path'].'"
+                                                            data-mdb-img=""
+                                                            style="width:100px; height:100px;"
+                                                        />
+                                                        </div> ';
+
+                                                    }
+
+                                            echo ' </div>
+                                            </div>
                                             </div>
                                         ';
                                     }
@@ -1179,6 +1228,53 @@ background-attachment: fixed;">
 
     <script>
         $(document).ready(function() {
+
+            document.getElementById('add_files').addEventListener('click', function() {
+            document.getElementById('thumbnailInput').style.display = 'block';
+            document.getElementById('thumbnailFields').style.display = 'block';
+        });
+
+
+        const NoThumbnail = document.getElementById('No_thumbnail');
+        const ThumbnailFields = document.getElementById('thumbnailFields');
+
+        // Add an event listener to the color_number input
+        NoThumbnail.addEventListener('input', function() {
+            // Get the selected number of colors
+            const numberOfThumbnail = parseInt(this.value);
+
+            // Clear the existing color fields
+            ThumbnailFields.innerHTML = '';
+
+            // Create and add input fields for Color Name and Color Code
+            for (let i = 1; i <= numberOfThumbnail; i++) {
+
+
+                const thumbnailCodeLabel = document.createElement('label');
+                thumbnailCodeLabel.textContent = `Image File ${i}:`;
+
+                //<input type="file" id="images" name="images[]" accept="image/*" multiple><br><br>
+
+                const thumbnailCodeInput = document.createElement('input');
+                thumbnailCodeInput.type = 'file';
+                thumbnailCodeInput.name = `thumbnailCode${i}`;
+                thumbnailCodeInput.id = `thumbnailCode${i}`;
+                thumbnailCodeInput.accept = `image/*`;
+
+
+                // Add line breaks for spacing
+
+                const lineBreak2 = document.createElement('br');
+                const lineBreak3 = document.createElement('br');
+
+                // Append elements to the container
+
+                ThumbnailFields.appendChild(thumbnailCodeLabel);
+                ThumbnailFields.appendChild(thumbnailCodeInput);
+                ThumbnailFields.appendChild(lineBreak2);
+                ThumbnailFields.appendChild(lineBreak3);
+            }
+        });
 
             // mahalaga toh
             <?php include 'js/essential.php'; ?>
@@ -1329,7 +1425,7 @@ background-attachment: fixed;">
                             // User confirmed, proceed to form submission
                             var formData = new FormData(this); // Create a FormData object from the form
 
-                            $.ajax({
+                             $.ajax({
                                 type: 'POST',
                                 url: 'process_add_comment.php',
                                 data: formData,

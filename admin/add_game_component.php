@@ -152,7 +152,7 @@ if (isset($_GET['category'])) {
                                             </div>
                                         </div>
 
-
+ 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="No_thumbnail">No. Thumbnail</label>
                                             <div class="col-sm-6">

@@ -20,6 +20,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // An error occurred
         echo 'Error: ' . $conn->error;
+    } 
+
+    $ratingId = mysqli_insert_id($conn);
+
+    $numberOfThumbnails = isset($_POST["No_thumbnail"]) ? intval($_POST["No_thumbnail"]) : 0; // Number of thumbnails submitted
+
+    $thumbnailUploadedFiles = array();
+
+    for ($i = 1; $i <= $numberOfThumbnails; $i++) {
+        $thumbnailFileKey = "thumbnailCode$i";
+    
+        if (isset($_FILES[$thumbnailFileKey])) {
+            $thumbnailFileName = $_FILES[$thumbnailFileKey]["name"];
+            $thumbnailFiles[] = $thumbnailFileName;
+    
+            // Generate a unique filename to avoid overwriting
+            $uniqueFilename = uniqid() . "_" . $thumbnailFileName;
+    
+            // Upload the thumbnail file
+            $uploadDirectory = "assets/comment_assets/"; // Set your upload directory
+            // Ensure the directory exists, create it if not
+            if (!file_exists($uploadDirectory)) {
+                mkdir($uploadDirectory, 0777, true);
+            }
+    
+            $uploadPath = $uploadDirectory . $uniqueFilename;
+    
+            if (move_uploaded_file($_FILES[$thumbnailFileKey]["tmp_name"], $uploadPath)) {
+                // File uploaded successfully, store its path
+                $uploadPath;
+                $thumbnailUploadedFiles[] = $uploadPath;
+            }
+        }
+    }
+
+    if (!empty($thumbnailUploadedFiles)) {
+        // Assuming you have a valid $componentId
+    
+        foreach ($thumbnailUploadedFiles as $index => $thumbnailUploadedFile) {
+
+            $stmt = $conn->prepare("INSERT INTO ratings_images (rating_id, rating_image_path) VALUES (?, ?)");
+            $stmt->bind_param("is", $ratingId, $thumbnailUploadedFile);
+    
+            if ($stmt->execute()) {
+                echo "images recorded successfully.";
+            } else {
+                echo "Error inserting thumbnail: " . $stmt->error;
+            }
+
+            
+            
+        }
     }
 
 
