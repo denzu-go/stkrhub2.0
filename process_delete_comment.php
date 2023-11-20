@@ -6,17 +6,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
 
     // Get the rating_id from the POST data
     $rating_id = $_POST['rating_id'];
-
-    // Fetch the published_game_id associated with the rating_id to be deleted
     $sqlPID = "SELECT * FROM ratings WHERE rating_id = $rating_id";
     $result = mysqli_query($conn, $sqlPID);
+    $row = mysqli_fetch_assoc($result);
+    $published_game_id = $row["published_game_id"];
+
+    // Fetch the published_game_id associated with the rating_id to be deleted
+
 
     if ($conn->query("DELETE FROM ratings WHERE rating_id = $rating_id") === TRUE) {
+
+        $sqlPID2 = "SELECT * FROM ratings WHERE published_game_id = $published_game_id";
+    $result2 = mysqli_query($conn, $sqlPID2);
+    
+
         // Check if the rating was successfully deleted
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $published_game_id = $row["published_game_id"];
-            echo $published_game_id;
+        if (mysqli_num_rows($result2) > 0) {
+
+
             // Calculate the new average rating for the published_game_id
             $sqlRating = "SELECT published_game_id, AVG(rating) AS average_rating 
                 FROM ratings 
@@ -30,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
 
                 if ($row) {
                     $averageRating = $row['average_rating'];
-                    echo $averageRating;
 
                     // Update the average rating for the published_game_id in the published_built_games table
                     $sqlUpdate = "UPDATE published_built_games 
@@ -40,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
                     $queryUpdate = mysqli_query($conn, $sqlUpdate);
 
                     if ($queryUpdate) {
-                        echo 'Ratings updated successfully.';
+                        echo 'Ratings deleted successfully.';
                     } else {
                         // An error occurred during the update
                         echo 'Error updating ratings: ' . mysqli_error($conn);
@@ -62,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
             $queryUpdate = mysqli_query($conn, $sqlUpdate);
 
             if ($queryUpdate) {
-                echo 'Ratings updated successfully.';
+                echo 'Ratings deleted successfully.';
             } else {
                 // An error occurred during the update
                 echo 'Error updating ratings: ' . mysqli_error($conn);
@@ -79,5 +85,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
     // Handle other request methods or errors
     echo 'Invalid request';
 }
-
-?>

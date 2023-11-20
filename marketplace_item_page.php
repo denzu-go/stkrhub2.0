@@ -757,7 +757,7 @@ background-attachment: fixed;">
 
                                             $avatar = "SELECT * FROM users WHERE user_id = $user_id";
                                             $result = $conn->query($avatar);
-                                           
+
                                             while ($fetchedAvatar = $result->fetch_assoc()) {
                                                 $avatar = $fetchedAvatar['avatar'];
                                                 $username = $fetchedAvatar['username'];
@@ -875,7 +875,7 @@ background-attachment: fixed;">
                                                                     </div>
                                                                     
                                                                     <div class="media-body" style="line-height:0px;">
-                                                                        <h4> '.$username .'</h4>
+                                                                        <h4> ' . $username . '</h4>
                                                                     </div>
                                                                 </div>
 
@@ -975,30 +975,30 @@ background-attachment: fixed;">
                                 <?php
                                 $sqlReview = "SELECT * FROM ratings WHERE published_game_id = $published_game_id ORDER BY date_time DESC";
                                 $resultReview = $conn->query($sqlReview);
-                                if ($resultReview->num_rows > 0) { 
+                                if ($resultReview->num_rows > 0) {
                                     while ($fetchedReview = $resultReview->fetch_assoc()) {
                                         $rating_id = $fetchedReview['rating_id'];
                                         $rating = $fetchedReview['rating'];
                                         $comment = $fetchedReview['comment'];
                                         $user_id = $fetchedReview['user_id'];
                                         $date_time = $fetchedReview['date_time'];
-    
+
                                         // Convert the date_time string to a DateTime object
                                         $dateTimeObj = new DateTime($date_time);
-    
+
                                         // Format the DateTime object as per the desired format
                                         $formattedDate = $dateTimeObj->format('M. d, Y h:ia');
-    
+
                                         $avatar = "SELECT * FROM users WHERE user_id = $user_id";
                                         $result = $conn->query($avatar);
-                                       
+
                                         while ($fetchedAvatar = $result->fetch_assoc()) {
                                             $avatar = $fetchedAvatar['avatar'];
                                             $username = $fetchedAvatar['username'];
-    
+
                                             $firstLetter = strtoupper(substr($username, 0, 1));
                                         }
-    
+
                                         if (!is_null($avatar)) {
                                             $avatar_value = '
                                                 <div style="position: relative; display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: #333;">
@@ -1026,8 +1026,8 @@ background-attachment: fixed;">
                                                 </div>
                                             ';
                                         }
-    
-    
+
+
                                         echo '
                                             <div class="review_item" style="
                                                 padding: 20px;    
@@ -1044,11 +1044,11 @@ background-attachment: fixed;">
                                                     </div>
                                                     <div class="media-body" style="line-height:0px;">
                                                         <h4>' . $username . '</h4>';
-    
+
                                         for ($i = 0; $i < $rating; $i++) {
                                             echo '<i class="fa fa-star"></i>';
                                         }
-    
+
                                         echo '
                                                     </div>
     
@@ -1064,8 +1064,7 @@ background-attachment: fixed;">
                                             </div>
                                         ';
                                     }
-
-                                }else {
+                                } else {
                                     echo '
                                     <div class="review_item" style="
                                                 padding: 20px;    
@@ -1079,9 +1078,8 @@ background-attachment: fixed;">
                                             <h4> No Reviews Yet.</h4>
                                             
                                             </div>';
-                                        
                                 }
-                                
+
                                 ?>
 
                             </div>
@@ -1292,10 +1290,13 @@ background-attachment: fixed;">
                             },
                             success: function(response) {
                                 // Handle success response from the server
-                                Swal.fire('Success', 'Your comment has been edited.', 'success').then((result) => {
+                                console.log('Published Game ID:', response.published_game_id);
+                               
+
+                                Swal.fire('Success', 'Your comment has been deleted.', 'success').then((result) => {
                                     if (result.isConfirmed || result.isDismissed) {
-                                        // Reload the page
-                                        location.reload();
+                                        // Reload the page or redirect to another page
+                                        window.location.reload();
                                     }
                                 });
                             },
