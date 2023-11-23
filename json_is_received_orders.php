@@ -41,9 +41,6 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
         $status = 'CANCELED';
     }
 
-
-
-
     $item = '
             <div class="row">
 

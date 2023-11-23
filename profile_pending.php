@@ -261,7 +261,16 @@ include 'html/get_bg.php';
                                 </table>
                                 ';
                             } else {
-                                echo 'None.';
+                                echo '
+                                <br><br>
+                                <div class="container d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-ellipsis" style="font-size: 34px;"></i>
+                                </div>
+                            
+                                <div class="container d-flex align-items-center justify-content-center">    
+                                    <h5 class="text-center">No Pending orders</h5>
+                                </div>
+                                ';
                             }
                         } else {
                             echo 'Error checking for orders in production.';

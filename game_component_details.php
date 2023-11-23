@@ -42,6 +42,11 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 }
 
 
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 
 ?>
 
@@ -51,7 +56,8 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 <head>
     <title>Game Component Details</title>
 
-    <!--CSS================================== -->
+
+    <!-- CSS ================================ -->
     <link rel="stylesheet" href="css/linearicons.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/font-awesome.min.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/themify-icons.css?<?php echo time(); ?>">
@@ -64,15 +70,29 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <!-- sweetalert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+    <!-- Filepond -->
+    <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
 
-    <!-- fontawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- List JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 
-    <!-- Include jQuery and Isotope.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/css/isotope.min.css">
+    <!-- Include Tippy.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
 
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
@@ -83,7 +103,20 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 
 
     <style>
-        <?php include 'css/body.css'; ?>swiper-slide {
+        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
+
+        /* header */
+        .sticky-wrapper {
+            top: 0px !important;
+        }
+
+        .header_area .main_menu .main_box {
+            max-width: 100%;
+        }
+
+        /* header end */
+
+        .swiper-slide {
             background: #fff;
             display: flex;
             justify-content: center;
@@ -112,14 +145,19 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
     </style>
 </head>
 
-<body>
-    <?php
-    include 'html/page_header.php';
-    ?>
-
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
+    <?php include 'html/page_header.php'; ?>
+    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
             <h6 class="btn p-0 m-0" id="backButton" style="color: #26d3e0;"><i class="fa-solid fa-arrow-left"></i> Back</h6>
@@ -193,6 +231,9 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 
                                     <span class="row" style="color: #777777">Component Price:</span>
                                     <span class="row" style="color: #e7e7e7"> &#8369;<?php echo $component_price ?></span>
+
+                                    <span class="row" style="color: #777777">Component Size:</span>
+                                    <span class="row" style="color: #e7e7e7"> &#8369;<?php echo $component_size ?></span>
                                 </div>
 
                                 <div class="col">
@@ -278,7 +319,9 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
                     } elseif ($component_has_colors !== 0) {
                         echo '
                         <div class="card" style="background-color: #272a4e !important">
-                        <h5 class="card-header">Add With Design</h5>
+                        <h5 class="card-header">Add Component with Color</h5>
+                        
+
                             <div class="card-footer">
                                 <div class="mb-3">
                                     <form method="post" action="process_add_component_with_colors.php">
@@ -426,10 +469,7 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
-
-    <!-- <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
@@ -444,10 +484,69 @@ while ($fetchedComponentDetails = $queryGetComponentDetails->fetch_assoc()) {
     <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
 
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Filepond JavaScript -->
+    <script src="https://unpkg.com/filepond@4.23.1/dist/filepond.min.js"></script>
+
+    <!-- Include Tippy.js JavaScript -->
+    <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.js"></script>
+
 
 
     <script>
         $(document).ready(function() {
+
+
+            //Get the button
+            let mybutton = document.getElementById("btn-back-to-top");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {
+                scrollFunction();
+            };
+
+            function scrollFunction() {
+                if (
+                    document.body.scrollTop > 20 ||
+                    document.documentElement.scrollTop > 20
+                ) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+            // When the user clicks on the button, scroll to the top of the document
+            mybutton.addEventListener("click", backToTop);
+
+            function backToTop() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+
+
+            var user_id = <?php echo $user_id ?>;
+            $("#cartCount").DataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                ajax: {
+                    url: "json_cart_count.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    dataSrc: "",
+                },
+                columns: [{
+                    data: "cart_count",
+                }],
+            });
+
 
             $('#backButton').click(function() {
                 window.history.back();

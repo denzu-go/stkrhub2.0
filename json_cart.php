@@ -521,7 +521,16 @@ backdrop-filter: blur(5.7px);
 ';
 
 } else {
-    $item = 'No cart items, please add some.';
+    $item = '
+    <br><br>
+    <div class="container d-flex align-items-center justify-content-center">
+        <i class="fa-solid fa-cart-shopping text-center" style="font-size: 44px;"></i>
+    </div>
+
+    <div class="container d-flex align-items-center justify-content-center">    
+        <h5 class="text-center">Your cart is empty</h5>
+    </div>
+    ';
 }
 
 

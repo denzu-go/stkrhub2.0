@@ -198,7 +198,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         }
 
         /* viewEditButton */
-        #viewEditButton, #viewReason {
+        #viewEditButton,
+        #viewReason {
             background-color: #272a4e !important;
             border: none;
             border-radius: 10px;
@@ -263,7 +264,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         }
 
         /* view-reason */
-        .view-reason, #viewReason {
+        .view-reason,
+        #viewReason {
             background-color: #dc3545 !important;
             border: none;
             border-radius: 10px;
@@ -340,6 +342,82 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         .iziToast>.iziToast-close {
             filter: brightness(0) invert(1);
         }
+
+        /* taas header */
+        .step-div-1 {
+            background-color: #15172e !important;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        .step-div-1 a i,
+        .step-div-1 a span {
+            font-size: 17px;
+            color: #e7e7e7;
+        }
+
+        .step-div-1-active {
+            background-color: #272a4e;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        .step-div-1-active a.active i,
+        .step-div-1-active a.active span {
+            font-size: 17px;
+            color: #26d3e0;
+        }
+
+
+
+
+        .step-div-2 {
+            background-color: #15172e !important;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        .step-div-2 a i,
+        .step-div-2 a span {
+            font-size: 17px;
+            color: #e7e7e7;
+        }
+
+        .step-div-2-active {
+            background-color: #272a4e;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        .step-div-2-active a.active i,
+        .step-div-2-active a.active span {
+            font-size: 17px;
+            color: #26d3e0;
+        }
+
+        .step-div-3 {
+            background-color: #15172e !important;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        .step-div-3 a i,
+        .step-div-3 a span {
+            font-size: 17px;
+            color: #e7e7e7;
+        }
+
+        .step-div-3-active a {
+            background-color: #272a4e;
+            padding: 10px;
+            margin: 10px 10px;
+        }
+
+        .step-div-3-active a.active i,
+        .step-div-3-active a.active span {
+            font-size: 17px;
+            color: #26d3e0;
+        }
     </style>
 </head>
 
@@ -380,65 +458,29 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                             <!-- steps -->
 
-                            <div class="col-sm">
-                                <a href="#section1">
+                            <div class="col-sm step-div-1" id="step_1">
+                                <a href="#section1" class="active">
                                     <li class="step">
                                         <i class="fa-solid fa-compass-drafting"></i>
-                                        <p>Create Game</p>
+                                        <span>Create Game</span>
                                     </li>
                                 </a>
                             </div>
 
-                            <!-- <div class="col-sm">
-                                <a href="#section2">
-                                    <li class="step">
-                                        <i class="fa-solid fa-puzzle-piece"></i>
-                                        <p>Built Games</p>
-                                    </li>
-                                </a>
-                            </div> -->
-
-                            <!-- <div class="col-sm">
-                                <a href="#section3">
-                                    <li class="step">
-                                        <i class="fa-solid fa-hourglass-start"></i>
-                                        <p>Pending Games</p>
-                                    </li>
-                                </a>
-                            </div> -->
-
-                            <!-- <div class="col-sm">
-                                <a href="#section4">
-                                    <li class="step">
-                                        <i class="fa-solid fa-road-barrier"></i>
-                                        <p>Canceled Games</p>
-                                    </li>
-                                </a>
-                            </div> -->
-
-                            <div class="col-sm">
-                                <a href="#section5">
+                            <div class="col-sm step-div-2" id="step_2">
+                                <a href="#section5" class="active">
                                     <li class="step">
                                         <i class="fa-solid fa-thumbs-up"></i>
-                                        <p>Approved Games</p>
+                                        <span>Approved Games</span>
                                     </li>
                                 </a>
                             </div>
 
-                            <!-- <div class="col-sm">
-                                <a href="#section6">
-                                    <li class="step">
-                                        <i class="fa-solid fa-money-bill"></i>
-                                        <p>Purchased Games</p>
-                                    </li>
-                                </a>
-                            </div> -->
-
-                            <div class="col-sm">
-                                <a href="#section7">
+                            <div class="col-sm step-div-3" id="step_3">
+                                <a href="#section7" class="active">
                                     <li class="step">
                                         <i class="fa-solid fa-flag-checkered"></i>
-                                        <p>Published Games</p>
+                                        <span>Published Games</span>
                                     </li>
                                 </a>
                             </div>
@@ -553,6 +595,12 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             </div> -->
 
             <div id="section5" class="section-step">
+                <div class="row">
+                    <div class="col-4">
+                        <h2>Approved Games</h2>
+                    </div>
+                </div>
+
                 <!-- DataTables approvedGameTable  -->
                 <table id="approvedGameTable" class="display" style="width: 100%;">
                     <thead>
@@ -594,6 +642,12 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             </div>
 
             <div id="section7" class="section-step">
+                <div class="row">
+                    <div class="col-4">
+                        <h2>Published Games</h2>
+                    </div>
+                </div>
+
                 <!-- DataTables publishedGameTable  -->
                 <table id="publishedGameTable" class="display" style="width: 100%;">
                     <thead>
@@ -700,6 +754,70 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
     <script>
         $(document).ready(function() {
+
+            $('#step_1').on('click', function() {
+                $('#step_1').removeClass('step-div-1-active');
+                $('#step_1').addClass('step-div-1-active');
+
+                $('#step_2').removeClass('step-div-2-active');
+                $('#step_2').addClass('step-div-2');
+
+                $('#step_3').removeClass('step-div-3-active');
+            });
+
+            $('#step_2').on('click', function() {
+                $('#step_1').removeClass('step-div-1-active');
+                $('#step_1').addClass('step-div-1');
+
+                $('#step_2').removeClass('step-div-2-active');
+                $('#step_2').addClass('step-div-2-active');
+
+                $('#step_3').removeClass('step-div-3-active');
+                $('#step_3').addClass('step-div-3');
+            });
+
+            $('#step_3').on('click', function() {
+                $('#step_1').removeClass('step-div-1-active');
+                $('#step_1').addClass('step-div-1');
+
+                $('#step_2').removeClass('step-div-2-active');
+                $('#step_2').addClass('step-div-2');
+
+                $('#step_3').removeClass('step-div-3-active');
+                $('#step_3').addClass('step-div-3-active');
+            });
+
+            var hash = window.location.hash;
+
+            // Perform action based on the hash value
+            if (hash === '#section1') {
+                $('#step_1').removeClass('step-div-1-active');
+                $('#step_1').addClass('step-div-1-active');
+
+                $('#step_2').removeClass('step-div-2-active');
+                $('#step_2').addClass('step-div-2');
+
+                $('#step_3').removeClass('step-div-3-active');
+                $('#step_3').addClass('step-div-3');
+            } else if (hash === '#section5') {
+                $('#step_1').removeClass('step-div-1-active');
+                $('#step_1').addClass('step-div-1');
+
+                $('#step_2').removeClass('step-div-2-active');
+                $('#step_2').addClass('step-div-2-active');
+
+                $('#step_3').removeClass('step-div-3-active');
+                $('#step_3').addClass('step-div-3');
+            } else if (hash === '#section7') {
+                $('#step_1').removeClass('step-div-1-active');
+                $('#step_1').addClass('step-div-1');
+
+                $('#step_2').removeClass('step-div-2-active');
+                $('#step_2').addClass('step-div-2');
+
+                $('#step_3').removeClass('step-div-3-active');
+                $('#step_3').addClass('step-div-3-active');
+            }
 
             // mahalaga toh
             <?php include 'js/essential.php'; ?>

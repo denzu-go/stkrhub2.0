@@ -1,87 +1,85 @@
-    <!-- start footer Area -->
-    <footer class="footer-area section_gap">
-        <div class="container">
+<footer class="text-center text-lg-start " style="
+            background: linear-gradient(143deg, rgba(21, 23, 45, 1) 0%, rgba(39, 43, 78, 0.7) 100%);">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+        <!-- Section: Links -->
+        <section class="">
+            <!--Grid row-->
             <div class="row">
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>About Us</h6>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore dolore
-                            magna aliqua.
-                        </p>
-                    </div>
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <span class="h4 p-0 m-0" style="
+						font-family: 'Akira Expanded', sans-serif;
+                        color: #e7e7e7;
+                        line-height: 0px;
+					">
+						STKR HUB
+					</span>
+                    <div class="row p-0 m-0"></div>
+                    <span class="small text-muted" style="
+						font-family: 'Akira Expanded', sans-serif;
+                        line-height: 0px;
+					">
+						From idea to reality
+					</span>
+                    
+                    <div class="row pb-2 m-0"></div>
+
+                    <p class="small">
+                        by STKR LABS
+                    </p>
                 </div>
-                <div class="col-lg-4  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Newsletter</h6>
-                        <p>Stay update with our latest</p>
-                        <div class="" id="mc_embed_signup">
+                <!-- Grid column -->
 
-                            <form target="_blank" novalidate="true"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="form-inline">
+                <hr class="w-100 clearfix d-md-none" />
 
-                                <div class="d-flex flex-row">
-
-                                    <input class="form-control" name="EMAIL" placeholder="Enter Email"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-                                        required="" type="email">
-
-
-                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
-                                            aria-hidden="true"></i></button>
-                                    <div style="position: absolute; left: -5000px;">
-                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
-                                            type="text">
-                                    </div>
-
-                                    <!-- <div class="col-lg-4 col-md-4">
-                                                    <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-                                                </div>  -->
-                                </div>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <p>
+                        <a class="">Create Game</a>
+                    </p>
+                    <p>
+                        <a class="">Marketplace</a>
+                    </p>
+                    <p>
+                        <a class="">About</a>
+                    </p>
+                    <p>
+                        <a class="">FAQs</a>
+                    </p>
+                    <p>
+                        <a class="">Terms And Conditions</a>
+                    </p>
                 </div>
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget mail-chimp">
-                        <h6 class="mb-20">Instragram Feed</h6>
-                        <ul class="instafeed d-flex flex-wrap">
-                            <li><img src="img/i1.jpg" alt=""></li>
-                            <li><img src="img/i2.jpg" alt=""></li>
-                            <li><img src="img/i3.jpg" alt=""></li>
-                            <li><img src="img/i4.jpg" alt=""></li>
-                            <li><img src="img/i6.jpg" alt=""></li>
-                            <li><img src="img/i7.jpg" alt=""></li>
-                            <li><img src="img/i8.jpg" alt=""></li>
-                        </ul>
-                    </div>
+                <!-- Grid column -->
+
+                <hr class="w-100 clearfix d-md-none" />
+
+                <!-- Grid column -->
+                <hr class="w-100 clearfix d-md-none" />
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+                    <p><i class="fas fa-home mr-3"></i> Metro Manila, Quezon City, Quezon Avenue</p>
+                    <p><i class="fas fa-envelope mr-3"></i> mnl.stkrlabs@gmail.com</p>
+                    <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
                 </div>
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Follow Us</h6>
-                        <p>Let us be social</p>
-                        <div class="footer-social d-flex align-items-center">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                        </div>
-                    </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
+
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/fineprintph" class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+
                 </div>
             </div>
-            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-                <p class="footer-text m-0">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
-                    made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                        target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-            </div>
-        </div>
-    </footer>
-    <!-- End footer Area -->
+            <!--Grid row-->
+        </section>
+        <!-- Section: Links -->
+    </div>
+    <!-- Grid container -->
+
+</footer>

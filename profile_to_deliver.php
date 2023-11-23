@@ -260,7 +260,16 @@ include 'html/get_bg.php';
                                 </table>
                                 ';
                             } else {
-                                echo 'No orders are currently to deliver.';
+                                echo '
+                                <br><br>
+                                <div class="container d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-truck-fast" style="font-size: 34px;"></i>
+                                </div>
+                            
+                                <div class="container d-flex align-items-center justify-content-center">    
+                                    <h5 class="text-center">No To Deliver orders</h5>
+                                </div>
+                                ';
                             }
                         } else {
                             echo 'Error checking for orders to deliver.';

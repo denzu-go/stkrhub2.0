@@ -260,7 +260,16 @@ include 'html/get_bg.php';
                                 </table>
                                 ';
                             } else {
-                                echo 'No orders are currently in production.';
+                                echo '
+                                <br><br>
+                                <div class="container d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-person-digging" style="font-size: 34px;"></i>
+                                </div>
+                            
+                                <div class="container d-flex align-items-center justify-content-center">    
+                                    <h5 class="text-center">No orders are under Production</h5>
+                                </div>
+                                ';
                             }
                         } else {
                             echo 'Error checking for orders in production.';

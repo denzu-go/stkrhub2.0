@@ -246,7 +246,7 @@ include 'html/get_bg.php';
 
                     <div class="container">
                     <?php
-                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE to_deliver = 1";
+                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE to_ship = 1";
                         $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
                         if ($resultCheckInProduction) {
@@ -261,7 +261,16 @@ include 'html/get_bg.php';
                                 </table>
                                 ';
                             } else {
-                                echo 'No orders are currently to deliver.';
+                                echo '
+                                <br><br>
+                                <div class="container d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-truck-ramp-box" style="font-size: 34px;"></i>
+                                </div>
+                            
+                                <div class="container d-flex align-items-center justify-content-center">    
+                                    <h5 class="text-center">No To Ship orders</h5>
+                                </div>
+                                ';
                             }
                         } else {
                             echo 'Error checking for orders to deliver.';

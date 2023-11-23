@@ -24,6 +24,12 @@ if (isset($_GET['category'])) {
 } else {
     $selected_category = '';
 }
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +45,7 @@ if (isset($_GET['category'])) {
     <title>My Games</title>
 
 
-    <!--CSS================================== -->
+    <!-- CSS ================================ -->
     <link rel="stylesheet" href="css/linearicons.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/font-awesome.min.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/themify-icons.css?<?php echo time(); ?>">
@@ -52,8 +58,17 @@ if (isset($_GET['category'])) {
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
 
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- sweetalert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -61,9 +76,14 @@ if (isset($_GET['category'])) {
     <!-- Filepond -->
     <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
 
+    <!-- List JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 
-    <!-- fontawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Include Tippy.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
+
+
+
 
     <style>
         <?php include 'css/body.css'; ?>.multi-step-bar {
@@ -339,11 +359,19 @@ if (isset($_GET['category'])) {
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
     <?php include 'html/page_header.php'; ?>
+    <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
 
         <!-- taas -->
         <div class="container">
@@ -393,7 +421,7 @@ if (isset($_GET['category'])) {
                                 $is_thumbnail = $rowA["is_thumbnail"];
                             }
 
-                            if($is_deleted == 0) {
+                            if ($is_deleted == 0) {
                                 if ($is_available == "1") {
 
                                     echo '
@@ -426,10 +454,9 @@ if (isset($_GET['category'])) {
                                         </div>
                                     </a>
                                     ';
-                                        
-                                    } else {
-        
-                                        echo '
+                                } else {
+
+                                    echo '
                                     <a class="mb-4" style="width: 20rem;">
                                         <div class="card" style=" background-color: #272a4e !important;">
                                             <div class="image-mini-container" style="overflow: hidden; width: 100%; border-radius: 10px; position: relative; padding-top: 100%;">
@@ -465,12 +492,8 @@ if (isset($_GET['category'])) {
                                         </div>
                                     </a>
                                     ';
-        
-                                    }
-
+                                }
                             }
-
-                            
                         }
 
                         ?>
@@ -487,10 +510,7 @@ if (isset($_GET['category'])) {
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
-
-    <!-- <script src="js/vendor/jquery-2.2.4.min.js"></script> -->
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
@@ -505,16 +525,21 @@ if (isset($_GET['category'])) {
     <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
 
-
-
-
+    <!-- Include DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Filepond JavaScript -->
+    <script src="https://unpkg.com/filepond@4.23.1/dist/filepond.min.js"></script>
+
+    <!-- Include Tippy.js JavaScript -->
+    <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.js"></script>
+
 
     <script>
-
+        <?php include 'js/essential.php'; ?>
     </script>
 
 </body>
