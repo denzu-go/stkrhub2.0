@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST["user_id"];
     $cash_out_fee = $_POST["cash_out_fee"];
 
-    $encoded_cash_out_amount = base64_encode($cash_out_amount);
+    $encoded_cash_out_amount = base64_encode($cash_out_amount + $cash_out_fee);
 
     $conn->begin_transaction();
 

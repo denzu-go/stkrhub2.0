@@ -19,7 +19,7 @@ if ($resultPending) {
             $amount_value = $row['amount'];
             $decoded_amount = base64_decode($amount_value);
             $amount_value = (float) $decoded_amount;
-            $amount_peso = '- &#8369;' .number_format($amount_value, 2);
+            $amount_peso = '- &#8369;' . number_format($amount_value, 2);
         } else {
             $amount_peso = 'none';
         }
@@ -61,6 +61,18 @@ $total_wallet_amount_normalized = $total_amount_add - $total_amount_sub;
 
 
 
+// max wallet limit
+$sqlMin = "SELECT * FROM constants WHERE classification = 'wallet_maximum_limit'";
+$resultMin = $conn->query($sqlMin);
+while ($rowMin = $resultMin->fetch_assoc()) {
+    $wallet_maximum_limit = $rowMin['percentage'];
+}
+
+
+
+
+
+
 $sql = "SELECT * FROM users WHERE user_id = $user_id";
 $result = $conn->query($sql);
 while ($fetched = $result->fetch_assoc()) {
@@ -73,33 +85,86 @@ while ($fetched = $result->fetch_assoc()) {
     <div class="col-9">
         <div class="row">STKR Wallet Amount: </div>
         <div class="row"><span class="display-3" style="color: #26d3e0;">&#8369;' . number_format($total_wallet_amount_normalized, 2) . '</span></div>
-        <div class="row"><h6 class="small" style="color: #777777">Pending: <span style="color: #dc3545">'.$amount_peso.'</span></h6></div>
+        <div class="row"><h6 class="small" style="color: #777777">Pending: <span style="color: #dc3545">' . $amount_peso . '</span></h6></div>
     </div>
 
     <div class="col d-flex">
         <div class="container d-flex flex-column align-items-center">
-            <div class="row">
-                <button class="btn" id="cash_in" style="
-                    width: 70px;
-                    height: 70px;
-                    border-radius: 50%;
-                    padding: 0;
-                    text-align: center;
+            <div class="row">';
 
-                    border: 2px #e7e7e7 solid;
-                    
-                    background-color: transparent;
-                    color: #e7e7e7;
-                "><i class="fa-solid fa-circle-dollar-to-slot" style="font-size: 2rem;"></i></button>
+            if ($total_wallet_amount_normalized >= $wallet_maximum_limit) {
+                $item .= '
+                        <button class="btn" id="cash_in_not" style="
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 50%;
+                            padding: 0;
+                            text-align: center;
+
+                            border: 2px #e7e7e7 solid;
+                            
+                            background-color: transparent;
+                            color: #e7e7e7;
+                        ">
+                            <i class="fa-solid fa-circle-dollar-to-slot" style="font-size: 2rem;"></i>
+                        </button>
+                        ';
+            } else {
+                $item .= '
+                        <button class="btn" id="cash_in" style="
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 50%;
+                            padding: 0;
+                            text-align: center;
+
+                            border: 2px #e7e7e7 solid;
+                            
+                            background-color: transparent;
+                            color: #e7e7e7;
+                        ">
+                            <i class="fa-solid fa-circle-dollar-to-slot" style="font-size: 2rem;"></i>
+                        </button>
+                        ';
+            }
+            $item .= '
             </div>
             
             <div class="row">Cash In</div>
         </div>
 
+
+
+
+
         <div class="container d-flex flex-column align-items-center">
-            <div class="row">
-                <button class="btn btn-outline-primary" id="cash_out"
-                    data-current_wallet_balance = "'.$wallet_amount.'"
+            <div class="row">';
+
+                $sqlPendingC = "SELECT 1 FROM wallet_transactions WHERE transaction_type = 'Cash Out' AND user_id = $user_id AND status != 'success' LIMIT 1";
+                $resultPendingC = mysqli_query($conn, $sqlPendingC);
+                if (mysqli_num_rows($resultPendingC) > 0) {
+                    $item .= '
+                        <button class="btn btn-outline-primary" id="cash_out_not"
+                        data-current_wallet_balance = "' . $wallet_amount . '"
+                        style="
+                        width: 70px;
+                        height: 70px;
+                        border-radius: 50%;
+                        padding: 0;
+                        text-align: center;
+
+                        border: 2px #e7e7e7 solid;
+                        
+                        background-color: transparent;
+                        color: #e7e7e7;
+                    ">
+                        <i class="fa-solid fa-money-bill-transfer" style="font-size: 2rem;"></i>
+                    </button>    
+                        ';
+                } else {
+                    $item .= '
+                    <button class="btn btn-outline-primary" id="cash_out"
+                    data-current_wallet_balance = "' . $wallet_amount . '"
                     style="
                     width: 70px;
                     height: 70px;
@@ -111,7 +176,13 @@ while ($fetched = $result->fetch_assoc()) {
                     
                     background-color: transparent;
                     color: #e7e7e7;
-                "><i class="fa-solid fa-money-bill-transfer" style="font-size: 2rem;"></i></button>
+                ">
+                    <i class="fa-solid fa-money-bill-transfer" style="font-size: 2rem;"></i>
+                </button>    
+                    ';
+    }
+
+    $item .= '
             </div>
             
             <div class="row">Cash Out</div>

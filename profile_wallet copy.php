@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'connection.php';
-
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
@@ -48,8 +47,9 @@ while ($rowMin = $resultMin->fetch_assoc()) {
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
-    <!-- font awesome -->
+    <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- material icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -65,6 +65,13 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
     <!-- Include Tippy.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
+
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
+
+    <!-- Filepond -->
+    <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
+
 
     <style>
         <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
@@ -89,7 +96,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             overflow: hidden;
             width: 100%;
             position: relative;
-            padding-top: 80%;
+            padding-top: 100%;
         }
 
         .image-mini {
@@ -99,8 +106,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             height: 100%;
             width: 100%;
             object-fit: cover;
-            -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+            /* -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 100%); */
         }
 
         .custom-shadow {
@@ -116,9 +123,17 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             border-bottom: none;
         }
 
-        .even,
-        .odd {
-            background-color: transparent !important;
+
+        /* ODD EVEN */
+        table.dataTable tr.odd {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(21, 23, 46, 0.7) 100%);
+        }
+
+
+        table.dataTable tr.even {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(31, 34, 67, 0.7) 100%);
         }
 
         table.dataTable {
@@ -140,6 +155,10 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             border: none !important;
         }
 
+
+
+
+        /* active */
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
@@ -150,105 +169,139 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             color: #fff;
         }
 
-        /* progress step by step */
-        .progresses {
-            display: flex;
-            align-items: center;
+        /* sidebar */
+        #sidebar {
+            height: 100%;
+            background: transparent;
+            color: #fff;
         }
 
-        .step-line {
-            width: 200px;
-            height: 4px;
-            background: #63d19e;
+        #sidebar a,
+        #sidebar a:hover,
+        #sidebar a:focus {
+            color: inherit;
         }
 
-        .step-line-b {
-            width: 200px;
-            height: 4px;
+        #sidebar ul li a {
+            padding: 7px 14px;
+            display: block;
+            color: #e7e7e7;
+            font-size: small;
+        }
+
+        #sidebar ul li a:hover {
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* buttons */
+        .edit-btn-avatar {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
+
+        .edit_paypal_email_button {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
+
+        /* sidebar active */
+        #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
+
+        .page-item.active .page-link {
+            background-color: lightgrey !important;
+            border: 1px solid black;
+        }
+
+        .page-link {
+            color: black !important;
+        }
+
+        #walletAmount {
             background: transparent;
         }
 
-        .steps {
-            display: flex;
-            background-color: #63d19e;
-            color: #fff;
-            font-size: 14px;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        #walletAmount tr {
+            background: transparent !important;
         }
 
-        .steps-b {
-            display: flex;
-            flex-direction: column;
-            background-color: transparent;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            white-space: nowrap;
 
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
         }
 
-        /* end progress step by step */
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 
-<body>
-    <?php include 'html/page_header.php'; ?>
+<body style="
+background-image: url('img/Backgrounds/bg2.png');
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;">
+
+    <?php
+    include 'connection.php';
+    include 'html/page_header.php';
+
+    $my_profile = '';
+    $my_addresses = '';
+    $my_purchase = '';
+    $stkr_wallet = 'active';
+    $change_password = '';
+    ?>
+
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
         <div class="container">
 
-            <div class="row">
-                <div class="col-3">
-                    <div class="nav flex-column nav-pills">
-                        <a class="nav-link " href="profile_index.php">My Account</a>
+            <div class="wrapper d-flex align-items-stretch row">
 
-                        <a class="nav-link " href="profile_all.php">My Purchase</a>
+                <!-- profile sidebar -->
+                <?php include 'html/profile_sidebar.php'; ?>
 
-                        <a class="nav-link active" href="profile_wallet.php">STKR Wallet</a>
+                <div id="content" class="col">
 
-                        <a class="nav-link " href="process_logout.php">Logout</a>
+                    <!-- content -->
+                    <h3>STKR Wallet</h3>
+                    <div class="container">
 
+                        <table id="walletAmount" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
 
-                    </div>
-                </div>
+                        <hr style="background-color: #15172e; padding: .04rem;">
 
-                <div class="col-9">
-                    <div class="tab-content" id="v-pills-tabContent">
-
-                        <div class="tab-pane fade show active" id="v-pills-mypurchase" role="tabpanel" aria-labelledby="v-pills-mypurchase-tab">
-                            <table id="walletAmount" class="hover" style="width: 100%;">
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="tab-pane fade show active" id="v-pills-mypurchase" role="tabpanel" aria-labelledby="v-pills-mypurchase-tab">
-                            <table id="walletTransaction" class="hover" style="width: 100%;">
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
+                        <h6 style="color: #777777;">Recent Transactions: </h6>
+                        <table id="walletTransaction" class="hover" style="width: 100%;">
+                            <tbody>
+                            </tbody>
+                        </table>
 
                     </div>
+
                 </div>
+
             </div>
 
         </div>
     </section>
-    <!-- End Sample Area -->
 
 
     <!---------------------- MODAL ------------------------>
@@ -257,26 +310,42 @@ while ($rowMin = $resultMin->fetch_assoc()) {
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Cash In</h5>
+                    <span class="h5 modal-title" id="exampleModalLongTitle">Cash In</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <form id="cashInForm" enctype="multipart/form-data">
-                    <div class="modal-body">
+                    <div class="form-group">
+                        <div class="modal-body">
 
-                        <p class="text-warning" id="cash_in_warning"></p>
+                            <label for="cash_in_amount">Cash In Value:</label>
 
-                        <input type="number" min="10" max="10000" id="cash_in_amount" name="cash_in_amount" value="0" required>
-                        <button class="btn amount-button-cash-in" type="button" data-value="10">10</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="50">50</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="100">100</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="500">500</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="1000">1000</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="5000">5000</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="10000">10000</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&#8369;</span>
+                                </div>
+                                <input class="form-control" type="number" min="10" max="5000" id="cash_in_amount" name="cash_in_amount" value="0" required onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                            </div>
 
-                        <div id="paypal-payment-button-cash-in" type="submit" data-paypal_payment="' . $total_payment . '" style="width: 100%;"></div>
+                            <span class="text-warning d-block" id="cash_in_warning"></span>
+
+                            <div class="container mt-3 p-0">
+                                <button class="btn amount-button-cash-in" type="button" data-value="10">10</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="50">50</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="100">100</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="500">500</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="1000">1000</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="5000">5000</button>
+                            </div>
+                        </div>
+
+                        <label class="row d-flex justify-content-center">
+                            <input id="paypal_checkbox_cashin" name="stkr_wallet_checkbox" type="checkbox" />
+                            &nbsp; I allow the use of Paypal to use for Cash In
+                        </label>
+
+                        <div class="container" id="paypal-payment-button-cash-in" type="submit" data-paypal_payment="' . $total_payment . '" style="width: 100%;"></div>
                     </div>
                 </form>
             </div>
@@ -295,7 +364,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
                         <p class="text-warning" id="cash_out_warning"></p>
 
-                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required>
+                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
 
                         <label for="cash_out_paypal_email">Your Paypal Email:</label>
                         <input type="email" id="cash_out_paypal_email" name="cash_out_paypal_email" required>
@@ -309,6 +378,36 @@ while ($rowMin = $resultMin->fetch_assoc()) {
             </div>
         </div>
     </div>
+
+    <!-- Edit Paypal Email Modal -->
+    <div class="modal fade" id="editPaypalEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="h5 modal-title" id="exampleModalLabel">Edit Paypal Email</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <button class="btn btn-danger" id="cancel_cashout">Cancel Cashout Request</button> -->
+                    <form class="mt-2" id="editPaypalEmailForm">
+                        <div class="form-group">
+                            <label for="paypalEmail">Paypal Email Cashout Destination:</label>
+                            <input type="email" class="form-control" id="paypalEmail" name="paypalEmail" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmSubmit">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
 
@@ -339,6 +438,9 @@ while ($rowMin = $resultMin->fetch_assoc()) {
     <!-- Include Tippy.js JavaScript -->
     <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.js"></script>
 
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+
     <!-- Replace the "test" client-id value with your client-id -->
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypal_client_id ?>&currency=PHP&disable-funding=credit,card"></script>
 
@@ -353,6 +455,84 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
             var user_id = <?php echo $user_id; ?>;
 
+            $('#cancel_cashout').click(function() {
+                $('#editPaypalEmailModal').modal('hide');
+                iziToast.question({
+                    color: '#15172e',
+                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                    titleColor: '#fff',
+                    messageColor: '#fff',
+                    overlayColor: 'rgba(0, 0, 0, 0.7)',
+
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: '',
+                    message: 'Are you sure you want to cancel Cash Out request?',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+
+                            $.ajax({
+                                url: 'process_cashout_request.php',
+                                data: {
+                                    user_id: user_id
+                                },
+                                success: function(response) {
+                                    $('#walletAmount').DataTable().ajax.reload();
+                                    $('#walletTransaction').DataTable().ajax.reload();
+                                    $('#editPaypalEmailModal').modal("hide");
+
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Success',
+                                        message: 'Your Cash Out Request has been Canceled',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 10000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        // onClosed: function() {
+                                        //     location.reload();
+                                        // }
+                                    });
+                                },
+                                error: function() {
+                                    $('#walletAmount').DataTable().ajax.reload();
+                                    $('#walletTransaction').DataTable().ajax.reload();
+                                    $('#editPaypalEmailModal').modal("hide");
+
+                                    Swal.fire('Error', 'An error occurred while processing your request.', 'error');
+                                }
+                            });
+
+                        }, true],
+                        ['<button style="color: white;">NO</button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+                        }],
+                    ],
+
+                    onClosing: function(instance, toast, closedBy) {
+                        console.info('Closing | closedBy: ' + closedBy);
+                    },
+                    onClosed: function(instance, toast, closedBy) {
+                        console.info('Closed | closedBy: ' + closedBy);
+                    }
+                });
+            });
+
+
+
+
+
             $('#walletTransaction').DataTable({
                 language: {
                     search: "",
@@ -360,7 +540,7 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
                 searching: false,
                 info: false,
-                paging: false,
+                paging: true,
                 lengthChange: false,
                 ordering: false,
 
@@ -372,24 +552,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                     "dataSrc": ""
                 },
                 "columns": [{
-                        "data": "type"
-                    },
-                    {
-                        "data": "amount"
-                    },
-                    {
-                        "data": "date"
-                    },
-                    {
-                        "data": "status"
-                    },
-                    {
-                        "data": "mode"
-                    },
-                    {
-                        "data": "paypal_transaction_id"
-                    },
-                ]
+                    "data": "item"
+                }, ]
             });
 
             $('#walletAmount').DataTable({
@@ -417,6 +581,77 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 
 
 
+            $('#walletTransaction').on('click', '#edit_paypal_email_button', function() {
+                var walletTransactionId = $(this).data("wallet_transaction_id");
+                var paypal_email_destination = $(this).data("paypal_email_destination");
+
+                $('#editPaypalEmailModal').on('hidden.bs.modal', function(e) {
+                    $('#paypalEmail').val('');
+                });
+
+                $("#editPaypalEmailModal").modal("show");
+                $("#paypalEmail").val(paypal_email_destination);
+            });
+
+            $('#confirmSubmit').on('click', function() {
+                var paypalEmail = $('#paypalEmail').val();
+                var walletTransactionId = $('#edit_paypal_email_button').data('wallet_transaction_id');
+
+                // Validate the required input
+                if (!paypalEmail) {
+                    Swal.fire("Error", "Please enter a Paypal email address.", "error");
+                    return;
+                }
+
+                // Validate email format
+                if (!isValidEmail(paypalEmail)) {
+                    Swal.fire("Error", "Please enter a valid email address.", "error");
+                    return;
+                }
+
+                // Show a confirmation SweetAlert
+                Swal.fire({
+                    title: "Confirmation",
+                    text: "Are you sure you want to save changes?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with the AJAX submission
+                        $.ajax({
+                            url: "process_paypal_destination_email_update.php",
+                            type: "POST",
+                            data: {
+                                walletTransactionId: walletTransactionId,
+                                paypalEmail: paypalEmail,
+                            },
+                            success: function(response) {
+                                $('#walletAmount').DataTable().ajax.reload();
+                                $('#walletTransaction').DataTable().ajax.reload();
+                                $('#editPaypalEmailModal').modal("hide");
+                                Swal.fire("Success", "Paypal email updated successfully", "success");
+                            },
+                            error: function(error) {
+                                $('#walletAmount').DataTable().ajax.reload();
+                                $('#walletTransaction').DataTable().ajax.reload();
+                                Swal.fire("Error", "An error occurred while updating the email", "error");
+                            },
+                        });
+                    }
+                });
+            });
+
+            function isValidEmail(email) {
+                // Use a regular expression to validate email format
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                return emailRegex.test(email);
+            }
+
+
+
+
 
             // CASHIN
             $('#walletAmount').on('click', '#cash_in', function() {
@@ -437,8 +672,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                 createOrder: function(data, actions) {
                     var paypal_payment = parseFloat($('#cash_in_amount').val());
 
-                    if (paypal_payment < 10 || paypal_payment === 0 || paypal_payment > 10000) {
-                        $('#cash_in_warning').text('Minimum amount is P10 and Maximum of P10,000');
+                    if (paypal_payment < 10 || paypal_payment === 0 || paypal_payment > 5000) {
+                        $('#cash_in_warning').text('Minimum Cash In amount is P10 and maximum of P5,000');
                         return actions.reject();
                     }
                     $('#cash_in_warning').text('');
@@ -493,10 +728,24 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                 },
             }).render('#paypal-payment-button-cash-in');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // CASHOUT
             $('#walletAmount').on('click', '#cash_out', function() {
                 $("#cashOut").modal("show");
-                $('#cash_out_amount').val(0);
+                $('#cash_out_amount').val(null);
                 var currentWalletBalance = $('#cash_out').data('current_wallet_balance');
             });
 
@@ -575,6 +824,34 @@ while ($rowMin = $resultMin->fetch_assoc()) {
                         });
                     },
                 });
+            });
+
+
+
+
+
+
+
+            $('#paypal-payment-button-cash-in').prop('disabled', true);
+            $('#paypal-payment-button-cash-in').css({
+                'pointer-events': 'none',
+                'opacity': '0.2'
+            });
+
+
+            $('#paypal_checkbox_cashin').change(function() {
+                if ($('#paypal_checkbox_cashin').prop('checked')) {
+                    $('#paypal-payment-button-cash-in').css({
+                        'pointer-events': 'auto',
+                        'opacity': '1'
+                    });
+
+                } else if (!$('#paypal_checkbox_cashin').prop('checked')) {
+                    $('#paypal-payment-button-cash-in').css({
+                        'pointer-events': 'none',
+                        'opacity': '0.2'
+                    });
+                }
             });
 
 

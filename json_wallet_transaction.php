@@ -11,8 +11,12 @@ while ($fetched = $result->fetch_assoc()) {
     $published_game_id = $fetched['published_game_id'];
     $cancel_order_reason = $fetched['cancel_order_reason'];
 
+    $cash_out_fee = $fetched['cash_out_fee'];
+
     $amount = base64_decode($fetched['amount']);
     $amount = (float) $amount;
+
+    $cashout_amount_requested = $amount - $cash_out_fee;
 
     $transaction_date = $fetched['transaction_date'];
     $timestamp = strtotime($transaction_date);
@@ -62,6 +66,7 @@ while ($fetched = $result->fetch_assoc()) {
     }
 
     // amount value and color side
+    $cashout_extra1 = '';
     if ($transaction_type == 'Cash In') {
         $amount_value = '
         <span style="color: #90ee90">
@@ -81,6 +86,10 @@ while ($fetched = $result->fetch_assoc()) {
 
         $side_color = '
         border-left: 3px solid orange;
+        ';
+
+        $cashout_extra1 = '
+        Cash Out Amount Requested: &#8369;'.number_format($cashout_amount_requested, 2).', Cash Out Fee: &#8369;'.number_format($cash_out_fee, 2).'
         ';
     } elseif ($transaction_type == 'Canceled Order') {
         $amount_value = '
@@ -154,6 +163,7 @@ while ($fetched = $result->fetch_assoc()) {
             <div class="container">
                 <div class="row">' . $transaction_type . '</div>
                 <div class="row"><span class="small" style="color: #777777;">' . $description . '</span></div>
+                <div class="row"><span class="small" style="color: #777777;">' . $cashout_extra1 . '</span></div>
             </div>
         </div>
 

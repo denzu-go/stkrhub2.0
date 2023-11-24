@@ -22,6 +22,8 @@ $resultMin = $conn->query($sqlMin);
 while ($rowMin = $resultMin->fetch_assoc()) {
     $minimum_cash_out_amount = $rowMin['percentage'];
 }
+
+include 'html/get_bg.php';
 ?>
 
 <!DOCTYPE html>
@@ -247,10 +249,11 @@ while ($rowMin = $resultMin->fetch_assoc()) {
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php
     include 'connection.php';
@@ -353,26 +356,126 @@ background-attachment: fixed;">
     </div>
 
     <!-- cash_out -->
-    <div class="modal fade" id="cashOut">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal fade " id="cashOut">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Cash Out</h5>
+                    <span class="h5 modal-title" id="exampleModalLongTitle">Cash Out</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <form id="cashOutForm" enctype="multipart/form-data">
-                    <div class="modal-body">
+                    <div class="form-group">
+                        <div class="modal-body">
 
-                        <p class="text-warning" id="cash_out_warning"></p>
+                            <?php
+                            // pinaka total wallet amount
+                            $queryAdd = "
+                            SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_add
+                            FROM wallet_transactions
+                            WHERE user_id = '$user_id'
+                            AND (transaction_type = 'Cash In' OR transaction_type = 'Profit' OR transaction_type = 'Cancel');
+                                        ";
+                            $resultAdd = $conn->query($queryAdd);
 
-                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                            if ($resultAdd) {
+                                $rowAdd = $resultAdd->fetch_assoc();
+                                $total_amount_add = $rowAdd['total_amount_add'];
+                            }
 
-                        <label for="cash_out_paypal_email">Your Paypal Email:</label>
-                        <input type="email" id="cash_out_paypal_email" name="cash_out_paypal_email" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            $querySub = "
+                            SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_sub
+                            FROM wallet_transactions
+                            WHERE user_id = '$user_id'
+                            AND (transaction_type = 'Pay' OR (transaction_type = 'Cash Out' AND status = 'success'));
+                            ";
+                            $resultSub = $conn->query($querySub);
 
-                        <button type="submit">Cashout</button>
+                            if ($resultSub) {
+                                $rowSub = $resultSub->fetch_assoc();
+                                $total_amount_sub = $rowSub['total_amount_sub'];
+                            }
+
+                            $total_wallet_amount_normalized = $total_amount_add - $total_amount_sub;
+                            // end of pinaka total wallet amount
+
+
+
+
+
+                            // cashout fee
+                            $sqlOutFee = "SELECT * FROM constants WHERE classification = 'cash_out_fee'";
+                            $resultOutFee = $conn->query($sqlOutFee);
+                            while ($rowOutFee = $resultOutFee->fetch_assoc()) {
+                                $cashout_processing_fee = $rowOutFee['percentage'];
+                            }
+                            // end of cashout fee
+
+
+                            // minimum cashout
+                            $sqlMinOut = "SELECT * FROM constants WHERE classification = 'minimum_cash_out_amount'";
+                            $resultMinOut = $conn->query($sqlMinOut);
+                            while ($rowMinOut = $resultMinOut->fetch_assoc()) {
+                                $minimum_cash_out_value = $rowMinOut['percentage'];
+                            }
+                            // end of minimum cashout
+
+
+
+                            // maximum cashout
+                            $maximum_cashout_value = $total_wallet_amount_normalized - $cashout_processing_fee;
+                            // end of maximum cashout
+                            ?>
+
+                            <div class="container">
+                                <div class="row">
+                                    <span class="">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et, dolorum delectus, nam minima dolore error, consectetur voluptatum repellat facere tempora ratione incidunt. Cumque, nemo labore? Sequi nesciunt obcaecati recusandae repellat?</span>
+                                </div>
+                                <div class="row">
+                                    <span class="">Your Balance:&nbsp;</span> <span class="">&#8369;<?php echo $total_wallet_amount_normalized ?></span>
+                                </div>
+
+                                <div class="row">
+                                    <span class="">Processing Fee:&nbsp;</span> <span class="">&#8369;<?php echo $cashout_processing_fee ?></span>
+                                </div>
+
+                                <div class="row">
+                                    <span class="">Minimum Cash Out:&nbsp;</span> <span class="">&#8369;<?php echo $minimum_cash_out_value ?></span>
+                                </div>
+
+                                <div class="row">
+                                    <span class="">Maximum Cash Out:&nbsp;</span> <span class="">&#8369;<?php echo $maximum_cashout_value ?></span>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="cash_out_amount">Cash Out Value:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">&#8369;</span>
+                                        </div>
+                                        <input class="form-control" type="number" id="cash_out_amount" name="cash_out_amount" value="" min="<?php echo $minimum_cash_out_value ?>" max="<?php echo $maximum_cashout_value ?>" required />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label for="cash_out_paypal_email">Your Paypal Email:</label>
+                                    <input class="form-control" type="email" id="cash_out_paypal_email" name="cash_out_paypal_email" required>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <span class="text-warning" id="cash_out_warning"></span>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            <button class="btn btn-primary" type="submit">Cashout</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -381,7 +484,7 @@ background-attachment: fixed;">
 
     <!-- Edit Paypal Email Modal -->
     <div class="modal fade" id="editPaypalEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="h5 modal-title" id="exampleModalLabel">Edit Paypal Email</span>
@@ -390,7 +493,7 @@ background-attachment: fixed;">
                     </button>
                 </div>
                 <div class="modal-body">
-                    <button class="btn btn-danger" id="cancel_cashout">Cancel Cashout Request</button>
+                    <!-- <button class="btn btn-danger" id="cancel_cashout">Cancel Cashout Request</button> -->
                     <form class="mt-2" id="editPaypalEmailForm">
                         <div class="form-group">
                             <label for="paypalEmail">Paypal Email Cashout Destination:</label>
@@ -664,6 +767,15 @@ background-attachment: fixed;">
             });
 
 
+            $('#walletAmount').on('click', '#cash_in_not', function() {
+                iziToast.warning({
+                    title: 'Caution',
+                    message: 'You exceed to the minimum wallet Cash In limit',
+                    position: 'topLeft', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                });
+            });
+
+
             paypal.Buttons({
                 style: {
                     color: 'blue',
@@ -714,6 +826,10 @@ background-attachment: fixed;">
                                     title: "Success",
                                     text: "Cash In Successfully",
                                     icon: "success",
+                                    didClose: function() {
+                                        // Reload the entire page when the SweetAlert modal is closed
+                                        window.location.reload();
+                                    }
                                 });
                             },
                             error: function(error) {
@@ -745,84 +861,62 @@ background-attachment: fixed;">
             // CASHOUT
             $('#walletAmount').on('click', '#cash_out', function() {
                 $("#cashOut").modal("show");
-                $('#cash_out_amount').val(null);
-                var currentWalletBalance = $('#cash_out').data('current_wallet_balance');
+
+            });
+
+            $('#walletAmount').on('click', '#cash_out_not', function() {
+                iziToast.warning({
+                    title: 'Caution',
+                    message: 'You still have cashout request, please wait until the admin send the refund',
+                    position: 'topLeft', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                });
             });
 
 
 
             $('#cashOutForm').submit(function(e) {
                 e.preventDefault();
+                Swal.fire({
+                    title: 'Confirm Cash Out',
+                    text: 'Are you sure you want to cash out?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, cash out',
+                    cancelButtonText: 'No, cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
-                // Make an initial AJAX request to fetch the wallet balance.
-                $.ajax({
-                    type: 'GET',
-                    url: 'get_wallet_amount.php',
-                    success: function(data) {
-                        var wallet_amount = parseFloat(data);
+                        var cashOutAmount = $("#cash_out_amount").val();
+                        var paypalEmail = $("#cash_out_paypal_email").val();
+                        var cash_out_fee = "<?php echo $cashout_processing_fee; ?>";
 
-                        var cash_out_amount = parseFloat($('#cash_out_amount').val());
-                        var cash_out_paypal_email = $('#cash_out_paypal_email').val();
-
-                        var maximum_cash_out_amount = wallet_amount - cash_out_fee;
-
-                        if (
-                            isNaN(cash_out_amount) ||
-                            cash_out_amount < minimum_cash_out_amount ||
-                            cash_out_amount > maximum_cash_out_amount
-                        ) {
-                            $('#cash_out_warning').text(
-                                'Invalid amount. ' +
-                                'Wallet Balance: ' + wallet_amount +
-                                'Minimum:' + minimum_cash_out_amount +
-                                'maximum:' + maximum_cash_out_amount
-                            );
-                            return;
-                        }
-
-                        // Display a SweetAlert confirmation dialog.
-                        Swal.fire({
-                            title: 'Confirm Cash Out',
-                            text: 'Are you sure you want to cash out?',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: 'Yes, cash out',
-                            cancelButtonText: 'No, cancel',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-
-                                // Proceed with the cash-out process here.
-                                var data = {
-                                    cash_out_amount: cash_out_amount,
-                                    cash_out_paypal_email: cash_out_paypal_email,
-                                    "user_id": user_id,
-                                    "cash_out_fee": cash_out_fee,
-                                };
-
-                                $.ajax({
-                                    type: 'POST',
-                                    url: 'process_paypal_cash_out.php',
-                                    data: data,
-                                    dataType: 'json',
-                                    success: function(response) {
-                                        if (response.success) {
-                                            $('#walletAmount').DataTable().ajax.reload();
-                                            $('#walletTransaction').DataTable().ajax.reload();
-                                            $("#cashOut").modal("hide");
-                                            Swal.fire('Success', response.message, 'success');
-                                        } else {
-                                            $("#cashOut").modal("hide");
-                                            Swal.fire('Error', response.message, 'error');
-                                        }
-                                    },
-                                    error: function() {
-                                        $("#cashOut").modal("hide");
-                                        Swal.fire('Error', 'Failed to process the cash out', 'error');
-                                    },
-                                });
-                            }
+                        $.ajax({
+                            type: 'POST',
+                            url: 'process_paypal_cash_out.php',
+                            data: {
+                                cash_out_amount: cashOutAmount,
+                                cash_out_paypal_email: paypalEmail,
+                                cash_out_fee: cash_out_fee,
+                                user_id: user_id,
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    $('#walletAmount').DataTable().ajax.reload();
+                                    $('#walletTransaction').DataTable().ajax.reload();
+                                    $("#cashOut").modal("hide");
+                                    Swal.fire('Success', response.message, 'success');
+                                } else {
+                                    $("#cashOut").modal("hide");
+                                    Swal.fire('Error', response.message, 'error');
+                                }
+                            },
+                            error: function() {
+                                $("#cashOut").modal("hide");
+                                Swal.fire('Error', 'Failed to process the cash out', 'error');
+                            },
                         });
-                    },
+                    }
                 });
             });
 

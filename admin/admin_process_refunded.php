@@ -17,14 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sqlInsertWallet = "UPDATE wallet_transactions SET status = 'success', paypal_email_destination = '$paypal_email_destination', cash_out_timestamp = NOW() WHERE wallet_transaction_id = $wallet_transaction_id";
         $queryInsertWallet = $conn->query($sqlInsertWallet);
 
-        $sqlUpdateUser = "UPDATE users SET wallet_amount = wallet_amount - $minus_amount WHERE user_id = $creator_id";
-        if ($conn->query($sqlUpdateUser) === TRUE) {
-            echo "Wallet amount updated successfully";
-        } else {
-            echo "Error updating wallet amount: " . $conn->error;
-        }
-
-
         $conn->commit();
 
         $response = ["success" => true, "message" => "Game and related records deleted successfully"];
