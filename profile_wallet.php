@@ -66,6 +66,8 @@ while ($rowMin = $resultMin->fetch_assoc()) {
     <!-- Include Tippy.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
 
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
 
     <!-- Filepond -->
     <link href="https://unpkg.com/filepond@4.23.1/dist/filepond.min.css" rel="stylesheet">
@@ -230,6 +232,17 @@ while ($rowMin = $resultMin->fetch_assoc()) {
         #walletAmount tr {
             background: transparent !important;
         }
+
+
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
+        }
+
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 
@@ -297,28 +310,42 @@ background-attachment: fixed;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Cash In</h5>
+                    <span class="h5 modal-title" id="exampleModalLongTitle">Cash In</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <form id="cashInForm" enctype="multipart/form-data">
-                    <div class="modal-body">
+                    <div class="form-group">
+                        <div class="modal-body">
 
-                        <p class="text-warning" id="cash_in_warning"></p>
+                            <label for="cash_in_amount">Cash In Value:</label>
 
-                        <input type="number" min="10" max="10000" id="cash_in_amount" name="cash_in_amount" value="0" required
-                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&#8369;</span>
+                                </div>
+                                <input class="form-control" type="number" min="10" max="5000" id="cash_in_amount" name="cash_in_amount" value="0" required onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                            </div>
 
-                        <button class="btn amount-button-cash-in" type="button" data-value="10">10</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="50">50</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="100">100</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="500">500</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="1000">1000</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="5000">5000</button>
-                        <button class="btn amount-button-cash-in" type="button" data-value="10000">10000</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <span class="text-warning d-block" id="cash_in_warning"></span>
 
-                        <div id="paypal-payment-button-cash-in" type="submit" data-paypal_payment="' . $total_payment . '" style="width: 100%;"></div>
+                            <div class="container mt-3 p-0">
+                                <button class="btn amount-button-cash-in" type="button" data-value="10">10</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="50">50</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="100">100</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="500">500</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="1000">1000</button>
+                                <button class="btn amount-button-cash-in" type="button" data-value="5000">5000</button>
+                            </div>
+                        </div>
+
+                        <label class="row d-flex justify-content-center">
+                            <input id="paypal_checkbox_cashin" name="stkr_wallet_checkbox" type="checkbox" />
+                            &nbsp; I allow the use of Paypal to use for Cash In
+                        </label>
+
+                        <div class="container" id="paypal-payment-button-cash-in" type="submit" data-paypal_payment="' . $total_payment . '" style="width: 100%;"></div>
                     </div>
                 </form>
             </div>
@@ -337,8 +364,7 @@ background-attachment: fixed;">
 
                         <p class="text-warning" id="cash_out_warning"></p>
 
-                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required
-                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
+                        <input type="number" id="cash_out_amount" name="cash_out_amount" value="0" required onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" />
 
                         <label for="cash_out_paypal_email">Your Paypal Email:</label>
                         <input type="email" id="cash_out_paypal_email" name="cash_out_paypal_email" required>
@@ -358,13 +384,14 @@ background-attachment: fixed;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Paypal Email</h5>
+                    <span class="h5 modal-title" id="exampleModalLabel">Edit Paypal Email</span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editPaypalEmailForm">
+                    <button class="btn btn-danger" id="cancel_cashout">Cancel Cashout Request</button>
+                    <form class="mt-2" id="editPaypalEmailForm">
                         <div class="form-group">
                             <label for="paypalEmail">Paypal Email Cashout Destination:</label>
                             <input type="email" class="form-control" id="paypalEmail" name="paypalEmail" required>
@@ -411,6 +438,9 @@ background-attachment: fixed;">
     <!-- Include Tippy.js JavaScript -->
     <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.js"></script>
 
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+
     <!-- Replace the "test" client-id value with your client-id -->
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypal_client_id ?>&currency=PHP&disable-funding=credit,card"></script>
 
@@ -424,6 +454,84 @@ background-attachment: fixed;">
             var minimum_cash_out_amount = <?php echo $minimum_cash_out_amount; ?>;
 
             var user_id = <?php echo $user_id; ?>;
+
+            $('#cancel_cashout').click(function() {
+                $('#editPaypalEmailModal').modal('hide');
+                iziToast.question({
+                    color: '#15172e',
+                    progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                    titleColor: '#fff',
+                    messageColor: '#fff',
+                    overlayColor: 'rgba(0, 0, 0, 0.7)',
+
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: '',
+                    message: 'Are you sure you want to cancel Cash Out request?',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+
+                            $.ajax({
+                                url: 'process_cashout_request.php',
+                                data: {
+                                    user_id: user_id
+                                },
+                                success: function(response) {
+                                    $('#walletAmount').DataTable().ajax.reload();
+                                    $('#walletTransaction').DataTable().ajax.reload();
+                                    $('#editPaypalEmailModal').modal("hide");
+
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Success',
+                                        message: 'Your Cash Out Request has been Canceled',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 10000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                        // onClosed: function() {
+                                        //     location.reload();
+                                        // }
+                                    });
+                                },
+                                error: function() {
+                                    $('#walletAmount').DataTable().ajax.reload();
+                                    $('#walletTransaction').DataTable().ajax.reload();
+                                    $('#editPaypalEmailModal').modal("hide");
+
+                                    Swal.fire('Error', 'An error occurred while processing your request.', 'error');
+                                }
+                            });
+
+                        }, true],
+                        ['<button style="color: white;">NO</button>', function(instance, toast) {
+                            instance.hide({
+                                transitionOut: 'fadeOut'
+                            }, toast, 'button');
+                        }],
+                    ],
+
+                    onClosing: function(instance, toast, closedBy) {
+                        console.info('Closing | closedBy: ' + closedBy);
+                    },
+                    onClosed: function(instance, toast, closedBy) {
+                        console.info('Closed | closedBy: ' + closedBy);
+                    }
+                });
+            });
+
+
+
+
 
             $('#walletTransaction').DataTable({
                 language: {
@@ -545,12 +653,6 @@ background-attachment: fixed;">
 
 
 
-
-
-
-
-
-
             // CASHIN
             $('#walletAmount').on('click', '#cash_in', function() {
                 $("#cashIn").modal("show");
@@ -570,8 +672,8 @@ background-attachment: fixed;">
                 createOrder: function(data, actions) {
                     var paypal_payment = parseFloat($('#cash_in_amount').val());
 
-                    if (paypal_payment < 10 || paypal_payment === 0 || paypal_payment > 10000) {
-                        $('#cash_in_warning').text('Minimum amount is P10 and Maximum of P10,000');
+                    if (paypal_payment < 10 || paypal_payment === 0 || paypal_payment > 5000) {
+                        $('#cash_in_warning').text('Minimum Cash In amount is P10 and maximum of P5,000');
                         return actions.reject();
                     }
                     $('#cash_in_warning').text('');
@@ -626,10 +728,24 @@ background-attachment: fixed;">
                 },
             }).render('#paypal-payment-button-cash-in');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // CASHOUT
             $('#walletAmount').on('click', '#cash_out', function() {
                 $("#cashOut").modal("show");
-                $('#cash_out_amount').val(0);
+                $('#cash_out_amount').val(null);
                 var currentWalletBalance = $('#cash_out').data('current_wallet_balance');
             });
 
@@ -708,6 +824,34 @@ background-attachment: fixed;">
                         });
                     },
                 });
+            });
+
+
+
+
+
+
+
+            $('#paypal-payment-button-cash-in').prop('disabled', true);
+            $('#paypal-payment-button-cash-in').css({
+                'pointer-events': 'none',
+                'opacity': '0.2'
+            });
+
+
+            $('#paypal_checkbox_cashin').change(function() {
+                if ($('#paypal_checkbox_cashin').prop('checked')) {
+                    $('#paypal-payment-button-cash-in').css({
+                        'pointer-events': 'auto',
+                        'opacity': '1'
+                    });
+
+                } else if (!$('#paypal_checkbox_cashin').prop('checked')) {
+                    $('#paypal-payment-button-cash-in').css({
+                        'pointer-events': 'none',
+                        'opacity': '0.2'
+                    });
+                }
             });
 
 
