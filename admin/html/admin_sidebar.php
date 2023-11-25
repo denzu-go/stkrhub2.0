@@ -4,14 +4,14 @@
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label first">Main Menu</li>
+                    <li class="nav-label first text-white">Main Menu</li>
 
-                    <li><a href="index.php" aria-expanded="false"><i class="fa-solid fa-chart-simple"></i><span class="nav-text">Dashboard</span></a></li>
-                    <li><a href="admin_banner.php" aria-expanded="false"><i class="fa-solid fa-panorama"></i></i><span class="nav-text">Banners</span></a></li>
+                    <li class=""><a href="index.php" class="text-white" aria-expanded="false"><i class="fa-solid fa-chart-simple"></i><span class="nav-text">Dashboard</span></a></li>
+                    <li class=""><a class="text-white" href="admin_banner.php" aria-expanded="false"><i class="fa-solid fa-panorama"></i></i><span class="nav-text">Banners</span></a></li>
 
-                    <li class="nav-label">Orders</li>
+                    <li class="nav-label text-white">Orders</li>
                     <li>
-                        <a href="pending_all.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                        <a class="text-white" href="pending_all.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="is_pending_count" class="display" style="width: 100%;">
                                 <tbody>
                                 </tbody>
@@ -20,7 +20,7 @@
                     </li>
 
                     <li class="m-0 p-0">
-                        <a href="in_production.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                        <a class="text-white" href="in_production.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="in_production_count" class="display" style="width: 100%; padding: 0px; margin: 0px;">
                                 <tbody style="width: 100%; padding: 0px; margin: 0px; height: 20px;">
                                 </tbody>
@@ -29,7 +29,7 @@
                     </li>
 
                     <li>
-                        <a href="to_ship.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                        <a class="text-white" href="to_ship.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="to_ship_count" class="display" style="width: 100%;">
                                 <tbody>
                                 </tbody>
@@ -38,7 +38,7 @@
                     </li>
 
                     <li>
-                        <a href="to_deliver.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                        <a class="text-white" href="to_deliver.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="to_deliver_count" class="display" style="width: 100%;">
                                 <tbody>
                                 </tbody>
@@ -56,7 +56,7 @@
                     </li> -->
 
                     <li>
-                        <a href="canceled.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                        <a class="text-white" href="canceled.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="is_canceled_count" class="display" style="width: 100%;">
                                 <tbody>
                                 </tbody>
@@ -66,17 +66,17 @@
 
 
 
-                    <li class="nav-label">Approve / Deny</li>
-                    <li><a href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>
-                    <li><a href="pending_details_request.php"><i class="fa-solid fa-flag-checkered"></i><span class="nav-text">Publish Game Details Requests</span></a></li>
-                    <li><a href="edit_published_game_requests.php"><i class="fa-solid fa-font-awesome"></i><span class="nav-text">Edit Published Game Requests</span></a></li>
+                    <li class="nav-label text-white">Approve / Deny</li>
+                    <li><a class="text-white" href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>
+                    <li><a class="text-white" href="pending_details_request.php"><i class="fa-solid fa-flag-checkered"></i><span class="nav-text">Publish Game Details Requests</span></a></li>
+                    <li><a class="text-white" href="edit_published_game_requests.php"><i class="fa-solid fa-font-awesome"></i><span class="nav-text">Edit Published Game Requests</span></a></li>
 
-                    <li class="nav-label">Cash Out</li>
-                    <li><a href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
+                    <li class="nav-label text-white">Cash Out</li>
+                    <li><a class="text-white" href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
 
-                    <li class="nav-label"></li>
+                    <li class="nav-label text-white"></li>
                     <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <a class="has-arrow text-white" href="javascript:void()" aria-expanded="false">
                             <i class="icon icon-app-store"></i>
                             <span class="nav-text">Game Components</span>
                         </a>
@@ -94,15 +94,16 @@
                             }
                             ?>
 
-                            <a class="btn btn-outline-primary" id="addComponent" style="display: block; margin:20px;" role="button" style="text-align:center;">Add New Component</a>
-
-
+                            <a class="btn btn-outline-primary text-white" id="addComponent" style="display: block; margin:20px;" role="button" style="text-align:center;">Add New Component</a>
                         </ul>
                     </li>
 
 
-                    <li class="nav-label"></li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="fa-solid fa-hand-holding-hand"></i><span class="nav-text">Help Desk</span></a>
+                    <li class="nav-label text-white"></li>
+                    <li>
+                        <a class="has-arrow text-white" href="javascript:void()" aria-expanded="false"><i class="fa-solid fa-hand-holding-hand"></i>
+                            <span class="nav-text">Help Desk</span>
+                        </a>
                         <ul aria-expanded="false">
                             <?php
                             include("connection.php");
@@ -118,7 +119,7 @@
 
                             ?>
 
-                            <a class="btn btn-outline-primary" id="addCategory" style="width:200px;margin:20px;" role="button" style="text-align:center;">Add New Category</a>
+                            <a class="btn btn-outline-primary text-white" id="addCategory" style="width:200px;margin:20px;" role="button" style="text-align:center;">Add New Category</a>
                         </ul>
                     </li>
 
@@ -134,19 +135,19 @@
 
                         if ($result["is_super_admin"] == 1) {
 
-                            echo '<li class="nav-label">Account Management</li>
-                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>
-                            <li><a href="admin_account_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">Admin Accounts</span></a></li>
+                            echo '<li class="nav-label text-white">Account Management</li>
+                            <li><a class="text-white" href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>
+                            <li><a class="text-white" href="admin_account_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">Admin Accounts</span></a></li>
 
-                            <li class="nav-label"><span class="nav-text">Service Charges & Others</li>
-                            <li><a href="admin_weight_charges.php"><i class="fa-solid fa-box"></i><span class="nav-text">Weight Charges</span></a></li>
-                            <li><a href="admin_service_percentage.php"><i class="fa-solid fa-person-breastfeeding"></i><span class="nav-text">Service Fees</span></a></li>
-                            <li><a href="admin_constant_thumbnail.php"><i class="fa-regular fa-images"></i><span class="nav-text">Thumbnail Images</span></a></li>
-                            <li><a href="admin_paypal_royalty.php"><i class="fa-brands fa-paypal"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>';
+                            <li class="nav-label text-white"><span class="nav-text">Service Charges & Others</li>
+                            <li><a class="text-white" href="admin_weight_charges.php"><i class="fa-solid fa-box"></i><span class="nav-text">Weight Charges</span></a></li>
+                            <li><a class="text-white" href="admin_service_percentage.php"><i class="fa-solid fa-person-breastfeeding"></i><span class="nav-text">Service Fees</span></a></li>
+                            <li><a class="text-white" href="admin_constant_thumbnail.php"><i class="fa-regular fa-images"></i><span class="nav-text">Thumbnail Images</span></a></li>
+                            <li><a class="text-white" href="admin_paypal_royalty.php"><i class="fa-brands fa-paypal"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>';
                         } else {
 
-                            echo '<li class="nav-label">Account Management</li>
-                            <li><a href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>';
+                            echo '<li class="nav-label text-white">Account Management</li>
+                            <li><a class="text-white" href="admin_user_management.php"><i class="fa-solid fa-users"></i><span class="nav-text">User Accounts</span></a></li>';
                         }
                     }
 
@@ -154,8 +155,7 @@
 
 
                 </ul>
-                </li>
-                </ul>
+
             </div>
 
 

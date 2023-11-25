@@ -83,11 +83,12 @@ $total_component_produced = $rowTotalComponents['total_components'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>STKR Admin - Dashboard </title>
+
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
-    <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
+    <link href="./vendor/pg-calendar/css/pignose.calendar.min.css?<?php echo time(); ?>" rel="stylesheet">
+    <link href="./vendor/chartist/css/chartist.min.css?<?php echo time(); ?>" rel="stylesheet">
+    <link href="./css/style.css?<?php echo time(); ?>" rel="stylesheet">
 
 
     <!-- Include jQuery -->
@@ -103,6 +104,9 @@ $total_component_produced = $rowTotalComponents['total_components'];
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+        <?php include 'css/orders_count.css'; ?>
+    </style>
 </head>
 
 
@@ -123,7 +127,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         <div class="card">
                             <div class="stat-widget-one card-body">
                                 <div class="stat-icon d-inline-block">
-                                    
+
                                 </div>
                                 <div class="stat-content d-inline-block">
                                     <div class="stat-text muted">Profit from Published Games</div>
@@ -336,15 +340,6 @@ $total_component_produced = $rowTotalComponents['total_components'];
     </div>
 
 
-
-
-
-
-
-
-
-
-
     <!-- Include global.min.js first -->
     <script src="./vendor/global/global.min.js"></script>
 
@@ -365,6 +360,8 @@ $total_component_produced = $rowTotalComponents['total_components'];
 
     <script>
         $(document).ready(function() {
+
+            <?php include 'html/count_orders.php'; ?>
 
             $('#bestPublished').DataTable({
                 searching: true,

@@ -16,7 +16,7 @@ include 'connection.php';
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/style.css?<?php echo time(); ?>" rel="stylesheet">
 
 
     <!-- Include jQuery -->
@@ -35,6 +35,8 @@ include 'connection.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
+        <?php include 'css/orders_count.css'; ?>
+
         /* Adjust the width as needed */
         .wide-swal {
             width: 800px;
@@ -127,6 +129,8 @@ include 'connection.php';
 
     <script>
         $(document).ready(function() {
+
+            <?php include 'html/count_orders.php'; ?>
 
             $('#banners').DataTable({
                 searching: false,
