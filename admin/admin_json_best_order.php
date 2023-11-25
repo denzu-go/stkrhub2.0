@@ -1,5 +1,19 @@
 <?php
+
+session_start();
 include "connection.php";
+
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
+
+
 
 // Query to find the most frequent creator_id at orders table
 $sqlGames = "SELECT user_id, COUNT(*) AS frequency

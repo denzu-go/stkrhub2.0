@@ -1,7 +1,14 @@
 <?php
 session_start();
-include 'connection.php';
-
+include("connection.php");
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
 ?>
 
 <!DOCTYPE html>

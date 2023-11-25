@@ -1,5 +1,15 @@
 <?php
+session_start();
 include 'connection.php';
+
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
 
 $sqlBuiltGames = "SELECT COUNT(built_game_id) AS total_built_games FROM built_games";
 $sqlPublishedGames = "SELECT COUNT(published_game_id) AS total_published_games FROM published_built_games";

@@ -2,6 +2,15 @@
 session_start();
 include 'connection.php';
 
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
 // Check if the request is a POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the data sent via POST

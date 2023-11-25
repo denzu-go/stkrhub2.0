@@ -1,4 +1,5 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Include the connection.php file to access the existing database connection
     require_once 'connection.php';

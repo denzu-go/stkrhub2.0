@@ -1,6 +1,15 @@
 <?php
 session_start();
-include 'connection.php';
+include("connection.php");
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
 
 $helpID;
 
@@ -16,9 +25,6 @@ $help_sql = "SELECT *
 
 $help_query = $conn->query($help_sql);
 $help_row = $help_query->fetch_assoc();
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +77,7 @@ $help_row = $help_query->fetch_assoc();
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                        <h4>Edit <?php echo htmlspecialchars($help_row['help_title']); ?> Content</h4>
+                            <h4>Edit <?php echo htmlspecialchars($help_row['help_title']); ?> Content</h4>
                             <p class="mb-0">Fill Up Details</p>
                         </div>
                     </div>
@@ -85,7 +91,7 @@ $help_row = $help_query->fetch_assoc();
                             <div class="card-body">
 
                                 <div class="container my-5">
-                                    <form method="post" id="myForm" enctype="multipart/form-data" >
+                                    <form method="post" id="myForm" enctype="multipart/form-data">
 
                                         <input type="hidden" name="id" value="<?php echo $helpID; ?>">
                                         <input type="hidden" name="faq_id" value="<?php echo $help_row['faq_id']; ?>">
@@ -93,14 +99,14 @@ $help_row = $help_query->fetch_assoc();
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title"> <?php echo htmlspecialchars($help_row['help_title']); ?> Title:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" name="title" value="<?php echo $help_row['help_title']; ?>">
+                                                <input type="text" class="form-control" id="title" name="title" value="<?php echo $help_row['help_title']; ?>">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title"><?php echo htmlspecialchars($help_row['help_title']); ?> Description:</label>
                                             <div class="col-sm-6">
-                                            <textarea name="description" rows="4" cols="50"> <?php echo $help_row['help_description']; ?></textarea>
+                                                <textarea name="description" rows="4" cols="50"> <?php echo $help_row['help_description']; ?></textarea>
                                             </div>
                                         </div>
 
@@ -112,7 +118,7 @@ $help_row = $help_query->fetch_assoc();
                                             </div>
                                         </div>
 
-                                       
+
 
                                         <div class="row mb-3">
                                             <div class="offset-sm-3 col-sm-3 d-grid">
@@ -149,19 +155,7 @@ $help_row = $help_query->fetch_assoc();
 
 
 
-        <div class="footer">
-
-
-
-
-
-
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
-
+        <?php include 'html/admin_footer.php'; ?>
 
 
     </div>
@@ -197,9 +191,9 @@ $help_row = $help_query->fetch_assoc();
     <script>
         $(document).ready(function() {
             // JavaScript
-           
 
-           $("#myForm").submit(function(e) {
+
+            $("#myForm").submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
                 var formData = new FormData(this); // Create a FormData object
 
@@ -233,7 +227,7 @@ $help_row = $help_query->fetch_assoc();
                     }
                 });
 
-            }); 
+            });
 
         });
     </script>

@@ -3,6 +3,16 @@
 session_start();
 include("connection.php");
 
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
+
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
     // Sanitize and retrieve values from the form

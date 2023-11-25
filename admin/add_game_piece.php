@@ -2,14 +2,24 @@
 session_start();
 include 'connection.php';
 
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
 $category;
 
 if (isset($_GET['category'])) {
-
     $category = $_GET['category'];
 }
 
 $_SESSION['category'] = $category;
+
+
 
 ?>
 
@@ -25,7 +35,7 @@ $_SESSION['category'] = $category;
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/style.css?<?php echo time(); ?>" rel="stylesheet">
 
 
     <!-- Include jQuery -->
@@ -42,6 +52,10 @@ $_SESSION['category'] = $category;
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        <?php include 'css/orders_count.css'; ?>
+    </style>
 
 
 </head>
@@ -115,7 +129,7 @@ $_SESSION['category'] = $category;
                                             <th>Thumbnails</th>
                                             <th>Available</th>
                                             <th> Actions </th>
-                                              
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -164,6 +178,7 @@ $_SESSION['category'] = $category;
     <script>
         $(document).ready(function() {
 
+            <?php include 'html/count_orders.php'; ?>
 
 
 

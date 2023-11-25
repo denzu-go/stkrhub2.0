@@ -67,12 +67,82 @@
 
 
                     <li class="nav-label text-white">Approve / Deny</li>
-                    <li><a class="text-white" href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>
-                    <li><a class="text-white" href="pending_details_request.php"><i class="fa-solid fa-flag-checkered"></i><span class="nav-text">Publish Game Details Requests</span></a></li>
-                    <li><a class="text-white" href="edit_published_game_requests.php"><i class="fa-solid fa-font-awesome"></i><span class="nav-text">Edit Published Game Requests</span></a></li>
+                    <!-- <li>
+                        <a class="text-white" href="games_approval_requests.php">
+                            <i class="fa-solid fa-dice"></i>
+                            <span class="nav-text">Games Pending Approval</span>
+                        </a>
+                    </li> -->
+
+
+                    <li>
+                        <a class="text-white" href="games_approval_requests.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="games_pending_approval_table" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+
+                    <!-- <li>
+                        <a class="text-white" href="pending_details_request.php">
+                            <i class="fa-solid fa-flag-checkered"></i>
+                            <span class="nav-text">Publish Game Details Requests</span>
+                        </a>
+                    </li> -->
+
+                    <li>
+                        <a class="text-white" href="pending_details_request.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="pending_details_request_table" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+
+
+
+
+                    <!-- <li>
+                        <a class="text-white" href="edit_published_game_requests.php">
+                            <i class="fa-solid fa-font-awesome"></i>
+                            <span class="nav-text">Edit Published Game Requests</span>
+                        </a>
+                    </li> -->
+
+                    <li>
+                        <a class="text-white" href="edit_published_game_requests.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="edit_published_game_requests_table" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+
+
 
                     <li class="nav-label text-white">Cash Out</li>
-                    <li><a class="text-white" href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
+
+                    <!-- <li>
+                        <a class="text-white" href="cashout_requests.php" aria-expanded="false">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                            <span class="nav-text">Cashout Requests</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a class="text-white" href="cashout_requests.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="cashout_requests_table" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
+
+
 
                     <li class="nav-label text-white"></li>
                     <li>
@@ -90,7 +160,7 @@
                             $result = $stmt->get_result();
 
                             while ($row = $result->fetch_assoc()) {
-                                echo '<li><a href="add_game_piece.php?category=' . $row['category'] . '">' . $row['category'] . '</a></li>';
+                                echo '<li><a class="text-white" href="add_game_piece.php?category=' . $row['category'] . '">' . $row['category'] . '</a></li>';
                             }
                             ?>
 
@@ -114,12 +184,16 @@
                             $result = $stmt->get_result();
 
                             while ($row = $result->fetch_assoc()) {
-                                echo '<li><a href="admin_help.php?category=' . $row['faq_category'] . '"> ' . $row['faq_category'] . ' </a></li>';
+                                echo '
+                                <li>
+                                <a class="text-white" href="admin_help.php?category=' . $row['faq_category'] . '"> ' . $row['faq_category'] . ' </a>
+                                </li>
+                                ';
                             }
 
                             ?>
 
-                            <a class="btn btn-outline-primary text-white" id="addCategory" style="width:200px;margin:20px;" role="button" style="text-align:center;">Add New Category</a>
+                            <a class="text-white btn btn-outline-primary text-white" id="addCategory" style="width:200px;margin:20px;" role="button" style="text-align:center;">Add New Category</a>
                         </ul>
                     </li>
 

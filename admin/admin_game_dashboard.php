@@ -2,6 +2,18 @@
 session_start();
 include 'connection.php';
 
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
+
+
+
 if ($_SERVER['REQUEST_METHOD']) {
     $game_id = $_GET['game_id'];
     $creator_id = $_GET['creator_id'];
@@ -198,18 +210,7 @@ if ($_SERVER['REQUEST_METHOD']) {
             </div>
         </div>
 
-        <div class="footer">
-
-
-
-
-
-
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
+        <?php include 'html/admin_footer.php'; ?>
 
 
 

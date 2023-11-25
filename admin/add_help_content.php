@@ -2,6 +2,15 @@
 session_start();
 include 'connection.php';
 
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
 $category;
 
 if (isset($_GET['category'])) {
@@ -62,7 +71,7 @@ if (isset($_GET['category'])) {
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                        <h4>Add <?php echo htmlspecialchars($category); ?> Content</h4>
+                            <h4>Add <?php echo htmlspecialchars($category); ?> Content</h4>
                             <p class="mb-0">Fill Up Details</p>
                         </div>
                     </div>
@@ -83,25 +92,25 @@ if (isset($_GET['category'])) {
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title">Tutorial Title:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" name="title">
+                                                <input type="text" class="form-control" id="title" name="title">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title">Tutorial Description:</label>
                                             <div class="col-sm-6">
-                                            <textarea name="description" rows="4" cols="50"></textarea>
+                                                <textarea name="description" rows="4" cols="50"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="link">Tutorial Youtube Link:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="link" name="link">
+                                                <input type="text" class="form-control" id="link" name="link">
                                             </div>
                                         </div>
 
-                                       
+
 
                                         <div class="row mb-3">
                                             <div class="offset-sm-3 col-sm-3 d-grid">
@@ -137,20 +146,7 @@ if (isset($_GET['category'])) {
 
 
 
-
-        <div class="footer">
-
-
-
-
-
-
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
-
+        <?php include 'html/admin_footer.php'; ?>
 
 
     </div>

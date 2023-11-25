@@ -1,27 +1,71 @@
-#is_pending_count, #in_production_count, #to_ship_count, #to_deliver_count, #is_received_count, #is_canceled_count {
-    box-shadow: none !important;
-    margin-top: 0rem !important;
-    padding: 0px;
+#is_pending_count,
+#in_production_count,
+#to_ship_count,
+#to_deliver_count,
+#is_received_count,
+#is_canceled_count,
+#games_pending_approval_table,
+#pending_details_request_table,
+#edit_published_game_requests_table,
+#cashout_requests_table {
+  box-shadow: none !important;
+  margin-top: 0rem !important;
+  padding: 0px;
 }
 
-#is_pending_count .odd, #in_production_count .odd, #to_ship_count .odd, #to_deliver_count .odd, #is_received_count .odd, #is_canceled_count .odd {
-    background-color: transparent;
-    padding: 0px;
+#is_pending_count .odd,
+#in_production_count .odd,
+#to_ship_count .odd,
+#to_deliver_count .odd,
+#is_received_count .odd,
+#games_pending_approval_table .odd,
+#pending_details_request_table .odd,
+#edit_published_game_requests_table .odd,
+#cashout_requests_table .odd {
+  background-color: transparent;
+  padding: 0px;
 }
 
-#is_pending_count thead, #in_production_count thead, #to_ship_count thead, #to_deliver_count thead, #is_received_count thead, #is_canceled_count thead {
-    display: none;
-    /* Hide the table header */
-    padding: 0px;
+#is_pending_count thead,
+#in_production_count thead,
+#to_ship_count thead,
+#to_deliver_count thead,
+#is_received_count thead,
+#is_canceled_count thead,
+#games_pending_approval_table thead,
+#pending_details_request_table thead,
+#edit_published_game_requests_table thead,
+#cashout_requests_table thead {
+  display: none;
+  /* Hide the table header */
+  padding: 0px;
 }
 
-#is_pending_count th, #in_production_count th, #to_ship_count th, #to_deliver_count th, #is_received_count th, #is_canceled_count th {
-    display: none;
-    /* Hide table header cells */
-    padding: 0px;
+#is_pending_count th,
+#in_production_count th,
+#to_ship_count th,
+#to_deliver_count th,
+#is_received_count th,
+#is_canceled_count th,
+#games_pending_approval_table th,
+#pending_details_request_table th,
+#edit_published_game_requests_table th,
+#cashout_requests_table th {
+  display: none;
+  /* Hide table header cells */
+  padding: 0px;
 }
 
-#is_pending_count.dataTable.no-footer, #in_production_count.dataTable.no-footer, #to_ship_count.dataTable.no-footer, #to_deliver_count.dataTable.no-footer, #is_received_count.dataTable.no-footer, #is_canceled_count.dataTable.no-footer{
-    border-bottom: none;
-    padding: 0px;
+#is_pending_count.dataTable.no-footer,
+#in_production_count.dataTable.no-footer,
+#to_ship_count.dataTable.no-footer,
+#to_deliver_count.dataTable.no-footer,
+#is_received_count.dataTable.no-footer,
+#is_canceled_count.dataTable.no-footer,
+#games_pending_approval_table.dataTable.no-footer,
+#pending_details_request_table.dataTable.no-footer,
+#edit_published_game_requests_table.dataTable.no-footer,
+#cashout_requests_table.dataTable.no-footer {
+  border-bottom: none;
+  padding: 0px;
 }

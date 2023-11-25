@@ -1,6 +1,14 @@
 <?php
 session_start();
-include 'connection.php';
+include("connection.php");
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
 
 $tutID;
 
@@ -33,7 +41,7 @@ $tut_row = $tut_query->fetch_assoc();
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/style.css?<?php echo time(); ?>" rel="stylesheet">
 
 
     <!-- Include jQuery -->
@@ -49,6 +57,13 @@ $tut_row = $tut_query->fetch_assoc();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <link rel="stylesheet" href="">
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        <?php include 'css/orders_count.css'; ?>
+    </style>
 
 
 </head>
@@ -71,7 +86,7 @@ $tut_row = $tut_query->fetch_assoc();
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                        <h4>Edit <?php echo htmlspecialchars($tut_row['tutorial_title']); ?> Content</h4>
+                            <h4>Edit <?php echo htmlspecialchars($tut_row['tutorial_title']); ?> Content</h4>
                             <p class="mb-0">Fill Up Details</p>
                         </div>
                     </div>
@@ -93,25 +108,25 @@ $tut_row = $tut_query->fetch_assoc();
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title">Tutorial Title:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" name="title" value="<?php echo $tut_row['tutorial_title']; ?>">
+                                                <input type="text" class="form-control" id="title" name="title" value="<?php echo $tut_row['tutorial_title']; ?>">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title">Tutorial Description:</label>
                                             <div class="col-sm-6">
-                                            <textarea name="description" rows="4" cols="50"> <?php echo $tut_row['tutorial_description']; ?></textarea>
+                                                <textarea name="description" rows="4" cols="50"> <?php echo $tut_row['tutorial_description']; ?></textarea>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="link">Tutorial Youtube Link:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="link" name="link" value="<?php echo $tut_row['tutorial_link']; ?>">
+                                                <input type="text" class="form-control" id="link" name="link" value="<?php echo $tut_row['tutorial_link']; ?>">
                                             </div>
                                         </div>
 
-                                       
+
 
                                         <div class="row mb-3">
                                             <div class="offset-sm-3 col-sm-3 d-grid">
@@ -148,18 +163,7 @@ $tut_row = $tut_query->fetch_assoc();
 
 
 
-        <div class="footer">
-
-
-
-
-
-
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
+        <?php include 'html/admin_footer.php'; ?>
 
 
 
@@ -195,8 +199,11 @@ $tut_row = $tut_query->fetch_assoc();
 
     <script>
         $(document).ready(function() {
+
+            <?php include 'html/count_orders.php'; ?>
+
             // JavaScript
-           
+
 
             $("#myForm").submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission

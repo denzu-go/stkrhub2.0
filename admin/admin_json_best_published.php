@@ -1,5 +1,16 @@
 <?php
+session_start();
 include "connection.php";
+
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
 
 // Query to find users with the most published games
 $sqlUsers = "SELECT creator_id, COUNT(DISTINCT published_game_id) AS game_count

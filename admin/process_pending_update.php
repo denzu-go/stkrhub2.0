@@ -1,5 +1,14 @@
 <?php
-include 'connection.php'; // Include your database connection
+session_start();
+include("connection.php");
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_update'])) {
     $published_game_id = $_POST['published_game_id'];

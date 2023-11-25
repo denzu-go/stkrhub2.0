@@ -1,5 +1,17 @@
 <?php
+session_start();
 include "connection.php";
+
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
+
 
 // Query to find the user with the highest total creator_profit
 $sqlUsers = "SELECT user_id, SUM(creator_profit * quantity) AS total_creator_profit
@@ -42,4 +54,3 @@ while ($row = $resultUsers->fetch_assoc()) {
 }
 
 echo json_encode($data);
-?>

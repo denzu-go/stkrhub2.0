@@ -1,7 +1,14 @@
 <?php
 session_start();
-include 'connection.php';
-
+include("connection.php");
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +23,7 @@ include 'connection.php';
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/style.css?<?php echo time(); ?>" rel="stylesheet">
 
 
     <!-- Include jQuery -->

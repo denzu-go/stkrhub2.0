@@ -8,13 +8,22 @@ if (isset($_GET['is_super'])) {
 }
 
 
+// check if admin logged in
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+} else {
+    header("Location: admin_login.php");
+    exit;
+}
+// end of check if admin logged in
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>STKR Admin - Add Account</title>
@@ -83,7 +92,7 @@ if (isset($_GET['is_super'])) {
                         <div class="card">
                             <div class="card-body">
 
-                                
+
 
 
                                 <div class="container my-5">
@@ -158,18 +167,7 @@ if (isset($_GET['is_super'])) {
 
 
 
-        <div class="footer">
-
-
-
-
-
-
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
-            </div>
-        </div>
+        <?php include 'html/admin_footer.php'; ?>
 
 
 
@@ -204,67 +202,63 @@ if (isset($_GET['is_super'])) {
 
 
     <script>
-       $(document).ready(function() {
-        // Form submission using AJAX
-        $("#myForm").submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
-            var formData = new FormData(this); // Create a FormData object
+        $(document).ready(function() {
+            // Form submission using AJAX
+            $("#myForm").submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+                var formData = new FormData(this); // Create a FormData object
 
-            // Send an AJAX POST request
-            $.ajax({
-                type: "POST",
-                url: "admin_process_add_admin_account.php",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    // Parse the JSON response
-                    try {
-                        response = JSON.parse(response);
-                    } catch (e) {
-                        console.error("Error parsing JSON response:", e);
-                        return;
-                    }
+                // Send an AJAX POST request
+                $.ajax({
+                    type: "POST",
+                    url: "admin_process_add_admin_account.php",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // Parse the JSON response
+                        try {
+                            response = JSON.parse(response);
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                            return;
+                        }
 
-                    // Check the status in the response
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message,
-                        }).then(function() {
-                            // Redirect to admin_account_management.php on success
-                            window.location.href = "admin_account_management.php";
-                        });
+                        // Check the status in the response
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message,
+                            }).then(function() {
+                                // Redirect to admin_account_management.php on success
+                                window.location.href = "admin_account_management.php";
+                            });
 
-                        // Reload DataTables if needed
-                        $('#adminTable').DataTable().ajax.reload();
-                        $('#superTable').DataTable().ajax.reload();
-                        $("#myForm")[0].reset();
-                    } else {
-                        // Display the error message
+                            // Reload DataTables if needed
+                            $('#adminTable').DataTable().ajax.reload();
+                            $('#superTable').DataTable().ajax.reload();
+                            $("#myForm")[0].reset();
+                        } else {
+                            // Display the error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        // Display a generic error message for AJAX errors
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
-                            text: response.message,
+                            text: 'Error in submitting data: ' + error.responseText,
                         });
                     }
-                },
-                error: function(error) {
-                    // Display a generic error message for AJAX errors
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error in submitting data: ' + error.responseText,
-                    });
-                }
+                });
             });
         });
-    });
-
-
-
-    
     </script>
 
 
