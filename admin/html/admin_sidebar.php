@@ -66,15 +66,15 @@
 
 
 
-                    <li class="nav-label">Approve / Deny</li>
-                    <li><a href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>
-                    <li><a href="pending_details_request.php"><i class="fa-solid fa-flag-checkered"></i><span class="nav-text">Publish Game Details Requests</span></a></li>
-                    <li><a href="edit_published_game_requests.php"><i class="fa-solid fa-font-awesome"></i><span class="nav-text">Edit Published Game Requests</span></a></li>
-                    <li><a href="admin_comment_report.php"><i class="fa-solid fa-triangle-exclamation"></i><span class="nav-text">Reported Comments</span></a></li>
+                    <li class="nav-label text-white">Approve / Deny</li>
+                    <li><a class="text-white" href="games_approval_requests.php"><i class="fa-solid fa-dice"></i><span class="nav-text">Games Pending Approval</span></a></li>
+                    <li><a class="text-white" href="pending_details_request.php"><i class="fa-solid fa-flag-checkered"></i><span class="nav-text">Publish Game Details Requests</span></a></li>
+                    <li><a class="text-white" href="edit_published_game_requests.php"><i class="fa-solid fa-font-awesome"></i><span class="nav-text">Edit Published Game Requests</span></a></li>
+                    <li><a class="text-white" href="admin_comment_report.php"><i class="fa-solid fa-triangle-exclamation"></i><span class="nav-text">Reported Comments</span></a></li>
 
 
-                    <li class="nav-label">Cash Out</li>
-                    <li><a href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
+                    <li class="nav-label text-white">Cash Out</li>
+                    <li><a class="text-white" href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
 
                     <li class="nav-label"></li>
                     <li>

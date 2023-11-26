@@ -146,6 +146,69 @@ if (isset($_SESSION['confirm'])) {
 
 
 
+                                    <?php
+                                    $sql = "SELECT * FROM constants where constant_id > 9";
+
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    
+
+                                    if ($confirm == '1') {
+                                        echo '<p style="color:green; text-align:center;"> Account has been changed Successfully </p> ';
+                                        unset($_SESSION['confirm']);
+                                    }
+
+                                    while ($paypal = $result->fetch_assoc()){
+
+                                       echo ' <div class="row mb-3">
+
+                                        <label class="col-sm-3 col-form-label"> '. $paypal['classification'].':</label>
+                                        <p> '.$paypal['text'].'</p>
+                                    </div>';
+                                        
+                                    }
+                                    ?>
+
+                                    
+
+                                    <form method="post" id="changeEmail" enctype="multipart/form-data">
+                                        <div class="row mb-3 changeEmail" style="display : none;">
+
+                                            <input type="hidden" name="email_id" value="10">
+                                            <input type="hidden" name="password_id" value="11">
+
+                                            <label class="col-sm-3 col-form-label">New Email Account:</label>
+                                            <input type="input" name="email" value="" style="width:500px;">
+                                            <br>
+                                            <label class="col-sm-3 col-form-label">New Email Password:</label>
+                                            <input type="input" name="password" value="" style="width:500px;">
+
+                                            <div class="row mb-3">
+                                                <div class="offset-sm-3 col-sm-3 d-grid">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                                <div class="col-sm-3 d-grid">
+                                                    <button type="button" class="btn btn-outline-primary" id="cancelEditEmail">Cancel</button>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </form>
+
+                                    <div class="row mb-3" style="margin-left:300px;">
+                                        <button id="editEmail" class="btn btn-primary">Change Email</button>
+                                    </div>
+
+
+
+
+
+
 
 
 
@@ -344,6 +407,42 @@ if (isset($_SESSION['confirm'])) {
 
             });
 
+            $("#changeEmail").submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+                var formData = new FormData(this); // Create a FormData object
+
+                // Send an AJAX POST request
+                $.ajax({
+                    type: "POST",
+                    url: "admin_process_change_email.php",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Data inserted successfully!',
+                        }).then(function() {
+                            // Redirect to add_game_piece.php with the category parameter
+
+                            window.location.href = "admin_paypal_royalty.php"
+                        });
+
+
+                        $("#changeMarkup")[0].reset();
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error in submitting data: ' + error.responseText,
+                        });
+                    }
+                });
+
+            });
+
 
 
 
@@ -368,6 +467,8 @@ if (isset($_SESSION['confirm'])) {
                 editPaypalButton.style.display = 'block';
             });
 
+            
+
 
 
             var editRoyaltyButton = document.getElementById('editMarkup');
@@ -390,6 +491,27 @@ if (isset($_SESSION['confirm'])) {
                 editRoyaltyButton.style.display = 'block';
             });
 
+
+
+            var editEmailButton = document.getElementById('editEmail');
+            var changeEmailDiv = document.querySelector('.changeEmail');
+            var cancelEditEmailButton = document.getElementById('cancelEditEmail');
+
+            // Add a click event listener to the "Change Account" button
+            editEmailButton.addEventListener('click', function() {
+                // Hide the "Change Account" button
+                editEmailButton.style.display = 'none';
+                // Show the "changeAccount" div
+                changeEmailDiv.style.display = 'block';
+            });
+
+            // Add a click event listener to the "Cancel" button
+            cancelEditEmailButton.addEventListener('click', function() {
+                // Hide the "changeAccount" div
+                changeEmailDiv.style.display = 'none';
+                // Show the "Change Account" button
+                editEmailButton.style.display = 'block';
+            });
 
 
         });

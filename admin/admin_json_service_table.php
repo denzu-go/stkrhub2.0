@@ -11,6 +11,10 @@ $result = $stmt->get_result();
 $data = array();
 while ($row = $result->fetch_assoc()) {
     $percentage = $row["percentage"] . '%';
+
+
+    if($row['classification'] == 'cash_out_fee' || $row['classification'] == 'minimum_cash_out_amount' || $row['classification'] == 'wallet_maximum_limit')
+    $percentage = 'P  ' . $row["percentage"];
     
     
 

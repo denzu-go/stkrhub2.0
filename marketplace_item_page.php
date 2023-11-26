@@ -1000,7 +1000,7 @@ background-attachment: fixed;">
                                                                     </div>
                                                                     
                                                                     <div class="media-body" style="line-height:0px;">
-                                                                        <h4>$username</h4>
+                                                                        <h4>'.$username.'</h4>
                                                                     </div>
                                                                 </div>
 
@@ -1107,7 +1107,7 @@ background-attachment: fixed;">
                                             ';
                                         }
 
-                                        if ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 0) {
+                                        if ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 0 && $fetchedReview['user_id'] != $_SESSION['user_id']) {
 
                                             echo '
                                             <div class="review_item" style="
@@ -1171,7 +1171,7 @@ background-attachment: fixed;">
                                         </div>
                                             </div>
                                         ';
-                                        } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1) {
+                                        } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1 || $fetchedReview['user_id'] == $_SESSION['user_id']) {
 
                                             echo '
                                             <div class="review_item" style="
