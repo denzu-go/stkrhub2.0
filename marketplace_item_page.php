@@ -137,6 +137,7 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 
+
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -154,6 +155,11 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css?<?php echo time(); ?>" />
     <link rel="stylesheet" href="css/magnific-popup.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/main2.css?<?php echo time(); ?>">
+
+    <!-- lightbox -->
+    <link rel="stylesheet" href="css/lightbox.min.css?<?php echo time(); ?>">
+    <script src="js/lightbox-plus-jquery.min.js"></script>
+
 
     <!-- Demo styles -->
     <style>
@@ -343,6 +349,14 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
             color: #dc3545;
         }
 
+        .report-comment {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+
+            color: #dc3545;
+        }
+
         /* toast */
         .iziToast>.iziToast-body .iziToast-icon.ico-success {
             filter: brightness(0) invert(1);
@@ -359,10 +373,45 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
         }
 
         .col-3-2 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    max-width: 120px;
-}
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 120px;
+        }
+
+        .col-3-3 {
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 150px;
+
+            padding-left: 20px;
+        }
+
+        .label {
+            display: block;
+            width: 100px;
+            max-width: 300px;
+            margin-top: 5px;
+            background-color: skyblue;
+            border-radius: 2px;
+            font-size: 1em;
+            line-height: 2.5em;
+            text-align: center;
+        }
+
+        .label:hover {
+            background-color: cornflowerblue;
+        }
+
+        .input {
+            border: 0;
+            clip: rect(1px, 1px, 1px, 1px);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
     </style>
 </head>
 
@@ -818,6 +867,7 @@ background-attachment: fixed;">
                                                 }
 
                                                 if (mysqli_num_rows($resultRating) > 0) {
+
                                                     echo '
                                                 <div class="review_item" style="
                                                 padding: 20px;    
@@ -918,9 +968,7 @@ background-attachment: fixed;">
                                 </div>
                                                 
 
-                                                <div id="thumbnailFields" style="display: block;"> </div>
-                                            </div>
-                                        </div>
+                                                
                                                         <hr class="m-0 p-1">
                                                         <div class="d-flex justify-content-end">
                                                             <button type="submit" class="btn btn-primary" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); margin:5px;">Submit</button>
@@ -1002,6 +1050,7 @@ background-attachment: fixed;">
                                 <?php
                                 $sqlReview = "SELECT * FROM ratings WHERE published_game_id = $published_game_id ORDER BY date_time DESC";
                                 $resultReview = $conn->query($sqlReview);
+                                $imageGrp = 0;
                                 if ($resultReview->num_rows > 0) {
                                     while ($fetchedReview = $resultReview->fetch_assoc()) {
                                         $rating_id = $fetchedReview['rating_id'];
@@ -1009,6 +1058,7 @@ background-attachment: fixed;">
                                         $comment = $fetchedReview['comment'];
                                         $user_id = $fetchedReview['user_id'];
                                         $date_time = $fetchedReview['date_time'];
+                                        $imageGrp++;
 
                                         // Convert the date_time string to a DateTime object
                                         $dateTimeObj = new DateTime($date_time);
@@ -1057,8 +1107,9 @@ background-attachment: fixed;">
                                             ';
                                         }
 
+                                        if ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 0) {
 
-                                        echo '
+                                            echo '
                                             <div class="review_item" style="
                                                 padding: 20px;    
     
@@ -1075,11 +1126,11 @@ background-attachment: fixed;">
                                                     <div class="media-body" style="line-height:0px;">
                                                         <h4>' . $username . '</h4>';
 
-                                        for ($i = 0; $i < $rating; $i++) {
-                                            echo '<i class="fa fa-star"></i>';
-                                        }
+                                            for ($i = 0; $i < $rating; $i++) {
+                                                echo '<i class="fa fa-star"></i>';
+                                            }
 
-                                        echo '
+                                            echo '
                                                     </div>
     
                                                     <div class="">
@@ -1094,24 +1145,149 @@ background-attachment: fixed;">
                                         
                                             <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
                                                 <div class="row py-3 shadow-5">';
-                                                   
 
-                                                        while( $fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
-                                                            echo '
+
+                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                echo '
                                                         <div class="col-3-2 mt-1">
+                                                        <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
                                                         <img
-                                                            src="'.$fetchedReviewImg['rating_image_path'].'"
+                                                            src="' . $fetchedReviewImg['rating_image_path'] . '"
                                                             data-mdb-img=""
                                                             style="width:100px; height:100px;"
                                                         />
+                                                        </a>
                                                         </div> ';
+                                            }
 
-                                                    }
+                                            echo ' </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                            
+
+                                            <button class="report-comment" data-rating_id="' . $rating_id . '">
+                                            <i class="fa-solid fa-triangle-exclamation"></i> Report Comment
+                                            </button>
+                                        </div>
+                                            </div>
+                                        ';
+                                        } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1) {
+
+                                            echo '
+                                            <div class="review_item" style="
+                                                padding: 20px;    
+    
+                                                background: rgba(39, 42, 78, 0.27);
+                                                border-radius: 15px 15px 15px 15px;
+                                                box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
+                                                backdrop-filter: blur(5.7px);
+                                                -webkit-backdrop-filter: blur(5.7px);
+                                            ">
+                                                <div class="media d-flex justify-content-between">
+                                                    <div class="d-flex">
+                                                        ' . $avatar_value . '
+                                                    </div>
+                                                    <div class="media-body" style="line-height:0px;">
+                                                        <h4>' . $username . '</h4>';
+
+                                            for ($i = 0; $i < $rating; $i++) {
+                                                echo '<i class="fa fa-star"></i>';
+                                            }
+
+                                            echo '
+                                                    </div>
+    
+                                                    <div class="">
+                                                        ' . $formattedDate . '
+                                                    </div>
+                                                </div>
+    
+                                                <p>
+                                                    ' . $comment . '
+                                                </p>
+
+                                        
+                                            <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                                                <div class="row py-3 shadow-5">';
+
+
+                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                echo '
+                                                        <div class="col-3-2 mt-1">
+                                                        <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
+                                                        <img
+                                                            src="' . $fetchedReviewImg['rating_image_path'] . '"
+                                                            data-mdb-img=""
+                                                            style="width:100px; height:100px;"
+                                                        />
+                                                        </a>
+                                                        </div> ';
+                                            }
 
                                             echo ' </div>
                                             </div>
                                             </div>
                                         ';
+                                        } elseif ($fetchedReview['is_reported'] == 1 && $fetchedReview['user_id'] == $_SESSION['user_id']) {
+
+                                            echo '
+                                            <div class="review_item" style="
+                                                padding: 20px;    
+                                                opacity:0.5;
+                                                background: rgba(39, 42, 78, 0.27);
+                                                border-radius: 15px 15px 15px 15px;
+                                                box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
+                                                backdrop-filter: blur(5.7px);
+                                                -webkit-backdrop-filter: blur(5.7px);
+                                            ">
+                                            <p style="color:red; "> This comment has been reported by another user. Wait for the admins review </p>
+                                                <div class="media d-flex justify-content-between">
+                                                    <div class="d-flex">
+                                                        ' . $avatar_value . '
+                                                    </div>
+                                                    <div class="media-body" style="line-height:0px;">
+                                                        <h4>' . $username . '</h4>';
+
+                                            for ($i = 0; $i < $rating; $i++) {
+                                                echo '<i class="fa fa-star"></i>';
+                                            }
+
+                                            echo '
+                                                    </div>
+    
+                                                    <div class="">
+                                                        ' . $formattedDate . '
+                                                    </div>
+                                                </div>
+    
+                                                <p>
+                                                    ' . $comment . '
+                                                </p>
+
+                                        
+                                            <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                                                <div class="row py-3 shadow-5">';
+
+
+                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                echo '
+                                                        <div class="col-3-2 mt-1">
+                                                        <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
+                                                        <img
+                                                            src="' . $fetchedReviewImg['rating_image_path'] . '"
+                                                            data-mdb-img=""
+                                                            style="width:100px; height:100px;"
+                                                        />
+                                                        </a>
+                                                        </div> ';
+                                            }
+
+                                            echo ' </div>
+                                            </div>
+                                            </div>
+                                        ';
+                                        }
+
                                     }
                                 } else {
                                     echo '
@@ -1154,7 +1330,7 @@ background-attachment: fixed;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="height:auto;">
                     <form id="yourFormId">
                         <input type="hidden" name="rating_id" id="rating_id" value="">
                         <div class="rating">
@@ -1165,6 +1341,63 @@ background-attachment: fixed;">
                             <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
                         </div>
                         <textarea class="form-control" name="comment" placeholder="What is your view?" rows="2" required></textarea>
+                        <br>
+                        <H3 style="color:#000000;">Upload Images</H3>
+                        <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                            <div class="row py-3 shadow-5">
+                                <?php
+                                // PHP code to retrieve and display images related to the rating_id
+
+                                if (!is_null($rating_id)) {
+                                    $sqlReviewImg = "SELECT * FROM ratings_images WHERE rating_id = $rating_id";
+                                    $resultReviewImg = $conn->query($sqlReviewImg);
+
+                                    // Fetch and display images associated with the specific rating_id
+                                    while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                        echo '
+                                <div class="col-3-3 mt-1">
+                                    <a href="' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox="mygallery">
+                                        <img src="' . $fetchedReviewImg['rating_image_path'] . '" data-mdb-img="" style="width:100px; height:100px;" />
+                                    </a>
+                                            <input type="hidden" name="thumbnail_id[]" value="'  . $fetchedReviewImg['rating_image_id'] . '">
+                                            <label class = "label"for="thumbnail_file_' . $fetchedReviewImg['rating_image_id'] . '">
+                                            <input class = "input" type="file" class="form-control" name="thumbnail_file[]" accept="image/*" id="thumbnail_file_' . $fetchedReviewImg['rating_image_id'] . '">
+                                            <span class="upload-text">Upload</span>
+                                            </label >
+
+                                        <a class="btn btn-danger deleteImage" data-img-id = "' . $fetchedReviewImg['rating_image_id'] . '" style="width: 100px; color:white; margin-top:5px;" role="button"> Remove </a>';
+
+
+                                        echo '</div>';
+                                    }
+                                }
+
+                                $maxInput = 5 - $resultReviewImg->num_rows;
+
+                                if ($maxInput > 0) {
+                                    echo '
+                                
+                                <br><br>
+                                <div class="">
+                                    <div id="thumbnailInput" style="display: none;">
+                                        <p> max image is ' . $maxInput . '</p>
+                                        <label for="No_thumbnail">No. Images</label><br>
+                                        <input type="number" id="No_thumbnail" name="No_thumbnail" min="0" max="' . $maxInput . '" placeholder="0"><br><br>
+                                    </div>
+
+                                    <div id="thumbnailFields" style="display: block;"> </div>
+
+                                </div>
+                                    
+                                <button type="button" class="btn btn-primary" id="add_files" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); margin:5px;">add images</button>
+                            ';
+                                }
+
+                                ?>
+                            </div>
+                        </div>
+
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -1229,52 +1462,63 @@ background-attachment: fixed;">
     <script>
         $(document).ready(function() {
 
-            document.getElementById('add_files').addEventListener('click', function() {
-            document.getElementById('thumbnailInput').style.display = 'block';
-            document.getElementById('thumbnailFields').style.display = 'block';
-        });
+            if (document.getElementById('thumbnailInput') && document.getElementById('thumbnailFields')) {
 
+                $('#add_files').click(function() {
+                    $('#thumbnailInput').css('display', 'block');
+                    $('#thumbnailFields').css('display', 'block');
+                    $('#add_files').css('display', 'none');
+                });
 
-        const NoThumbnail = document.getElementById('No_thumbnail');
-        const ThumbnailFields = document.getElementById('thumbnailFields');
+                const NoThumbnail = document.getElementById('No_thumbnail');
+                const ThumbnailFields = document.getElementById('thumbnailFields');
 
-        // Add an event listener to the color_number input
-        NoThumbnail.addEventListener('input', function() {
-            // Get the selected number of colors
-            const numberOfThumbnail = parseInt(this.value);
+                function initializeThumbnailFields(count) {
+                    ThumbnailFields.innerHTML = ''; // Clear existing fields
 
-            // Clear the existing color fields
-            ThumbnailFields.innerHTML = '';
+                    if (count > 0) {
+                        for (let i = 1; i <= count; i++) {
+                            const thumbnailCodeLabel = document.createElement('label');
+                            thumbnailCodeLabel.textContent = `Image File ${i}:`;
 
-            // Create and add input fields for Color Name and Color Code
-            for (let i = 1; i <= numberOfThumbnail; i++) {
+                            const thumbnailCodeInput = document.createElement('input');
+                            thumbnailCodeInput.type = 'file';
+                            thumbnailCodeInput.name = `thumbnailCode${i}`;
+                            thumbnailCodeInput.id = `thumbnailCode${i}`;
+                            thumbnailCodeInput.accept = `image/*`;
 
+                            const lineBreak2 = document.createElement('br');
+                            const lineBreak3 = document.createElement('br');
 
-                const thumbnailCodeLabel = document.createElement('label');
-                thumbnailCodeLabel.textContent = `Image File ${i}:`;
+                            ThumbnailFields.appendChild(thumbnailCodeLabel);
+                            ThumbnailFields.appendChild(thumbnailCodeInput);
+                            ThumbnailFields.appendChild(lineBreak2);
+                            ThumbnailFields.appendChild(lineBreak3);
+                        }
+                    }
+                }
 
-                //<input type="file" id="images" name="images[]" accept="image/*" multiple><br><br>
+                // Function to handle changes in the input field
+                function handleInputChange() {
+                    const count = parseInt(NoThumbnail.value);
+                    initializeThumbnailFields(count);
+                }
 
-                const thumbnailCodeInput = document.createElement('input');
-                thumbnailCodeInput.type = 'file';
-                thumbnailCodeInput.name = `thumbnailCode${i}`;
-                thumbnailCodeInput.id = `thumbnailCode${i}`;
-                thumbnailCodeInput.accept = `image/*`;
+                // Event listener for changes in the input field
+                NoThumbnail.addEventListener('input', handleInputChange);
 
-
-                // Add line breaks for spacing
-
-                const lineBreak2 = document.createElement('br');
-                const lineBreak3 = document.createElement('br');
-
-                // Append elements to the container
-
-                ThumbnailFields.appendChild(thumbnailCodeLabel);
-                ThumbnailFields.appendChild(thumbnailCodeInput);
-                ThumbnailFields.appendChild(lineBreak2);
-                ThumbnailFields.appendChild(lineBreak3);
+                // Initial initialization
+                const initialThumbnailCount = parseInt(NoThumbnail.value);
+                initializeThumbnailFields(initialThumbnailCount);
             }
-        });
+
+
+            $('.input[type="file"]').change(function() {
+                var filename = $(this).val().split('\\').pop(); // Get the filename from the input
+
+                // Update the label text with the filename
+                $(this).siblings('.upload-text').text(filename);
+            });
 
             // mahalaga toh
             <?php include 'js/essential.php'; ?>
@@ -1387,7 +1631,7 @@ background-attachment: fixed;">
                             success: function(response) {
                                 // Handle success response from the server
                                 console.log('Published Game ID:', response.published_game_id);
-                               
+
 
                                 Swal.fire('Success', 'Your comment has been deleted.', 'success').then((result) => {
                                     if (result.isConfirmed || result.isDismissed) {
@@ -1425,7 +1669,7 @@ background-attachment: fixed;">
                             // User confirmed, proceed to form submission
                             var formData = new FormData(this); // Create a FormData object from the form
 
-                             $.ajax({
+                            $.ajax({
                                 type: 'POST',
                                 url: 'process_add_comment.php',
                                 data: formData,
@@ -1452,7 +1696,46 @@ background-attachment: fixed;">
                 }
             });
 
+            $('.report-comment').click(function() {
+                var rating_id = $(this).data('rating_id');
 
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to report this comment. This action cannot be undone.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User confirmed the deletion
+                        $.ajax({
+                            type: 'POST',
+                            url: 'process_report_comment.php',
+                            data: {
+                                rating_id: rating_id
+                            },
+                            success: function(response) {
+                                // Handle success response from the server
+                                console.log('Published Game ID:', response.published_game_id);
+
+
+                                Swal.fire('Success', 'this comment has been reported.', 'success').then((result) => {
+                                    if (result.isConfirmed || result.isDismissed) {
+                                        // Reload the page or redirect to another page
+                                        window.location.reload();
+                                    }
+                                });
+                            },
+                            error: function(error) {
+                                // Handle any errors or display an error SweetAlert
+                                Swal.fire('Error', 'An error occurred while reporting your comment.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
 
 
 
@@ -1518,6 +1801,52 @@ background-attachment: fixed;">
                 },
             });
 
+
+
+
+
+        });
+
+
+        $(".deleteImage").click(function() {
+            var imgId = $(this).data('img-id');
+
+            // Show a SweetAlert confirmation dialog
+            Swal.fire({
+                title: "Delete Thumbnail",
+                text: "Are you sure you want to delete this thumbnail?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User confirmed the deletion, proceed with AJAX request
+                    $.ajax({
+                        type: "POST",
+                        url: "process_delete_rating_image.php",
+                        data: {
+                            imgId: imgId,
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Thumbnail deleted successfully!',
+                            });
+
+                            // Reload the page
+                            location.reload();
+                        },
+                        error: function(error) {
+                            // Handle errors
+                            console.error("Error deleting color: " + error);
+                        }
+                    });
+                }
+            });
         });
     </script>
 

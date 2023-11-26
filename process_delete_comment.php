@@ -79,9 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating_id'])) {
         echo 'Error deleting rating: ' . mysqli_error($conn);
     }
 
+
     // Close the database connection
     $conn->close();
 } else {
     // Handle other request methods or errors
     echo 'Invalid request';
 }
+
