@@ -1106,6 +1106,7 @@ background-attachment: fixed;">
                                                 </div>
                                             ';
                                         }
+                                    if (isset($_SESSION['user_id'])){
 
                                         if ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 0 && $fetchedReview['user_id'] != $_SESSION['user_id']) {
 
@@ -1171,7 +1172,7 @@ background-attachment: fixed;">
                                         </div>
                                             </div>
                                         ';
-                                        } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1 || $fetchedReview['user_id'] == $_SESSION['user_id']) {
+                                        } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1   || $fetchedReview['user_id'] == $_SESSION['user_id'] ) {
 
                                             echo '
                                             <div class="review_item" style="
@@ -1287,6 +1288,65 @@ background-attachment: fixed;">
                                             </div>
                                         ';
                                         }
+
+                                    } else {
+                                        echo '
+                                            <div class="review_item" style="
+                                                padding: 20px;    
+    
+                                                background: rgba(39, 42, 78, 0.27);
+                                                border-radius: 15px 15px 15px 15px;
+                                                box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2);
+                                                backdrop-filter: blur(5.7px);
+                                                -webkit-backdrop-filter: blur(5.7px);
+                                            ">
+                                                <div class="media d-flex justify-content-between">
+                                                    <div class="d-flex">
+                                                        ' . $avatar_value . '
+                                                    </div>
+                                                    <div class="media-body" style="line-height:0px;">
+                                                        <h4>' . $username . '</h4>';
+
+                                            for ($i = 0; $i < $rating; $i++) {
+                                                echo '<i class="fa fa-star"></i>';
+                                            }
+
+                                            echo '
+                                                    </div>
+    
+                                                    <div class="">
+                                                        ' . $formattedDate . '
+                                                    </div>
+                                                </div>
+    
+                                                <p>
+                                                    ' . $comment . '
+                                                </p>
+
+                                        
+                                            <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                                                <div class="row py-3 shadow-5">';
+
+
+                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                echo '
+                                                        <div class="col-3-2 mt-1">
+                                                        <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
+                                                        <img
+                                                            src="' . $fetchedReviewImg['rating_image_path'] . '"
+                                                            data-mdb-img=""
+                                                            style="width:100px; height:100px;"
+                                                        />
+                                                        </a>
+                                                        </div> ';
+                                            }
+
+                                            echo ' </div>
+                                            </div>
+                                            </div>
+                                        ';
+                                    }
+                                        
 
                                     }
                                 } else {
