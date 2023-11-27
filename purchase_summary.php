@@ -961,7 +961,8 @@ $region_qry = mysqli_query($conn, $region);
                                 url: "stkr_wallet_success.php",
                                 data: data,
                                 success: function(response) {
-                                    window.location.href = "profile_pending.php";
+                                    // Redirect to purchase_summary_page.php after successful order placement
+                                    window.location.href = 'purchase_success_page.php';
                                 },
                                 error: function() {
                                     Swal.fire({
@@ -1083,7 +1084,7 @@ $region_qry = mysqli_query($conn, $region);
 
             $('#stkr-payment-button').prop('disabled', true);
             $('#stkr-payment-button').css({
-                
+
                 'opacity': '0.2'
             });
 
@@ -1091,14 +1092,14 @@ $region_qry = mysqli_query($conn, $region);
                 if ($('#stkr_wallet_checkbox').prop('checked')) {
                     $('#stkr-payment-button').prop('disabled', false);
                     $('#stkr-payment-button').css({
-                        
+
                         'opacity': '1'
                     });
 
                 } else if (!$('#stkr_wallet_checkbox').prop('checked')) {
                     $('#stkr-payment-button').prop('disabled', true);
                     $('#stkr-payment-button').css({
-                        
+
                         'opacity': '0.2'
                     });
                 }
