@@ -404,7 +404,6 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             flex: 0 0 25%;
             max-width: 120px;
         }
-<<<<<<< Updated upstream
 
         .col-3-3 {
             -ms-flex: 0 0 25%;
@@ -440,8 +439,6 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             position: absolute;
             width: 1px;
         }
-=======
->>>>>>> Stashed changes
     </style>
 </head>
 
@@ -1034,7 +1031,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                                     </div>
                                                                     
                                                                     <div class="media-body" style="line-height:0px;">
-                                                                        <h4>'.$username.'</h4>
+                                                                        <h4>' . $username . '</h4>
                                                                     </div>
                                                                 </div>
 
@@ -1138,11 +1135,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                 </div>
                                             ';
                                         }
-                                    if (isset($_SESSION['user_id'])){
+                                        if (isset($_SESSION['user_id'])) {
 
-                                        if ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 0 && $fetchedReview['user_id'] != $_SESSION['user_id']) {
+                                            if ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 0 && $fetchedReview['user_id'] != $_SESSION['user_id']) {
 
-                                            echo '
+                                                echo '
                                             <div class="review_item" style="
                                                 padding: 20px;    
     
@@ -1159,11 +1156,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                     <div class="media-body" style="line-height:0px;">
                                                         <h4>' . $username . '</h4>';
 
-                                            for ($i = 0; $i < $rating; $i++) {
-                                                echo '<i class="fa fa-star"></i>';
-                                            }
+                                                for ($i = 0; $i < $rating; $i++) {
+                                                    echo '<i class="fa fa-star"></i>';
+                                                }
 
-                                            echo '
+                                                echo '
                                                     </div>
     
                                                     <div class="">
@@ -1180,8 +1177,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                 <div class="row py-3 shadow-5">';
 
 
-                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
-                                                echo '
+                                                while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                    echo '
                                                         <div class="col-3-2 mt-1">
                                                         <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
                                                         <img
@@ -1191,9 +1188,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                         />
                                                         </a>
                                                         </div> ';
-                                            }
+                                                }
 
-                                            echo ' </div>
+                                                echo ' </div>
                                             </div>
                                             <div class="d-flex justify-content-end">
                                             
@@ -1204,9 +1201,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                         </div>
                                             </div>
                                         ';
-                                        } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1   || $fetchedReview['user_id'] == $_SESSION['user_id'] ) {
+                                            } elseif ($fetchedReview['is_reported'] == 0 && $fetchedReview['was_reported'] == 1   || $fetchedReview['user_id'] == $_SESSION['user_id']) {
 
-                                            echo '
+                                                echo '
                                             <div class="review_item" style="
                                                 padding: 20px;    
     
@@ -1223,11 +1220,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                     <div class="media-body" style="line-height:0px;">
                                                         <h4>' . $username . '</h4>';
 
-                                            for ($i = 0; $i < $rating; $i++) {
-                                                echo '<i class="fa fa-star"></i>';
-                                            }
+                                                for ($i = 0; $i < $rating; $i++) {
+                                                    echo '<i class="fa fa-star"></i>';
+                                                }
 
-                                            echo '
+                                                echo '
                                                     </div>
     
                                                     <div class="">
@@ -1244,8 +1241,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                 <div class="row py-3 shadow-5">';
 
 
-                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
-                                                echo '
+                                                while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                    echo '
                                                         <div class="col-3-2 mt-1">
                                                         <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
                                                         <img
@@ -1255,15 +1252,15 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                         />
                                                         </a>
                                                         </div> ';
-                                            }
+                                                }
 
-                                            echo ' </div>
+                                                echo ' </div>
                                             </div>
                                             </div>
                                         ';
-                                        } elseif ($fetchedReview['is_reported'] == 1 && $fetchedReview['user_id'] == $_SESSION['user_id']) {
+                                            } elseif ($fetchedReview['is_reported'] == 1 && $fetchedReview['user_id'] == $_SESSION['user_id']) {
 
-                                            echo '
+                                                echo '
                                             <div class="review_item" style="
                                                 padding: 20px;    
                                                 opacity:0.5;
@@ -1281,11 +1278,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                     <div class="media-body" style="line-height:0px;">
                                                         <h4>' . $username . '</h4>';
 
-                                            for ($i = 0; $i < $rating; $i++) {
-                                                echo '<i class="fa fa-star"></i>';
-                                            }
+                                                for ($i = 0; $i < $rating; $i++) {
+                                                    echo '<i class="fa fa-star"></i>';
+                                                }
 
-                                            echo '
+                                                echo '
                                                     </div>
     
                                                     <div class="">
@@ -1302,8 +1299,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                 <div class="row py-3 shadow-5">';
 
 
-                                            while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
-                                                echo '
+                                                while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                                    echo '
                                                         <div class="col-3-2 mt-1">
                                                         <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
                                                         <img
@@ -1313,16 +1310,15 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                         />
                                                         </a>
                                                         </div> ';
-                                            }
+                                                }
 
-                                            echo ' </div>
+                                                echo ' </div>
                                             </div>
                                             </div>
                                         ';
-                                        }
-
-                                    } else {
-                                        echo '
+                                            }
+                                        } else {
+                                            echo '
                                             <div class="review_item" style="
                                                 padding: 20px;    
     
@@ -1359,14 +1355,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                             <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
                                                 <div class="row py-3 shadow-5">';
 
-
-<<<<<<< Updated upstream
                                             while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
                                                 echo '
-=======
-                                        while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
-                                            echo '
->>>>>>> Stashed changes
                                                         <div class="col-3-2 mt-1">
                                                         <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
                                                         <img
@@ -1375,22 +1365,16 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                                             style="width:100px; height:100px;"
                                                         />
                                                         </a>
-                                                        </div> ';
-<<<<<<< Updated upstream
+                                                        </div> 
+                                                        ';
                                             }
 
                                             echo ' </div>
-=======
-                                        }
 
-                                        echo ' </div>
->>>>>>> Stashed changes
                                             </div>
                                             </div>
                                         ';
-                                    }
-                                        
-
+                                        }
                                     }
                                 } else {
                                     echo '
@@ -1571,35 +1555,33 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <script>
         $(document).ready(function() {
 
-<<<<<<< Updated upstream
-            if (document.getElementById('thumbnailInput') && document.getElementById('thumbnailFields')) {
-=======
             var user_id = <?php echo $user_id ?>;
-            $("#cartCount").DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
-                ajax: {
-                    url: "json_cart_count.php",
-                    data: {
-                        user_id: user_id,
+                $("#cartCount").DataTable({
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    ordering: false,
+                    ajax: {
+                        url: "json_cart_count.php",
+                        data: {
+                            user_id: user_id,
+                        },
+                        dataSrc: "",
                     },
-                    dataSrc: "",
-                },
-                columns: [{
-                    data: "cart_count",
-                }],
-            });
->>>>>>> Stashed changes
-
+                    columns: [{
+                        data: "cart_count",
+                    }],
+                });
                 $('#add_files').click(function() {
                     $('#thumbnailInput').css('display', 'block');
                     $('#thumbnailFields').css('display', 'block');
                     $('#add_files').css('display', 'none');
                 });
 
-<<<<<<< Updated upstream
+            if (document.getElementById('thumbnailInput') && document.getElementById('thumbnailFields')) {
+
+                
+
                 const NoThumbnail = document.getElementById('No_thumbnail');
                 const ThumbnailFields = document.getElementById('thumbnailFields');
 
@@ -1649,7 +1631,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 // Update the label text with the filename
                 $(this).siblings('.upload-text').text(filename);
             });
-=======
+
+
+
             let mybutton = document.getElementById("btn-back-to-top");
 
             // When the user scrolls down 20px from the top of the document, show the button
@@ -1724,7 +1708,6 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 }
             });
 
->>>>>>> Stashed changes
 
 
             $(document).on("click", "#ajax-link", function(event) {
@@ -1741,16 +1724,18 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                         quantity: quantity,
                     },
                     success: function(data) {
-                        iziToast.success({
-                            color: '#15172e',
-                            progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
-                            title: 'OK',
-                            message: 'Successfully inserted record!',
-                            titleColor: '#fff',
-                            messageColor: '#fff',
-                            timeout: 4000,
-                            overlayColor: 'rgba(0, 0, 0, 0.7)',
-                        });
+                        // iziToast.success({
+                        //     color: '#15172e',
+                        //     progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                        //     title: 'OK',
+                        //     message: 'Successfully added to cart',
+                        //     titleColor: '#fff',
+                        //     messageColor: '#fff',
+                        //     timeout: 4000,
+                        //     overlayColor: 'rgba(0, 0, 0, 0.7)',
+                        // });
+
+                        window.location.href = "cart_page.php";
 
 
                         $(".cart-count").html(data);
