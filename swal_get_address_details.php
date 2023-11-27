@@ -108,8 +108,6 @@ if (isset($_GET['addressId'])) {
                 <label for="editedStreet">Street:</label>
                 <input type="text" id="editedStreet" name="editedStreet" value="' . htmlspecialchars($row['street']) . '" required><br>
                 
-                <!-- Add a submit button here -->
-                <input type="submit" value="Save">
             </form>';
 
         if ($isDefault == 1) {

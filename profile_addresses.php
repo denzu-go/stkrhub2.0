@@ -518,6 +518,11 @@ include 'html/get_bg.php';
 
                                 // Reload the DataTable
                                 $('#profileAddress').DataTable().ajax.reload();
+                                Swal.fire({
+                                            title: "Success",
+                                            text: "Address updated successfully!",
+                                            icon: "success",
+                                        });
                             },
                             error: function() {
                                 // Handle any AJAX errors here
