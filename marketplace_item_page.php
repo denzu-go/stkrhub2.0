@@ -573,8 +573,6 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                             </div>
 
-
-
                         </div>
                     </div>
 
