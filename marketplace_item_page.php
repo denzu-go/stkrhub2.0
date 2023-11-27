@@ -38,12 +38,12 @@ while ($fetched = $query->fetch_assoc()) {
     $is_hidden = $fetched['is_hidden'];
 }
 
-if ($is_hidden) {  
+if ($is_hidden) {
     header('Location: marketplace_item_page_hidden.php');
 }
 
 // category
-$sqlGetCategory = "SELECT * FROM categories WHERE category_name = '$category'";
+$sqlGetCategory = "SELECT * FROM categories WHERE category_id = $category";
 $queryGetCat = $conn->query($sqlGetCategory);
 while ($rowCat = $queryGetCat->fetch_assoc()) {
     $category_name = $rowCat['category_name'];
@@ -1661,7 +1661,52 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
 
-        
+            document.getElementById('add_files').addEventListener('click', function() {
+                document.getElementById('thumbnailInput').style.display = 'block';
+                document.getElementById('thumbnailFields').style.display = 'block';
+            });
+
+
+            const NoThumbnail = document.getElementById('No_thumbnail');
+            const ThumbnailFields = document.getElementById('thumbnailFields');
+
+            // Add an event listener to the color_number input
+            NoThumbnail.addEventListener('input', function() {
+                // Get the selected number of colors
+                const numberOfThumbnail = parseInt(this.value);
+
+                // Clear the existing color fields
+                ThumbnailFields.innerHTML = '';
+
+                // Create and add input fields for Color Name and Color Code
+                for (let i = 1; i <= numberOfThumbnail; i++) {
+
+
+                    const thumbnailCodeLabel = document.createElement('label');
+                    thumbnailCodeLabel.textContent = `Image File ${i}:`;
+
+                    //<input type="file" id="images" name="images[]" accept="image/*" multiple><br><br>
+
+                    const thumbnailCodeInput = document.createElement('input');
+                    thumbnailCodeInput.type = 'file';
+                    thumbnailCodeInput.name = `thumbnailCode${i}`;
+                    thumbnailCodeInput.id = `thumbnailCode${i}`;
+                    thumbnailCodeInput.accept = `image/*`;
+
+
+                    // Add line breaks for spacing
+
+                    const lineBreak2 = document.createElement('br');
+                    const lineBreak3 = document.createElement('br');
+
+                    // Append elements to the container
+
+                    ThumbnailFields.appendChild(thumbnailCodeLabel);
+                    ThumbnailFields.appendChild(thumbnailCodeInput);
+                    ThumbnailFields.appendChild(lineBreak2);
+                    ThumbnailFields.appendChild(lineBreak3);
+                }
+            });
 
 
 
