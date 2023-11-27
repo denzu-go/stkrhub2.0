@@ -89,7 +89,6 @@ if (isset($_SESSION['admin_id'])) {
                                     $count = $row['count'];
 
                                     if ($count > 0) {
-                                        echo
                                         include 'html/admin_table_allOrders.php';
                                     } else {
                                         echo 'No orders.';

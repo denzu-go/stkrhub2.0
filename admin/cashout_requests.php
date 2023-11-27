@@ -89,6 +89,17 @@ if (isset($_SESSION['admin_id'])) {
                                     if ($count > 0) {
                                         echo '
                                                 <table id="allOrders" class="hover" style="width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Creator/User ID</th>
+                                                            <th>Order ID</th>
+                                                            <th>Date</th>
+                                                            <th>Amount</th>
+                                                            <th>Paypal Email</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
                                                     </tbody>
                                                 </table>
@@ -170,6 +181,9 @@ if (isset($_SESSION['admin_id'])) {
                     "dataSrc": ""
                 },
                 "columns": [{
+                        "data": "number"
+                    },
+                    {
                         "data": "user_id"
                     },
                     {

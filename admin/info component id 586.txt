@@ -1,10 +1,10 @@
 
                 ADDED COMPONENT ID: 586
-                COMPONENT NAME: Box
-                CATEGORY: box
+                COMPONENT NAME: Dice 2
+                CATEGORY: game piece
                 SIZE: 7x7
 
                 QUANTITY: 1
-                COLOR: N/A 
-                FILE: 6557853accc6a_happyrokie_A_realistic_photograph_was_taken_with_a_high_-_meg_7b0262f2-6e0d-4ff3-8c0c-2f657b6a4c99_0.png
+                COLOR: white #FFFFFF
+                FILE: 
                 

@@ -170,8 +170,8 @@ include 'html/get_bg.php';
             color: #90ee90;
         }
 
-         /* sidebar active */
-         #sidebar .active {
+        /* sidebar active */
+        #sidebar .active {
             background-color: #272a4e;
             border-radius: 14px;
         }
@@ -194,8 +194,7 @@ include 'html/get_bg.php';
     $my_addresses = 'active';
     $my_purchase = '';
     $stkr_wallet = '';
-    $change_password = '';
-    ;
+    $change_password = '';;
 
     $region = "SELECT * FROM region";
     $region_qry = mysqli_query($conn, $region);
@@ -259,10 +258,11 @@ include 'html/get_bg.php';
 
         </div>
     </section>
-
-
-
     <!-- End Sample Area -->
+
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
 
 
 
@@ -295,6 +295,8 @@ include 'html/get_bg.php';
 
             //DataTables
             var user_id = <?php echo $user_id; ?>;
+
+            <?php include 'js/essential.php'; ?>
 
             $('#profileAddress').DataTable({
                 searching: false,
@@ -363,7 +365,7 @@ include 'html/get_bg.php';
                 var addressId = $(this).data('address-id');
                 confirmDefaultAddress(addressId);
 
-               
+
             });
 
 

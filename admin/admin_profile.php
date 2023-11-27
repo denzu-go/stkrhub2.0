@@ -66,19 +66,7 @@ $admin = $resultadminDetails->fetch_assoc();
 
 
     <style>
-        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
-
-        /* start header */
-        .sticky-wrapper {
-            top: 0px !important;
-        }
-
-
-        .header_area .main_menu .main_box {
-            max-width: 100%;
-        }
-
-        /* end */
+        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?><?php include 'css/orders_count.css'; ?>
 
         #infoTable tbody tr {
             background-color: transparent !important;
@@ -102,79 +90,8 @@ $admin = $resultadminDetails->fetch_assoc();
             mask-image: linear-gradient(to bottom, transparent 0%, black 100%); */
         }
 
-        .custom-shadow {
-            box-shadow: 0 0 10px #000000;
-        }
-
-        table.dataTable tbody th,
-        table.dataTable tbody td {
-            padding: 0px 0px;
-        }
-
-        table.dataTable.no-footer {
-            border-bottom: none;
-        }
-
-        .even,
-        .odd {
-            background-color: transparent !important;
-        }
-
-        table.dataTable {
-            width: 100%;
-            margin: 0 auto;
-            clear: both;
-            /* border-collapse: separate; */
-            border-spacing: -20px;
-        }
-
-        table.dataTable,
-        table.dataTable thead,
-        table.dataTable tbody,
-        table.dataTable tr,
-        table.dataTable td,
-        table.dataTable th,
-        table.dataTable tbody tr.even,
-        table.dataTable tbody tr.odd {
-            border: none !important;
-        }
 
 
-        .nav-pills .nav-link.active,
-        .nav-pills .show>.nav-link {
-            color: #fff;
-            background-color: #272a4e;
-        }
-
-        .nav-link {
-            color: #fff;
-        }
-
-        /* sidebar */
-        #sidebar {
-            height: 100%;
-            background: transparent;
-            color: #fff;
-        }
-
-        #sidebar a,
-        #sidebar a:hover,
-        #sidebar a:focus {
-            color: inherit;
-        }
-
-        #sidebar ul li a {
-            padding: 7px 14px;
-            display: block;
-            color: #e7e7e7;
-            font-size: small;
-        }
-
-        #sidebar ul li a:hover {
-            color: #e7e7e7;
-            background: #272a4e;
-            border-radius: 14px;
-        }
 
         /* buttons */
         .edit-btn-avatar {
@@ -413,6 +330,7 @@ $admin = $resultadminDetails->fetch_assoc();
 
     <!-- Add this script inside your HTML file -->
     <script>
+        <?php include 'html/count_orders.php'; ?>
         // Wait for the document to be ready
         $(document).ready(function() {
 

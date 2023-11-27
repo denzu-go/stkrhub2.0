@@ -39,7 +39,7 @@ while ($fetchedD = $queryUniqueOrderDates->fetch_assoc()) {
     if($is_approved){
         $status = 'Approved';
     } elseif($is_denied){
-        $status = 'Denied';
+        $status = 'Rejected';
     } else{
         $status = 'Pending';
     }

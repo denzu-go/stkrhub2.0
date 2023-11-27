@@ -43,6 +43,11 @@ while ($fetchedGetGameDetails = $queryGetGameDetails->fetch_assoc()) {
     $status = $status_value;
 }
 
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 
 ?>
 
@@ -78,29 +83,80 @@ while ($fetchedGetGameDetails = $queryGetGameDetails->fetch_assoc()) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        <?php include 'css/body.css' ?>
+        <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
+
+        /* start header */
+        .sticky-wrapper {
+            top: 0px !important;
+        }
+
+
+        .header_area .main_menu .main_box {
+            max-width: 100%;
+        }
+
+        /* end */
+
+        /* datatables */
+        table.dataTable.stripe tbody tr.even,
+        table.dataTable.display tbody tr.even {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(31, 34, 67, 0.7) 100%);
+        }
+
+        table.dataTable.stripe tbody tr.odd,
+        table.dataTable.display tbody tr.odd {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(21, 23, 46, 0.7) 100%);
+        }
+
+        table#cartCount.stripe tbody tr.odd,
+        table#cartCount.display tbody tr.odd {
+            background: transparent;
+        }
+
+
+        table.dataTable {
+            box-shadow: 0 0 10px #000000;
+        }
+
+        tr .odd {
+            padding: 10rem;
+        }
+
+        table.dataTable,
+        table.dataTable thead,
+        table.dataTable tbody,
+        table.dataTable tr,
+        table.dataTable td,
+        table.dataTable th,
+        table.dataTable tbody tr.even,
+        table.dataTable tbody tr.odd {
+            border: none !important;
+        }
     </style>
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
     <?php include 'html/page_header.php'; ?>
-    <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
-
-        </div>
-    </section>
-    <!-- End Banner Area -->
 
     <!-- Start Sample Area -->
-    <section class="sample-text-area">
+    <section class="sample-text-area" style="background: none;">
 
         <div class="container">
-            <h5>Game Id: <?php echo $built_game_id ?></h5>
+            <div class="d-flex justify-content-start">
+                <a href="javascript:history.back()" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            </div>
+
             <h5>Game Name: <?php echo $name ?></h5>
-            <h5>Game Description: <?php echo $description ?></h5>
-            <h5>Built Date: <?php echo $build_date ?></h5>
-            <h5>Price: <?php echo $price ?></h5>
+            <h5>Description: <?php echo $description ?></h5>
+            <h5>Approved Date: <?php echo $build_date ?></h5>
+            <h5>Cost: <?php echo $price ?></h5>
             <h5>Status: <?php echo $status ?></h5>
         </div>
 
@@ -127,11 +183,6 @@ while ($fetchedGetGameDetails = $queryGetGameDetails->fetch_assoc()) {
 
     </section>
     <!-- End Sample Area -->
-
-    <section class="sample-text-area">
-
-    </section>
-
 
 
 
@@ -169,12 +220,20 @@ while ($fetchedGetGameDetails = $queryGetGameDetails->fetch_assoc()) {
     <script>
         $(document).ready(function() {
 
-
-
             var user_id = <?php echo $user_id; ?>;
             var built_game_id = <?php echo $built_game_id; ?>;
 
             $('#builtGameTable').DataTable({
+                language: {
+                    search: "",
+                },
+
+                searching: true,
+                info: false,
+                paging: false,
+                ordering: false,
+
+
                 "ajax": {
                     "url": "json_built_game_dashboard.php",
                     data: {
@@ -204,6 +263,32 @@ while ($fetchedGetGameDetails = $queryGetGameDetails->fetch_assoc()) {
                 ]
             });
 
+            // search bar
+            var searchInput = $('div.dataTables_filter input');
+
+            searchInput.attr('placeholder', 'Search here');
+            searchInput.addClass('form-control');
+            searchInput.css('width', '100%');
+
+
+
+            
+            $("#cartCount").DataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                ajax: {
+                    url: "json_cart_count.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    dataSrc: "",
+                },
+                columns: [{
+                    data: "cart_count",
+                }],
+            });
 
 
         });

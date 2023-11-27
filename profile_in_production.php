@@ -187,6 +187,13 @@ include 'html/get_bg.php';
             border-radius: 14px;
         }
 
+
+        input[type="search"][aria-controls="allOrders"],
+        label {
+            color: white;
+        }
+
+
         <?php include 'css/profile_orders_header_bar.css'; ?>
     </style>
 </head>
@@ -245,7 +252,7 @@ include 'html/get_bg.php';
 
                     <div class="container">
                         <?php
-                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE in_production = 1";
+                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE in_production = 1 AND user_id = $user_id";
                         $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
                         if ($resultCheckInProduction) {
@@ -283,6 +290,10 @@ include 'html/get_bg.php';
 
         </div>
     </section>
+
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
 
 
 
@@ -338,9 +349,6 @@ include 'html/get_bg.php';
             var user_id = <?php echo $user_id; ?>;
 
             $('#allOrders').DataTable({
-                language: {
-                    search: "",
-                },
 
                 searching: true,
                 info: false,

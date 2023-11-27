@@ -2,6 +2,7 @@
 include "connection.php"; // Include your database connection script
 
 $data = array();
+$number = 1;
 
 $sql = "SELECT * FROM wallet_transactions WHERE status = 'pending'";
 $query = $conn->query($sql);
@@ -13,6 +14,12 @@ while ($row = $query->fetch_assoc()) {
     $transaction_date = $row['transaction_date'];
     $paypal_email_destination  = $row['paypal_email_destination'];
     $cash_out_fee  = $row['cash_out_fee'];
+
+    $sqlGetUser = "SELECT * FROM users WHERE user_id = $creator_id ";
+    $queryGetUser = $conn->query($sqlGetUser);
+    while($rowNicoleAkoNaLangSana = $queryGetUser->fetch_assoc()){
+        $unique_user_id  = $rowNicoleAkoNaLangSana['unique_user_id'];
+    }
     
 
     $actions = '
@@ -27,8 +34,12 @@ while ($row = $query->fetch_assoc()) {
     </a>
     ';
 
+
+    $number = $number++;
+
     $data[] = array(
-        "user_id" => $creator_id,
+        "number" => $number,
+        "user_id" => $unique_user_id,
         "transaction_type" => $transaction_type,
         "transaction_date" => $transaction_date,
         "amount" => $amount,

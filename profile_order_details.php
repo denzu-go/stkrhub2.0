@@ -9,6 +9,8 @@ if (isset($_SESSION['user_id'])) {
 if (isset($_GET['unique_order_group_id'])) {
     $unique_order_group_id = $_GET['unique_order_group_id'];
 }
+
+include 'html/get_bg.php';
 ?>
 
 <!DOCTYPE html>
@@ -264,10 +266,11 @@ if (isset($_GET['unique_order_group_id'])) {
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php
     include 'connection.php';

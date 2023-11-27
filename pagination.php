@@ -80,13 +80,9 @@ $maxRating = (int) 5;
 
     <style>
         <?php include 'css/body.css';
-              
-        
-        ?>
 
-        
-        
-        .header_area {
+
+        ?>.header_area {
             position: relative;
         }
 
@@ -263,21 +259,21 @@ $maxRating = (int) 5;
         }
 
         .card-flush {
-          background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
-          color:aliceblue;
+            background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
+            color: aliceblue;
 
-}
+        }
 
-.h2{
-       
-          color:aliceblue;
+        .h2 {
 
-}
+            color: aliceblue;
 
-.min-h-400px{
-    background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
-          color:aliceblue;
-}
+        }
+
+        .min-h-400px {
+            background: linear-gradient(to top, #49265d 0%, #272a4e 20%);
+            color: aliceblue;
+        }
 
 
 
@@ -298,7 +294,7 @@ $maxRating = (int) 5;
     $header_marketplace = 'active';
     include 'html/page_header.php';
     ?>
-  
+
 
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
@@ -314,9 +310,9 @@ $maxRating = (int) 5;
                     <div class="container-xxl d-flex align-items-center">
 
                         <div class="header-logo me-5 me-md-10 flex-grow-1 flex-lg-grow-0">
-                            
-                                <img alt="Logo" src="img/icon.png" class="logo-default h-25px">
-                            
+
+                            <img alt="Logo" src="img/icon.png" class="logo-default h-25px">
+
                         </div>
 
                         <div class="d-flex w-100 align-items-center position-relative my-1">
@@ -345,7 +341,7 @@ $maxRating = (int) 5;
                                             </div>
                                             <div class="card-toolbar d-block d-lg-none drop-inactive">
                                                 <svg width="12" height="12" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278" ></path>
+                                                    <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278"></path>
                                                 </svg>
                                             </div>
                                         </div>
@@ -358,7 +354,7 @@ $maxRating = (int) 5;
                                                     </div>
                                                     <div class="card-toolbar drop-active">
                                                         <svg width="12" height="12" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278" ></path>
+                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278"></path>
                                                         </svg>
                                                     </div>
                                                 </div>
@@ -379,7 +375,7 @@ $maxRating = (int) 5;
                                                     </div>
                                                     <div class="card-toolbar drop-active">
                                                         <svg width="12" height="12" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278" ></path>
+                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278"></path>
                                                         </svg>
                                                     </div>
                                                 </div>
@@ -393,7 +389,7 @@ $maxRating = (int) 5;
                                                 </div>
                                             </div>
                                             <div class="separator "></div>
-                                            
+
                                             <div class="card card-flush ">
                                                 <div class="card-header">
                                                     <div class="card-title">
@@ -401,7 +397,7 @@ $maxRating = (int) 5;
                                                     </div>
                                                     <div class="card-toolbar drop-active">
                                                         <svg width="12" height="12" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278" ></path>
+                                                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#5e6278"></path>
                                                         </svg>
                                                     </div>
                                                 </div>
@@ -420,8 +416,8 @@ $maxRating = (int) 5;
 
                                                 </div>
                                             </div>
-                                            
-                                            
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -443,7 +439,7 @@ $maxRating = (int) 5;
                 </div>
 
 
-                
+
 
             </div>
         </div>
@@ -461,7 +457,7 @@ $maxRating = (int) 5;
 
 
     <!-- start footer Area -->
-    <footer>  
+    <footer>
         <?php
         include 'html/page_footer.php';
         ?>
@@ -538,9 +534,9 @@ $maxRating = (int) 5;
 
 
             $(".product_card").click(function() {
-    var published_game_id = $(this).data("published_game_id");
-    window.location.href = "marketplace_item_page.php?published_game_id=" + published_game_id;
-});
+                var published_game_id = $(this).data("published_game_id");
+                window.location.href = "marketplace_item_page.php?published_game_id=" + published_game_id;
+            });
 
 
 

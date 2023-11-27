@@ -158,7 +158,7 @@ if ($total_wallet_amount_normalized < $total_payment){
         data-carts_selected="' . implode(',', $selectedCartIds) . '"
 
         data-toggle="tooltip" title="Please Cash In first"
-        style="color: #777; width:100%; border: none; background-color: #ccc; cursor: not-allowed;"
+        style="color: #777; width:100%; border: none; background-color: #ccc; cursor: not-allowed; pointer-events: none;"
         disabled
         >Pay with STKR Wallet</button>
     ';

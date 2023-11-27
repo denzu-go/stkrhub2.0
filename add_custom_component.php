@@ -376,13 +376,19 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         <!-- taas -->
         <div class="container">
 
+            <div class="d-flex justify-content-start">
+                <a href="game_dashboard.php?game_id=<?php echo $game_id ?>" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            </div>
+            <h1>Game Components</h1>
+
             <?php
             if ($game_id == 0) {
                 echo '';
             } else {
                 echo '
                 Adding to
-                    <h6>Game Name: ' . $name . '</h6>
+                    <h6 class="p-0 m-0">Game Name: ' . $name . '</h6>
+                    <span class="small h6">Game ID: ' . $game_id . '</span>
                     ';
             }
             ?>
@@ -390,6 +396,14 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         </div>
 
         <div class="container">
+            <?php
+            if ($selected_category == '') {
+                $selected_category_heading = "All Game Components";
+            } else {
+                $selected_category_heading = $selected_category;
+            }
+            ?>
+            <h4><?php echo $selected_category_heading ?></h4>
             <div class="row">
 
                 <div class="container mx-auto mt-4 justify-content-around">
@@ -505,6 +519,13 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
     </section>
     <!-- End Sample Area -->
+
+
+
+
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
 
 
 

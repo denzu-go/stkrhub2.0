@@ -6,7 +6,7 @@
         </li>
 
         <li class="<?php echo $my_addresses ?>">
-            <a href="profile_addresses.php">My Addresses</a>
+            <a href="profile_addresses.php">My Address</a>
         </li>
 
         <li class="<?php echo $my_purchase ?>">

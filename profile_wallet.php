@@ -288,11 +288,13 @@ include 'html/get_bg.php';
                             <tbody>
                             </tbody>
                         </table>
-
-                        <hr style="background-color: #15172e; padding: .04rem;">
-
-                        <h6 style="color: #777777;">Recent Transactions: </h6>
+                        <!-- <h6 style="color: #777777;">History of Transactions: </h6> -->
                         <table id="walletTransaction" class="hover" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="min-width: 100px; max-width: 100px;">History of Transactions</th>
+                                </tr>
+                            </thead>
                             <tbody>
                             </tbody>
                         </table>
@@ -305,6 +307,12 @@ include 'html/get_bg.php';
 
         </div>
     </section>
+
+
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
+
 
 
     <!---------------------- MODAL ------------------------>
@@ -514,6 +522,7 @@ include 'html/get_bg.php';
 
 
 
+
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
@@ -641,7 +650,7 @@ include 'html/get_bg.php';
                     search: "",
                 },
 
-                searching: false,
+                searching: true,
                 info: false,
                 paging: true,
                 lengthChange: false,
@@ -681,6 +690,15 @@ include 'html/get_bg.php';
                     "data": "item"
                 }, ]
             });
+
+
+            // search bar
+            var searchInput = $('div.dataTables_filter input');
+            $('#walletTransaction thead th:nth-child(1)').append(searchInput);
+            searchInput.attr('placeholder', 'Search here');
+            searchInput.addClass('form-control');
+            searchInput.css('width', '100%');
+
 
 
 

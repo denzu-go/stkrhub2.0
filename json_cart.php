@@ -5,6 +5,7 @@ $user_id = $_GET['user_id'];
 
 
 
+
 $sql1A = "SELECT COUNT(*) as total FROM cart WHERE user_id = $user_id AND is_visible = 1";
 $result1A = $conn->query($sql1A);
 $row1A = $result1A->fetch_assoc();
@@ -221,7 +222,7 @@ while ($fetched = $result->fetch_assoc()) {
         }
         $description = '
         <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="" style="max-width:270px;">
-            Category: 
+            Description:
         </span>' . $desc . '
         ';
     } elseif ($added_component_id) {
@@ -506,11 +507,11 @@ backdrop-filter: blur(5.7px);
         <div class="row m-4">
             <span>Amount to Pay: </span><h3 style="color: #26d3e0;">&nbsp; &#8369;' . number_format($sub_total, 2) . '</h3>
 
-            <a  class="btn purchase-selected ml-4" 
+            <button  class="btn purchase-selected ml-4" 
             style="color: #ffffff; width:7rem; border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); cursor: pointer;"
             data-toggle="tooltip" title="Purchase using Paypal">
                 Purchase
-            </a>
+            </button>
         </div>
 
         
@@ -522,7 +523,7 @@ backdrop-filter: blur(5.7px);
 
 } else {
     $item = '
-    <br><br>
+    <br><br><br><br><br><br><br>
     <div class="container d-flex align-items-center justify-content-center">
         <i class="fa-solid fa-cart-shopping text-center" style="font-size: 44px;"></i>
     </div>

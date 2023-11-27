@@ -231,7 +231,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
             }
             $description = '
                                             <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="Title" style="max-width:270px;">
-                                                Category: 
+                                                Description: 
                                             </span>' . $desc . '
                                             ';
         } elseif ($added_component_id) {
@@ -479,7 +479,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                             <a href="#!" class="" id="order_received" data-unique_order_group_id="' . $unique_order_group_id . '">Order Received</a>
 
                                             <a href="profile_order_details.php?unique_order_group_id=' . $unique_order_group_id . '"
-                                            class="" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
+                                            class="ml-4" id="cancelation_details" data-unique_order_group_id="' . $unique_order_group_id . '">
                                                 View Details
                                             </a>
                                         </div>

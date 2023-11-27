@@ -101,7 +101,7 @@ while ($fetchedGames = $resultGames->fetch_assoc()) {
         $status_icon = '<i class="fa-regular fa-thumbs-up" style="color: #90ee90"></i>';
     } elseif ($is_denied) {
         $status = '
-        Denied
+        Rejected
         ';
         $status_icon = '<i class="fa-solid fa-heart-crack" style="color: #dc3545;"></i>';
     } else {

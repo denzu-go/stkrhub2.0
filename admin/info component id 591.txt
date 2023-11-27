@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 591
+                COMPONENT NAME: Tarrot Cards
+                CATEGORY: game cards
+                SIZE: 7x7
+
+                QUANTITY: 3
+                COLOR: N/A 
+                FILE: 
+                

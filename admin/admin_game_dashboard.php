@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD']) {
 
 
     <style>
-        #infoTable .odd {
+        <?php include 'css/orders_count.css'; ?>#infoTable .odd {
             background-color: transparent;
         }
 
@@ -317,6 +317,8 @@ if ($_SERVER['REQUEST_METHOD']) {
     <script>
         $(document).ready(function() {
 
+            <?php include 'html/count_orders.php'; ?>
+
 
             var user_id = <?php echo $creator_id; ?>;
             var game_id = <?php echo $game_id; ?>;
@@ -450,6 +452,11 @@ if ($_SERVER['REQUEST_METHOD']) {
                         console.log("Form submitted successfully.");
                         // You can do something here like displaying a success message or closing the modal
                         $("#changeAddress").modal('hide');
+
+                        Swal.fire('Rejected!', 'The game has been rejected.', 'success').then(function() {
+                            window.location.href = 'games_approval_requests.php';
+                        });
+
                     },
                     error: function(error) {
                         // Handle any errors here

@@ -51,11 +51,11 @@
 							<a class="nav-link" href="add_custom_component.php">Buy Game Components</a>
 						</li>
 
-						<li class="nav-item <?php echo $header_help?> ">
+						<li class="nav-item <?php echo $header_help ?> ">
 							<a class="nav-link" href="help.php">Help</a>
 						</li>
 
-						
+
 
 
 					</ul>
@@ -65,10 +65,18 @@
 						<li class="nav-item">
 							<a class="nav-link" href="cart_page.php">
 
-								<table id="cartCount" class="display" style="width: 100%;">
-									<tbody>
-									</tbody>
-								</table>
+								<?php
+								if (isset($_SESSION['user_id'])) {
+									echo '
+									<table id="cartCount" class="display" style="width: 100%; background-color: none !important">
+										<tbody>
+										</tbody>
+									</table>
+									';
+								}
+								?>
+
+								
 							</a>
 						</li>
 

@@ -164,7 +164,7 @@ while ($row = $queryUniqueOrderDates->fetch_assoc()) {
                                         }
                                         $description = '
                                             <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="Title" style="max-width:270px;">
-                                                Category: 
+                                                Description: 
                                             </span>' . $desc . '
                                             ';
                                     } elseif ($added_component_id) {

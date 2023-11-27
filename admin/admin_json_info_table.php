@@ -79,7 +79,7 @@ while ($fetched = $result->fetch_assoc()) {
                     data-game_id="' . $game_id . '"
                     data-creator_id="' . $user_id . '"
                     >
-                        <i class="fa-solid fa-ban"></i> Deny
+                        <i class="fa-solid fa-ban text-white"></i> <span class="text-white">Reject</span>
                     </button>
 
                 </div>

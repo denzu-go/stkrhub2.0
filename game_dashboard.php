@@ -134,8 +134,19 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         }
 
 
-        /* datatables */
         table.dataTable.stripe tbody tr.even,
+        table.dataTable.display tbody tr.even {
+            background: rgb(39, 42, 78);
+            background: linear-gradient(143deg, rgba(39, 42, 78, 1) 0%, rgba(31, 34, 67, 0.7) 100%);
+        }
+
+        table.dataTable.stripe tbody tr.odd,
+        table.dataTable.display tbody tr.odd {
+            background: rgb(39, 42, 78);
+        }
+
+        /* datatables */
+        /* table.dataTable.stripe tbody tr.even,
         table.dataTable.display tbody tr.even {
             background-color: #15172e;
         }
@@ -143,7 +154,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         table.dataTable.stripe tbody tr.odd,
         table.dataTable.display tbody tr.odd {
             background-color: #1f2243;
-        }
+        } */
 
         .odd {
             margin: 20px;
@@ -206,7 +217,10 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <section class="sample-text-area" style="background: none;">
         <div class="container">
 
-            <h1><a href="create_game_page.php#section1" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>
+            <div class="d-flex justify-content-start">
+                <a href="javascript:history.back()" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            </div>
+            <h1>Game Dashboard</h1>
 
             <div class="container">
                 <div class="row">
@@ -295,6 +309,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <!-- End Sample Area -->
 
 
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php';?>
+    <!-- End footer Area -->
 
 
 
@@ -363,12 +380,12 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 var ticket_price = $(this).data('ticket_price');
 
                 Swal.fire({
-                    title: 'Approve Game (Ticket Price: ' + ticket_price + ')',
-                    text: 'Total Price: ' + total_price + '\gameId: ' + gameId +
-                        '\nAre you sure you want to Approve this game?',
+                    title: 'Create a Ticket?',
+                    text: 'The admin will review and approve your game through a ticket. The ticket cost will be reimbursed when you make your initial game purchase, and the cost of the ticket will be deducted at that time. This game\'s ticket price: ₱' + ticket_price,
                     icon: 'info',
+
                     showCancelButton: true,
-                    confirmButtonText: 'Buy Ticket',
+                    confirmButtonText: 'Create Ticket',
                     cancelButtonText: 'Cancel',
                 }).then(function(result) {
                     if (result.isConfirmed) {
@@ -541,8 +558,6 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             var game_id = <?php echo $game_id; ?>;
 
             $('#userTable').DataTable({
-
-
                 searching: true,
                 info: false,
                 paging: false,

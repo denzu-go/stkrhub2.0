@@ -77,7 +77,6 @@ if (isset($_SESSION['admin_id'])) {
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-
                                 <?php
                                 $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
                                 $resultCheckInProduction = $conn->query($sqlCheckInProduction);
@@ -87,7 +86,6 @@ if (isset($_SESSION['admin_id'])) {
                                     $count = $row['count'];
 
                                     if ($count > 0) {
-                                        echo
                                         include 'html/admin_table_allOrders.php';
                                     } else {
                                         echo 'No orders.';
@@ -96,7 +94,6 @@ if (isset($_SESSION['admin_id'])) {
                                     echo 'Error checking for orders in production.';
                                 }
                                 ?>
-
                             </div>
                         </div>
                     </div>
@@ -113,13 +110,26 @@ if (isset($_SESSION['admin_id'])) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- MODALS -->
     <!-- order list modal -->
     <?php include 'html/modal_order_list.php' ?>
-
-
-
-
 
     <!-- Include global.min.js first -->
     <script src="./vendor/global/global.min.js"></script>
@@ -150,31 +160,11 @@ if (isset($_SESSION['admin_id'])) {
 
             <?php include 'html/count_orders.php'; ?>
 
-            $("#is_pending_count_table").DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
-                ajax: {
-                    url: "json_count_is_pending.php",
-                    data: {
-                        passed_status: passed_status
-                    },
-                },
-                columns: [{
-                    data: "cart_count",
-                }],
-            });
-
             $('#allOrders').DataTable({
                 "columnDefs": [{
                     "className": "dt-center",
                     "targets": "_all"
                 }],
-
-                language: {
-                    search: "Search",
-                },
 
                 searching: true,
                 info: false,
@@ -182,7 +172,6 @@ if (isset($_SESSION['admin_id'])) {
                 lengthChange: false,
                 ordering: false,
                 pageLength: 15,
-
 
                 "ajax": {
                     "url": "admin_json_global_orders.php",
@@ -247,7 +236,6 @@ if (isset($_SESSION['admin_id'])) {
 
 
 
-
             $('#allOrders').on('click', '#proceed_order', function() {
                 var unique_order_group_id = $(this).data('unique_order_group_id');
 
@@ -271,6 +259,13 @@ if (isset($_SESSION['admin_id'])) {
                             success: function(response) {
                                 if (response.success) {
                                     $('#allOrders').DataTable().ajax.reload();
+
+                                    $('#cartCount').DataTable().ajax.reload();
+                                    $('#is_pending_count').DataTable().ajax.reload();
+                                    $('#in_production_count').DataTable().ajax.reload();
+                                    $('#to_ship_count').DataTable().ajax.reload();
+                                    $('#to_deliver_count').DataTable().ajax.reload();
+                                    $('#is_canceled_count').DataTable().ajax.reload();
                                     Swal.fire('Success', response.message, 'success');
                                 } else {
                                     $('#allOrders').DataTable().ajax.reload();
@@ -281,9 +276,6 @@ if (isset($_SESSION['admin_id'])) {
                                     $('#to_ship_count').DataTable().ajax.reload();
                                     $('#to_deliver_count').DataTable().ajax.reload();
                                     $('#is_canceled_count').DataTable().ajax.reload();
-
-
-
 
                                     Swal.fire('Error', response.message, 'error');
                                 }

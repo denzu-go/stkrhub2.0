@@ -883,6 +883,10 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
             $('#createGameTable').DataTable({
 
+                "oLanguage": {
+                    "sEmptyTable": "No Created Games yet"
+                },
+
                 language: {
                     search: "",
                 },
@@ -1110,12 +1114,12 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                 // Create a SweetAlert2 confirmation dialog for building a game
                 Swal.fire({
-                    title: 'Approve Game (Ticket Price: ' + ticket_price + ')',
-                    text: 'Total Price: ' + total_price + '\gameId: ' + gameId +
-                        '\nAre you sure you want to Approve this game?',
+                    title: 'Create a Ticket?',
+                    text: 'The admin will review and approve your game through a ticket. The ticket cost will be reimbursed when you make your initial game purchase, and the cost of the ticket will be deducted at that time. This game\'s ticket price: ₱' + ticket_price,
                     icon: 'info',
+
                     showCancelButton: true,
-                    confirmButtonText: 'Buy Ticket',
+                    confirmButtonText: 'Create Ticket',
                     cancelButtonText: 'Cancel',
                 }).then(function(result) {
                     if (result.isConfirmed) {
@@ -1183,11 +1187,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                 Swal.fire({
                     title: 'Cancel Ticket',
-                    text: '',
+                    text: 'Are you sure you want to cancel the ticket?',
                     icon: 'info',
                     showCancelButton: true,
-                    confirmButtonText: 'Cancel Ticket',
-                    cancelButtonText: 'No, do not cancel',
+                    confirmButtonText: 'Yes, Confirm Cancel',
+                    cancelButtonText: 'No, do not Cancel',
                 }).then(function(result) {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -1278,8 +1282,8 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 }
 
                 Swal.fire({
-                    title: 'View Reason',
-                    html: 'Reason: ' + reason + downloadLink,
+                    title: '',
+                    html: 'Reason for Rejection: ' + reason + downloadLink,   
                     icon: 'info',
                     showCancelButton: false,
                     cancelButtonText: 'Cancel',
@@ -1678,6 +1682,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
             // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
             $('#approvedGameTable').DataTable({
+
+                "oLanguage": {
+                    "sEmptyTable": "No Approved Games yet"
+                },
+
                 language: {
                     search: "",
                 },
@@ -2098,6 +2107,11 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
             // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
             $('#publishedGameTable').DataTable({
+
+                "oLanguage": {
+                    "sEmptyTable": "No Published Games yet"
+                },
+
                 language: {
                     search: "",
                 },

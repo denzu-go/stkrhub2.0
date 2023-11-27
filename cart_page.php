@@ -4,7 +4,18 @@ include 'connection.php';
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
+
+    // check if there is user address
+    $sqlAddr = "SELECT * FROM addresses WHERE user_id = $user_id";
+    $resultAddr = $conn->query($sqlAddr);
+    if ($resultAddr->num_rows > 0) {
+        $noExistingAddress = 0;
+    } else {
+        $noExistingAddress = 1;
+    }
 }
+
+
 
 $getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
 $queryThemeBG = $conn->query($getThemeBG);
@@ -54,6 +65,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <!-- Include Tippy.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
 
+    <!-- iziToast -->
+    <link href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css" rel="stylesheet">
+
     <style>
         <?php include 'css/header.css'; ?><?php include 'css/body.css'; ?>
 
@@ -68,6 +82,18 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         }
 
         /* end */
+
+
+        /* toast */
+        .iziToast>.iziToast-body .iziToast-icon.ico-success {
+            filter: brightness(0) invert(1);
+        }
+
+        .iziToast>.iziToast-close {
+            filter: brightness(0) invert(1);
+        }
+
+
 
         #infoTable tbody tr {
             background-color: transparent !important;
@@ -145,6 +171,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <!--================Cart Area =================-->
     <section class="cart_area" style="background: none;">
         <div class="container">
+            <h1>Cart Page</h1>
             <div class="cart_inner">
 
                 <div class="container">
@@ -164,7 +191,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
 
-
+    <?php
+    include 'html/page_footer.php';
+    ?>
 
 
 
@@ -199,15 +228,20 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <!-- Include Tippy.js JavaScript -->
     <script src="https://unpkg.com/tippy.js@6.3.1/dist/tippy-bundle.umd.js"></script>
 
+    <!-- iziToast -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+
     <script>
         $(document).ready(function() {
-            <?php include 'js/essential.php'; ?>
+            
 
 
 
 
 
             var user_id = <?php echo $user_id; ?>;
+
+            <?php include 'js/essential.php'; ?>
 
             $('#infoTable').DataTable({
                 searching: false,
@@ -237,29 +271,62 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 $('input[data-cart_id]:checked').each(function() {
                     checkedCartIds.push($(this).data('cart_id'));
                 });
+                var noExistingAddress = <?php echo $noExistingAddress ?>;
 
                 if (checkedCartIds.length === 0) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'You don\'t have any selected!',
+                        text: 'You don\'t have any selected',
                     });
                 } else {
-                    var form = $('<form>', {
-                        method: 'POST',
-                        action: 'purchase_summary.php',
-                    });
+                    if (noExistingAddress == true) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'It seems you haven\'t provided an address yet. Please navigate to the address page and fill in your details before proceeding to checkout.',
+                            showCancelButton: true,
+                            confirmButtonText: 'Go to My Address page',
+                            cancelButtonText: 'Close',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'profile_addresses.php';
+                            }
+                        });
+                    } else if (noExistingAddress == false) {
+                        var form = $('<form>', {
+                            method: 'POST',
+                            action: 'purchase_summary.php',
+                        });
 
-                    checkedCartIds.forEach(function(cartId) {
-                        $('<input>', {
-                            type: 'hidden',
-                            name: 'cart_id[]',
-                            value: cartId,
-                        }).appendTo(form);
-                    });
+                        checkedCartIds.forEach(function(cartId) {
+                            $('<input>', {
+                                type: 'hidden',
+                                name: 'cart_id[]',
+                                value: cartId,
+                            }).appendTo(form);
+                        });
 
-                    // Append the form to the document and submit it
-                    form.appendTo('body').submit();
+                        // Append the form to the document and submit it
+                        form.appendTo('body').submit();
+                    } else {
+                        var form = $('<form>', {
+                            method: 'POST',
+                            action: 'purchase_summary.php',
+                        });
+
+                        checkedCartIds.forEach(function(cartId) {
+                            $('<input>', {
+                                type: 'hidden',
+                                name: 'cart_id[]',
+                                value: cartId,
+                            }).appendTo(form);
+                        });
+
+                        // Append the form to the document and submit it
+                        form.appendTo('body').submit();
+                    }
+
                 }
             });
 
@@ -439,7 +506,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 var cart_id = $(this).data('cart_id');
 
                 Swal.fire({
-                    title: 'Delete Cart (ID: ' + cart_id + ')',
+                    title: 'Delete Cart Item',
                     text: 'Are you sure you want to delete this item?',
                     icon: 'warning',
                     showCancelButton: true,
@@ -457,12 +524,21 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                             dataType: 'json',
                             success: function(response) {
                                 if (response.success) {
-                                    Swal.fire('Success', response.message, 'success');
-
                                     $('#infoTable').DataTable().ajax.reload();
                                     $('#cartTable').DataTable().ajax.reload();
 
                                     $('#cartCount').DataTable().ajax.reload();
+
+                                    iziToast.success({
+                                        color: '#15172e',
+                                        progressBarColor: 'linear-gradient(144deg, #26d3e0, #b660e8)rgb(0, 255, 184)',
+                                        title: 'Deleted',
+                                        message: 'Cart Item deleted successfully',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        timeout: 4000,
+                                        overlayColor: 'rgba(0, 0, 0, 0.7)',
+                                    });
 
                                 } else {
                                     Swal.fire('Error', response.message, 'error');
@@ -505,7 +581,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
             });
 
-            
+
         });
     </script>
 </body>

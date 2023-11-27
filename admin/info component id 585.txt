@@ -4,7 +4,7 @@
                 CATEGORY: game piece
                 SIZE: 7x7
 
-                QUANTITY: 3
+                QUANTITY: 1
                 COLOR: white #FFFFFF
                 FILE: 
                 

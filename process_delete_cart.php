@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $conn->commit();
 
-        $response = ["success" => true, "message" => "Game and related records deleted successfully"];
+        $response = ["success" => true, "message" => "Cart Item deleted successfully"];
     } catch (mysqli_sql_exception $e) {
         $conn->rollback();
 

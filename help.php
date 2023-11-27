@@ -1,5 +1,12 @@
 <?php
 session_start();
+include 'connection.php';
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -233,58 +240,64 @@ session_start();
 
 
 
-        body{
-    margin-top:20px;
-color: #6c7293;
-}
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid #e7eaed;
-    border-radius: 0;
-    background-color:#272a4e;
-}
+        body {
+            margin-top: 20px;
+            color: #6c7293;
+        }
 
-.accordion .card {
-    margin-bottom: .75rem;
-    box-shadow: 0px 1px 15px 1px rgba(230, 234, 236, 0.35);
-    border-radius: .25rem;
-}
-.accordion .card .card-header {
-    background-color: transparent;
-    border: none;
-    padding: 2rem;
-}
-.grid-margin {
-    margin-bottom: 0.625rem;
-}
-.accordion .card .card-header a[aria-expanded="true"]:before {
-    content: "\F374";
-}
-.accordion .card .card-header a:before {
-    font-family: "Material Design Icons";
-    position: absolute;
-    right: 7px;
-    top: 0;
-    font-size: 18px;
-    display: block;
-}
-.accordion .card .card-header a[aria-expanded="false"]:before {
-    content: "\F415";
-}
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #e7eaed;
+            border-radius: 0;
+            background-color: #272a4e;
+        }
 
-button:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-  color: black;
-  -webkit-box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
-  -moz-box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
-  box-shadow: 5px 0px 18px 0px rgba(105,105,105,0.8);
-}
+        .accordion .card {
+            margin-bottom: .75rem;
+            box-shadow: 0px 1px 15px 1px rgba(230, 234, 236, 0.35);
+            border-radius: .25rem;
+        }
+
+        .accordion .card .card-header {
+            background-color: transparent;
+            border: none;
+            padding: 2rem;
+        }
+
+        .grid-margin {
+            margin-bottom: 0.625rem;
+        }
+
+        .accordion .card .card-header a[aria-expanded="true"]:before {
+            content: "\F374";
+        }
+
+        .accordion .card .card-header a:before {
+            font-family: "Material Design Icons";
+            position: absolute;
+            right: 7px;
+            top: 0;
+            font-size: 18px;
+            display: block;
+        }
+
+        .accordion .card .card-header a[aria-expanded="false"]:before {
+            content: "\F415";
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            -webkit-box-shadow: 5px 0px 18px 0px rgba(105, 105, 105, 0.8);
+            -moz-box-shadow: 5px 0px 18px 0px rgba(105, 105, 105, 0.8);
+            box-shadow: 5px 0px 18px 0px rgba(105, 105, 105, 0.8);
+        }
 
 
         <?php include 'css/header.css'; ?>
@@ -293,7 +306,12 @@ button:hover {
 
 </head>
 
-<body>
+<body style="
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php
     include 'connection.php';
@@ -309,26 +327,17 @@ button:hover {
 
     <br><br><br><br><br><br>
 
-
-
-
-
     <!-- Start Help category -->
-    <section class="pb-5" style="
-            background-image: url('img/Backgrounds/bg1.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            /* background-attachment: fixed; */
-        ">
+    <section class="pb-5" style="background: none;">
         <div class="single-product-slider">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
                         <div class="section-title">
-                        <?php 
+                            <?php
                             if (isset($_GET['category'])) {
 
-                                echo'
+                                echo '
                                     <div style="position: absolute; left:-270px; margin-bottom:100px">
                                     <button id= "back" class="click-btn btn btn-default"><i class="fa fa-long-arrow-left"
                                             aria-hidden="true"></i></button>
@@ -338,7 +347,7 @@ button:hover {
                             ?>
                             <h1 class="scroll_reveal">Here are a few Help to enhance your experience</h1>
                             <p class="scroll_reveal">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -362,29 +371,29 @@ button:hover {
                                 $result = $stmt->get_result();
                                 $row = $result->fetch_assoc();
 
-                                if($row['faq_type'] == 1 ) {
-                                
+                                if ($row['faq_type'] == 1) {
+
                                     $id = $row['faq_id'];
 
 
-                                $sql = "SELECT *
+                                    $sql = "SELECT *
                                 FROM tutorials
                                 WHERE faq_id = ?";
 
-                                $stmt = $conn->prepare($sql);
-                                $stmt->bind_param("i", $id);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                
-                                while ($fetchedTutorials = $result->fetch_assoc()) {
-                                    $tutorial_id = $fetchedTutorials['tutorial_id'];
-                                    $tutorial_title = $fetchedTutorials['tutorial_title'];
-                                    $tutorial_description = $fetchedTutorials['tutorial_description'];
-                                    $tutorial_link = $fetchedTutorials['tutorial_link'];;
-                                    $is_primary = $fetchedTutorials['is_primary'];
-                                    $time_added = $fetchedTutorials['time_added'];
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bind_param("i", $id);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
 
-                                    echo '
+                                    while ($fetchedTutorials = $result->fetch_assoc()) {
+                                        $tutorial_id = $fetchedTutorials['tutorial_id'];
+                                        $tutorial_title = $fetchedTutorials['tutorial_title'];
+                                        $tutorial_description = $fetchedTutorials['tutorial_description'];
+                                        $tutorial_link = $fetchedTutorials['tutorial_link'];;
+                                        $is_primary = $fetchedTutorials['is_primary'];
+                                        $time_added = $fetchedTutorials['time_added'];
+
+                                        echo '
                                     
                                     <div class="container" style="display:flex; flex-direction:column; gap: 20px;">
                                     <div class="row s_product_inner scroll_reveal">
@@ -408,7 +417,7 @@ button:hover {
                                     <br><br>
                                     </div>
                                     ';
-                                }
+                                    }
                                 } else {
 
                                     $id = $row['faq_id'];
@@ -417,17 +426,17 @@ button:hover {
                                     $sql = "SELECT *
                                     FROM help
                                     WHERE faq_id = ?";
-    
+
                                     $stmt = $conn->prepare($sql);
                                     $stmt->bind_param("i", $id);
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     $number = 0;
-                                    
+
                                     while ($help = $result->fetch_assoc()) {
 
                                         $number++;
-    
+
                                         echo '
                                         
                                         
@@ -437,25 +446,25 @@ button:hover {
                                                         <div class="card">
                                                             <div class="faq-block card-body">
                                                                 <div class="container-fluid py-2">
-                                                                    <h5 class="mb-0">Frequently Ask question '.$number.'</h5>
+                                                                    <h5 class="mb-0">Frequently Ask question ' . $number . '</h5>
                                                                 </div>
                                                                 <div id="accordion-1" class="accordion">
                                                                     <div class="card">
                                                                         <div class="card-header" id="headingOne">
                                                                             <h5 class="mb-0">
                                                                            
-                                                                            '.$help['help_title'].'?
+                                                                            ' . $help['help_title'] . '?
                                                                             </a>
                                                                             </h5>
                                                                         </div>
                                                                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion-1">
                                                                             <div class="card-body">
-                                                                            <p class="mb-0">'.$help['help_description'].'</p><p>
+                                                                            <p class="mb-0">' . $help['help_description'] . '</p><p>
                                                                             </p></div>
                                                                         </div>
                                                                     </div>';
-                                                                    if (!is_null($help['help_image_path'])) { // Use "!is_null" to check if not null
-                                                                        echo '<div class="card">
+                                        if (!is_null($help['help_image_path'])) { // Use "!is_null" to check if not null
+                                            echo '<div class="card">
                                                                             <div class="card-header" id="headingTwo">
                                                                                 <h5 class="mb-0">
                                                                     
@@ -464,8 +473,8 @@ button:hover {
                                                                                 </h5>
                                                                             </div>
                                                                         </div>';
-                                                                    }
-                                                               echo ' </div>
+                                        }
+                                        echo ' </div>
                                                             </div>
                                                         </div>    
                                                     </div>
@@ -474,11 +483,7 @@ button:hover {
                                         
                                         ';
                                     }
-
-
                                 }
-
-
                             } else {
 
 
@@ -556,11 +561,7 @@ button:hover {
 
 
     <!-- start product Area -->
-    <section class="" style=" background-image: url('img/Backgrounds/bg2.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-        /* background-attachment: fixed; */
-        ">
+    <section class="" style="background: none;">
         <!-- single product slide -->
         <div class="single-product-slider">
             <div class="container">
@@ -587,8 +588,6 @@ button:hover {
 
     </section>
     <!-- end product Area -->
-
-
 
 
     <!-- start footer Area -->
@@ -654,7 +653,7 @@ button:hover {
             });
 
             document.getElementById("back").addEventListener("click", function() {
-            window.location.href = "help.php";
+                window.location.href = "help.php";
             });
 
 

@@ -189,10 +189,10 @@ include 'html/get_bg.php';
             border: none;
             cursor: pointer;
             color: #90ee90;
-        }   
+        }
 
-         /* sidebar active */
-         #sidebar .active {
+        /* sidebar active */
+        #sidebar .active {
             background-color: #272a4e;
             border-radius: 14px;
         }
@@ -207,7 +207,7 @@ include 'html/get_bg.php';
 ">
 
     <?php
-    
+
     include 'html/page_header.php';
 
     $my_profile = '';
@@ -308,6 +308,10 @@ include 'html/get_bg.php';
             </div>
     </section>
 
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
+
 
 
 
@@ -343,7 +347,7 @@ include 'html/get_bg.php';
 
 
     <script>
-     /*    $(document).ready(function() {
+        /*    $(document).ready(function() {
             // JavaScript
            
 

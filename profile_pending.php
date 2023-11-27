@@ -187,6 +187,12 @@ include 'html/get_bg.php';
             border-radius: 14px;
         }
 
+
+        input[type="search"][aria-controls="allOrders"],
+        label {
+            color: white;
+        }
+
         <?php include 'css/profile_orders_header_bar.css'; ?>
     </style>
 </head>
@@ -215,7 +221,7 @@ include 'html/get_bg.php';
     $header_received = '';
     $header_canceled = '';
     ?>
-    
+
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -246,7 +252,7 @@ include 'html/get_bg.php';
 
                     <div class="container">
                         <?php
-                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders";
+                        $sqlCheckInProduction = "SELECT COUNT(*) AS count FROM orders WHERE is_pending = 1 AND user_id = $user_id";
                         $resultCheckInProduction = $conn->query($sqlCheckInProduction);
 
                         if ($resultCheckInProduction) {
@@ -285,6 +291,11 @@ include 'html/get_bg.php';
         </div>
     </section>
 
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
+
+
 
 
 
@@ -293,7 +304,7 @@ include 'html/get_bg.php';
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                    <span class="modal-title h5" id="exampleModalLongTitle">Cancelation Reason</span>
                 </div>
                 <form id="cancelForm" enctype="multipart/form-data">
                     <div class="modal-body">
@@ -384,9 +395,6 @@ include 'html/get_bg.php';
             var user_id = <?php echo $user_id; ?>;
 
             $('#allOrders').DataTable({
-                language: {
-                    search: "",
-                },
 
                 searching: true,
                 info: false,

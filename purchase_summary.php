@@ -172,6 +172,9 @@ $region_qry = mysqli_query($conn, $region);
     <!--================Cart Area =================-->
     <section class="cart_area" style="background: none;">
         <div class="container">
+
+            <h1>Check Out Page</h1>
+
             <div class="row">
                 <div class="col">
                     <div class="card address-card p-0 m-0" style="background-color: #272a4e;">
@@ -272,6 +275,12 @@ $region_qry = mysqli_query($conn, $region);
         </div>
     </section>
     <!--================End Cart Area =================-->
+
+
+    <?php
+    include 'html/page_footer.php';
+    ?>
+
 
 
 
@@ -1052,12 +1061,13 @@ $region_qry = mysqli_query($conn, $region);
                             url: "paypal_success.php",
                             data: data,
                             success: function(response) {
-                                alertify.success("Order Placed Successfully");
-                                windows.location.href = '';
 
+                                // Redirect to purchase_summary_page.php after successful order placement
+                                window.location.href = 'purchase_success_page.php';
                             },
                             error: function(error) {
                                 alertify.error("An error occurred while processing your order.");
+                                console.log('TAPOSSSSSSSSSssssssssss');
                             }
                         });
                     });
@@ -1073,7 +1083,7 @@ $region_qry = mysqli_query($conn, $region);
 
             $('#stkr-payment-button').prop('disabled', true);
             $('#stkr-payment-button').css({
-                'pointer-events': 'none',
+                
                 'opacity': '0.2'
             });
 
@@ -1081,14 +1091,14 @@ $region_qry = mysqli_query($conn, $region);
                 if ($('#stkr_wallet_checkbox').prop('checked')) {
                     $('#stkr-payment-button').prop('disabled', false);
                     $('#stkr-payment-button').css({
-                        'pointer-events': 'auto',
+                        
                         'opacity': '1'
                     });
 
                 } else if (!$('#stkr_wallet_checkbox').prop('checked')) {
                     $('#stkr-payment-button').prop('disabled', true);
                     $('#stkr-payment-button').css({
-                        'pointer-events': 'none',
+                        
                         'opacity': '0.2'
                     });
                 }

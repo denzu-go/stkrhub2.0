@@ -452,6 +452,9 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <!-- End Sample Area -->
 
 
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php';?>
+    <!-- End footer Area -->
 
 
 

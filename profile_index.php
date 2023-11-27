@@ -185,8 +185,8 @@ include 'html/get_bg.php';
             color: #90ee90;
         }
 
-         /* sidebar active */
-         #sidebar .active {
+        /* sidebar active */
+        #sidebar .active {
             background-color: #272a4e;
             border-radius: 14px;
         }
@@ -250,8 +250,8 @@ include 'html/get_bg.php';
                                         backdrop-filter: blur(5.7px);
                                         -webkit-backdrop-filter: blur(5.7px);
                                         line-height: 0px !important;">
-                                        
-                                            <ul class="list-group list-group-flush" >
+
+                                            <ul class="list-group list-group-flush">
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
                                                     <h6 class="mb-0">
                                                         <i class="fa-solid fa-wallet"></i>
@@ -356,6 +356,10 @@ include 'html/get_bg.php';
             </div>
         </div>
     </div>
+
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
 
 
 

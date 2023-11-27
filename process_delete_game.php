@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Commit the transaction if all queries succeed
         $conn->commit();
 
-        $response = ["success" => true, "message" => "Game and related records deleted successfully"];
+        $response = ["success" => true, "message" => "Game deleted successfully"];
         echo json_encode($response);
     } catch (Exception $e) {
         // If any query fails, roll back the transaction and handle the error

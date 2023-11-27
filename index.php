@@ -66,9 +66,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
     <style>
-        <?php include 'css/body.css'; ?>
-        
-        .header_area {
+        <?php include 'css/body.css'; ?>.header_area {
             position: relative;
         }
 
@@ -261,7 +259,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     $header_home = 'active';
     include 'html/page_header.php';
     ?>
-  
+
 
     <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
         <i class="fas fa-arrow-up"></i>
@@ -275,22 +273,22 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                 $sql = "SELECT * FROM index_banner";
                 $result = $conn->query($sql);
 
-                    while ($fetched_banner = $result->fetch_assoc()) {
+                while ($fetched_banner = $result->fetch_assoc()) {
 
-                        if($fetched_banner["is_showcased"] == 1){
-                            $banner = $fetched_banner['image_path'];
- 
-                    echo '<div class="swiper-slide">';
+                    if ($fetched_banner["is_showcased"] == 1) {
+                        $banner = $fetched_banner['image_path'];
 
-                    echo '<div class="image-banner-container">';
-                    echo '<img class="image-banner" src="' . $banner . '" alt="">';
-                    echo '</div>';
+                        echo '<div class="swiper-slide">';
+
+                        echo '<div class="image-banner-container">';
+                        echo '<img class="image-banner" src="' . $banner . '" alt="">';
+                        echo '</div>';
 
                         echo '</div>';
                     }
                 }
-                    ?>
-                </div>
+                ?>
+            </div>
 
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -555,11 +553,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
     <!-- start footer Area -->
-    <footer>
-        <?php
-        include 'html/page_footer.php';
-        ?>
-    </footer>
+    <?php include 'html/page_footer.php';?>
     <!-- End footer Area -->
 
 

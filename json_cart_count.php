@@ -26,10 +26,12 @@ if ($user_id == 0) {
     }
 
     $item = '
-    <span class="cart-icon">
+    <span class="cart-icon" style="color: white;">
         <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
     </span>
+    <span style="color: white;">
     ' . $cart_count . '
+    </span>
     ';
 }
 

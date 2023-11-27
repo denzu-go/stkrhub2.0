@@ -1,5 +1,7 @@
-<footer class="text-center text-lg-start " style="
-            background: linear-gradient(143deg, rgba(21, 23, 45, 1) 0%, rgba(39, 43, 78, 0.7) 100%);">
+<footer class="footertext-center text-lg-start " style="
+            background: linear-gradient(143deg, rgba(21, 23, 45, 1) 0%, rgba(39, 43, 78, 0.7) 100%);
+            margin-top: 217px;
+            ">
     <!-- Grid container -->
     <div class="container p-4 pb-0">
         <!-- Section: Links -->
