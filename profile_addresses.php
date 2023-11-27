@@ -396,17 +396,20 @@ include 'html/get_bg.php';
                             cancelButtonText: "Cancel",
                             preConfirm: () => {
                                 // Handle the "Save" button click here
+                                console.log("Values before first AJAX call:");
+                    console.log("Fullname:", $('#editedFullname_').val());
+                    console.log("Number:", $('#editedNumber_').val());
                                 var formData = {
                                     addressId: addressId,
                                     // Retrieve and collect edited address details from the SweetAlert form fields
-                                    fullname: $('#editedFullname').val(),
-                                    number: $('#editedNumber').val(),
+                                    fullname: $('#editedFullname_').val(),
+                                    number: $('#editedNumber_').val(),
                                     region: $('#editedregion_').val(),
                                     province: $('#editedprovince_').val(),
                                     city: $('#editedcity_').val(),
                                     barangay: $('#editedbarangay_').val(),
-                                    zip: $('#editedZip').val(),
-                                    street: $('#editedStreet').val(),
+                                    zip: $('#editedZip_').val(),
+                                    street: $('#editedStreet_').val(),
                                 };
 
                                 // Send an AJAX request to update the address information in the database
@@ -518,6 +521,11 @@ include 'html/get_bg.php';
 
                                 // Reload the DataTable
                                 $('#profileAddress').DataTable().ajax.reload();
+                                Swal.fire({
+                                            title: "Success",
+                                            text: "Address updated successfully!",
+                                            icon: "success",
+                                        });
                             },
                             error: function() {
                                 // Handle any AJAX errors here

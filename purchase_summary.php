@@ -303,7 +303,7 @@ $region_qry = mysqli_query($conn, $region);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button id="saveChangesBtn" type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -397,6 +397,8 @@ $region_qry = mysqli_query($conn, $region);
                 ]
             });
 
+            
+
 
             // Add a click event listener to the "Delete" buttons
             $('#infoPurhaseTable').on('click', '#purchase_payment', function() {
@@ -453,17 +455,20 @@ $region_qry = mysqli_query($conn, $region);
                             cancelButtonText: "Cancel",
                             preConfirm: () => {
                                 // Handle the "Save" button click here
+                                console.log("Values before first AJAX call:");
+                    console.log("Fullname:", $('#editedFullname_').val());
+                    console.log("Number:", $('#editedNumber_').val());
                                 var formData = {
                                     addressId: addressId,
                                     // Retrieve and collect edited address details from the SweetAlert form fields
-                                    fullname: $('#editedFullname').val(),
-                                    number: $('#editedNumber').val(),
+                                    fullname: $('#editedFullname_').val(),
+                                    number: $('#editedNumber_').val(),
                                     region: $('#editedregion_').val(),
                                     province: $('#editedprovince_').val(),
                                     city: $('#editedcity_').val(),
                                     barangay: $('#editedbarangay_').val(),
-                                    zip: $('#editedZip').val(),
-                                    street: $('#editedStreet').val(),
+                                    zip: $('#editedZip_').val(),
+                                    street: $('#editedStreet_').val(),
                                 };
 
                                 // Send an AJAX request to update the address information in the database
@@ -488,6 +493,8 @@ $region_qry = mysqli_query($conn, $region);
                                 });
                             },
                         });
+
+                        
 
                         $('#editedregion_').on('change', function() {
                             var region_id = $(this).val();
@@ -546,7 +553,11 @@ $region_qry = mysqli_query($conn, $region);
 
             });
 
-
+            $('#saveChangesBtn').click(function() {
+      // Reload the page when the button is clicked
+      location.reload();
+    });
+  
 
 
             // Add a click event listener to the "Delete" buttons

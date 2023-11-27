@@ -56,10 +56,10 @@ if (isset($_GET['addressId'])) {
             <form id="editAddressForm">
                 <input type="hidden" name="addressId" value="' . $addressId . '">
                 <label for="editedFullname">Fullname:</label>
-                <input type="text" id="editedFullname" name="editedFullname" value="' . htmlspecialchars($row['fullname']) . '" required><br>
+                <input type="text" id="editedFullname_" name="editedFullname" value="' . htmlspecialchars($row['fullname']) . '" required><br>
                 
                 <label for="editedNumber">Number:</label>
-                <input type="text" id="editedNumber" name="editedNumber" value="' . htmlspecialchars($row['number']) . '" required><br>
+                <input type="text" id="editedNumber_" name="editedNumber" value="' . htmlspecialchars($row['number']) . '" required><br>
 
                 <label for="editedregion_"> Region:</label>
                 <select id="editedregion_" name="editedregion" required>
@@ -103,13 +103,13 @@ if (isset($_GET['addressId'])) {
         echo '</select><br>
                 
                 <label for="editedZip">ZIP Code:</label>
-                <input type="text" id="editedZip" name="editedZip" value="' . htmlspecialchars($row['zip']) . '" required><br>
+                <input type="text" id="editedZip_" name="editedZip" value="' . htmlspecialchars($row['zip']) . '" required><br>
                 
                 <label for="editedStreet">Street:</label>
-                <input type="text" id="editedStreet" name="editedStreet" value="' . htmlspecialchars($row['street']) . '" required><br>
+                <input type="text" id="editedStreet_" name="editedStreet" value="' . htmlspecialchars($row['street']) . '" required><br>
                 
                 <!-- Add a submit button here -->
-                <input type="submit" value="Save">
+                
             </form>';
 
         if ($isDefault == 1) {
