@@ -2,9 +2,17 @@
 session_start();
 
 include 'connection.php';
+
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+}
+
+
+
 if (isset($_GET['published_game_id'])) {
     $published_game_id = $_GET['published_game_id'];
 }
+
 $sql = "SELECT * FROM published_built_games WHERE published_game_id = $published_game_id";
 $query = $conn->query($sql);
 while ($fetched = $query->fetch_assoc()) {
@@ -26,6 +34,19 @@ while ($fetched = $query->fetch_assoc()) {
     $min_playtime = $fetched['min_playtime'];
     $max_playtime = $fetched['max_playtime'];
     $marketplace_price = $fetched['marketplace_price'];
+
+    $is_hidden = $fetched['is_hidden'];
+}
+
+if ($is_hidden) {
+    header('Location: marketplace_item_page_hidden.php');
+}
+
+// category
+$sqlGetCategory = "SELECT * FROM categories WHERE category_id = $category";
+$queryGetCat = $conn->query($sqlGetCategory);
+while ($rowCat = $queryGetCat->fetch_assoc()) {
+    $category_name = $rowCat['category_name'];
 }
 
 // rating
@@ -105,6 +126,12 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
             </div>
         ';
     }
+}
+
+$getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
+$queryThemeBG = $conn->query($getThemeBG);
+while ($row = $queryThemeBG->fetch_assoc()) {
+    $image_path = $row['image_path'];
 }
 ?>
 
@@ -377,6 +404,7 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
             flex: 0 0 25%;
             max-width: 120px;
         }
+<<<<<<< Updated upstream
 
         .col-3-3 {
             -ms-flex: 0 0 25%;
@@ -412,14 +440,17 @@ while ($fetchedAvatarUser = $sqlGetAvatarUser->fetch_assoc()) {
             position: absolute;
             width: 1px;
         }
+=======
+>>>>>>> Stashed changes
     </style>
 </head>
 
 <body style="
-background-image: url('img/Backgrounds/bg2.png');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;">
+    background-image: url('<?php echo $image_path; ?>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
 
     <?php include 'html/page_header.php'; ?>
 
@@ -435,7 +466,7 @@ background-attachment: fixed;">
             <div class="container">
                 <div class="row s_product_inner">
 
-                    <div class="col-lg-9" style="margin-right: 20px;">
+                    <div class="col-lg-8" style="margin-right: 20px;">
                         <div class="s_Product_carousel">
 
 
@@ -550,49 +581,52 @@ background-attachment: fixed;">
                         </div>
                     </div>
 
-                    <div class="col-lg offset-lg">
-                        <div class="s_product_text">
+                    <div class="col p-0 m-0">
+                        <div class="">
                             <h4>
                                 <?php echo $game_name; ?>
-                                </h5>
+                            </h4>
 
-                                <h4 style="color: #35c6e0">
-                                    &#8369 <?php echo $marketplace_price; ?>
-                                </h4>
-                                <ul class="list">
-                                    <li>
-                                        <span class="h6" style="color: #f7f799;">
-                                            <i class="fa-solid fa-star"></i>&nbsp;
-                                            <?php echo $roundedRating; ?>
-                                        </span>
-                                    </li>
+                            <h4 style="color: #35c6e0">
+                                &#8369 <?php echo $marketplace_price; ?>
+                            </h4>
+                            <ul class="list">
+                                <li>
+                                    <span class="h6" style="color: #f7f799;">
+                                        <i class="fa-solid fa-star"></i>&nbsp;
+                                        <?php echo $roundedRating; ?>
+                                    </span>
+                                </li>
 
-                                    <li class="">Edition: <span style="color: white;"> <?php echo $edition; ?> </span></li>
+                                <li class="">Edition: <span style="color: white;"> <?php echo $edition; ?> </span></li>
 
-                                    <li class="">Category: <span style="color: white;"> <?php echo $category; ?> </span></li>
-                                    <li>Date Published: <span style="color: white;"> <?php echo $formatted_date; ?> </span></li>
+                                <li class="">Category: <span style="color: white;"> <?php echo $category_name; ?> </span></li>
+                                <li class="">Game Time: <span style="color: white;"> <?php echo $min_playtime; ?>-</span><span style="color: white;"><?php echo $max_playtime; ?> mins</span></li>
+                                <li class="">Players: <span style="color: white;"> <?php echo $min_players; ?>-</span><span style="color: white;"><?php echo $max_players; ?> players</span></li>
 
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-auto"><span>Publisher:</span></div>
-                                        <div class="col-auto" data-toggle="tooltip" title="<?php echo $usernameA ?>"><?php echo $avatar_valueA ?></div>
-                                    </div>
-                                </ul>
+                                <li>Date Published: <span style="color: white;"> <?php echo $formatted_date; ?> </span></li>
 
-                                <hr>
-
-                                <div class="product_count">
-                                    <label for="qty">Quantity:</label>
-                                    <input type="number" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-
-
-                                    <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>"><br>
-                                    <input type="hidden" name="marketplace_price" value="<?php echo $marketplace_price; ?>"><br>
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto"><span>Publisher:</span></div>
+                                    <div class="col-auto" data-toggle="tooltip" title="<?php echo $usernameA ?>"><?php echo $avatar_valueA ?></div>
                                 </div>
+                            </ul>
 
-                                <div class="card_area d-flex align-items-center">
+                            <hr>
 
-                                    <button id="ajax-link" class="primary-btn" type="submit" data-published-game-id="<?php echo $published_game_id; ?>">Add to Cart</button>
-                                </div>
+                            <div class="product_count">
+                                <label for="qty">Quantity:</label>
+                                <input type="number" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" min="1" max="99" class="input-text qty">
+
+
+                                <input type="hidden" name="published_game_id" value="<?php echo $published_game_id; ?>"><br>
+                                <input type="hidden" name="marketplace_price" value="<?php echo $marketplace_price; ?>"><br>
+                            </div>
+
+                            <div class="card_area d-flex align-items-center">
+
+                                <button id="ajax-link" class="primary-btn" type="submit" data-published-game-id="<?php echo $published_game_id; ?>">Add to Cart</button>
+                            </div>
 
                         </div>
                     </div>
@@ -1025,11 +1059,9 @@ background-attachment: fixed;">
                                                         <hr class="m-0 p-1">
                                                         <div class="d-flex justify-content-end">
                                                             <button type="submit" class="btn btn-primary" style="border: none; background: linear-gradient(144deg, #26d3e0, #b660e8); cursor: not-allowed;" disabled 
-                                                            data-toggle="tooltip" title="Please Purchase First to Comment">
+                                                            data-toggle="tooltip" title="You must pruchase this game first to comment">
                                                             Submit</button>
                                                         </div>
-                                                        <p style= "color:white;"> note: Your order must be in production to be able to rate & comment </p>
-                                                        <p style= "color:white;"> (Go to Profile > MyPurchase > In Production) </p>
                                                     </form>
 
                                                 </div>
@@ -1328,8 +1360,13 @@ background-attachment: fixed;">
                                                 <div class="row py-3 shadow-5">';
 
 
+<<<<<<< Updated upstream
                                             while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
                                                 echo '
+=======
+                                        while ($fetchedReviewImg = $resultReviewImg->fetch_assoc()) {
+                                            echo '
+>>>>>>> Stashed changes
                                                         <div class="col-3-2 mt-1">
                                                         <a href = "' . $fetchedReviewImg['rating_image_path'] . '" data-lightbox = "' . $imageGrp . '">
                                                         <img
@@ -1339,9 +1376,15 @@ background-attachment: fixed;">
                                                         />
                                                         </a>
                                                         </div> ';
+<<<<<<< Updated upstream
                                             }
 
                                             echo ' </div>
+=======
+                                        }
+
+                                        echo ' </div>
+>>>>>>> Stashed changes
                                             </div>
                                             </div>
                                         ';
@@ -1378,6 +1421,12 @@ background-attachment: fixed;">
         </div>
     </section>
     <!--================End Product Description Area =================-->
+
+
+
+    <!-- start footer Area -->
+    <?php include 'html/page_footer.php'; ?>
+    <!-- End footer Area -->
 
 
     <!-- Modal -->
@@ -1522,7 +1571,27 @@ background-attachment: fixed;">
     <script>
         $(document).ready(function() {
 
+<<<<<<< Updated upstream
             if (document.getElementById('thumbnailInput') && document.getElementById('thumbnailFields')) {
+=======
+            var user_id = <?php echo $user_id ?>;
+            $("#cartCount").DataTable({
+                searching: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                ajax: {
+                    url: "json_cart_count.php",
+                    data: {
+                        user_id: user_id,
+                    },
+                    dataSrc: "",
+                },
+                columns: [{
+                    data: "cart_count",
+                }],
+            });
+>>>>>>> Stashed changes
 
                 $('#add_files').click(function() {
                     $('#thumbnailInput').css('display', 'block');
@@ -1530,6 +1599,7 @@ background-attachment: fixed;">
                     $('#add_files').css('display', 'none');
                 });
 
+<<<<<<< Updated upstream
                 const NoThumbnail = document.getElementById('No_thumbnail');
                 const ThumbnailFields = document.getElementById('thumbnailFields');
 
@@ -1579,9 +1649,83 @@ background-attachment: fixed;">
                 // Update the label text with the filename
                 $(this).siblings('.upload-text').text(filename);
             });
+=======
+            let mybutton = document.getElementById("btn-back-to-top");
 
-            // mahalaga toh
-            <?php include 'js/essential.php'; ?>
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {
+                scrollFunction();
+            };
+
+            function scrollFunction() {
+                if (
+                    document.body.scrollTop > 20 ||
+                    document.documentElement.scrollTop > 20
+                ) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+            // When the user clicks on the button, scroll to the top of the document
+            mybutton.addEventListener("click", backToTop);
+
+            function backToTop() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+
+
+
+            document.getElementById('add_files').addEventListener('click', function() {
+                document.getElementById('thumbnailInput').style.display = 'block';
+                document.getElementById('thumbnailFields').style.display = 'block';
+            });
+
+
+            const NoThumbnail = document.getElementById('No_thumbnail');
+            const ThumbnailFields = document.getElementById('thumbnailFields');
+
+            // Add an event listener to the color_number input
+            NoThumbnail.addEventListener('input', function() {
+                // Get the selected number of colors
+                const numberOfThumbnail = parseInt(this.value);
+
+                // Clear the existing color fields
+                ThumbnailFields.innerHTML = '';
+
+                // Create and add input fields for Color Name and Color Code
+                for (let i = 1; i <= numberOfThumbnail; i++) {
+
+
+                    const thumbnailCodeLabel = document.createElement('label');
+                    thumbnailCodeLabel.textContent = `Image File ${i}:`;
+
+                    //<input type="file" id="images" name="images[]" accept="image/*" multiple><br><br>
+
+                    const thumbnailCodeInput = document.createElement('input');
+                    thumbnailCodeInput.type = 'file';
+                    thumbnailCodeInput.name = `thumbnailCode${i}`;
+                    thumbnailCodeInput.id = `thumbnailCode${i}`;
+                    thumbnailCodeInput.accept = `image/*`;
+
+
+                    // Add line breaks for spacing
+
+                    const lineBreak2 = document.createElement('br');
+                    const lineBreak3 = document.createElement('br');
+
+                    // Append elements to the container
+
+                    ThumbnailFields.appendChild(thumbnailCodeLabel);
+                    ThumbnailFields.appendChild(thumbnailCodeInput);
+                    ThumbnailFields.appendChild(lineBreak2);
+                    ThumbnailFields.appendChild(lineBreak3);
+                }
+            });
+
+>>>>>>> Stashed changes
+
 
             $(document).on("click", "#ajax-link", function(event) {
                 event.preventDefault();
