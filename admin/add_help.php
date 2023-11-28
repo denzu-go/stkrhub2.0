@@ -71,7 +71,7 @@ if (isset($_GET['category'])) {
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                        <h4>Add <?php echo htmlspecialchars($category); ?> Content</h4>
+                            <h4>Add <?php echo htmlspecialchars($category); ?> Content</h4>
                             <p class="mb-0">Fill Up Details</p>
                         </div>
                     </div>
@@ -92,14 +92,14 @@ if (isset($_GET['category'])) {
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title"> <?php echo htmlspecialchars($category); ?> Title:</label>
                                             <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" name="title">
+                                                <input type="text" class="form-control" id="title" name="title">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="desciption"><?php echo htmlspecialchars($category); ?> Description:</label>
                                             <div class="col-sm-6">
-                                            <textarea id= "description" name="description" rows="30" cols="80"></textarea>
+                                                <textarea id="description" name="description" rows="30" cols="80"></textarea>
                                             </div>
                                         </div>
 
@@ -111,7 +111,7 @@ if (isset($_GET['category'])) {
                                             </div>
                                         </div>
 
-                                       
+
 
                                         <div class="row mb-3">
                                             <div class="offset-sm-3 col-sm-3 d-grid">
@@ -211,15 +211,15 @@ if (isset($_GET['category'])) {
                 }).then((result) => {
                     // If the user clicks "Yes," proceed with the AJAX request
                     if (result.isConfirmed) {
-                // Send an AJAX POST request
-                $.ajax({
-                    type: "POST",
-                    url: "admin_process_add_help.php",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response.startsWith("Error")) {
+                        // Send an AJAX POST request
+                        $.ajax({
+                            type: "POST",
+                            url: "admin_process_add_help.php",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if (response.startsWith("Error")) {
                                     // Display an error message using SweetAlert
                                     Swal.fire({
                                         icon: 'error',
@@ -227,30 +227,30 @@ if (isset($_GET['category'])) {
                                         text: response,
                                     });
                                 } else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Data inserted successfully!',
-                        }).then(function() {
-                            // Redirect to add_game_piece.php with the category parameter
-                            var category = "<?php echo $category; ?>";
-                            window.location.href = "admin_help.php?category=" + category;
-                        });
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data inserted successfully!',
+                                    }).then(function() {
+                                        // Redirect to add_game_piece.php with the category parameter
+                                        var category = "<?php echo $category; ?>";
+                                        window.location.href = "admin_help.php?category=" + category;
+                                    });
 
-                        $('#gamePieceTable').DataTable().ajax.reload();
-                        $("#myForm")[0].reset();
-                    }
-                    },
-                    error: function(error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Error in submitting data: ' + error.responseText,
+                                    $('#gamePieceTable').DataTable().ajax.reload();
+                                    $("#myForm")[0].reset();
+                                }
+                            },
+                            error: function(error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'Error in submitting data: ' + error.responseText,
+                                });
+                            }
                         });
                     }
                 });
-            }
-        });            
 
             });
 

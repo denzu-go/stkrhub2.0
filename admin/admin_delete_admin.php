@@ -11,8 +11,6 @@ if (isset($_SESSION['admin_id'])) {
 }
 // end of check if admin logged in
 
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userID = $_POST['userID'];
 
@@ -29,14 +27,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute the SQL query
         if ($conn->query($sql) === TRUE) {
-            echo "Data deleted successfully!";
-           
+            $response = array(
+                'status' => 'success',
+                'message' => 'Data deleted successfully!'
+            );
+            echo json_encode($response);
         } else {
-            echo "Error: " . $conn->error;
+            $response = array(
+                'status' => 'error',
+                'message' => 'Error: ' . $conn->error
+            );
+            echo json_encode($response);
         }
     } else {
-        echo "User not found.";
+        $response = array(
+            'status' => 'error',
+            'message' => 'User not found.'
+        );
+        echo json_encode($response);
     }
 }
 ?>
+
 

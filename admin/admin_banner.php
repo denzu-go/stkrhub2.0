@@ -9,7 +9,7 @@ if (isset($_SESSION['admin_id'])) {
     header("Location: admin_login.php");
     exit;
 }
-// end of check if admin logged in
+// end of check if admin logged in  
 
 ?>
 

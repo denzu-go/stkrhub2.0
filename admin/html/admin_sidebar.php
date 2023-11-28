@@ -186,7 +186,8 @@
                             <li><a class="text-white" href="admin_weight_charges.php"><i class="fa-solid fa-box"></i><span class="nav-text">Weight Charges</span></a></li>
                             <li><a class="text-white" href="admin_service_percentage.php"><i class="fa-solid fa-person-breastfeeding"></i><span class="nav-text">Service Fees</span></a></li>
                             <li><a class="text-white" href="admin_constant_thumbnail.php"><i class="fa-regular fa-images"></i><span class="nav-text">Thumbnail Images</span></a></li>
-                            <li><a class="text-white" href="admin_paypal_royalty.php"><i class="fa-brands fa-paypal"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>';
+                            <li><a class="text-white" href="admin_paypal_royalty.php"><i class="fa-brands fa-paypal"></i><span class="nav-text">Paypal Account & Royalties</span></a></li>
+                            <li><a class="text-white" href="admin_courier.php"><i class="fa-solid fa-truck"></i><span class="nav-text">Courier</span></a></li>';
                         } else {
 
                             echo '<li class="nav-label text-white">Account Management</li>
