@@ -309,6 +309,38 @@ $region_qry = mysqli_query($conn, $region);
         </div>
     </div>
 
+    <div class="modal fade" id="termsAndConditions">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:cadetblue;" id="exampleModalLongTitle">Terms And Conditions</h5>
+                </div>
+                <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                    <?php
+                    $help_sql = "SELECT *
+                 FROM help
+                 WHERE help_title LIKE 'terms and conditions'";
+
+                    $help_query = $conn->query($help_sql);
+                    $help_row = $help_query->fetch_assoc();
+
+                    if ($help_row) {
+                        $formatted_description = nl2br(htmlspecialchars($help_row['help_description']));
+                        echo $formatted_description;
+                    } else {
+                        echo "No description available for 'terms and conditions'.";
+                    }
+                    ?>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -397,7 +429,7 @@ $region_qry = mysqli_query($conn, $region);
                 ]
             });
 
-            
+
 
 
             // Add a click event listener to the "Delete" buttons
@@ -456,8 +488,8 @@ $region_qry = mysqli_query($conn, $region);
                             preConfirm: () => {
                                 // Handle the "Save" button click here
                                 console.log("Values before first AJAX call:");
-                    console.log("Fullname:", $('#editedFullname_').val());
-                    console.log("Number:", $('#editedNumber_').val());
+                                console.log("Fullname:", $('#editedFullname_').val());
+                                console.log("Number:", $('#editedNumber_').val());
                                 var formData = {
                                     addressId: addressId,
                                     // Retrieve and collect edited address details from the SweetAlert form fields
@@ -494,7 +526,7 @@ $region_qry = mysqli_query($conn, $region);
                             },
                         });
 
-                        
+
 
                         $('#editedregion_').on('change', function() {
                             var region_id = $(this).val();
@@ -554,10 +586,10 @@ $region_qry = mysqli_query($conn, $region);
             });
 
             $('#saveChangesBtn').click(function() {
-      // Reload the page when the button is clicked
-      location.reload();
-    });
-  
+                // Reload the page when the button is clicked
+                location.reload();
+            });
+
 
 
             // Add a click event listener to the "Delete" buttons
@@ -869,6 +901,16 @@ $region_qry = mysqli_query($conn, $region);
 
                 $("#changeAddress").modal("show");
             });
+
+            $('#paypalTable').on('click', '#termsAndCondi', function() {
+
+                $("#termsAndConditions").modal("show");
+            });
+
+            $('#stkrTable').on('click', '#termsAndCondi', function() {
+
+$("#termsAndConditions").modal("show");
+});
 
 
 

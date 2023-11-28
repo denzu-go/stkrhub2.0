@@ -123,7 +123,7 @@ $item = '
                 <div class="row">
                     <div class="col">
                         <p class="">Shipping Total:</p>
-                    </div>
+                    </div>  
 
                     <div class="col">
                         <span> &#8369;' . number_format($weight_price, 2) . '</span>
@@ -143,7 +143,7 @@ $item = '
 
                 <label class="row d-flex justify-content-center">
                     <input id="paypal_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
-                    &nbsp; I agree to these &nbsp;<a href="#">Terms and Conditions</a>
+                    &nbsp; I agree to these &nbsp;<a role="button" id="termsAndCondi" style = "color:aquamarine;">Terms and Conditions</a>
                 </label>
 
                 <div class="row">

@@ -1,7 +1,7 @@
 
                 ADDED COMPONENT ID: 562
                 COMPONENT NAME: Dice 2
-                CATEGORY: game piece
+                CATEGORY: Game Piece
                 SIZE: 7x7
 
                 QUANTITY: 1

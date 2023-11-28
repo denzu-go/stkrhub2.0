@@ -25,7 +25,7 @@ $component_row = $query->fetch_assoc();
 
 
 ?>
-
+  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,12 +99,7 @@ $component_row = $query->fetch_assoc();
                                             </div>
                                         </div>
 
-                                        <div class="row mb-3 color-row">
-                                            <label class="col-sm-3 col-form-label">Uploaded Image:</label>
-                                            <div class="col-sm-6">
-                                                <a href="<?php echo $row['component_image_path']; ?>" download style="color: blue;">Cover Photo</a>
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="row mb-3 color-row">
                                             <label class="col-sm-3 col-form-label">New Cover Photo:</label>

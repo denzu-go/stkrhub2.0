@@ -51,7 +51,7 @@ if (isset($_SESSION['category'])) {
                     'name' => $templateRow['template_name'] // Assuming you have a field 'image_name' in your database
                 );
             }
-
+ 
         
 
             if (!empty($imageData)) {

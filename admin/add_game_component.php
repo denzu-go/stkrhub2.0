@@ -158,7 +158,7 @@ if (isset($_SESSION['admin_id'])) {
                                             </div>
                                         </div>
 
- 
+
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="No_thumbnail">No. Thumbnail</label>
                                             <div class="col-sm-6">
@@ -174,7 +174,7 @@ if (isset($_SESSION['admin_id'])) {
                                                 <button type="submit" class="btn btn-primary"> Submit </button>
                                             </div>
                                             <div class=" col-sm-3 d-grid">
-                                                <a class="btn btn-outline-primary" href="add_game_piece.php?category=<?php echo $category?>" role="button">Cancel</a>
+                                                <a class="btn btn-outline-primary" href="add_game_piece.php?category=<?php echo $category ?>" role="button">Cancel</a>
                                             </div>
                                         </div>
 
@@ -257,36 +257,60 @@ if (isset($_SESSION['admin_id'])) {
                 e.preventDefault(); // Prevent the default form submission
                 var formData = new FormData(this); // Create a FormData object
 
-                // Send an AJAX POST request
-                $.ajax({
-                    type: "POST",
-                    url: "admin_process_add_gamepiece.php", // Your server-side script URL
-                    data: formData,
-                    contentType: false, // Prevent jQuery from adding a content-type header
-                    processData: false, // Prevent jQuery from processing the data
-                    success: function(response) {
-                        // Display a SweetAlert with a success message
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Data inserted successfully!',
-                        }).then(function() {
-                            // Redirect to add_game_piece.php with the category parameter
-                            var category = "<?php echo $category; ?>";
-                            window.location.href = "add_game_piece.php?category=" + category;
-                        });
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to add this new game component',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    // If the user clicks "Yes," proceed with the AJAX request
+                    if (result.isConfirmed) {
+                        // Make the AJAX request using the fetched imageId
+                        $.ajax({
+                            type: "POST",
+                            url: "admin_process_add_gamepiece.php", // Your server-side script URL
+                            data: formData,
+                            contentType: false, // Prevent jQuery from adding a content-type header
+                            processData: false, // Prevent jQuery from processing the data
+                            success: function(response) {
+                                if (response.startsWith("Error")) {
+                                    // Display an error message using SweetAlert
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: response,
+                                    });
+                                } else {
+                                    // Display a SweetAlert with a success message
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data inserted successfully!',
+                                    }).then(function() {
+                                        // Redirect to add_game_piece.php with the category parameter
+                                        var category = "<?php echo $category; ?>";
+                                        window.location.href = "add_game_piece.php?category=" + category;
+                                    });
 
-                      
-                    },
-                    error: function(error) {
-                        // Display a SweetAlert with an error message
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Error in submitting data: ' + error.responseText,
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                // Display a SweetAlert with an error message including the response text
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'Error in submitting data: ' + xhr.responseText,
+                                });
+                            }
+
                         });
                     }
                 });
+                // Send an AJAX POST request
+
             });
 
         });

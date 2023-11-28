@@ -208,37 +208,57 @@ $tut_row = $tut_query->fetch_assoc();
             $("#myForm").submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
                 var formData = new FormData(this); // Create a FormData object
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to add this new help content',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    // If the user clicks "Yes," proceed with the AJAX request
+                    if (result.isConfirmed) {
+                        // Send an AJAX POST request
+                        $.ajax({
+                            type: "POST",
+                            url: "admin_process_edit_help_content.php",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if (response.startsWith("Error")) {
+                                    // Display an error message using SweetAlert
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: response,
+                                    });
+                                } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: 'Data inserted successfully!',
+                                }).then(function() {
+                                    // Redirect to add_game_piece.php with the category parameter
+                                    var category = "<?php echo $tut_row['faq_category']; ?>";
+                                    window.location.href = "admin_help.php?category=" + category;
+                                });
 
-                // Send an AJAX POST request
-                $.ajax({
-                    type: "POST",
-                    url: "admin_process_edit_help_content.php",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Data inserted successfully!',
-                        }).then(function() {
-                            // Redirect to add_game_piece.php with the category parameter
-                            var category = "<?php echo $tut_row['faq_category']; ?>";
-                            window.location.href = "admin_help.php?category=" + category;
-                        });
-
-                        $('#helpContentTable').DataTable().ajax.reload();
-                        $("#myForm")[0].reset();
-                    },
-                    error: function(error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Error in submitting data: ' + error.responseText,
+                                $('#helpContentTable').DataTable().ajax.reload();
+                                $("#myForm")[0].reset();
+                            }
+                            },
+                            error: function(error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'Error in submitting data: ' + error.responseText,
+                                });
+                            }
                         });
                     }
                 });
-
             });
 
         });
