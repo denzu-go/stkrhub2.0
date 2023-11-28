@@ -44,7 +44,7 @@
 						</li>
 
 						<li class="nav-item <?php echo $header_create_game ?> ">
-							<a class="nav-link" href="create_game_page.php#section1">Create Game</a>
+							<a class="nav-link" href="create_game_page.php#section1">My Games</a>
 						</li>
 
 						<li class="nav-item <?php echo $header_game_component ?> ">

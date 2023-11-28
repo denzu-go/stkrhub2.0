@@ -87,7 +87,7 @@ while ($fetched = $result->fetch_assoc()) {
 
             data-toggle="tooltip" title="You cannot update your game\'s components as of now. Please purhase your ticket at cart so that the admin can now proceed reviewing your game"
         >
-            + Add Custom Game Componentasd
+            + Add Game Component
         </a>
         ';
     } elseif ($is_purchased) {
@@ -114,7 +114,7 @@ while ($fetched = $result->fetch_assoc()) {
 
             data-toggle="tooltip" title="You cannot update your game\'s components as of now. Admin will evaluate your created game\'s components"
         >
-            + Add Custom Game Componentasd
+            + Add Game Component
         </a>
         ';
     } elseif ($to_approve) {
@@ -141,7 +141,7 @@ while ($fetched = $result->fetch_assoc()) {
 
             data-toggle="tooltip" title="You cannot update your game\'s components as of now. Admin is evaluating your created game\'s components"
         >
-            + Add Custom Game Componentasd
+            + Add Game Component
         </a>
         ';
     } else if ($is_approved) {
@@ -160,7 +160,7 @@ while ($fetched = $result->fetch_assoc()) {
         ';
 
         $add_component_button = '
-        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Custom Game Component</a>
+        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Game Component</a>
         ';
     } elseif ($is_denied) {
         $extra_action = '
@@ -180,7 +180,7 @@ while ($fetched = $result->fetch_assoc()) {
         ';
 
         $add_component_button = '
-        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Custom Game Component</a>
+        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Game Component</a>
         ';
     } elseif ($total_price == '0') {
         $extra_action = '
@@ -201,7 +201,7 @@ while ($fetched = $result->fetch_assoc()) {
         ';
 
         $add_component_button = '
-        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Custom Game Component</a>
+        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Game Component</a>
         ';
     } else {
         $extra_action = '
@@ -219,7 +219,7 @@ while ($fetched = $result->fetch_assoc()) {
         ';
 
         $add_component_button = '
-        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Custom Game Component</a>
+        <a href="add_custom_component.php?game_id=' . $game_id . '" class="btn" style="color: white; border: none; background: #1f2243">+ Add Game Component</a>
         ';
     }
 
