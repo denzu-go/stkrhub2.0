@@ -438,7 +438,7 @@ include 'html/get_bg.php';
 
                             <div class="container">
                                 <div class="row">
-                                    <span class="">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et, dolorum delectus, nam minima dolore error, consectetur voluptatum repellat facere tempora ratione incidunt. Cumque, nemo labore? Sequi nesciunt obcaecati recusandae repellat?</span>
+                                    <span class="">STKR Hub will collect a processing fee (convenience fee) of <span class="">&#8369;<?php echo $cashout_processing_fee ?></span>` for every cash-out transaction. This amount will be automatically added from the amount you cash out to your wallet upon processing.</span>
                                 </div>
                                 <div class="row">
                                     <span class="">Your Balance:&nbsp;</span> <span class="">&#8369;<?php echo $total_wallet_amount_normalized ?></span>
@@ -646,6 +646,10 @@ include 'html/get_bg.php';
 
 
             $('#walletTransaction').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No History of Transactions found"
+                },
+
                 language: {
                     search: "",
                 },
@@ -923,7 +927,7 @@ include 'html/get_bg.php';
                                     $('#walletAmount').DataTable().ajax.reload();
                                     $('#walletTransaction').DataTable().ajax.reload();
                                     $("#cashOut").modal("hide");
-                                    Swal.fire('Success', response.message, 'success');
+                                    Swal.fire('Success', 'Your Cash Out request was successfully completed. Please wait until the admin successfully sends your money to your account.', 'success');
                                 } else {
                                     $("#cashOut").modal("hide");
                                     Swal.fire('Error', response.message, 'error');

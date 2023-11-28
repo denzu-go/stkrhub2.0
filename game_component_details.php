@@ -233,7 +233,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                     <span class="row" style="color: #e7e7e7"> &#8369;<?php echo $component_price ?></span>
 
                                     <span class="row" style="color: #777777">Component Size:</span>
-                                    <span class="row" style="color: #e7e7e7"> &#8369;<?php echo $component_size ?></span>
+                                    <span class="row" style="color: #e7e7e7"> <?php echo $component_size ?></span>
                                 </div>
 
                                 <div class="col">

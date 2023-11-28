@@ -8055,7 +8055,7 @@ a {
 .nav-header {
   height: 5rem;
   /* width: 17.1875rem; */
-  width: 18.0rem;
+  width: 19.0rem;
   display: inline-block;
   text-align: left;
   position: absolute;
@@ -10310,7 +10310,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .quixnav {
   /* width: 17.1875rem; */
-  width: 18.0rem;
+  width: 19.0rem;
   padding-bottom: 112px;
   height: 100%;
   position: absolute;

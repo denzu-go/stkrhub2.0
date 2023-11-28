@@ -21,6 +21,10 @@ if ($passed_status == 'games_pending_approval') {
     $sql = "SELECT COUNT(*) as count FROM wallet_transactions WHERE status = 'pending'";
     $icon = '<i class="fa-solid fa-money-bill-transfer"></i>';
     $title = 'Cashout Requests';
+} elseif ($passed_status == 'comment_report') {
+    $sql = "SELECT COUNT(*) as count FROM ratings WHERE is_reported = 1";
+    $icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+    $title = 'Reported Comments';
 } else {
     $sql = "SELECT COUNT(*) as count FROM games WHERE to_approve = 1";
     $icon = '<i class="fa-solid fa-dice"></i>';

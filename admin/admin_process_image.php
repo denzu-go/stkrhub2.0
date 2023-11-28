@@ -35,6 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $uploadDirectory = "../img/constant/";
             $uploadPath = $uploadDirectory . $uniqueFilename;
 
+            $dbPath = "img/constant/" . $uniqueFilename;
+
             // Ensure the directory exists, create it if not
             if (!file_exists($uploadDirectory)) {
                 mkdir($uploadDirectory, 0777, true);
@@ -42,18 +44,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Move the uploaded file to the target directory
             if (move_uploaded_file($coverTmp, $uploadPath)) {
-                $sql = "UPDATE constants SET image_path = ? WHERE constant_id = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("si", $uploadPath, $id);
+                // Properly escape and quote values in the SQL query
+                $escapedUploadPath = $conn->real_escape_string($dbPath);
+                $sql = "UPDATE constants SET image_path = '$escapedUploadPath' WHERE constant_id = $id";
 
-                if ($stmt->execute()) {
+                if ($query = $conn->query($sql)) {
                     $response["success"] = true;
                     $response["message"] = "Cover photo updated successfully.";
                 } else {
-                    $response["message"] = "Error updating cover photo: " . $stmt->error;
+                    $response["message"] = "Error updating cover photo: " . $conn->error;
                 }
-
-                $stmt->close();
             } else {
                 $response["message"] = "Error uploading the file.";
             }
@@ -69,4 +69,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Send the JSON response
 header("Content-Type: application/json");
 echo json_encode($response);
-?>

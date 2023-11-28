@@ -176,7 +176,7 @@ if (isset($_SESSION['admin_id'])) {
                     var imagePath = $(this).data('id');
 
                     // Generate the HTML for the image
-                    var imageHTML = '<img src="' + imagePath + '" alt="Image" style = "width:300px;height:300px;">';
+                    var imageHTML = '<img src="../' + imagePath + '" alt="Image" style = "width:300px;">';
 
                     // Use SweetAlert to display the image
                     Swal.fire({

@@ -16,8 +16,7 @@ include 'connection.php';
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-
+    <link href="./css/style.css?<?php echo time(); ?>" rel="stylesheet">
 
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -42,7 +41,7 @@ include 'connection.php';
     </style>
 </head>
 <style>
-    td{
+    td {
         width: 200px;
     }
 </style>
@@ -152,10 +151,16 @@ include 'connection.php';
 
 
             $('#reportComments').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No comments have been reported yet"
+                },
+
                 searching: true,
                 info: false,
                 paging: true,
-                ordering: true,
+                lengthChange: false,
+                ordering: false,
+                pageLength: 27,
 
                 "ajax": {
                     "url": "admin_json_report_comment.php",
@@ -266,7 +271,7 @@ include 'connection.php';
                     }
                 });
             });
-            
+
 
 
 

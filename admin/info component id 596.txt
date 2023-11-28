@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 596
+                COMPONENT NAME: Game Tokens
+                CATEGORY: Game Piece
+                SIZE: 1.5 inches diameter
+
+                QUANTITY: 1
+                COLOR: black #000000
+                FILE: 
+                

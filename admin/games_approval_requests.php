@@ -64,7 +64,7 @@ if (isset($_SESSION['admin_id'])) {
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4>Games Approval Requests</h4>
-                            <p class="mb-0">Users are now expeting the their order is being processed.</p>
+                            <p class="mb-0">Review each of the asset that creator has used if there is any copyrighted images.</p>
                         </div>
                     </div>
                 </div>
@@ -180,10 +180,17 @@ if (isset($_SESSION['admin_id'])) {
 
 
             $('#gamesApprovalRequest').DataTable({
+
+                "oLanguage": {
+                    "sEmptyTable": "No Games are ready to be reviewed yet"
+                },
+
                 searching: true,
                 info: false,
                 paging: true,
-                ordering: true,
+                lengthChange: false,
+                ordering: false,
+                pageLength: 27,
 
                 "ajax": {
                     "url": "admin_json_games_approval.php",
