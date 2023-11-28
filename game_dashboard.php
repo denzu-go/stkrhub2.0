@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD']) {
     $game_id = $_GET['game_id'];
 }
 
-
 $getThemeBG = "SELECT * FROM constants WHERE classification = 'theme_background'";
 $queryThemeBG = $conn->query($getThemeBG);
 while ($row = $queryThemeBG->fetch_assoc()) {

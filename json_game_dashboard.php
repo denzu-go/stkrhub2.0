@@ -386,7 +386,9 @@ while ($added_game_components = $result->fetch_assoc()) {
     $price_peso = '&#8369 ' . number_format($price, 2);
     $individual_price_peso = '<span style="color: #26d3e0;">&#8369 ' . number_format($individual_price, 2) . '</span>';
 
-    $component_name_value = '<span class="d-inline-block text-truncate" style="color: #26d3e0; max-width: 250px;">' . $component_name . '</span>';
+    $component_name_value = '
+    <a href="game_component_details.php?game_id='.$game_id.'&component_id='.$component_id.'"><span class="d-inline-block text-truncate" style="color: #26d3e0; max-width: 250px;">' . $component_name . '</span></a>
+    ';
 
 
     $json[] = array(
