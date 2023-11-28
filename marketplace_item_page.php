@@ -147,7 +147,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Market Place</title>
 
 
     <!-- Link Swiper's CSS -->

@@ -51,8 +51,8 @@ while ($fetched = $resultUsers->fetch_assoc()) {
                 background: linear-gradient(90deg, rgba(38,211,224,1) 0%, rgba(182,96,232,1) 100%);
                 ">
                 <p style="font-family: sans-serif; font-weight: bold; font-size:47px; padding-top: 18px; color: white;">' . $firstLetter . '</p>
-
                 </div>
+                <button type="button" class="btn edit-btn-avatar"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
             </div>
 
 
@@ -65,6 +65,7 @@ while ($fetched = $resultUsers->fetch_assoc()) {
         <h4 class="d-flex justify-content-center">' . $username . '</h4>
         <p class="text-secondary mb-1 d-flex justify-content-center">' . $firstname . '&nbsp;' . $lastname . '</p>
         <p class="text-muted font-size-sm d-flex justify-content-center">' . $email . '</p>
+        
     </div>
 
 

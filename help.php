@@ -25,7 +25,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <meta name="keywords" content="">
     <!-- meta character set -->
     <meta charset="UTF-8">
-    <title>STKR HUB</title>
+    <title>STKR HUB - HELP</title>
 
     <!--CSS================================= -->
     <link rel="stylesheet" href="css/linearicons.css?<?php echo time(); ?>">
@@ -373,6 +373,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
         /* Regular state */
         .sidebar-item {
+            margin: 10px;
             cursor: pointer;
             padding: 7px 14px;
             display: block;

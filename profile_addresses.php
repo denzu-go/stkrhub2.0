@@ -25,7 +25,7 @@ include 'html/get_bg.php';
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>My Profile - Address</title>
 
 
     <!-- CSS ================================ -->

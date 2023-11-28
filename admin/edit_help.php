@@ -110,7 +110,7 @@ $help_row = $help_query->fetch_assoc();
                                                 // Applying nl2br to convert newlines (\n) to HTML line breaks (<br>)
                                                 $formatted_description = nl2br(htmlspecialchars($help_row['help_description']));
                                                 ?>
-                                                <textarea name="description" rows="20" cols="100"><?php echo $formatted_description; ?></textarea>
+                                                <textarea name="description" rows="20" cols="100"><?php echo $help_row['help_description']?></textarea>
                                             </div>
                                         </div>
 

@@ -40,7 +40,7 @@
 						</li>
 
 						<li class="nav-item <?php echo $header_marketplace ?> ">
-							<a class="nav-link" href="pagination.php">Marketplace</a>
+							<a class="nav-link" href="marketplace.php">Marketplace</a>
 						</li>
 
 						<li class="nav-item <?php echo $header_create_game ?> ">
@@ -48,7 +48,7 @@
 						</li>
 
 						<li class="nav-item <?php echo $header_game_component ?> ">
-							<a class="nav-link" href="add_custom_component.php">Buy Game Components</a>
+							<a class="nav-link" href="add_custom_component.php">Game Components</a>
 						</li>
 
 						<li class="nav-item <?php echo $header_help ?> ">

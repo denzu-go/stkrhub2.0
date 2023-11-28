@@ -42,7 +42,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta charset="UTF-8">
-    <title>My Games</title>
+    <title>Game Components</title>
 
 
     <!-- CSS ================================ -->
