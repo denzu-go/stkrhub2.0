@@ -11,7 +11,7 @@ if (isset($_SESSION['admin_id'])) {
     exit;
 }
 // end of check if admin logged in
-
+ 
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
@@ -56,13 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
 
 
     // Check if a component with the same name already exists
-    $checkDuplicateQuery = "SELECT * FROM game_components WHERE component_name = '$name'";
+    $checkDuplicateQuery = "SELECT * FROM game_components WHERE component_name = '$name' AND is_deleted != 1";
     $duplicateResult = $conn->query($checkDuplicateQuery);
 
     if ($duplicateResult->num_rows > 0) {
         // A component with the same name already exists
         echo "Error: A component with the same name already exists.";
-    } else {
+    }
+     else {
 
         // SQL query to insert data into the game_components table
         $sql = "INSERT INTO game_components (component_name, description, price, category, has_colors , size) 

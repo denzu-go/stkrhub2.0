@@ -146,8 +146,8 @@ $_SESSION['help_category'] = $help_category;
                                     echo '<table id="helpContentTable2" class="display" style="width: 100%;">
                                        <thead>
                                            <tr>
-                                               <th>Title</th>
-                                               <th>Description</th>
+                                               <th style = "width:20%;">Title</th>
+                                               <th style = "width:45%;">Description</th>
                                                <th>Image</th> 
                                                <th>Actions</th>
                                                </tr>

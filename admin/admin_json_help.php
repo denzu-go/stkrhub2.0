@@ -118,16 +118,18 @@ if (isset($_SESSION['help_category'])) {
                     $row2 = $queryAdmin->fetch_assoc();
 
                     if ($row2["is_super_admin"] == 1) {
-                        $actions = '<a  class="btn btn-outline-primary " href="edit_help_content.php?id=' . $row['help_id'] . '">Edit</a> 
+                        $actions = '<a  class="btn btn-outline-primary " href="edit_help.php?id=' . $row['help_id'] . '">Edit</a> 
                 <button type="button" class="delete-help btn btn-danger" data-help-id =" '.$row['help_id'].'" style = "margin:5px;">Delete</a>';
                     } else {
-                        $actions = '<a  class="btn btn-outline-primary " href="edit_help_content.php?id=' . $row['help_id'] . '">Edit</a> ';
+                        $actions = '<a  class="btn btn-outline-primary " href="edit_help.php?id=' . $row['help_id'] . '">Edit</a> ';
                     }
                 }
 
+                $formatted_description = nl2br(htmlspecialchars($row['help_description']));
+
                 $data[] = array(
                     "title" => $row["help_title"],
-                    "description" => $row["help_description"],
+                    "description" => $formatted_description,
                     "image" => $image,
                     "actions" => $actions,
                 );

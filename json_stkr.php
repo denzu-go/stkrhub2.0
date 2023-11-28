@@ -21,7 +21,7 @@ AND (transaction_type = 'Cash In' OR transaction_type = 'Profit' OR transaction_
 $resultAdd = $conn->query($queryAdd);
 
 if ($resultAdd) {
-    $rowAdd = $resultAdd->fetch_assoc();
+    $rowAdd = $resultAdd->fetch_assoc();  
     $total_amount_add = $rowAdd['total_amount_add'];
 }
 
@@ -241,7 +241,7 @@ $item = '
 
                 <label class="row d-flex justify-content-center">
                     <input id="stkr_wallet_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
-                    &nbsp; I agree to these &nbsp;<a href="#">Terms and Conditions</a>
+                    &nbsp; I agree to these &nbsp;<a role="button" id="termsAndCondi" style = "color:aquamarine;">Terms and Conditions</a>
                 </label>
 
                 <div class="row">

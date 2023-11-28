@@ -200,6 +200,17 @@ if (isset($_GET['category'])) {
                 e.preventDefault(); // Prevent the default form submission
                 var formData = new FormData(this); // Create a FormData object
 
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to add this new help content',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    // If the user clicks "Yes," proceed with the AJAX request
+                    if (result.isConfirmed) {
                 // Send an AJAX POST request
                 $.ajax({
                     type: "POST",
@@ -208,6 +219,14 @@ if (isset($_GET['category'])) {
                     contentType: false,
                     processData: false,
                     success: function(response) {
+                        if (response.startsWith("Error")) {
+                                    // Display an error message using SweetAlert
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: response,
+                                    });
+                                } else {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success!',
@@ -220,6 +239,7 @@ if (isset($_GET['category'])) {
 
                         $('#gamePieceTable').DataTable().ajax.reload();
                         $("#myForm")[0].reset();
+                    }
                     },
                     error: function(error) {
                         Swal.fire({
@@ -229,6 +249,8 @@ if (isset($_GET['category'])) {
                         });
                     }
                 });
+            }
+        });            
 
             });
 

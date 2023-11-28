@@ -75,10 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "Error updating image path: " . $conn->error;
                         }
                     } else {
-                        echo "Error uploading the file.";
+                        $conn->close();
                     }
                 } else {
-                    echo "Error: File not uploaded.";
+                    $conn->close();
                 }
             } else {
                 // Error in inserting data

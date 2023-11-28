@@ -106,7 +106,11 @@ $help_row = $help_query->fetch_assoc();
                                         <div class="row mb-3">
                                             <label class="col-sm-3 col-form-label" for="title"><?php echo htmlspecialchars($help_row['help_title']); ?> Description:</label>
                                             <div class="col-sm-6">
-                                                <textarea name="description" rows="4" cols="50"> <?php echo $help_row['help_description']; ?></textarea>
+                                                <?php
+                                                // Applying nl2br to convert newlines (\n) to HTML line breaks (<br>)
+                                                $formatted_description = nl2br(htmlspecialchars($help_row['help_description']));
+                                                ?>
+                                                <textarea name="description" rows="20" cols="100"><?php echo $formatted_description; ?></textarea>
                                             </div>
                                         </div>
 
@@ -196,34 +200,56 @@ $help_row = $help_query->fetch_assoc();
             $("#myForm").submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
                 var formData = new FormData(this); // Create a FormData object
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to add this new help content',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    // If the user clicks "Yes," proceed with the AJAX request
+                    if (result.isConfirmed) {
+                        // Send an AJAX POST request
+                        $.ajax({
+                            type: "POST",
+                            url: "admin_process_edit_help.php",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if (response.startsWith("Error")) {
+                                    // Display an error message using SweetAlert
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: response,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Data inserted successfully!',
+                                    }).then(function() {
+                                        // Redirect to add_game_piece.php with the category parameter
+                                        var category = "<?php echo $help_row['faq_category']; ?>";
+                                        window.location.href = "admin_help.php?category=" + category;
+                                    });
 
-                // Send an AJAX POST request
-                $.ajax({
-                    type: "POST",
-                    url: "admin_process_edit_help.php",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Data inserted successfully!',
-                        }).then(function() {
-                            // Redirect to add_game_piece.php with the category parameter
-                            var category = "<?php echo $help_row['faq_category']; ?>";
-                            window.location.href = "admin_help.php?category=" + category;
+                                    $('#helpContenTable2').DataTable().ajax.reload();
+                                    $("#myForm")[0].reset();
+                                }
+                            },
+                            error: function(error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'Error in submitting data: ' + error.responseText,
+                                });
+                            }
                         });
 
-                        $('#helpContenTable2').DataTable().ajax.reload();
-                        $("#myForm")[0].reset();
-                    },
-                    error: function(error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Error in submitting data: ' + error.responseText,
-                        });
                     }
                 });
 

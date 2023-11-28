@@ -1,7 +1,7 @@
 
                 ADDED COMPONENT ID: 560
                 COMPONENT NAME: Tarrot Cards
-                CATEGORY: game cards
+                CATEGORY: Game Cards
                 SIZE: 7x7
 
                 QUANTITY: 3
