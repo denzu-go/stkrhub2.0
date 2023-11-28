@@ -16,114 +16,71 @@ while ($row = $resultUsers->fetch_assoc()) {
     $email = $row['email'];
 
     $is_active = $row['is_active'];
+    $number_loop = $number++;
 
-    $sqlUserDetails = "SELECT user_id, SUM(creator_profit * quantity) AS total_creator_profit
-                  FROM orders
-                  WHERE is_pending != 1 AND is_canceled != 1 AND user_id = $user_id
-                  GROUP BY user_id
-                  ORDER BY total_creator_profit DESC";
-    $resultUserDetails = $conn->query($sqlUserDetails);
-    while ($rowUsers = $resultUserDetails->fetch_assoc()) {
-        $user_id = $rowUsers['user_id'];
-        $totalCreatorProfit = $rowUsers['total_creator_profit'];
-
-
-        // COMPLETED ORDERS
-        $sqlGetAllOrders = "SELECT user_id, COUNT(*) AS frequency
-        FROM orders
-        WHERE is_pending != 1 AND is_canceled != 1 AND user_id = $user_id
-        GROUP BY user_id
-        ORDER BY frequency DESC";
-        $resultGetAllOrders = $conn->query($sqlGetAllOrders);
-
-        while ($rowAllOrders = $resultGetAllOrders->fetch_assoc()) {
-            $frequencyAllOrders = $rowAllOrders['frequency'];
-        }
-
-
-
-        // CANCELED ORDERS
-        $sqlGetCanceledOrders = "SELECT user_id, COUNT(*) AS frequency_canceled
-            FROM orders
-            WHERE is_canceled = 1 AND user_id = $user_id
-            GROUP BY user_id
-            ORDER BY frequency_canceled DESC";
-
-        $resultGetCanceledOrders = $conn->query($sqlGetCanceledOrders);
-
-        if ($resultGetCanceledOrders->num_rows > 0) {
-            while ($rowCanceledOrders = $resultGetCanceledOrders->fetch_assoc()) {
-                $frequencyCanceledOrders = $rowCanceledOrders['frequency_canceled'];
-            }
-        } else {
-            $frequencyCanceledOrders = 0;
-        }
-
-
-
-
-        // PUBLISHED GAMES
-        $sqlGetNumberPublished = "SELECT creator_id, COUNT(DISTINCT published_game_id) AS game_count
-        FROM published_built_games
-        WHERE creator_id = $user_id
-        GROUP BY creator_id
-        ORDER BY game_count DESC";
-
-        $resultGetNumberPublished = $conn->query($sqlGetNumberPublished);
-
-        if ($resultGetNumberPublished->num_rows > 0) {
-            while ($rowGetNumberPublished = $resultGetNumberPublished->fetch_assoc()) {
-                $frequencyNumberPublished = $rowGetNumberPublished['game_count'];
-            }
-        } else {
-            $frequencyNumberPublished = 0;
-        }
-
-
-
-        // ALL PUBLISHED GAME IDS PER USER
-        $sqlGetPublishedIDS = "SELECT published_game_id
-        FROM published_built_games
-        WHERE creator_id = $user_id";
-        $resultGetPublishedIDS = $conn->query($sqlGetPublishedIDS);
-        if ($resultGetPublishedIDS->num_rows > 0) {
-            $publishedGameIds = array();
-
-            while ($rowPublishedIDS = $resultGetPublishedIDS->fetch_assoc()) {
-                $publishedGameIds[] = $rowPublishedIDS['published_game_id'];
-            }
-        } else {
-            $publishedGameIds[] = '';
-        }
-
-
-
-
-        // STATUS
-        if ($is_active = 1) {
-            $status_value = 'Active';
-        } elseif ($is_active != 1) {
-            $status_value = 'Inactive';
-        }
-
-
-
-
-
-        $published_games_value = '
-        <span>Number of Published Games: ' . $frequencyNumberPublished . '</span><br>
-        <span>Published Games IDs: ' . implode(', ', $publishedGameIds) . '</span>
-        ';
-
-
-
-
-
-
-        
+    // STATUS
+    if ($is_active = 1) {
+        $status_value = 'Active';
+    } elseif ($is_active != 1) {
+        $status_value = 'Inactive';
     }
 
-    $number_loop = $number++;
+
+    // COMPLETED ORDERS
+    $sqlGetCompletedOrders = "SELECT COUNT(*) as completed_orders FROM orders 
+    WHERE is_pending != 1 AND is_canceled != 1 AND user_id = $user_id
+    ";
+    $resultGetCompletedOrders = $conn->query($sqlGetCompletedOrders);
+    if ($resultGetCompletedOrders) {
+        $rowGetCompletedOrders = $resultGetCompletedOrders->fetch_assoc();
+        $completed_orders = $rowGetCompletedOrders['completed_orders'];
+    }
+
+    // CANCELED ORDERS
+    $sqlGetCanceledOrders = "SELECT COUNT(*) as canceled_orders FROM orders 
+    WHERE is_canceled = 1 AND user_id = $user_id
+    ";
+    $resultGetCanceledOrders = $conn->query($sqlGetCanceledOrders);
+    if ($resultGetCanceledOrders) {
+        $rowGetCanceledOrders = $resultGetCanceledOrders->fetch_assoc();
+        $canceled_orders = $rowGetCanceledOrders['canceled_orders'];
+    }
+
+    // PUBLISHED GAMES
+    $sqlGetPublished = "SELECT COUNT(*) as published_games_count FROM published_built_games 
+    WHERE creator_id = $user_id
+    ";
+    $resultGetPublished = $conn->query($sqlGetPublished);
+    if ($resultGetPublished) {
+        $rowGetPublished = $resultGetPublished->fetch_assoc();
+        $published_games_count = $rowGetPublished['published_games_count'];
+    }
+
+    // ALL PUBLISHED GAME IDS PER USER
+    $sqlGetPublishedIDS = "SELECT published_game_id
+    FROM published_built_games
+    WHERE creator_id = $user_id";
+    $resultGetPublishedIDS = $conn->query($sqlGetPublishedIDS);
+    if ($resultGetPublishedIDS->num_rows > 0) {
+        $publishedGameIds = array();
+
+        while ($rowPublishedIDS = $resultGetPublishedIDS->fetch_assoc()) {
+            $publishedGameIds[] = $rowPublishedIDS['published_game_id'];
+        }
+    } else {
+        $publishedGameIds[] = '';
+    }
+
+
+    $published_games_value = '
+        <span>Number of Published Games: ' . $published_games_count . '</span><br>
+        <span>Published Games IDs: ' . implode(', ', $publishedGameIds) . '</span>
+    ';
+
+
+    $frequencyAllOrders = $completed_orders;
+    $frequencyCanceledOrders = $canceled_orders;
+
 
     $data[] = array(
         "number" => $number_loop,

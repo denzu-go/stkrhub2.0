@@ -2,19 +2,12 @@
 include "../connection.php";
 $data = array();
 
-
-// Query to find the user with the highest total creator_profit
-// $sqlUsers = "SELECT user_id, SUM(creator_profit * quantity) AS total_creator_profit
-//              FROM orders
-//              WHERE is_pending != 1 AND is_canceled != 1
-//              GROUP BY user_id
-//              ORDER BY total_creator_profit DESC";
-
-$sqlUsers = "SELECT * FROM users WHERE user_id = $user_id";
+$sqlUsers = "SELECT * FROM users";
 $resultUsers = $conn->query($sqlUsers);
 
 $number = 1;
 while ($row = $resultUsers->fetch_assoc()) {
+    $user_id = $row['user_id'];
     $unique_user_id = $row['unique_user_id'];
     $username = $row['username'];
     $firstname = $row['firstname'];
@@ -26,7 +19,7 @@ while ($row = $resultUsers->fetch_assoc()) {
 
     $sqlUserDetails = "SELECT user_id, SUM(creator_profit * quantity) AS total_creator_profit
                   FROM orders
-                  WHERE is_pending != 1 AND is_canceled != 1
+                  WHERE is_pending != 1 AND is_canceled != 1 AND user_id = $user_id
                   GROUP BY user_id
                   ORDER BY total_creator_profit DESC";
     $resultUserDetails = $conn->query($sqlUserDetails);
@@ -35,7 +28,7 @@ while ($row = $resultUsers->fetch_assoc()) {
         $totalCreatorProfit = $rowUsers['total_creator_profit'];
 
 
-        // COMPLETED ORDERS
+        // COMPLETED ORDERSz
         $sqlGetAllOrders = "SELECT user_id, COUNT(*) AS frequency
         FROM orders
         WHERE is_pending != 1 AND is_canceled != 1 AND user_id = $user_id
@@ -127,8 +120,10 @@ while ($row = $resultUsers->fetch_assoc()) {
 
 
 
-        $number_loop = $number++;
+        
     }
+
+    $number_loop = $number++;
 
     $data[] = array(
         "number" => $number_loop,
