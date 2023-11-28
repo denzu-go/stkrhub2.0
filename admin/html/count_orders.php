@@ -170,3 +170,20 @@
             data: "cart_count",
         }],
     });
+
+    $("#comment_report_table").DataTable({
+        searching: false,
+        info: false,
+        paging: false,
+        ordering: false,
+        ajax: {
+            url: "json_count_pending_approval.php",
+            data: {
+                passed_status: 'comment_report',
+            },
+            dataSrc: "",
+        },
+        columns: [{
+            data: "cart_count",
+        }],
+    });

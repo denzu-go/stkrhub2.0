@@ -7,7 +7,8 @@
 #games_pending_approval_table,
 #pending_details_request_table,
 #edit_published_game_requests_table,
-#cashout_requests_table {
+#cashout_requests_table,
+#comment_report_table {
   box-shadow: none !important;
   margin-top: 0rem !important;
   padding: 0px;
@@ -21,7 +22,8 @@
 #games_pending_approval_table .odd,
 #pending_details_request_table .odd,
 #edit_published_game_requests_table .odd,
-#cashout_requests_table .odd {
+#cashout_requests_table .odd,
+#comment_report_table .odd {
   background-color: transparent;
   padding: 0px;
 }
@@ -35,7 +37,8 @@
 #games_pending_approval_table thead,
 #pending_details_request_table thead,
 #edit_published_game_requests_table thead,
-#cashout_requests_table thead {
+#cashout_requests_table thead,
+#comment_report_table thead {
   display: none;
   /* Hide the table header */
   padding: 0px;
@@ -50,7 +53,8 @@
 #games_pending_approval_table th,
 #pending_details_request_table th,
 #edit_published_game_requests_table th,
-#cashout_requests_table th {
+#cashout_requests_table th,
+#comment_report_table th {
   display: none;
   /* Hide table header cells */
   padding: 0px;
@@ -65,7 +69,8 @@
 #games_pending_approval_table.dataTable.no-footer,
 #pending_details_request_table.dataTable.no-footer,
 #edit_published_game_requests_table.dataTable.no-footer,
-#cashout_requests_table.dataTable.no-footer {
+#cashout_requests_table.dataTable.no-footer,
+#comment_report_table.dataTable.no-footer {
   border-bottom: none;
   padding: 0px;
 }
