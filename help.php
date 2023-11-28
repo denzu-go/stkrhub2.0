@@ -239,58 +239,6 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
 
-
-        body {
-            margin-top: 20px;
-            color: #6c7293;
-        }
-
-        .card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            word-wrap: break-word;
-            background-color: #fff;
-            background-clip: border-box;
-            border: 1px solid #e7eaed;
-            border-radius: 0;
-            background-color: #272a4e;
-        }
-
-        .accordion .card {
-            margin-bottom: .75rem;
-            box-shadow: 0px 1px 15px 1px rgba(230, 234, 236, 0.35);
-            border-radius: .25rem;
-        }
-
-        .accordion .card .card-header {
-            background-color: transparent;
-            border: none;
-            padding: 2rem;
-        }
-
-        .grid-margin {
-            margin-bottom: 0.625rem;
-        }
-
-        .accordion .card .card-header a[aria-expanded="true"]:before {
-            content: "\F374";
-        }
-
-        .accordion .card .card-header a:before {
-            font-family: "Material Design Icons";
-            position: absolute;
-            right: 7px;
-            top: 0;
-            font-size: 18px;
-            display: block;
-        }
-
-        .accordion .card .card-header a[aria-expanded="false"]:before {
-            content: "\F415";
-        }
-
         button:hover {
             background-color: rgba(255, 255, 255, 0.8);
             color: black;
@@ -299,6 +247,158 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             box-shadow: 5px 0px 18px 0px rgba(105, 105, 105, 0.8);
         }
 
+
+
+        /* start header */
+        .sticky-wrapper {
+            top: 0px !important;
+        }
+
+
+        .header_area .main_menu .main_box {
+            max-width: 100%;
+        }
+
+        /* end */
+
+        #infoTable tbody tr {
+            background-color: transparent !important;
+        }
+
+        .image-mini-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            padding-top: 100%;
+        }
+
+        .image-mini {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            /* -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 100%); */
+        }
+
+        .custom-shadow {
+            box-shadow: 0 0 10px #000000;
+        }
+
+        table.dataTable tbody th,
+        table.dataTable tbody td {
+            padding: 0px 0px;
+        }
+
+        table.dataTable.no-footer {
+            border-bottom: none;
+        }
+
+        .even,
+        .odd {
+            background-color: transparent !important;
+        }
+
+        table.dataTable {
+            width: 100%;
+            margin: 0 auto;
+            clear: both;
+            /* border-collapse: separate; */
+            border-spacing: -20px;
+        }
+
+        table.dataTable,
+        table.dataTable thead,
+        table.dataTable tbody,
+        table.dataTable tr,
+        table.dataTable td,
+        table.dataTable th,
+        table.dataTable tbody tr.even,
+        table.dataTable tbody tr.odd {
+            border: none !important;
+        }
+
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: #fff;
+            background-color: #272a4e;
+        }
+
+        .nav-link {
+            color: #fff;
+        }
+
+        /* sidebar */
+        #sidebar {
+            height: 100%;
+            background: transparent;
+            color: #fff;
+        }
+
+        #sidebar a,
+        #sidebar a:hover,
+        #sidebar a:focus {
+            color: inherit;
+        }
+
+        #sidebar ul li a {
+            padding: 7px 14px;
+            display: block;
+            color: #e7e7e7;
+            font-size: small;
+        }
+
+        #sidebar ul li a:hover {
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* buttons */
+        .edit-btn-avatar {
+            background-color: transparent !important;
+            border: none;
+            cursor: pointer;
+            color: #90ee90;
+        }
+
+        /* sidebar active */
+        #sidebar .active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* Regular state */
+        .sidebar-item {
+            cursor: pointer;
+            padding: 7px 14px;
+            display: block;
+            color: #e7e7e7;
+            font-size: 20px;
+            /* Your regular styles for sidebar items */
+        }
+
+        /* Hover state */
+        .sidebar-item:hover {
+            color: #e7e7e7;
+            background: #272a4e;
+            border-radius: 14px;
+        }
+
+        /* Active state (when clicked) */
+        .sidebar-item.active {
+            background-color: #272a4e;
+            border-radius: 14px;
+        }
+
+        .col-2-2{
+            -ms-flex: 0 0 30%;
+    flex: 0 0 30%;
+    max-width: 30%;
+        }
 
         <?php include 'css/header.css'; ?>
     </style>
@@ -424,8 +524,10 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
 
                                     $sql = "SELECT *
-                                    FROM help
-                                    WHERE faq_id = ?";
+                                            FROM help
+                                            LEFT JOIN faq ON help.faq_id = faq.faq_id
+                                            WHERE faq.faq_id = ?";
+
 
                                     $stmt = $conn->prepare($sql);
                                     $stmt->bind_param("i", $id);
@@ -433,56 +535,58 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                                     $result = $stmt->get_result();
                                     $number = 0;
 
+
+
+
+
+
+                                    echo '
+                                        
+                                       
+                                            <div class="container">
+                                            
+                                               <div class="wrapper d-flex align-items-stretch row">
+
+                                                    <nav id="sidebar" class="active col-2-2" >
+                                                        <ul class="list-unstyled components m-1">';
                                     while ($help = $result->fetch_assoc()) {
-
-                                        $number++;
-
-                                        echo '
-                                        
-                                        
-                                            <div class="col-12 col-md-6">
-                                                <div class="row">
-                                                    <div class="col-12 grid-margin">
-                                                        <div class="card">
-                                                            <div class="faq-block card-body">
-                                                                <div class="container-fluid py-2">
-                                                                    <h5 class="mb-0">Frequently Ask question ' . $number . '</h5>
-                                                                </div>
-                                                                <div id="accordion-1" class="accordion">
-                                                                    <div class="card">
-                                                                        <div class="card-header" id="headingOne">
-                                                                            <h5 class="mb-0">
-                                                                           
-                                                                            ' . $help['help_title'] . '?
-                                                                            </a>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion-1">
-                                                                            <div class="card-body">
-                                                                            <p class="mb-0">' . $help['help_description'] . '</p><p>
-                                                                            </p></div>
-                                                                        </div>
-                                                                    </div>';
-                                        if (!is_null($help['help_image_path'])) { // Use "!is_null" to check if not null
-                                            echo '<div class="card">
-                                                                            <div class="card-header" id="headingTwo">
-                                                                                <h5 class="mb-0">
-                                                                    
-                                                                                        <img src="' . $help['help_image_path'] . '" style="width:432px; height:450px;">
-                                                                                    </a>
-                                                                                </h5>
-                                                                            </div>
-                                                                        </div>';
-                                        }
-                                        echo ' </div>
-                                                            </div>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        
-                                        ';
+                                        echo '<li class="sidebar-item" data-help-id="' . $help['help_id'] . '" 
+                                                style = " cursor:pointer;" >' . $help['help_title'] . '</li>';
                                     }
+                                    echo '  </ul>
+                                                     </nav>';
+
+
+
+                                    echo '<div id="content" class="col">
+
+                                                        <!-- content -->
+                                                        <div class="container">
+                                                            <div class="container">
+                                                                <div class="main-body">
+                                                                    
+                                                                       
+                                                                            <div class="card" style="background: rgba(39, 42, 78, 0.57);
+                                                                            border-radius: 7px 7px 7px 7px;
+                                                                            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                                                                            backdrop-filter: blur(5.7px);
+                                                                            -webkit-backdrop-filter: blur(5.7px);">
+                                                                                <table id="help_description" class="display" style="width: 100%;">
+                                                                                    <tbody>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                
+                                                                    
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>';
+                                    echo '</div>';
                                 }
                             } else {
 
@@ -655,6 +759,62 @@ while ($row = $queryThemeBG->fetch_assoc()) {
             document.getElementById("back").addEventListener("click", function() {
                 window.location.href = "help.php";
             });
+
+
+
+            // Your click event handler for sidebar items
+            $('.sidebar-item').click(function() {
+                var helpId = $(this).data('help-id'); // Get the help ID from the clicked element
+
+                // Perform an action with the help ID
+                console.log('Clicked Help ID:', helpId);
+
+                // Assuming you want to trigger DataTable initialization here
+                initializeDataTable(helpId);
+
+                // Remove 'active' class from all sidebar items
+                $('.sidebar-item').removeClass('active');
+
+                // Add 'active' class to the clicked sidebar item
+                $(this).addClass('active');
+            });
+
+
+
+            // Function to initialize or reinitialize DataTable
+            function initializeDataTable(helpId) {
+                // Check if DataTable is already initialized
+                if ($.fn.DataTable.isDataTable('#help_description')) {
+                    // If DataTable is already initialized, destroy it before reinitializing
+                    $('#help_description').DataTable().destroy();
+                }
+
+                // Initialize DataTable
+                $('#help_description').DataTable({
+                    "dom": '<"compact"lfrtip>',
+                    searching: false,
+                    info: false,
+                    paging: false,
+                    ordering: false,
+                    "ajax": {
+                        "url": "json_help_content.php",
+                        data: {
+                            help_id: helpId // Pass the clicked helpId to your PHP handling the data
+                        },
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "item"
+                    }]
+                });
+            }
+
+
+
+
+
+
+
 
 
         });

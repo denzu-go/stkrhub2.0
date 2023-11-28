@@ -16,7 +16,7 @@ while ($fetchedPinaka = $resultPinaka->fetch_assoc()) {
 }
 
 $item = '
-
+  
 
 <div class="row p-2 mb-3 d-flex justify-content-between">
     <div class="col d-flex justify-content-start">

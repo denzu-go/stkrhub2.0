@@ -56,7 +56,7 @@ if (isset($_SESSION['category'])) {
 
             if (!empty($imageData)) {
                 foreach ($imageData as $image) {
-                    $templates .= '<button class="btn btn-primary showTemplateBtn" style = "margin:5px;" data-id="' . $image['id'] . '" data-name="' . $image['name'] . '">' . $image['name'] . '</button>';
+                    $templates .= '<a class="btn btn-primary" style = "margin:5px;" href="../' . $image['id'] . '" download>' . $image['name'] . '</a>';
                 }
             } else {
                 $templates = 'No Templates';

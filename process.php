@@ -21,7 +21,7 @@ if (isset($_POST["minimumRating"], $_POST["maximumRating"])) {
 if (isset($_POST["brand"])) {
     $brand = $_POST["brand"];
     $brand = implode("','", $brand);
-    $customSql = "category_name IN('" . $brand . "') ";
+    $customSql = "category IN('" . $brand . "') ";
     $sql .= empty($sql) ? $customSql : "AND ($customSql)";
 }
 

@@ -215,7 +215,7 @@ $thumbnail_query = $conn->query($thumbnail_sql);
                                         <div class="row mb-3 color-row">
                                             <label class="col-sm-3 col-form-label"> Update Template File</label>
                                             <div class="col-sm-6">
-                                                <input type="file" class="form-control" name="template_file[]" accept = "image/*" id="template_file_' . $template_row['template_id'] . '">
+                                                <input type="file" class="form-control" name="template_file[]" accept = "pdf/*" id="template_file_' . $template_row['template_id'] . '">
                                                 <a href="#" class="remove-thumbnail" data-template-id="' . $template_row['template_id'] . '" style = "color:red;">Remove</a>
                                             </div>
                                         </div>
@@ -726,7 +726,7 @@ $thumbnail_query = $conn->query($thumbnail_sql);
                 templateCodeInput.type = 'file';
                 templateCodeInput.name = `templateCode${i}`;
                 templateCodeInput.id = `templateCode${i}`;
-                templateCodeInput.accept = `image/*`;
+                templateCodeInput.accept = `pdf/*`;
 
 
                 // Add line breaks for spacing

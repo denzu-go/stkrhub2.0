@@ -414,7 +414,7 @@ if (isset($_SESSION['admin_id'])) {
                 templateCodeInput.type = 'file';
                 templateCodeInput.name = `templateCode${i}`;
                 templateCodeInput.id = `templateCode${i}`;
-                templateCodeInput.accept = `image/*`;
+                templateCodeInput.accept = `pdf/*`;
 
 
                 // Add line breaks for spacing

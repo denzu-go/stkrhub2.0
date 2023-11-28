@@ -126,9 +126,9 @@ $_SESSION['help_category'] = $help_category;
                                        <table id="helpContentTable" class="display" style="width: 100%;">
                                        <thead>
                                            <tr>
-                                               <th>Title</th>
-                                               <th>Description</th>
-                                               <th>Tutorial Link</th>
+                                           <th style = "width:10%;">Title</th>
+                                           <th style = "width:30%;">Description</th>
+                                               <th style = "width:20%;">Tutorial Link</th>
                                                <th>Showcased</th>
                                                <th>Actions</th>
                                                </tr>

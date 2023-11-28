@@ -241,7 +241,7 @@ $item = '
 
                 <label class="row d-flex justify-content-center">
                     <input id="stkr_wallet_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
-                    &nbsp; I agree to these &nbsp;<a role="button" id="termsAndCondi" style = "color:aquamarine;">Terms and Conditions</a>
+                    &nbsp; I agree to these &nbsp;<a role="button" id="termsAndCondi" style = "color:aquamarine; cursor:pointer;">Terms and Conditions</a>
                 </label>
 
                 <div class="row">

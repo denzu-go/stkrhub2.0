@@ -590,7 +590,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                                 <li class="">Edition: <span style="color: white;"> <?php echo $edition; ?> </span></li>
 
-                                <li class="">Category: <span style="color: white;"> <?php echo $category_name; ?> </span></li>
+                                <li class="">Category: <span style="color: white;"> <?php echo $category ?> </span></li>
                                 <li class="">Game Time: <span style="color: white;"> <?php echo $min_playtime; ?>-</span><span style="color: white;"><?php echo $max_playtime; ?> mins</span></li>
                                 <li class="">Players: <span style="color: white;"> <?php echo $min_players; ?>-</span><span style="color: white;"><?php echo $max_players; ?> players</span></li>
 

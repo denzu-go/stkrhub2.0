@@ -128,7 +128,7 @@ $_SESSION['category'] = $category;
                                             <th>Templates</th>
                                             <th>Thumbnails</th>
                                             <th>Available</th>
-                                            <th> Actions </th>
+                                            <th style = "width:12%;"> Actions </th>
 
                                         </tr>
                                     </thead>
@@ -265,11 +265,11 @@ $_SESSION['category'] = $category;
                 var imageName = $(this).data('name');
 
                 // Generate the HTML for the image
-                var imageHTML = '<div><img src="../' + imageId + '" alt="Image" style="width:300px;height:300px;"><p>' + imageName + '</p></div>';
+                var imageHTML = '<div><a href="../' + imageId + '" download>' + imageName + '</a> ';
 
                 // Use SweetAlert to display the image with its name
                 Swal.fire({
-                    title: 'Image Preview',
+                    title: 'Template Link',
                     html: imageHTML,
                     confirmButtonText: 'Close'
                 });

@@ -62,11 +62,14 @@ if (isset($_SESSION['help_category'])) {
                     }
                 }
 
-
+                $description = '
+                <div style="max-height: 200px; overflow-y: auto;">
+                    '.$formatted_description = nl2br(htmlspecialchars($row['tutorial_description'])).'
+                </div>';
 
                 $data[] = array(
                     "title" => $row["tutorial_title"],
-                    "description" => $row["tutorial_description"],
+                    "description" =>  $description,
                     "link" => $row["tutorial_link"],
                     "showcased" => $primary,
                     "actions" => $actions,
@@ -125,11 +128,18 @@ if (isset($_SESSION['help_category'])) {
                     }
                 }
 
-                $formatted_description = nl2br(htmlspecialchars($row['help_description']));
+                $description = '
+                <div style="max-height: 200px; overflow-y: auto;">
+                    '.$formatted_description = nl2br(htmlspecialchars($row['help_description'])).'
+                </div>
+                
+                ';
+
+                
 
                 $data[] = array(
                     "title" => $row["help_title"],
-                    "description" => $formatted_description,
+                    "description" => $description,
                     "image" => $image,
                     "actions" => $actions,
                 );

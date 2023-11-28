@@ -256,7 +256,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 ">
 
     <?php
-    $header_home = 'active';
+    $header_home = 'active'; 
     include 'html/page_header.php';
     ?>
 
