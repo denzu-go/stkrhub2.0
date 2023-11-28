@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['category'])) {
 
 
     // Check if a component with the same name already exists
-    $checkDuplicateQuery = "SELECT * FROM game_components WHERE component_name = '$name'";
+    $checkDuplicateQuery = "SELECT * FROM game_components WHERE component_name = '$name' AND is_deleted != 1";
     $duplicateResult = $conn->query($checkDuplicateQuery);
 
     if ($duplicateResult->num_rows > 0) {
