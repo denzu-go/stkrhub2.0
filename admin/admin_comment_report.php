@@ -41,7 +41,7 @@ include 'connection.php';
     </style>
 </head>
 <style>
-    td{
+    td {
         width: 200px;
     }
 </style>
@@ -151,10 +151,16 @@ include 'connection.php';
 
 
             $('#reportComments').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No comments have been reported yet"
+                },
+
                 searching: true,
                 info: false,
                 paging: true,
-                ordering: true,
+                lengthChange: false,
+                ordering: false,
+                pageLength: 27,
 
                 "ajax": {
                     "url": "admin_json_report_comment.php",
@@ -265,7 +271,7 @@ include 'connection.php';
                     }
                 });
             });
-            
+
 
 
 

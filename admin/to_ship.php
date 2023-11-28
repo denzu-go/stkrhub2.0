@@ -65,8 +65,8 @@ if (isset($_SESSION['admin_id'])) {
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All In Production Orders</h4>
-                            <p class="mb-0">Users are now expeting the their order is being processed.</p>
+                            <h4>All To Ship Orders</h4>
+                            <p class="mb-0">These Orders are now waiting to be shipped by a courier.</p>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ if (isset($_SESSION['admin_id'])) {
                                     if ($count > 0) {
                                         include 'html/admin_table_allOrders.php';
                                     } else {
-                                        echo 'No orders.';
+                                        echo 'No Orders are Ready to Ship.';
                                     }
                                 } else {
                                     echo 'Error checking for orders in production.';
@@ -155,6 +155,10 @@ if (isset($_SESSION['admin_id'])) {
 
 
             $('#allOrders').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Orders are Ready to Ship"
+                },
+
                 "columnDefs": [{
                     "className": "dt-center",
                     "targets": "_all"
@@ -169,7 +173,7 @@ if (isset($_SESSION['admin_id'])) {
                 paging: true,
                 lengthChange: false,
                 ordering: false,
-                pageLength: 15,
+                pageLength: 27,
 
 
                 "ajax": {
@@ -293,7 +297,7 @@ if (isset($_SESSION['admin_id'])) {
                                                 $('#to_ship_count').DataTable().ajax.reload();
                                                 $('#to_deliver_count').DataTable().ajax.reload();
                                                 $('#is_canceled_count').DataTable().ajax.reload();
-                                                Swal.fire('Success', response.message, 'success');
+                                                Swal.fire('Success', 'The order has been shipped and is currently being delivered to the customer\'s address by the courier.', 'success');
                                             } else {
                                                 $('#allOrders').DataTable().ajax.reload();
                                                 $('#cartCount').DataTable().ajax.reload();

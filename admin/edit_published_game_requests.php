@@ -66,8 +66,8 @@ if (isset($_SESSION['admin_id'])) {
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Games Approval Requests</h4>
-                            <p class="mb-0">Users are now expeting the their order is being processed.</p>
+                            <h4>Edit Published Game Requests</h4>
+                            <p class="mb-0">Review each of the details that the creator wants to be edited/updated.</p>
                         </div>
                     </div>
                 </div>
@@ -138,10 +138,16 @@ if (isset($_SESSION['admin_id'])) {
             <?php include 'html/count_orders.php'; ?>
 
             $('#hasRequest').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Published Game needs to be edited yet"
+                },
+
                 searching: true,
                 info: false,
                 paging: true,
-                ordering: true,
+                lengthChange: false,
+                ordering: false,
+                pageLength: 27,
                 "ajax": {
                     "url": "admin_json_edit_request_details_page.php",
                     data: {},

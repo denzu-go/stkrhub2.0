@@ -66,8 +66,8 @@ if (isset($_SESSION['admin_id'])) {
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All In Production Orders</h4>
-                            <p class="mb-0">Users are now expeting the their order is being processed.</p>
+                            <h4>All To Delver Orders</h4>
+                            <p class="mb-0">The orders have already been dispatched by the courier and are on their way to the customer's address.</p>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ if (isset($_SESSION['admin_id'])) {
                                     if ($count > 0) {
                                         include 'html/admin_table_allOrders.php';
                                     } else {
-                                        echo 'No orders.';
+                                        echo 'No Orders are To Deliver.';
                                     }
                                 } else {
                                     echo 'Error checking for orders in production.';
@@ -159,6 +159,11 @@ if (isset($_SESSION['admin_id'])) {
 
 
             $('#allOrders').DataTable({
+
+                "oLanguage": {
+                    "sEmptyTable": "No Orders are To Deliver"
+                },
+
                 "columnDefs": [{
                     "className": "dt-center",
                     "targets": "_all"
@@ -173,7 +178,7 @@ if (isset($_SESSION['admin_id'])) {
                 paging: true,
                 lengthChange: false,
                 ordering: false,
-                pageLength: 15,
+                pageLength: 27,
 
 
                 "ajax": {

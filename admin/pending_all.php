@@ -65,7 +65,7 @@ if (isset($_SESSION['admin_id'])) {
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4>All Pending Orders</h4>
-                            <p class="mb-0">Once order is accepted, STKR Players could not cancel it anymore.</p>
+                            <p class="mb-0">Once order is proceeded, the customer could not cancel it anymore.</p>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ if (isset($_SESSION['admin_id'])) {
                                     if ($count > 0) {
                                         include 'html/admin_table_allOrders.php';
                                     } else {
-                                        echo 'No orders.';
+                                        echo 'No Pending Orders available.';
                                     }
                                 } else {
                                     echo 'Error checking for orders in production.';
@@ -161,6 +161,10 @@ if (isset($_SESSION['admin_id'])) {
             <?php include 'html/count_orders.php'; ?>
 
             $('#allOrders').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Pending Orders available"
+                },
+
                 "columnDefs": [{
                     "className": "dt-center",
                     "targets": "_all"
@@ -171,7 +175,7 @@ if (isset($_SESSION['admin_id'])) {
                 paging: true,
                 lengthChange: false,
                 ordering: false,
-                pageLength: 15,
+                pageLength: 27,
 
                 "ajax": {
                     "url": "admin_json_global_orders.php",
@@ -266,7 +270,7 @@ if (isset($_SESSION['admin_id'])) {
                                     $('#to_ship_count').DataTable().ajax.reload();
                                     $('#to_deliver_count').DataTable().ajax.reload();
                                     $('#is_canceled_count').DataTable().ajax.reload();
-                                    Swal.fire('Success', response.message, 'success');
+                                    Swal.fire('Success', 'The Order has been proceeded and ready to be crafted', 'success');
                                 } else {
                                     $('#allOrders').DataTable().ajax.reload();
 
