@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 624
+                COMPONENT NAME: Square Column & Hollow Plastic Pawn Purple
+                CATEGORY: Game Piece
+                SIZE: 1 inches
+
+                QUANTITY: 5
+                COLOR: blue #1d5ab5
+                FILE: 
+                

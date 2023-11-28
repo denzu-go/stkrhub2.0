@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 613
+                COMPONENT NAME: Paper Money One Hundred Dollars
+                CATEGORY: Game Piece
+                SIZE: 2.25 x 5.25 inches
+
+                QUANTITY: 14
+                COLOR: yellow #e3c997
+                FILE: 
+                

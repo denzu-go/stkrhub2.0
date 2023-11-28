@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 625
+                COMPONENT NAME: Custom Extra Large Game Box 3 Height
+                CATEGORY: Box
+                SIZE: 12.5 x 12.5 x 3
+
+                QUANTITY: 1
+                COLOR: N/A 
+                FILE: 
+                

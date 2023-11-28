@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 635
+                COMPONENT NAME: School Money Five Cents
+                CATEGORY: Game Piece
+                SIZE: 0.7 inches diameter
+
+                QUANTITY: 5
+                COLOR: gray  #807e8b
+                FILE: 
+                

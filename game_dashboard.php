@@ -217,7 +217,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
         <div class="container">
 
             <div class="d-flex justify-content-start">
-                <a href="javascript:history.back()" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                <a href="create_game_page.php#section1" style="cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
             </div>
             <h1>Game Dashboard</h1>
 

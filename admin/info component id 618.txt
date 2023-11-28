@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 618
+                COMPONENT NAME: 60 Seconds Black Sand Timer
+                CATEGORY: Game Piece
+                SIZE: 2.5 x 0.5 inches
+
+                QUANTITY: 3
+                COLOR: white #ffffff
+                FILE: 
+                

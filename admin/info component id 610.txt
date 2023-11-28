@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 610
+                COMPONENT NAME: Custom Game Board 20 X 24
+                CATEGORY: Boards
+                SIZE: 20 X 24 inches
+
+                QUANTITY: 1
+                COLOR: N/A 
+                FILE: 6565c4a44d459_Custom Extra Large Game Box 2 Height.pdf
+                

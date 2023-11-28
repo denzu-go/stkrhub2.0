@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 631
+                COMPONENT NAME: Round Corners Dice 16mm
+                CATEGORY: Dice
+                SIZE: 16mm
+
+                QUANTITY: 5
+                COLOR: black #070709
+                FILE: 
+                

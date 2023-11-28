@@ -42,12 +42,7 @@ if ($is_hidden) {
     header('Location: marketplace_item_page_hidden.php');
 }
 
-// category
-$sqlGetCategory = "SELECT * FROM categories WHERE category_id = $category";
-$queryGetCat = $conn->query($sqlGetCategory);
-while ($rowCat = $queryGetCat->fetch_assoc()) {
-    $category_name = $rowCat['category_name'];
-}
+
 
 // rating
 $rating = "SELECT rating FROM ratings WHERE published_game_id = $published_game_id";

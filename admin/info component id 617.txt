@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 617
+                COMPONENT NAME: Custom Square 2.5 Inch Game Cards
+                CATEGORY: Game Cards
+                SIZE: 2.5 x 2.5 
+
+                QUANTITY: 5
+                COLOR: N/A 
+                FILE: 6565db8c0018e_6558d87cc83d9_12_5x12_5x2 (1).pdf
+                

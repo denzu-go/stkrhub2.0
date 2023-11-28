@@ -1,0 +1,10 @@
+
+                ADDED COMPONENT ID: 632
+                COMPONENT NAME: Custom Extra Large Game Box 2in Height
+                CATEGORY: Box
+                SIZE: 12.5 x 10.5 x 2 in
+
+                QUANTITY: 4
+                COLOR: N/A 
+                FILE: 6565df15f0e48_6558d87cc83d9_12_5x12_5x2.pdf
+                

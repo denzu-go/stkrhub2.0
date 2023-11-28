@@ -177,6 +177,8 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
             width: 100%;
             object-fit: cover;
         }
+
+        <?php include 'css/orders_count.css'; ?>
     </style>
 </head>
 
@@ -203,7 +205,7 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
                                 <button class="btn" id="approvePublish" data-built-game-id="<?php echo $built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #63d19e; color: white;">Approve Publish
                                     Request</button>
 
-                                <button class="btn" id="cancelPublish" data-built-game-id="<?php echo $built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #dc3545; color: white;">Deny Publish
+                                <button class="btn" id="cancelPublish" data-built-game-id="<?php echo $built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #dc3545; color: white;">Reject Publish
                                     Request</button>
                             </div>
                         </div>
@@ -269,7 +271,7 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
 
                                             <div class="row">
                                                 <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
-                                                <div class="container m-0" style="background-color: #222f3e;"><?php echo $pending_long_description ?></div>
+                                                <div class="container m-0" style="background-color: "><span class=""><?php echo $pending_long_description ?></span></div>
 
                                             </div>
 
@@ -448,7 +450,7 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Reason for Rejection</h5>
                 </div>
                 <form id="denyForm" enctype="multipart/form-data">
                     <div class="modal-body form-group">
@@ -520,6 +522,8 @@ while ($fetchedAge = $queryGetAge->fetch_assoc()) {
 
             var creator_id = <?php echo $creator_id; ?>;
             var built_game_id = <?php echo $built_game_id; ?>;
+
+            <?php include 'html/count_orders.php'; ?>
 
             $('#builtGameTable').DataTable({
                 "ajax": {
