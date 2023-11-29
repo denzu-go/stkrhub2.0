@@ -53,16 +53,16 @@ if (isset($_GET['addressId'])) {
 
 
         echo '
-            <form id="editAddressForm">
-                <input type="hidden" name="addressId" value="' . $addressId . '">
+            <form id="editAddressForm form-group">
+                <input class="form-control" type="hidden" name="addressId" value="' . $addressId . '">
                 <label for="editedFullname">Fullname:</label>
-                <input type="text" id="editedFullname_" name="editedFullname" value="' . htmlspecialchars($row['fullname']) . '" required><br>
+                <input class="form-control" type="text" id="editedFullname_" name="editedFullname" value="' . htmlspecialchars($row['fullname']) . '" required><br>
                 
                 <label for="editedNumber">Number:</label>
-                <input type="text" id="editedNumber_" name="editedNumber" value="' . htmlspecialchars($row['number']) . '" required><br>
+                <input class="form-control" type="text" id="editedNumber_" name="editedNumber" value="' . htmlspecialchars($row['number']) . '" required><br>
 
                 <label for="editedregion_"> Region:</label>
-                <select id="editedregion_" name="editedregion" required>
+                <select class="form-control" id="editedregion_" name="editedregion" required>
                     <option value="' .$current_r['id']. '"> ' . htmlspecialchars($row['region']) . '</option>';
 
         // Generate options for regions
@@ -73,7 +73,7 @@ if (isset($_GET['addressId'])) {
         echo '</select><br>
 
                 <label for="editedprovince_"> Province:</label>
-                <select id="editedprovince_" name="editedprovince" required>
+                <select class="form-control" id="editedprovince_" name="editedprovince" required>
                     <option value="' .$current_p['id']. '"> ' . htmlspecialchars($row['province']) . '</option>';
         
                     while ($province_row = mysqli_fetch_assoc($province_qry)) {
@@ -83,7 +83,7 @@ if (isset($_GET['addressId'])) {
         echo '</select><br>
 
                 <label for="editedcity_"> City:</label>
-                <select id="editedcity_" name="editedcity" required>
+                <select class="form-control" id="editedcity_" name="editedcity" required>
                     <option value="' .$current_c['id']. '"> ' . htmlspecialchars($row['city']) . '</option>';
 
                     while ($city_row = mysqli_fetch_assoc($city_qry)) {
@@ -93,7 +93,7 @@ if (isset($_GET['addressId'])) {
         echo '</select><br>
 
                 <label for="editedbarangay_"> Barangay:</label>
-                <select id="editedbarangay_" name="editedbarangay" required>
+                <select class="form-control" class="form-control"t id="editedbarangay_" name="editedbarangay" required>
                     <option value=""> ' . htmlspecialchars($row['barangay']) . '</option>';
 
                     while ($barangay_row = mysqli_fetch_assoc($barangay_qry)) {
@@ -103,10 +103,10 @@ if (isset($_GET['addressId'])) {
         echo '</select><br>
                 
                 <label for="editedZip">ZIP Code:</label>
-                <input type="text" id="editedZip_" name="editedZip" value="' . htmlspecialchars($row['zip']) . '" required><br>
+                <input class="form-control" type="text" id="editedZip_" name="editedZip" value="' . htmlspecialchars($row['zip']) . '" required><br>
                 
                 <label for="editedStreet">Street:</label>
-                <input type="text" id="editedStreet_" name="editedStreet" value="' . htmlspecialchars($row['street']) . '" required><br>
+                <input class="form-control" type="text" id="editedStreet_" name="editedStreet" value="' . htmlspecialchars($row['street']) . '" required><br>
                 
                 <!-- Add a submit button here -->
                 
@@ -115,13 +115,13 @@ if (isset($_GET['addressId'])) {
         if ($isDefault == 1) {
             echo '
                     <label for="setDefaultAddress">This is your Default Address:</label>
-                    <input type="checkbox" id="setDefaultAddress" name="setDefaultAddress" checked disabled><br>
+                    <input class="form-control" type="checkbox" id="setDefaultAddress" name="setDefaultAddress" checked disabled><br>
 
                     ';
         } else {
             echo '
                     <label for="setDefaultAddress">Set this as the default address:</label>
-                    <input type="checkbox" id="setDefaultAddress" name="setDefaultAddress"><br>
+                    <input class="form-control" type="checkbox" id="setDefaultAddress" name="setDefaultAddress"><br>
                     ';
         }
 

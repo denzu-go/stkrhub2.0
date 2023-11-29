@@ -228,7 +228,7 @@ include 'html/get_bg.php';
                                         padding:20px;">
                                 <div class="container">
 
-                                    <button id="addAddressBtn" class="btn edit-profile-details">Add Address</button>
+                                    <button class="btn" id="addAddressBtn" class="btn edit-profile-details">Add Address</button>
 
                                     <!-- DataTables Address  -->
 
@@ -545,15 +545,15 @@ include 'html/get_bg.php';
                     Swal.fire({
 
                         title: "Add Address",
-                        html: '<div class="form-container">' +
+                        html: '<form><div class="form-container form-group">' +
                             '<label for="fullname">Fullname:</label>' +
-                            '<input type="text" id="fullname" name="fullname" required><br>' +
+                            '<input class="form-control" type="text" id="fullname" name="fullname" required><br>' +
 
                             '<label for="number">Number:</label>' +
-                            '<input type="text" id="number" name="number" required><br>' +
+                            '<input class="form-control" type="text" id="number" name="number" required><br>' +
 
                             '<label for="region"> Region:</label>' +
-                            '<select id="region" name="region" required><br>' +
+                            '<select class="form-control" id="region" name="region" required><br>' +
                             '<option selected disabled>  Select Region </option>' +
                             '<?php while ($row = mysqli_fetch_assoc($region_qry)) : ?>' +
                             '<option value="<?php echo $row['id']; ?>"><?php echo $row['region_name']; ?></option>' +
@@ -561,26 +561,26 @@ include 'html/get_bg.php';
                             '</select><br>' +
 
                             '<label for="province">Province:</label>' +
-                            '<select id="province" name="province" required><br>' +
+                            '<select class="form-control" id="province" name="province" required><br>' +
                             '<option selected disabled>  Select Province </option>' +
                             '</select><br>' +
 
                             '<label for="city">City:</label>' +
-                            '<select id="city" name="city" required><br>' +
+                            '<select class="form-control" id="city" name="city" required><br>' +
                             '<option value="city">Select City</option>' +
                             '</select><br>' +
 
                             '<label for="barangay">Barangay:</label>' +
-                            '<select id="barangay" name="barangay" required><br>' +
+                            '<select class="form-control" id="barangay" name="barangay" required><br>' +
                             '<option value="barangay">Select Barangay</option>' +
                             '</select><br>' +
 
                             '<label for="zip">ZIP Code:</label>' +
-                            '<input type="text" id="zip" name="zip" required><br>' +
+                            '<input class="form-control" type="text" id="zip" name="zip" required><br>' +
 
                             '<label for="street">Street:</label>' +
-                            '<input type="text" id="street" name="street" required><br>' +
-                            '</div>',
+                            '<input class="form-control" type="text" id="street" name="street" required><br>' +
+                            '</div></form>',
 
                         showCancelButton: true,
                         confirmButtonText: "Add",

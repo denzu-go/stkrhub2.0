@@ -44,7 +44,7 @@ while ($row = $resultAddresses->fetch_assoc()) {
     ';
 
 
-    $editButton = '<button type="button" class="edit-btn" data-address-id="' . $row['address_id'] . '">Edit</button>';
+    $editButton = '<button class="btn" type="button" class="edit-btn" data-address-id="' . $row['address_id'] . '">Edit</button>';
 
     if ($is_default == 1) {
         $deleteButton = '
@@ -52,7 +52,7 @@ while ($row = $resultAddresses->fetch_assoc()) {
         ';
     } else {
         $deleteButton = '
-            <button type="button" class="delete-btn" data-address-id="' . $row['address_id'] . '">Delete</button>
+            <button class="btn btn-secondary" type="button" class="delete-btn" data-address-id="' . $row['address_id'] . '">Delete</button>
         ';
     }
 
@@ -76,7 +76,7 @@ while ($row = $resultAddresses->fetch_assoc()) {
         <div class="card-body">
             <div class="row">
                 <div class="col" style="display:flex; justify-content: flex-start;">
-                    <h5 class="card-title">' . $fullname . ' - ' . $number . '</h5>
+                    <span class="h5 card-title">' . $fullname . ' - ' . $number . '</span>
                 </div>
                 <div class="col" style="display:flex; justify-content: flex-end;">
                     <div>

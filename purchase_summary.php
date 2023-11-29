@@ -250,9 +250,165 @@ $region_qry = mysqli_query($conn, $region);
                     <hr>
 
                     <div id="paypal_selected">
-                        <table id="paypalTable" class="display" style="width:100%">
-                            <tbody>
+                        <table id="example" class="display" style="width:100%">
+                            <thead>
+                                <tr>
 
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <?php
+                                        // Count the number of cart IDs
+                                        $numSelectedCarts = count($selectedCartIds);
+
+                                        $selectedCartIdsString = implode(',', $selectedCartIds);
+
+                                        $sql = "SELECT * FROM cart WHERE user_id = $user_id AND cart_id IN ($selectedCartIdsString) AND is_visible = 1";
+                                        $result = $conn->query($sql);
+
+                                        $sub_total = 0;
+
+                                        while ($fetched = $result->fetch_assoc()) {
+                                            $cart_id = $fetched['cart_id'];
+                                            $published_game_id = $fetched['published_game_id'];
+                                            $built_game_id = $fetched['built_game_id'];
+                                            $added_component_id = $fetched['added_component_id'];
+                                            $quantity = $fetched['quantity'];
+                                            $price = $fetched['price'];
+                                            $is_active = $fetched['is_active'];
+
+                                            (int)$sub_total += $price * $quantity;
+                                        }
+
+
+                                        $sqlGetActive = "SELECT * FROM addresses WHERE is_default = 1 AND user_id = $user_id";
+                                        $queryGetActive = $conn->query($sqlGetActive);
+                                        while ($fetchedActive = $queryGetActive->fetch_assoc()) {
+                                            $address_id = $fetchedActive['address_id'];
+                                            $fullname = $fetchedActive['fullname'];
+                                            $number = $fetchedActive['number'];
+                                            $region = $fetchedActive['region'];
+                                            $province = $fetchedActive['province'];
+                                            $city = $fetchedActive['city'];
+                                            $barangay = $fetchedActive['barangay'];
+                                            $zip = $fetchedActive['zip'];
+                                            $street = $fetchedActive['street'];
+
+
+                                            // Initialize $destination_id with a default value
+                                            $destination_id = 0;
+
+                                            // Check if the inner query has any results before entering the nested loop
+                                            $sqlCheckDestination = "SELECT * FROM destination_rates WHERE destination_name = '$region'";
+                                            $queryCheckDestination = $conn->query($sqlCheckDestination);
+                                            if ($queryCheckDestination->num_rows > 0) {
+                                                // Fetch the results from the inner query
+                                                $fetchedDestination = $queryCheckDestination->fetch_assoc();
+
+                                                $destination_id = $fetchedDestination['destination_id'];
+                                                $weight_price_1 = $fetchedDestination['weight_price_1'];
+                                                $weight_price_2 = $fetchedDestination['weight_price_2'];
+                                                $weight_price_3 = $fetchedDestination['weight_price_3'];
+                                                $weight_price_4 = $fetchedDestination['weight_price_4'];
+                                                $weight_price_5 = $fetchedDestination['weight_price_5'];
+                                            }
+
+                                            $numSelectedCarts = count($selectedCartIds);
+                                            // Initialize variables
+                                            $weight_price = 0;
+
+                                            if ($numSelectedCarts >= 1 && $numSelectedCarts <= 10) {
+                                                $weight_price = (float)$weight_price_1;
+                                            } elseif ($numSelectedCarts >= 11 && $numSelectedCarts <= 20) {
+                                                $weight_price = (float)$weight_price_2;
+                                            } elseif ($numSelectedCarts >= 21 && $numSelectedCarts <= 30) {
+                                                $weight_price = (float)$weight_price_3;
+                                            } elseif ($numSelectedCarts >= 31 && $numSelectedCarts <= 40) {
+                                                $weight_price = (float)$weight_price_4;
+                                            } elseif ($numSelectedCarts >= 41) {
+                                                $weight_price = (float)$weight_price_5;
+                                            }
+
+
+                                            $total_payment = ($sub_total + $weight_price);
+
+
+
+                                            echo '
+                                        <div class="card m-0 p-2" 
+                                        style="
+                                        background: rgba(39, 42, 78, 0.37);
+                                        border-radius: 15px 15px 15px 15px;
+                                        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                                        backdrop-filter: blur(5.7px);
+                                        -webkit-backdrop-filter: blur(5.7px);
+                                        ">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="">Subtotal:</p>
+                                                    </div>
+                                
+                                                    <div class="col">
+                                                        <span style="color: #b660e8"> &#8369;' . number_format($sub_total, 2) . '</span>
+                                                    </div>
+                                                    
+                                                </div>
+                                
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="">Shipping Total:</p>
+                                                    </div>  
+                                
+                                                    <div class="col">
+                                                        <span> &#8369;' . number_format($weight_price, 2) . '</span>
+                                                    </div>
+                                                    
+                                                </div>
+                                
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="">Total Payment:</p>
+                                                    </div>
+                                
+                                                    <div class="col lead">
+                                                        <span style="color: #26d3e0;"> &#8369;' . number_format($total_payment, 2) . '</span>
+                                                    </div>
+                                                </div>
+                                
+                                                <label class="row d-flex justify-content-center">
+                                                    <input id="paypal_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
+                                                    &nbsp; I agree to these &nbsp;<a role="button" id="termsAndCondi" style = "color:aquamarine; cursor:pointer;">Terms and Conditions</a>
+                                                </label>
+                                
+                                                <div class="row">
+                                                    <div id="paypal-payment-button"
+                                                    data-paypal_payment="' . $total_payment . '"
+                                                    data-fullname="' . $fullname . '"
+                                                    data-number="' . $number . '"
+                                                    data-region="' . $region . '"
+                                                    data-province="' . $province . '"
+                                                    data-city="' . $city . '"
+                                                    data-barangay="' . $barangay . '"
+                                                    data-zip="' . $zip . '"
+                                                    data-street="' . $street . '"
+                                                    data-carts_selected="' . implode(',', $selectedCartIds) . '"
+                                                    style="width: 100%;"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        ';
+                                        }
+                                        ?>
+
+
+                                    </td>
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -305,10 +461,10 @@ $region_qry = mysqli_query($conn, $region);
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">My Address</h5>
+                    <span class="h5 modal-title" id="exampleModalLongTitle">My Address</sp>
                 </div>
                 <div class="modal-body">
-                    <button id="addAddressBtn">Add Address</button>
+                    <button class="btn btn-primary" id="addAddressBtn">Add Address</button>
                     <table id="profileAddress" class="display" style="width: 100%;">
                         <tbody>
                         </tbody>
@@ -316,7 +472,7 @@ $region_qry = mysqli_query($conn, $region);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="saveChangesBtn" type="button" class="btn btn-primary">Save changes</button>
+                    <!-- <button id="saveChangesBtn" type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
             </div>
         </div>
@@ -397,6 +553,7 @@ $region_qry = mysqli_query($conn, $region);
 
     <script>
         $(document).ready(function() {
+
             $("#paypal_selected").show();
             $('#paypal_radio').prop('checked', true);
 
@@ -522,14 +679,13 @@ $region_qry = mysqli_query($conn, $region);
                                     method: "POST",
                                     data: formData,
                                     success: function() {
-                                        // Reload the DataTable after the address is updated
-                                        $('#profileAddress').DataTable().ajax.reload();
-
-                                        // Show a success message with Swal
                                         Swal.fire({
                                             title: "Success",
                                             text: "Address updated successfully!",
                                             icon: "success",
+                                        }).then(() => {
+                                            // Reload the page after the SweetAlert is closed
+                                            window.location.reload();
                                         });
                                     },
                                     error: function() {
@@ -635,11 +791,13 @@ $region_qry = mysqli_query($conn, $region);
 
 
 
-                                // Show a success message with Swal
                                 Swal.fire({
                                     title: "Success",
-                                    text: "Deleted successfully!",
+                                    text: "Address updated successfully!",
                                     icon: "success",
+                                }).then(() => {
+                                    // Reload the page after the SweetAlert is closed
+                                    window.location.reload();
                                 });
                             },
                             error: function() {
@@ -689,8 +847,11 @@ $region_qry = mysqli_query($conn, $region);
 
                                 Swal.fire({
                                     title: "Success",
-                                    text: "You changed the default address",
+                                    text: "Address updated successfully!",
                                     icon: "success",
+                                }).then(() => {
+                                    // Reload the page after the SweetAlert is closed
+                                    window.location.reload();
                                 });
 
 
@@ -708,6 +869,7 @@ $region_qry = mysqli_query($conn, $region);
                         $('#purchaseTable').DataTable().ajax.reload();
 
                         $('#cartCount').DataTable().ajax.reload();
+                        window.location.reload();
                     }
                 });
             });
@@ -727,41 +889,42 @@ $region_qry = mysqli_query($conn, $region);
                 Swal.fire({
 
                     title: "Add Address",
-                    html: '<div class="form-container">' +
+                    html: '<div class="form-container form-group">' +
                         '<label for="fullname">Fullname:</label>' +
-                        '<input type="text" id="fullname" name="fullname" required><br>' +
+                        '<input class="form-control" type="text" id="fullname" name="fullname" required>' +
 
                         '<label for="number">Number:</label>' +
-                        '<input type="text" id="number" name="number" required><br>' +
+                        '<input class="form-control" type="text" id="number" name="number" required>' +
 
                         '<label for="region"> Region:</label>' +
-                        '<select id="region" name="region" required><br>' +
-                        '<option selected disabled>  Select Region </option>' +
+                        '<select class="form-control" id="region" name="region" required>' +
+
+                        '<option class="form-control" selected disabled>  Select Region </option>' +
                         '<?php while ($row = mysqli_fetch_assoc($region_qry)) : ?>' +
                         '<option value="<?php echo $row['id']; ?>"><?php echo $row['region_name']; ?></option>' +
                         '<?php endwhile; ?>' +
                         '</select><br>' +
 
                         '<label for="province">Province:</label>' +
-                        '<select id="province" name="province" required><br>' +
+                        '<select class="form-control" id="province" name="province" required>' +
                         '<option selected disabled>  Select Province </option>' +
                         '</select><br>' +
 
                         '<label for="city">City:</label>' +
-                        '<select id="city" name="city" required><br>' +
+                        '<select class="form-control" id="city" name="city" required>' +
                         '<option value="city">Select City</option>' +
                         '</select><br>' +
 
                         '<label for="barangay">Barangay:</label>' +
-                        '<select id="barangay" name="barangay" required><br>' +
+                        '<select class="form-control" id="barangay" name="barangay" required>' +
                         '<option value="barangay">Select Barangay</option>' +
                         '</select><br>' +
 
                         '<label for="zip">ZIP Code:</label>' +
-                        '<input type="text" id="zip" name="zip" required><br>' +
+                        '<input class="form-control" type="text" id="zip" name="zip" required>' +
 
                         '<label for="street">Street:</label>' +
-                        '<input type="text" id="street" name="street" required><br>' +
+                        '<input class="form-control" type="text" id="street" name="street" required>' +
                         '</div>',
 
                     showCancelButton: true,
@@ -793,7 +956,14 @@ $region_qry = mysqli_query($conn, $region);
                     if (result.isConfirmed) {
                         if (result.value === "success") {
                             // Address added successfully
-                            Swal.fire("Success", "Address added successfully", "success");
+                            Swal.fire({
+                                title: "Success",
+                                text: "Address updated successfully!",
+                                icon: "success",
+                            }).then(() => {
+                                // Reload the page after the SweetAlert is closed
+                                window.location.reload();
+                            });
                             // Reload the DataTable to display the new address
                             $('#profileAddress').DataTable().ajax.reload();
                         } else {
@@ -922,33 +1092,18 @@ $region_qry = mysqli_query($conn, $region);
 
             $('#stkrTable').on('click', '#termsAndCondi', function() {
 
-$("#termsAndConditions").modal("show");
-});
-
-
-
-
-
-            // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-
-            $('#paypalTable').DataTable({
-                searching: false,
-                info: false,
-                paging: false,
-                ordering: false,
-                ajax: {
-                    url: "json_paypal.php",
-                    method: "POST",
-                    "data": {
-                        user_id: user_id,
-                        selectedCartIds: selectedCartIds,
-                    },
-                    dataSrc: ""
-                },
-                columns: [{
-                    data: "item"
-                }, ]
+                $("#termsAndConditions").modal("show");
             });
+
+
+
+
+
+
+
+
+
+
 
             $('#stkrTable').DataTable({
                 searching: false,
@@ -1057,19 +1212,9 @@ $("#termsAndConditions").modal("show");
 
 
             });
-        });
 
 
 
-
-
-
-
-
-
-
-
-        $(window).on('load', function() {
 
             var user_id = <?php echo $user_id; ?>;
 
@@ -1148,6 +1293,51 @@ $("#termsAndConditions").modal("show");
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+            $('#paypal-payment-button').css({
+                'pointer-events': 'none',
+                'opacity': '0.2'
+            });
+
+            $('#paypal_checkbox').change(function() {
+                if ($('#paypal_checkbox').prop('checked')) {
+                    $('#paypal-payment-button').css({
+                        'pointer-events': 'auto',
+                        'opacity': '1'
+                    });
+
+                } else if (!$('#paypal_checkbox').prop('checked')) {
+                    $('#paypal-payment-button').css({
+                        'pointer-events': 'none',
+                        'opacity': '0.2'
+                    });
+                }
+            });
+
+
+        });
+
+
+
+
+
+
+
+
+
+        $(window).on('load', function() {
+
+
             $('#stkr-payment-button').prop('disabled', true);
             $('#stkr-payment-button').css({
 
@@ -1171,25 +1361,6 @@ $("#termsAndConditions").modal("show");
                 }
             });
 
-            $('#paypal-payment-button').css({
-                'pointer-events': 'none',
-                'opacity': '0.2'
-            });
-
-            $('#paypal_checkbox').change(function() {
-                if ($('#paypal_checkbox').prop('checked')) {
-                    $('#paypal-payment-button').css({
-                        'pointer-events': 'auto',
-                        'opacity': '1'
-                    });
-
-                } else if (!$('#paypal_checkbox').prop('checked')) {
-                    $('#paypal-payment-button').css({
-                        'pointer-events': 'none',
-                        'opacity': '0.2'
-                    });
-                }
-            });
 
         });
     </script>
