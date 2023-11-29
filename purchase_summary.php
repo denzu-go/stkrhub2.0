@@ -266,6 +266,15 @@ $region_qry = mysqli_query($conn, $region);
 
                                         $selectedCartIdsString = implode(',', $selectedCartIds);
 
+                                        // Query to count the total items considering quantity for the selected cart IDs
+                                        $sql = "SELECT SUM(quantity) as totalItems FROM cart WHERE cart_id IN ($selectedCartIdsString)";
+                                        $result = mysqli_query($conn, $sql);
+                                        $row = mysqli_fetch_assoc($result);
+                                        $totalItems = $row['totalItems'];
+
+
+                                        
+
                                         $sql = "SELECT * FROM cart WHERE user_id = $user_id AND cart_id IN ($selectedCartIdsString) AND is_visible = 1";
                                         $result = $conn->query($sql);
 
@@ -320,15 +329,15 @@ $region_qry = mysqli_query($conn, $region);
                                             // Initialize variables
                                             $weight_price = 0;
 
-                                            if ($numSelectedCarts >= 1 && $numSelectedCarts <= 10) {
+                                            if ($totalItems >= 1 && $totalItems <= 10) {
                                                 $weight_price = (float)$weight_price_1;
-                                            } elseif ($numSelectedCarts >= 11 && $numSelectedCarts <= 20) {
+                                            } elseif ($totalItems >= 11 && $totalItems <= 20) {
                                                 $weight_price = (float)$weight_price_2;
-                                            } elseif ($numSelectedCarts >= 21 && $numSelectedCarts <= 30) {
+                                            } elseif ($totalItems >= 21 && $totalItems <= 30) {
                                                 $weight_price = (float)$weight_price_3;
-                                            } elseif ($numSelectedCarts >= 31 && $numSelectedCarts <= 40) {
+                                            } elseif ($totalItems >= 31 && $totalItems <= 40) {
                                                 $weight_price = (float)$weight_price_4;
-                                            } elseif ($numSelectedCarts >= 41) {
+                                            } elseif ($totalItems >= 41) {
                                                 $weight_price = (float)$weight_price_5;
                                             }
 
