@@ -46,7 +46,7 @@ $item = '
 
             <div class="col">
             
-                <div class="card rounded-3 mb-4 p-0 custom-shadow" style="background-color: #17172b; padding: 0.1rem;">
+                <div class="card rounded-3 mb-4 p-0 custom-shadow" style="background-color: #e7e7e7; padding: 0.1rem;">
             
                     <div class="card-header py-1">
                         <div class="row p-0">
@@ -208,10 +208,10 @@ while ($fetched = $queryAll->fetch_assoc()) {
             $edition = $fetchedGetTitle['edition'];
         }
         $description = '
-                                        <span class="text-muted text-truncate" data-toggle="' . $category . '" title="Title" style="max-width:270px;">
+                                        <span class="text-muted text-truncate text-white" data-toggle="' . $category . '" title="Title" style="max-width:270px;">
                                             Category: 
                                         </span>' . $category . '<br>
-                                        <span class="text-muted text-truncate" data-toggle="' . $edition . '" title="Title" style="max-width:270px;">
+                                        <span class="text-muted text-truncate text-white" data-toggle="' . $edition . '" title="Title" style="max-width:270px;">
                                             Edition: 
                                         </span>' . $edition . '
                                         ';
@@ -222,7 +222,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
             $desc = $fetchedGetTitle['description'];
         }
         $description = '
-                                        <span class="text-muted text-truncate" data-toggle="' . $desc . '" title="Title" style="max-width:270px;">
+                                        <span class="text-truncate text-white" data-toggle="' . $desc . '" title="Title" style="max-width:270px;">
                                             Description: 
                                         </span>' . $desc . '
                                         ';
@@ -244,8 +244,8 @@ while ($fetched = $queryAll->fetch_assoc()) {
                 $fetched_size = $fetchedGetTitle['size'];
             }
 
-            $description = '<span class="text-muted text-truncate" data-toggle="' . $fetched_category . '" title="Category" style="max-width:270px;">Category: </span>' . $fetched_category . '<br>';
-            $description .= '<span class="text-muted text-truncate" data-toggle="' . $fetched_size . '" title="Size" style="max-width:270px;">Size: </span>' . $fetched_size . ' ';
+            $description = '<span class="text-muted text-truncate text-white" data-toggle="' . $fetched_category . '" title="Category" style="max-width:270px;">Category: </span>' . $fetched_category . '<br>';
+            $description .= '<span class="text-muted text-truncate text-white" data-toggle="' . $fetched_size . '" title="Size" style="max-width:270px;">Size: </span>' . $fetched_size . ' ';
 
             if ($is_custom_design) {
                 $filename = basename($custom_design_file_path);
@@ -266,8 +266,8 @@ while ($fetched = $queryAll->fetch_assoc()) {
                 $name = $fetchedGetTitle['name'];
             }
 
-            $description = '<span class="text-muted text-truncate" data-toggle="' . $game_id . '" title="Title" style="max-width:270px;">Game ID: </span>' . $game_id . ' <br>';
-            $description .= '<span class="text-muted text-truncate" data-toggle="' . $name . '" title="Title" style="max-width:270px;">Game Name: </span>' . $name;
+            $description = '<span class="text-muted text-truncate text-white" data-toggle="' . $game_id . '" title="Title" style="max-width:270px;">Game ID: </span>' . $game_id . ' <br>';
+            $description .= '<span class="text-muted text-truncate text-white" data-toggle="' . $name . '" title="Title" style="max-width:270px;">Game Name: </span>' . $name;
         }
     } else {
         $description = '
@@ -494,7 +494,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
                                                     <div class="col overflow-hidden">
                                                         <div class="container" style="line-height: 17px;">
-                                                            <div class="row mb-1">
+                                                            <div class="row mb-1 text-white">
                                                                 <span class=" d-inline-block text-truncate data-toggle="tooltip" title="' . $fetched_title . '"" style="max-width: 500px; color: #e7e7e7">
                                                                     ' . $classification . '
                                                                 </span>
@@ -504,7 +504,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
 
                                                     <div class="col overflow-hidden">
                                                         <div class="container" style="line-height: 17px;">
-                                                            <div class="row mb-1">
+                                                            <div class="row mb-1 text-white">
                                                                 Name: &nbsp; <span class=" d-inline-block text-truncate data-toggle="tooltip" title="' . $fetched_title . '"" style="max-width: 500px; color: #e7e7e7">' . $fetched_title . '</span>
                                                             </div>
                                                         </div>
@@ -513,7 +513,7 @@ while ($fetched = $queryAll->fetch_assoc()) {
                                                     <div class="col overflow-hidden">
                                                         <div class="container" style="line-height: 17px;">
                                                             
-                                                            <div class="row mb-1">
+                                                            <div class="row mb-1 text-white">
                                                                 <span class="d-inline-block text-truncate" style="max-width: 500px;">
                                                                     ' . $description . '
                                                                 </span>
@@ -526,16 +526,16 @@ while ($fetched = $queryAll->fetch_assoc()) {
                                                         <div class="container " style="line-height: 17px;">
 
                                                             <div class="row d-flex justify-content-end">
-                                                                <span class="mb-1" style="">Unit Price: &#8369;' . number_format($price, 2) . '</span>
+                                                                <span class="mb-1 text-white" style="">Unit Price: &#8369;' . number_format($price, 2) . '</span>
                                                             </div>
 
                                                             <div class="row d-flex justify-content-end">
-                                                                <span class="mb-1" style="">Quantity: ' . $quantity . '</span>
+                                                                <span class="mb-1 text-white" style="">Quantity: ' . $quantity . '</span>
                                                             </div>
 
                                                             <div class="row d-flex justify-content-end">
-                                                                Total Price:  &nbsp;
-                                                                <span class="mb-0" style="color: #26d3e0">&#8369;' . number_format($total_price, 2) . '</span>
+                                                                
+                                                                <span class="mb-0 text-white" style="color: #26d3e0">Total Price: &#8369;' . number_format($total_price, 2) . '</span>
                                                             </div>
                                                         </div>
                                                         
@@ -569,8 +569,8 @@ $item .= '
 
                             <div class="col d-flex justify-content-start">
                                 <div class="row">
-                                    <div class="col-3"><span class="small">' . $fullname . '<br>' . $number . '</span></div>
-                                    <div class="col-8"><span class="small">' . $full_address_value . '</span></div>
+                                    <div class="col-3"><span class="small text-white">' . $fullname . '<br>' . $number . '</span></div>
+                                    <div class="col-8"><span class="small text-white">' . $full_address_value . '</span></div>
                                 </div>
                             </div>
 
@@ -579,20 +579,20 @@ $item .= '
                                 <div class="">
                                     <div class="row d-flex justify-content-end">
                                         <div class="col">
-                                            <h6 class="small d-flex justify-content-end">Sub Total:&nbsp; 
-                                                <span class="mb-1" style="color: #26d3e0;">&#8369;' . number_format($subtotal, 2) . '</span>
+                                            <h6 class="small d-flex justify-content-end text-white">Sub Total:&nbsp; 
+                                                <span class="mb-1 text-white" style="color: #26d3e0;">&#8369;' . number_format($subtotal, 2) . '</span>
                                             </h6>
                                         </div>
 
                                         <div class="col">
-                                            <h6 class="small d-flex justify-content-end">Shipping Fee:&nbsp; 
-                                                <span class="mb-1" style="color: #777777;">&#8369;' . number_format($shipping_fee, 2) . '</span>
+                                            <h6 class="small d-flex justify-content-end text-white">Shipping Fee:&nbsp; 
+                                                <span class="mb-1 text-white" style="color: #777777;">&#8369;' . number_format($shipping_fee, 2) . '</span>
                                             </h6>
                                         </div>
                                         
                                         <div class="col">
-                                            <h6 class="d-flex justify-content-end">Order Total:&nbsp; 
-                                                <span class="mb-1" style="color: #b660e8;">&#8369;' . number_format($order_total_amount, 2) . '</span>
+                                            <h6 class="d-flex justify-content-end text-white">Order Total:&nbsp; 
+                                                <span class="mb-1 text-white" style="color: #b660e8;">&#8369;' . number_format($order_total_amount, 2) . '</span>
                                             </h6>
                                         </div>
                                     </div>
