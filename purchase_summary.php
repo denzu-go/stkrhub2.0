@@ -273,7 +273,7 @@ $region_qry = mysqli_query($conn, $region);
                                         $totalItems = $row['totalItems'];
 
 
-                                        
+
 
                                         $sql = "SELECT * FROM cart WHERE user_id = $user_id AND cart_id IN ($selectedCartIdsString) AND is_visible = 1";
                                         $result = $conn->query($sql);
@@ -390,7 +390,11 @@ $region_qry = mysqli_query($conn, $region);
                                 
                                                 <label class="row d-flex justify-content-center">
                                                     <input id="paypal_checkbox" name="stkr_wallet_checkbox" type="checkbox" /> 
-                                                    &nbsp; I agree to these &nbsp;<a role="button" id="termsAndCondi" style = "color:aquamarine; cursor:pointer;">Terms and Conditions</a>
+                                                    &nbsp; I agree to these &nbsp;
+                                                </label>
+
+                                                <label class="row d-flex justify-content-center">
+                                                <a role="button" id="termsAndCondi" style = "color:aquamarine; cursor:pointer;">Terms and Conditions</a>
                                                 </label>
                                 
                                                 <div class="row">
@@ -1094,8 +1098,7 @@ $region_qry = mysqli_query($conn, $region);
                 $("#changeAddress").modal("show");
             });
 
-            $('#paypalTable').on('click', '#termsAndCondi', function() {
-
+            $('#termsAndCondi').click(function() {
                 $("#termsAndConditions").modal("show");
             });
 
