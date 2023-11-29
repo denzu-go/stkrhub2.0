@@ -645,7 +645,7 @@ $region_qry = mysqli_query($conn, $region);
 
 
             // Add a click event listener to the "Edit" buttons
-            $('#profileAddress').on('click', '.edit-btn', function() {
+            $('#profileAddress').on('click', '#edit-btn', function() {
                 // Get the address ID associated with the clicked "Edit" button
                 var addressId = $(this).data('address-id');
 

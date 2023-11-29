@@ -44,7 +44,7 @@ while ($row = $resultAddresses->fetch_assoc()) {
     ';
 
 
-    $editButton = '<button class="btn" type="button" class="edit-btn" data-address-id="' . $row['address_id'] . '">Edit</button>';
+    $editButton = '<button class="btn" type="button" id="edit-btn" data-address-id="' . $row['address_id'] . '">Edit</button>';
 
     if ($is_default == 1) {
         $deleteButton = '
