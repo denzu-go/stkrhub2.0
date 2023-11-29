@@ -237,6 +237,16 @@ $item = '
 
                 <div class="row">
                     <div class="col">
+                        <p class="">Total Shipping Fee:</p>
+                    </div>
+
+                    <div class="col">
+                        <span>&#8369;' . number_format($weight_price - $shipping_discount, 2) . '</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
                         <p class="">Total Payment:</p>
                     </div>
 
