@@ -440,7 +440,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
 
                                 echo '
                                     <div style="position: absolute; left:-270px; margin-bottom:100px">
-                                    <button id= "back" class="click-btn btn btn-default"><i class="fa fa-long-arrow-left"
+                                    <button id= "back" class="click-btn primary-btn"><i class="fa fa-long-arrow-left"
                                             aria-hidden="true"></i></button>
                                     </div>
                                 ';

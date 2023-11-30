@@ -4,7 +4,7 @@
                 CATEGORY: Dice
                 SIZE: 16mm
 
-                QUANTITY: 4
+                QUANTITY: 1
                 COLOR: black #070709
                 FILE: 
                 

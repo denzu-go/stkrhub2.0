@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 
     // Check if the username or email already exists in the database
-    $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
+    $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email' AND is_deleted != 1";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {

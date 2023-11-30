@@ -65,7 +65,19 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 <html>
 
 <head>
-    <title>Navigation with Hidden Sections</title>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/icon.png">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <title>Edit Published Game</title>
     <!--CSS================================== -->
     <link rel="stylesheet" href="css/linearicons.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/font-awesome.min.css?<?php echo time(); ?>">
@@ -212,7 +224,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
             <div class="row py-5">
                 <a href="javascript:history.back()" style=" cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Back</a>
-            </div>
+            </div> 
 
             <div class="row">
 
@@ -238,7 +250,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                             <h6 class="">Category: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_category_name ?></h6>
                         </div>
                         <div class="row">
-                            <h6 class="">Age: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_age_value ?></h6>
+                            <h6 class="">Age Range: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_age_value ?></h6>
                         </div>
                         <div class="row">
                             <h6 class="">Number of Players (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_min_players ?></h6>
@@ -247,23 +259,23 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                             <h6 class="">Number of Players (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_max_players ?></h6>
                         </div>
                         <div class="row">
-                            <h6 class="">Play Time (minimum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_min_playtime ?> minutes</h6>
+                            <h6 class="">Minimum Playtime: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_min_playtime ?> minutes</h6>
                         </div>
                         <div class="row">
-                            <h6 class="">Play Time (maximum): </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_max_playtime ?> minutes</h6>
+                            <h6 class="">Maximum Playtime: </h6> &nbsp; <h6 style="color: #777777"><?php echo $current_max_playtime ?> minutes</h6>
                         </div>
 
                         <hr>
 
                         <div class="row">
-                            <h6 class="">Short Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <h6 class="">Summary: </h6> &nbsp; <h6 style="color: #777777"></h6>
                             <div class="container m-0 p-0"><?php echo $current_short_description ?></div>
                         </div>
 
                         <hr>
 
                         <div class="row">
-                            <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <h6 class="">Game Mechanics: </h6> &nbsp; <h6 style="color: #777777"></h6>
                             <div class="container m-0" style="background-color: #222f3e;"><?php echo $current_long_description ?></div>
 
                         </div>
@@ -271,7 +283,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                         <hr>
 
                         <div class="row">
-                            <h6 class="">Logo: </h6> &nbsp; <h6 style="color: #777777"></h6>
+                            <h6 class="">Thumbnail: </h6> &nbsp; <h6 style="color: #777777"></h6>
 
                             <div class="image-banner-container">';
                                 <img class="image-banner" src="<?php echo $current_logo_path ?>" alt="">';
@@ -449,7 +461,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <!-- Name input -->
                                 <div class="form-outline">
                                     <select class="input_color" id="age" name="age" required>
-                                        <option class="form-control" value="" disabled selected>Select a Age</option>
+                                        <option class="form-control" value="" disabled selected>Player Age Range</option>
                                         <?php
                                         // Retrieve age values from the Age table and populate the dropdown
                                         $ageQuery = "SELECT * FROM age";
@@ -487,7 +499,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <div class="form-outline">
 
                                     <input type="number" id="min_playtime" name="min_playtime" class="form-control input_color" required />
-                                    <label class="form-label small" for="form8Example4">Play Time (Minimum)</label>
+                                    <label class="form-label small" for="form8Example4">Minimum Playtime </label>
                                 </div>
                             </div>
 
@@ -495,7 +507,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                                 <div class="form-outline">
 
                                     <input type="number" id="max_playtime" name="max_playtime" class="form-control input_color" required />
-                                    <label class="form-label small" for="form8Example4">Play Time (Maximum)</label>
+                                    <label class="form-label small" for="form8Example4">Maximum Playtime </label>
                                 </div>
                             </div>
                         </div>
@@ -506,7 +518,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                             <div class="col">
                                 <!-- short description -->
                                 <div class="form-outline">
-                                    <label class="form-label" for="form8Example1">Short Description</label>
+                                    <label class="form-label" for="form8Example1">Summary</label>
                                     <textarea class="form-control input_color" id="short_description" name="short_description" required></textarea>
                                 </div>
                             </div>
@@ -518,7 +530,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                             <div class="col">
                                 <!-- long description -->
                                 <div class="form-outline">
-                                    <label class="form-label" for="form8Example1">Long Description</label>
+                                    <label class="form-label" for="form8Example1">Game Mechanics</label>
                                     <textarea class="form-control input_color" id="long_description" name="long_description" required>&nbsp;</textarea>
                                 </div>
                             </div>
@@ -530,7 +542,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                             <div class="col-4">
                                 <!-- Logo input -->
                                 <div class="form-outline">
-                                    <label class="form-label" for="form8Example1">Logo</label>
+                                    <label class="form-label" for="form8Example1">Thumbnail</label>
                                     <input type="file" class="filepond input_color" id="logo" name="logo" accept="image/*" required>
 
                                 </div>
@@ -609,7 +621,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                         </div>
 
 
-                        <button type="submit">Submit</button>
+                        <button class="primary-btn" type="submit">Submit</button>
                     </form>
 
 

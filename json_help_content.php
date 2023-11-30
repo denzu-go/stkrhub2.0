@@ -3,7 +3,8 @@ include "connection.php"; // Include your database connection script
 
 $help_id = $_GET['help_id'];
 
-$sqlHelp = "SELECT * FROM help WHERE help_id = $help_id";
+$sqlHelp = "SELECT * FROM help WHERE help_id = $help_id ORDER BY help_id ASC";
+
 $resultHelp = $conn->query($sqlHelp);
 
 $data = array();

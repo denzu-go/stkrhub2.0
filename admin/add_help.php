@@ -45,11 +45,23 @@ if (isset($_GET['category'])) {
     <!-- Include DataTables CSS and JS files -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 
+    <!-- sweetalert -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+   
+
     <link rel="stylesheet" href="">
 
+
+    <style>
+        <?php include 'css/orders_count.css'; ?>
+    </style>
 
 </head>
 
@@ -100,6 +112,7 @@ if (isset($_GET['category'])) {
                                             <label class="col-sm-3 col-form-label" for="desciption"><?php echo htmlspecialchars($category); ?> Description:</label>
                                             <div class="col-sm-6">
                                                 <textarea id="description" name="description" rows="30" cols="80"></textarea>
+                                                
                                             </div>
                                         </div>
 
@@ -158,7 +171,9 @@ if (isset($_GET['category'])) {
 
 
 
-
+    <script>
+                        CKEDITOR.replace( 'description' );
+                </script>
 
 
 
@@ -181,9 +196,11 @@ if (isset($_GET['category'])) {
 
     <script src="./js/dashboard/dashboard-2.js"></script>
 
-
+   
     <script>
         $(document).ready(function() {
+
+            CKEDITOR.replace( 'description' );
             // JavaScript
             $(document).ready(function() {
                 $(".remove-coverPhoto").click(function(e) {

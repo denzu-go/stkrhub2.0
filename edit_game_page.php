@@ -37,7 +37,19 @@ if (mysqli_num_rows($result) > 0) {
 <html lang="en">
 
 <head>
-    <title>Navigation with Hidden Sections</title>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/icon.png">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <title>Edit Publish Game</title>
     <!--CSS================================== -->
     <link rel="stylesheet" href="css/linearicons.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="css/font-awesome.min.css?<?php echo time(); ?>">
@@ -295,6 +307,11 @@ if (mysqli_num_rows($result) > 0) {
         li.option {
             color: #777777;
         }
+
+        p {
+            color: floralwhite;
+            opacity: 50%;
+        }
     </style>
 </head>
 
@@ -315,7 +332,7 @@ background-attachment: fixed;">
 
         <div class="container" style="background: none;">
 
-            <h1><a href="create_game_page.php#section1" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>
+            <h1><a href="create_game_page.php#section5" class="fa-solid fa-arrow-left" style="color: #26d3e0; cursor:pointer;"></a> Game Dashboard</h1>
 
             <hr>
 
@@ -450,7 +467,7 @@ background-attachment: fixed;">
                         <!-- Name input -->
                         <div class="form-outline">
                             <select class="input_color" id="age" name="age" required>
-                                <option class="form-control" value="" disabled selected>Select a Age</option>
+                                <option class="form-control" value="" disabled selected>Player Age Range</option>
                                 <?php
                                 // Retrieve age values from the Age table and populate the dropdown
                                 $ageQuery = "SELECT * FROM age";
@@ -484,7 +501,7 @@ background-attachment: fixed;">
                         <div class="form-outline">
 
                             <input type="number" id="min_playtime" name="min_playtime" class="form-control input_color" required />
-                            <label class="form-label" for="form8Example4">Play Time (Minimum)</label>
+                            <label class="form-label" for="form8Example4">Mimimum Playtime</label>
                         </div>
                     </div>
 
@@ -492,7 +509,7 @@ background-attachment: fixed;">
                         <div class="form-outline">
 
                             <input type="number" id="max_playtime" name="max_playtime" class="form-control input_color" required />
-                            <label class="form-label" for="form8Example4">Play Time (Maximum)</label>
+                            <label class="form-label" for="form8Example4">Maximum Playtime</label>
                         </div>
                     </div>
                 </div>
@@ -503,8 +520,8 @@ background-attachment: fixed;">
                     <div class="col">
                         <!-- short description -->
                         <div class="form-outline">
-                            <label class="form-label" for="form8Example1">Short Description</label>
-                            <textarea class="form-control input_color" id="short_description" name="short_description" required></textarea>
+                            <label class="form-label" for="form8Example1">Summary</label>
+                            <textarea class="form-control input_color"  id="short_description" name="short_description" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -515,7 +532,7 @@ background-attachment: fixed;">
                     <div class="col">
                         <!-- long description -->
                         <div class="form-outline">
-                            <label class="form-label" for="form8Example1">Long Description</label>
+                            <label class="form-label" for="form8Example1">Game Mechanics</label>
                             <textarea class="form-control input_color" id="long_description" name="long_description" required>&nbsp;</textarea>
                         </div>
                     </div>
@@ -527,7 +544,7 @@ background-attachment: fixed;">
                     <div class="col-4">
                         <!-- Logo input -->
                         <div class="form-outline">
-                            <label class="form-label" for="form8Example1">Logo</label>
+                            <label class="form-label" for="form8Example1">Thumbnail</label>
                             <input type="file" class="filepond input_color" id="logo" name="logo" accept="image/*" required>
                         </div>
                     </div>
@@ -553,6 +570,7 @@ background-attachment: fixed;">
                         <!-- markup input -->
                         <div class="form-outline">
                             <label class="form-label" for="form8Example1">Desired Markup</label>
+                            <p> note: Desired Profit for published game</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">&#8369;</span>
@@ -566,6 +584,7 @@ background-attachment: fixed;">
                         <!-- manufacturer input -->
                         <div class="form-outline">
                             <label class="form-label" for="form8Example1">Manufacturer's Profit</label>
+                            <p> note: Stkr Labs Shared Profit</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">&#8369;</span>
@@ -580,6 +599,7 @@ background-attachment: fixed;">
                         <!-- crator profit input -->
                         <div class="form-outline">
                             <label class="form-label" for="form8Example1">Your profit</label>
+                            <p> note: Creators Shared Profit</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">&#8369;</span>
@@ -593,6 +613,7 @@ background-attachment: fixed;">
                         <!-- marketplace input -->
                         <div class="form-outline">
                             <label class="form-label" for="form8Example1">Marketplace Price</label>
+                            <p> note: Production cost + Desired Markup</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">&#8369;</span>
@@ -604,7 +625,7 @@ background-attachment: fixed;">
                 </div>
 
 
-                <input type="submit" value="Submit">
+                <input class="primary-btn" type="submit" value="Submit">
             </form>
 
         </div>

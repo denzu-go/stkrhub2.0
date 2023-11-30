@@ -394,7 +394,7 @@ $region_qry = mysqli_query($conn, $region);
                                                 </label>
 
                                                 <label class="row d-flex justify-content-center">
-                                                <a role="button" id="termsAndCondi" style = "color:aquamarine; cursor:pointer;">Terms and Conditions</a>
+                                                <a role="button" id="termsAndCondi" style = "color:aquamarine; cursor:pointer;">Terms of Service</a>
                                                 </label>
                                 
                                                 <div class="row">
@@ -495,13 +495,13 @@ $region_qry = mysqli_query($conn, $region);
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color:cadetblue;" id="exampleModalLongTitle">Terms And Conditions</h5>
+                    <h5 class="modal-title" style="color:cadetblue;" id="exampleModalLongTitle">Terms of Service</h5>
                 </div>
                 <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
                     <?php
                     $help_sql = "SELECT *
                  FROM help
-                 WHERE help_title LIKE 'terms and conditions'";
+                 WHERE help_title LIKE 'terms of service'";
 
                     $help_query = $conn->query($help_sql);
                     $help_row = $help_query->fetch_assoc();
@@ -1344,7 +1344,7 @@ $region_qry = mysqli_query($conn, $region);
 
 
 
-
+        
 
 
         $(window).on('load', function() {
