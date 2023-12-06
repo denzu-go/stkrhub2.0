@@ -912,7 +912,7 @@ include 'html/get_bg.php';
                 e.preventDefault();
                 Swal.fire({
                     title: 'Confirm Cash Out',
-                    text: 'Are you sure you want to cash out?',
+                    text: 'Are you sure you want to cash out? This action cannot be canceled once proceeded.',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, cash out',

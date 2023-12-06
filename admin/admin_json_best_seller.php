@@ -14,12 +14,11 @@ if (isset($_SESSION['admin_id'])) {
 
 
 // Query to get the most frequent published_game_id to less frequent published_game_id
-$sqlGames = "SELECT published_game_id, COUNT(*) AS frequency
+$sqlGames = "SELECT published_game_id, SUM(quantity)  AS frequency
              FROM orders
              WHERE is_pending != 1
              AND published_game_id IS NOT NULL
-             GROUP BY published_game_id
-             ORDER BY frequency ASC";
+             GROUP BY published_game_id";
 
 $resultGames = $conn->query($sqlGames);
 

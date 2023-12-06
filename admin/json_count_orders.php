@@ -6,7 +6,7 @@ $data = array();
 
 
 
-$sql = "SELECT COUNT(DISTINCT unique_order_group_id) AS count_orders FROM orders WHERE $passed_status = 1";
+$sql = "SELECT COUNT(DISTINCT unique_order_group_id) AS count_orders FROM orders WHERE $passed_status = 1 AND ticket_id IS NULL";
 $result = $conn->query($sql);
 if ($result) {
     $row = $result->fetch_assoc();

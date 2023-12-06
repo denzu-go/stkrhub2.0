@@ -16,7 +16,10 @@ $sqlA = "SELECT
             SUM(creator_profit) AS total_creator_profit,
             SUM(marketplace_price) AS total_marketplace_price
         FROM
-            orders";
+            orders
+        WHERE
+            is_canceled != 1 AND is_pending !=1    
+        ";
 $resultA = $conn->query($sqlA);
 
 if ($resultA) {
@@ -222,7 +225,7 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         <!-- BEST SELLER TABLE -->
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Best Seller</h4>
+                                <h4 class="card-title">Best Selling Published Games</h4>
                             </div>
 
                             <div class="card-body">
@@ -521,6 +524,10 @@ $total_component_produced = $rowTotalComponents['total_components'];
                         "data": "action"
                     },
 
+                ],
+                // Order by the 'frequency' column in descending order (you can change 'desc' to 'asc' for ascending order)
+                order: [
+                    [9, 'desc']
                 ],
 
             });

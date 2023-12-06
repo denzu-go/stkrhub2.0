@@ -452,8 +452,8 @@ include 'html/get_bg.php';
 
                 // Use SweetAlert for confirmation
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "Do you want to submit the form?",
+                    title: "",
+                    text: "Are you sure to cancel your order?",
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonText: "Yes",
@@ -478,12 +478,11 @@ include 'html/get_bg.php';
                                 if (response.success) {
                                     $("#cancelReason").modal("hide");
                                     $('#allOrders').DataTable().ajax.reload();
-                                    Swal.fire('Success', response.message, 'success');
+                                    Swal.fire('Success', 'Order Canceled and refunded to your STKR Wallet', 'success');
                                 } else {
                                     $("#cancelReason").modal("hide");
                                     $('#allOrders').DataTable().ajax.reload();
-                                    Swal.fire('Error', response.message, 'error');
-
+                                    Swal.fire('Error', 'error');
                                 }
                             },
                             error: function() {

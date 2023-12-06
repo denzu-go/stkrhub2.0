@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 07:19 AM
+-- Generation Time: Dec 06, 2023 at 10:15 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -87,9 +87,14 @@ INSERT INTO `added_game_components` (`added_component_id`, `game_id`, `component
 (635, 245, 25, 0, NULL, 1, 9, '2.5 x 0.5 inches', 24),
 (636, 245, 35, 0, NULL, 5, 26, '0.7 inches diameter', 24),
 (637, NULL, 23, 0, NULL, 1, 4, '16mm', 20),
-(638, 249, 16, 0, '', 1, NULL, '2.75 x 2.75 ', 20),
-(639, 0, 16, 1, 'uploads/6566d8f918a78_stkrhub_db-4.sql', 1, NULL, '2.75 x 2.75 ', 20),
-(640, 0, 16, 1, 'uploads/6566d9b652ca7_Micro-Game-Deck-Custom-Blank-Cards.pdf', 1, NULL, '2.75 x 2.75 ', 20);
+(638, NULL, 23, 0, NULL, 1, 4, '16mm', 20),
+(639, NULL, 25, 0, NULL, 1, 9, '2.5 x 0.5 inches', 20),
+(640, 249, 40, 1, 'uploads/656b31a5a6c8e_65655de815d06_Custom Game Board 10.pdf', 1, NULL, '10 x 10', 28),
+(641, 0, 15, 1, 'uploads/656d6f017e571_1701585094326.jpg', 2, NULL, '2.5 x 2.5 ', 20),
+(642, 250, 23, 0, NULL, 1, 4, '16mm', 20),
+(643, 250, 24, 0, NULL, 1, 8, ' 2.5 x 0.5', 20),
+(644, 250, 18, 0, '', 1, NULL, '1.75 x 1.25', 20),
+(645, NULL, 16, 0, '', 1, NULL, '2.75 x 2.75 ', 22);
 
 -- --------------------------------------------------------
 
@@ -122,7 +127,10 @@ INSERT INTO `addresses` (`address_id`, `user_id`, `fullname`, `number`, `region`
 (34, 22, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 1, '2023-11-28 12:25:41'),
 (35, 23, 'John Kevin Ilagan', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 1, '2023-11-28 12:38:14'),
 (36, 24, 'Nicole Cabal', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 1, '2023-11-28 12:49:44'),
-(37, 25, 'Dana Ricci Singson', '123', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 5', '1234', 'bangkulasi', 1, '2023-11-28 16:58:15');
+(37, 25, 'Dana Ricci Singson', '123', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 5', '1234', 'bangkulasi', 1, '2023-11-28 16:58:15'),
+(39, 26, 'Sample User', '09560537312', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Karuhatan', '1441', 'Pedrina Street', 1, '2023-12-01 17:06:30'),
+(40, 26, 'User User', '09192937346', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Mapulang Lupa', '1440', 'Modesto', 0, '2023-12-02 02:56:45'),
+(41, 28, 'john kevin ilagan', '09263853401', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Coloong', '1445', 'San Miguel', 1, '2023-12-02 05:27:26');
 
 -- --------------------------------------------------------
 
@@ -176,8 +184,20 @@ INSERT INTO `admin_logs` (`log_id`, `admin_id`, `event_type`, `timestamp`) VALUE
 (98, 9, 'login', '2023-11-28 14:49:26'),
 (99, 9, 'login', '2023-11-28 15:36:00'),
 (100, 9, 'login', '2023-11-28 17:06:28'),
-(101, 9, 'login', '2023-11-28 18:38:08'),
-(102, 9, 'login', '2023-11-29 05:00:39');
+(101, 9, 'login', '2023-11-29 17:45:40'),
+(102, 9, 'login', '2023-11-30 00:14:30'),
+(103, 9, 'login', '2023-12-02 05:25:03'),
+(104, 9, 'login', '2023-12-02 13:32:01'),
+(105, 9, 'login', '2023-12-03 12:36:02'),
+(106, 9, 'login', '2023-12-04 02:57:47'),
+(107, 0, 'logout', '2023-12-04 08:56:07'),
+(108, 8, 'login', '2023-12-04 08:56:16'),
+(109, 0, 'logout', '2023-12-04 09:30:57'),
+(110, 9, 'login', '2023-12-04 09:31:05'),
+(111, 9, 'login', '2023-12-05 12:31:38'),
+(112, 9, 'login', '2023-12-05 23:17:56'),
+(113, 9, 'login', '2023-12-05 23:32:50'),
+(114, 9, 'login', '2023-12-06 05:43:26');
 
 -- --------------------------------------------------------
 
@@ -735,14 +755,24 @@ INSERT INTO `audit_logs` (`log_id`, `user_id`, `action`, `details`, `timestamp`)
 (499, 24, 'PAY USING PAYPAL', 'Purchase built_game_id: 182', '2023-11-28 12:51:08'),
 (500, 24, 'PAY USING PAYPAL', 'Purchase built_game_id: 183', '2023-11-28 12:51:08'),
 (501, 20, 'PAY USING STKR WALLET', 'Purchase published_game_id: 206', '2023-11-28 14:40:20'),
-(502, 20, 'PAY USING PAYPAL', 'Purchase added_component_id: 637', '2023-11-28 18:37:54'),
-(503, 20, 'PAY USING STKR WALLET', 'Purchase published_game_id: 205', '2023-11-28 18:38:46'),
-(504, 20, 'PAY USING PAYPAL', 'Purchase added_component_id: 639', '2023-11-29 06:26:17'),
-(505, 20, 'PAY USING PAYPAL', 'Purchase ticket_id: 192', '2023-11-29 06:26:17'),
-(506, 20, 'PAY USING PAYPAL', 'Purchase published_game_id: 199', '2023-11-29 06:28:06'),
-(507, 20, 'PAY USING PAYPAL', 'Purchase added_component_id: 640', '2023-11-29 06:28:06'),
-(508, 20, 'PAY USING STKR WALLET', 'Purchase built_game_id: 169', '2023-11-29 08:17:32'),
-(509, 20, 'PAY USING STKR WALLET', 'Purchase built_game_id: 184', '2023-11-29 08:18:55');
+(502, 20, 'PAY USING STKR WALLET', 'Purchase added_component_id: 637', '2023-11-30 01:19:12'),
+(503, 28, 'PAY USING PAYPAL', 'Purchase ticket_id: 192', '2023-12-02 13:31:50'),
+(504, 28, 'PAY USING PAYPAL', 'Purchase built_game_id: 184', '2023-12-02 13:33:15'),
+(505, 20, 'PAY USING STKR WALLET', 'Purchase ticket_id: 193', '2023-12-04 06:40:56'),
+(506, 20, 'PAY USING STKR WALLET', 'Purchase ticket_id: 194', '2023-12-04 08:28:57'),
+(507, 20, 'PAY USING STKR WALLET', 'Purchase added_component_id: 641', '2023-12-04 08:28:57'),
+(508, 20, 'PAY USING STKR WALLET', 'Purchase added_component_id: 639', '2023-12-04 08:28:57'),
+(509, 20, 'PAY USING STKR WALLET', 'Purchase added_component_id: 638', '2023-12-04 08:28:57'),
+(510, 20, 'PAY USING STKR WALLET', 'Purchase published_game_id: 199', '2023-12-04 08:28:57'),
+(511, 20, 'PAY USING STKR WALLET', 'Purchase published_game_id: 205', '2023-12-04 08:28:57'),
+(512, 20, 'PAY USING STKR WALLET', 'Purchase ticket_id: 195', '2023-12-04 08:47:54'),
+(513, 20, 'PAY USING STKR WALLET', 'Purchase published_game_id: 198', '2023-12-05 23:32:29'),
+(514, 22, 'PAY USING STKR WALLET', 'Purchase published_game_id: 206', '2023-12-06 05:32:53'),
+(515, 22, 'PAY USING STKR WALLET', 'Purchase published_game_id: 206', '2023-12-06 05:39:19'),
+(516, 22, 'PAY USING STKR WALLET', 'Purchase published_game_id: 204', '2023-12-06 07:02:49'),
+(517, 22, 'PAY USING PAYPAL', 'Purchase added_component_id: 645', '2023-12-06 07:21:23'),
+(518, 22, 'PAY USING STKR WALLET', 'Purchase published_game_id: 199', '2023-12-06 08:02:54'),
+(519, 22, 'PAY USING PAYPAL', 'Purchase published_game_id: 197', '2023-12-06 08:05:32');
 
 -- --------------------------------------------------------
 
@@ -761,95 +791,890 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`id`, `barangay_name`, `city_id`) VALUES
-(1, 'Barangay 287', 2),
-(2, 'Barangay 1', 2),
-(3, 'Barangay 2', 2),
-(4, 'Barangay 3', 2),
-(5, 'Barangay 4', 2),
-(6, 'Barangay 5', 2),
-(7, 'Bagong Barrio', 3),
-(8, 'Barangay 12', 3),
-(9, 'Barangay 14', 3),
-(10, 'Barangay 15', 3),
-(11, 'Barangay 16', 3),
-(12, 'CAA/BF International', 4),
-(13, 'Daniel Fajardo', 4),
-(14, 'Elias Aldana', 4),
-(15, 'Ilaya', 4),
-(16, 'Manuyo', 4),
-(17, 'Bangkal', 5),
-(18, 'Bel-Air', 5),
-(19, 'Carmona', 5),
-(20, 'Dasmariñas', 5),
-(21, 'Forbes Park', 5),
-(22, 'Acacia', 6),
-(23, 'Baritan', 6),
-(24, 'Bayan-bayanan', 6),
-(25, 'Catmon', 6),
-(26, 'Concepcion', 6),
-(27, 'Addition Hills', 7),
-(28, 'Bagong Silang', 7),
-(29, 'Barangka Drive', 7),
-(30, 'Buayang Bato', 7),
-(31, 'Daang Bakal', 7),
-(32, '28th Street', 8),
-(33, '49th Street', 8),
-(34, 'Last Barangay', 8),
-(35, 'Barangay 1', 9),
-(36, 'Barangay 2', 9),
-(37, 'Barangay 3', 9),
-(38, 'Barangay 4', 9),
-(39, 'Barangay 5', 9),
-(40, 'Barangay 1', 10),
-(41, 'Barangay 2', 10),
-(42, 'Barangay 3', 10),
-(43, 'Barangay 4', 10),
-(44, 'Barangay 5', 10),
-(45, 'Barangay 1', 11),
-(46, 'Barangay 2', 11),
-(47, 'Barangay 3', 11),
-(48, 'Barangay 4', 11),
-(49, 'Barangay 5', 11),
-(50, 'Barangay 1', 12),
-(51, 'Barangay 2', 12),
-(52, 'Barangay 3', 12),
-(53, 'Barangay 4', 12),
-(54, 'Barangay 5', 12),
-(55, 'Barangay 1', 13),
-(56, 'Barangay 2', 13),
-(57, 'Barangay 3', 13),
-(58, 'Barangay 4', 13),
-(59, 'Barangay 5', 13),
-(60, 'Barangay 1', 14),
-(61, 'Barangay 2', 14),
-(62, 'Barangay 3', 14),
-(63, 'Barangay 4', 14),
-(64, 'Barangay 5', 14),
-(65, 'Barangay 1', 15),
-(66, 'Barangay 2', 15),
-(67, 'Barangay 3', 15),
-(68, 'Barangay 4', 15),
-(69, 'Barangay 5', 15),
-(70, 'Barangay 1', 16),
-(71, 'Barangay 2', 16),
-(72, 'Barangay 3', 16),
-(73, 'Barangay 4', 16),
-(74, 'Barangay 5', 16),
-(75, 'Barangay 1', 17),
-(76, 'Barangay 2', 17),
-(77, 'Barangay 3', 17),
-(78, 'Barangay 4', 17),
-(79, 'Barangay 5', 17),
-(80, 'Barangay 1', 18),
-(81, 'Barangay 2', 18),
-(82, 'Barangay 3', 18),
-(83, 'Barangay 4', 18),
-(84, 'Barangay 5', 18),
-(85, 'Barangay 1', 19),
-(86, 'Barangay 2', 19),
-(87, 'Barangay 3', 19),
-(88, 'Barangay 4', 19),
-(89, 'Barangay 5', 19);
+(85, 'Arkong Bato', 19),
+(86, 'Bagbaguin', 19),
+(87, 'Balangkas', 19),
+(88, 'Bignay', 19),
+(89, 'Bisig', 19),
+(90, 'Canumay East\r\n', 19),
+(91, 'Canumay West\r\n', 19),
+(92, 'Coloong', 19),
+(93, 'Dalandanan', 19),
+(94, 'Gen T. De Leon', 19),
+(95, 'Isla', 19),
+(96, 'Karuhatan', 19),
+(97, 'Lawang Bato', 19),
+(98, 'Lingunan', 19),
+(99, 'Mabolo', 19),
+(100, 'Malanday', 19),
+(101, 'Malinta', 19),
+(102, 'Mapulang Lupa', 19),
+(103, 'Marulas', 19),
+(104, 'Maysan', 19),
+(105, 'Palasan', 19),
+(106, 'Parada', 19),
+(107, 'Pariancillo Villa', 19),
+(108, 'Pasolo', 19),
+(109, 'Poblacion', 19),
+(110, 'Pulo', 19),
+(111, 'Punturin', 19),
+(112, 'Rincon', 19),
+(113, 'Tagalag', 19),
+(114, 'Ugong', 19),
+(115, 'Veinte Reales', 19),
+(116, 'Wawang Pulo', 19),
+(118, 'Barangay 288', 2),
+(119, 'Barangay 289', 2),
+(120, 'Barangay 290', 2),
+(121, 'Barangay 291', 2),
+(123, 'Barangay 292', 2),
+(124, 'Barangay 293', 2),
+(125, 'Barangay 294', 2),
+(126, 'Barangay 295', 2),
+(127, 'Barangay 296', 2),
+(128, 'Barangay 297', 2),
+(129, 'Barangay 1', 3),
+(130, 'Barangay 2', 3),
+(131, 'Barangay 3', 3),
+(132, 'Barangay 4', 3),
+(133, 'Barangay 5', 3),
+(134, 'Barangay 6', 3),
+(135, 'Barangay 7', 3),
+(136, 'Barangay 8', 3),
+(137, 'Barangay 9', 3),
+(138, 'Barangay 10', 3),
+(139, 'Barangay 11', 3),
+(140, 'Barangay 12', 3),
+(141, 'Barangay 13', 3),
+(142, 'Barangay 14', 3),
+(143, 'Barangay 15', 3),
+(144, 'Barangay 16', 3),
+(145, 'Barangay 17', 3),
+(146, 'Barangay 18', 3),
+(147, 'Barangay 19', 3),
+(148, 'Barangay 20', 3),
+(149, 'Barangay 21', 3),
+(150, 'Barangay 22', 3),
+(151, 'Barangay 23', 3),
+(152, 'Barangay 24', 3),
+(153, 'Barangay 25', 3),
+(154, 'Barangay 26', 3),
+(155, 'Barangay 27', 3),
+(156, 'Barangay 28', 3),
+(157, 'Barangay 29', 3),
+(158, 'Barangay 30', 3),
+(159, 'Barangay 31', 3),
+(160, 'Barangay 32', 3),
+(161, 'Barangay 33', 3),
+(162, 'Barangay 34', 3),
+(163, 'Barangay 35', 3),
+(164, 'Barangay 36', 3),
+(165, 'Barangay 37', 3),
+(166, 'Barangay 38', 3),
+(167, 'Barangay 39', 3),
+(168, 'Barangay 40', 3),
+(169, 'Barangay 41', 3),
+(170, 'Barangay 42', 3),
+(171, 'Barangay 43', 3),
+(172, 'Barangay 44', 3),
+(173, 'Barangay 45', 3),
+(174, 'Barangay 46', 3),
+(175, 'Barangay 47', 3),
+(176, 'Barangay 48', 3),
+(177, 'Barangay 49', 3),
+(178, 'Barangay 50', 3),
+(179, 'Barangay 51', 3),
+(180, 'Barangay 52', 3),
+(181, 'Barangay 53', 3),
+(182, 'Barangay 54', 3),
+(183, 'Barangay 55', 3),
+(184, 'Barangay 56', 3),
+(185, 'Barangay 57', 3),
+(186, 'Barangay 58', 3),
+(187, 'Barangay 59', 3),
+(188, 'Barangay 60', 3),
+(189, 'Barangay 62', 3),
+(190, 'Barangay 63', 3),
+(191, 'Barangay 64', 3),
+(192, 'Barangay 65', 3),
+(193, 'Barangay 66', 3),
+(194, 'Barangay 67', 3),
+(195, 'Barangay 68', 3),
+(196, 'Barangay 69', 3),
+(197, 'Barangay 70', 3),
+(198, 'Barangay 71', 3),
+(199, 'Barangay 72', 3),
+(200, 'Barangay 73', 3),
+(201, 'Barangay 74', 3),
+(202, 'Barangay 75', 3),
+(203, 'Barangay 76', 3),
+(204, 'Barangay 77', 3),
+(205, 'Barangay 78', 3),
+(206, 'Barangay 79', 3),
+(207, 'Barangay 80', 3),
+(208, 'Barangay 81', 3),
+(209, 'Barangay 82', 3),
+(210, 'Barangay 83', 3),
+(211, 'Barangay 84', 3),
+(212, 'Barangay 85', 3),
+(213, 'Barangay 86', 3),
+(214, 'Barangay 87', 3),
+(215, 'Barangay 88', 3),
+(216, 'Barangay 89', 3),
+(217, 'Barangay 90', 3),
+(218, 'Barangay 91', 3),
+(219, 'Barangay 92', 3),
+(220, 'Barangay 93', 3),
+(221, 'Barangay 94', 3),
+(222, 'Barangay 95', 3),
+(223, 'Barangay 96', 3),
+(224, 'Barangay 97', 3),
+(225, 'Barangay 98', 3),
+(226, 'Barangay 99', 3),
+(227, 'Barangay 100', 3),
+(228, 'Barangay 101', 3),
+(229, 'Barangay 102', 3),
+(230, 'Barangay 103', 3),
+(231, 'Barangay 104', 3),
+(232, 'Barangay 105', 3),
+(233, 'Barangay 106', 3),
+(234, 'Barangay 107', 3),
+(235, 'Barangay 108', 3),
+(236, 'Barangay 109', 3),
+(237, 'Barangay 110', 3),
+(238, 'Barangay 111', 3),
+(239, 'Barangay 112', 3),
+(240, 'Barangay 113', 3),
+(241, 'Barangay 114', 3),
+(242, 'Barangay 115', 3),
+(243, 'Barangay 116', 3),
+(244, 'Barangay 117', 3),
+(245, 'Barangay 118', 3),
+(246, 'Barangay 119', 3),
+(247, 'Barangay 120', 3),
+(248, 'Barangay 121', 3),
+(249, 'Barangay 122', 3),
+(250, 'Barangay 123', 3),
+(251, 'Barangay 124', 3),
+(252, 'Barangay 125', 3),
+(253, 'Barangay 126', 3),
+(254, 'Barangay 127', 3),
+(255, 'Barangay 128', 3),
+(256, 'Barangay 129', 3),
+(257, 'Barangay 130', 3),
+(258, 'Barangay 131', 3),
+(259, 'Barangay 132', 3),
+(260, 'Barangay 133', 3),
+(261, 'Barangay 134', 3),
+(262, 'Barangay 135', 3),
+(263, 'Barangay 136', 3),
+(264, 'Barangay 137', 3),
+(265, 'Barangay 138', 3),
+(266, 'Barangay 139', 3),
+(267, 'Barangay 140', 3),
+(268, 'Barangay 141', 3),
+(269, 'Barangay 142', 3),
+(270, 'Barangay 143', 3),
+(271, 'Barangay 144', 3),
+(272, 'Barangay 145', 3),
+(273, 'Barangay 146', 3),
+(274, 'Barangay 147', 3),
+(275, 'Barangay 148', 3),
+(276, 'Barangay 149', 3),
+(277, 'Barangay 150', 3),
+(278, 'Barangay 151', 3),
+(279, 'Barangay 152', 3),
+(280, 'Barangay 153', 3),
+(281, 'Barangay 154', 3),
+(282, 'Barangay 155', 3),
+(283, 'Barangay 156', 3),
+(284, 'Barangay 157', 3),
+(285, 'Barangay 158', 3),
+(286, 'Barangay 159', 3),
+(287, 'Barangay 160', 3),
+(288, 'Barangay 161', 3),
+(289, 'Barangay 162', 3),
+(290, 'Barangay 163', 3),
+(291, 'Barangay 164', 3),
+(292, 'Barangay 165', 3),
+(293, 'Barangay 166', 3),
+(294, 'Barangay 167', 3),
+(295, 'Barangay 168', 3),
+(296, 'Barangay 169', 3),
+(297, 'Barangay 170', 3),
+(298, 'Barangay 171', 3),
+(299, 'Barangay 172', 3),
+(300, 'Barangay 173', 3),
+(301, 'Barangay 174', 3),
+(302, 'Barangay 175', 3),
+(303, 'Barangay 176', 3),
+(304, 'Barangay 177', 3),
+(305, 'Barangay 178', 3),
+(306, 'Barangay 179', 3),
+(307, 'Barangay 180', 3),
+(308, 'Barangay 181', 3),
+(309, 'Barangay 182', 3),
+(310, 'Barangay 183', 3),
+(311, 'Barangay 184', 3),
+(312, 'Barangay 185', 3),
+(313, 'Barangay 186', 3),
+(314, 'Barangay 187', 3),
+(315, 'Barangay 188', 3),
+(316, 'Almanza Uno', 4),
+(317, 'Almanza Dos', 4),
+(318, 'C.A.A. – B. F. International', 4),
+(319, 'Daniel Fajardo', 4),
+(320, 'Elias Aldana', 4),
+(321, 'Ilaya', 4),
+(322, 'Manuyo Uno', 4),
+(323, 'Manuyo Dos', 4),
+(324, 'Pamplona Uno', 4),
+(325, 'Pamplona Dos', 4),
+(326, 'Pamplona Tres', 4),
+(327, 'Pilar Village', 4),
+(328, 'Pulang Lupa Uno', 4),
+(329, 'Pulang Lupa Dos', 4),
+(330, 'Talon Uno', 4),
+(331, 'Talon Dos', 4),
+(332, 'Talon Tres', 4),
+(333, 'Talon Kuatro', 4),
+(334, 'Talon Singko', 4),
+(335, 'Zapote', 4),
+(336, 'Bangkal', 5),
+(337, 'Bel-Air', 5),
+(338, 'Carmona', 5),
+(339, 'Cembo', 5),
+(340, 'Comembo', 5),
+(341, 'Dasmariñas', 5),
+(342, 'Rembo Silangan', 5),
+(343, 'Forbes Park', 5),
+(344, 'Guadalupe Nuevo', 5),
+(345, 'Guadalupe Viejo', 5),
+(346, 'Kasilawan', 5),
+(347, 'La Paz', 5),
+(348, 'Magallanes', 5),
+(349, 'Olympia', 5),
+(350, 'Palanan', 5),
+(351, 'Pembo', 5),
+(352, 'Pinagkaisahan', 5),
+(353, 'Pio del Pilar', 5),
+(354, 'Pitogo', 5),
+(355, 'Poblacion', 5),
+(356, 'Post Proper Hilaga', 5),
+(357, 'Post Proper Timog', 5),
+(358, 'Rizal', 5),
+(359, 'San Antonio', 5),
+(360, 'San Isidro', 5),
+(361, 'San Lorenzo', 5),
+(362, 'Santa Cruz', 5),
+(363, 'Singkamas', 5),
+(364, 'Timog Cembo', 5),
+(365, 'Tejeros', 5),
+(366, 'Urdaneta', 5),
+(367, 'Valenzuela', 5),
+(368, 'Rembo Kanluran', 5),
+(369, 'Acacia', 6),
+(370, 'Baritan', 6),
+(371, 'Bayan-bayanan', 6),
+(372, 'Catmon', 6),
+(373, 'Concepcion', 6),
+(374, 'Dampalit', 6),
+(375, 'Flores', 6),
+(376, 'Hulong Duhat', 6),
+(377, 'Ibaba', 6),
+(378, 'Longos', 6),
+(379, 'Maysilo', 6),
+(380, 'Muzon', 6),
+(381, 'Niugan', 6),
+(382, 'Panghulo', 6),
+(383, 'Potrero', 6),
+(384, 'San Agustin', 6),
+(385, 'Santolan', 6),
+(386, 'Tañong', 6),
+(387, 'Tinajeros', 6),
+(388, 'Tonsuya', 6),
+(389, 'Tugatog', 6),
+(390, 'Addition Hills', 7),
+(391, 'Bagong Silang', 7),
+(392, 'Barangka Drive', 7),
+(393, 'Barangka Ibaba', 7),
+(394, 'Barangka Ilaya', 7),
+(395, 'Barangka Itaas', 7),
+(396, 'Buayang Bato', 7),
+(397, 'Burol', 7),
+(398, 'Daang Bakal', 7),
+(399, 'Hagdan Bato Itaas', 7),
+(400, 'Hagdan Bato Libis', 7),
+(401, 'Harapin Ang Bukas', 7),
+(402, 'Highway Hills', 7),
+(403, 'Hulo', 7),
+(404, 'Mabini–J.Rizal', 7),
+(405, 'Malamig', 7),
+(406, 'Mauway', 7),
+(407, 'Namayan', 7),
+(408, 'New Zañiga', 7),
+(409, 'Old Zañiga', 7),
+(410, 'Pag-Asa', 7),
+(411, 'Plainview', 7),
+(412, 'Pleasant Hills', 7),
+(413, 'Poblacion', 7),
+(414, 'San Jose', 7),
+(415, 'Vergara', 7),
+(416, 'Wack-Wack Greenhills', 7),
+(417, 'Barangay 659', 8),
+(418, 'Barangay 660', 8),
+(419, 'Barangay 661', 8),
+(420, 'Barangay 663', 8),
+(421, 'Barangay 664', 8),
+(422, 'Barangay 666', 8),
+(423, 'Barangay 667', 8),
+(424, 'Barangay 668', 8),
+(425, 'Barangay 669', 8),
+(426, 'Barangay 670', 8),
+(427, 'Barangay 671', 8),
+(428, 'Barangay 672', 8),
+(429, 'Barangay 673', 8),
+(430, 'Barangay 674', 8),
+(431, 'Barangay 675', 8),
+(432, 'Barangay 676', 8),
+(433, 'Barangay 677', 8),
+(434, 'Barangay 678', 8),
+(435, 'Barangay 679', 8),
+(436, 'Barangay 680', 8),
+(437, 'Barangay 681', 8),
+(438, 'Barangay 682', 8),
+(439, 'Barangay 683', 8),
+(440, 'Barangay 684', 8),
+(441, 'Barangay 685', 8),
+(442, 'Barangay 686', 8),
+(443, 'Barangay 687', 8),
+(444, 'Barangay 688', 8),
+(445, 'Barangay 689', 8),
+(446, 'Barangay 690', 8),
+(447, 'Barangka', 9),
+(448, 'Calumpang', 9),
+(449, 'Concepcion Dos', 9),
+(450, 'Concepcion Uno', 9),
+(451, 'Fortune', 9),
+(452, 'Industrial Valley', 9),
+(453, 'Jesus de La Peña', 9),
+(454, 'Malanday', 9),
+(455, 'Marikina Heights', 9),
+(456, 'Nangka', 9),
+(457, 'Parang', 9),
+(458, 'San Roque', 9),
+(459, 'Santa Elena', 9),
+(460, 'Santo Niño', 9),
+(461, 'Tañong', 9),
+(462, 'Tumana', 9),
+(467, 'Alabang', 10),
+(468, 'Bayanan', 10),
+(469, 'Buli', 10),
+(470, 'Cupang', 10),
+(471, 'New Alabang Village', 10),
+(472, 'Poblacion', 10),
+(473, 'Putatan', 10),
+(474, 'Sucat', 10),
+(475, 'Tunasan', 10),
+(476, 'Bagumbayan North', 11),
+(477, 'Bagumbayan South', 11),
+(478, 'Bangculasi', 11),
+(479, 'Daanghari', 11),
+(480, 'Navotas East', 11),
+(481, 'Navotas West', 11),
+(482, 'NBBS Dagat-dagatan', 11),
+(483, 'NBBS Kaunlaran', 11),
+(484, 'NBBS Proper', 11),
+(485, 'North Bay Boulevard North', 11),
+(486, 'San Jose', 11),
+(487, 'San Rafael Village', 11),
+(488, 'San Roque', 11),
+(489, 'Sipac-Almacen', 11),
+(490, 'Tangos North', 11),
+(491, 'Tangos South', 11),
+(492, 'Tanza 1', 11),
+(493, 'Tanza 2', 11),
+(494, 'Baclaran', 12),
+(495, 'Tambo', 12),
+(496, 'Dongalo', 12),
+(497, 'Sto. Niño', 12),
+(498, 'La Huerta', 12),
+(499, 'San Dionisio', 12),
+(500, 'San Isidro', 12),
+(501, 'Vitalez', 12),
+(502, 'San Antonio', 12),
+(503, 'B.F. Homes', 12),
+(504, 'Sun Valley', 12),
+(505, 'Marcelo Green', 12),
+(506, 'Don Bosco', 12),
+(507, 'Merville', 12),
+(508, 'San Martin de Porres', 12),
+(509, 'Moonwalk', 12),
+(510, 'Barangay 1', 13),
+(511, 'Barangay 2', 13),
+(512, 'Barangay 3', 13),
+(513, 'Barangay 4', 13),
+(514, 'Barangay 5', 13),
+(515, 'Barangay 6', 13),
+(516, 'Barangay 7', 13),
+(517, 'Barangay 8', 13),
+(518, 'Barangay 9', 13),
+(519, 'Barangay 10', 13),
+(520, 'Barangay 11', 13),
+(521, 'Barangay 12', 13),
+(522, 'Barangay 13', 13),
+(523, 'Barangay 14', 13),
+(524, 'Barangay 15', 13),
+(525, 'Barangay 16', 13),
+(526, 'Barangay 17', 13),
+(527, 'Barangay 18', 13),
+(528, 'Barangay 19', 13),
+(529, 'Barangay 20', 13),
+(530, 'Barangay 21', 13),
+(531, 'Barangay 22', 13),
+(532, 'Barangay 23', 13),
+(533, 'Barangay 24', 13),
+(534, 'Barangay 25', 13),
+(535, 'Barangay 26', 13),
+(536, 'Barangay 27', 13),
+(537, 'Barangay 28', 13),
+(538, 'Barangay 29', 13),
+(539, 'Barangay 30', 13),
+(540, 'Barangay 31', 13),
+(541, 'Barangay 32', 13),
+(542, 'Barangay 33', 13),
+(543, 'Barangay 34', 13),
+(544, 'Barangay 35', 13),
+(545, 'Barangay 36', 13),
+(546, 'Barangay 37', 13),
+(547, 'Barangay 38', 13),
+(548, 'Barangay 39', 13),
+(549, 'Barangay 40', 13),
+(550, 'Barangay 41', 13),
+(551, 'Barangay 42', 13),
+(552, 'Barangay 43', 13),
+(553, 'Barangay 44', 13),
+(554, 'Barangay 45', 13),
+(555, 'Barangay 46', 13),
+(556, 'Barangay 47', 13),
+(557, 'Barangay 48', 13),
+(558, 'Barangay 49', 13),
+(559, 'Barangay 50', 13),
+(560, 'Barangay 51', 13),
+(561, 'Barangay 52', 13),
+(562, 'Barangay 53', 13),
+(563, 'Barangay 54', 13),
+(564, 'Barangay 55', 13),
+(565, 'Barangay 56', 13),
+(566, 'Barangay 57', 13),
+(567, 'Barangay 58', 13),
+(568, 'Barangay 59', 13),
+(569, 'Barangay 60', 13),
+(570, 'Barangay 61', 13),
+(571, 'Barangay 62', 13),
+(572, 'Barangay 63', 13),
+(573, 'Barangay 64', 13),
+(574, 'Barangay 65', 13),
+(575, 'Barangay 66', 13),
+(576, 'Barangay 67', 13),
+(577, 'Barangay 68', 13),
+(578, 'Barangay 69', 13),
+(579, 'Barangay 70', 13),
+(580, 'Barangay 71', 13),
+(581, 'Barangay 72', 13),
+(582, 'Barangay 73', 13),
+(583, 'Barangay 74', 13),
+(584, 'Barangay 75', 13),
+(585, 'Barangay 76', 13),
+(586, 'Barangay 77', 13),
+(587, 'Barangay 78', 13),
+(588, 'Barangay 79', 13),
+(589, 'Barangay 80', 13),
+(590, 'Barangay 81', 13),
+(591, 'Barangay 82', 13),
+(592, 'Barangay 83', 13),
+(593, 'Barangay 84', 13),
+(594, 'Barangay 85', 13),
+(595, 'Barangay 86', 13),
+(596, 'Barangay 87', 13),
+(597, 'Barangay 88', 13),
+(598, 'Barangay 89', 13),
+(599, 'Barangay 90', 13),
+(600, 'Barangay 91', 13),
+(601, 'Barangay 92', 13),
+(602, 'Barangay 93', 13),
+(603, 'Barangay 94', 13),
+(604, 'Barangay 95', 13),
+(605, 'Barangay 96', 13),
+(606, 'Barangay 97', 13),
+(607, 'Barangay 98', 13),
+(608, 'Barangay 99', 13),
+(609, 'Barangay 100', 13),
+(610, 'Bagong Ilog', 14),
+(611, 'Bagong Katipunan', 14),
+(612, 'Bambang', 14),
+(613, 'Buting', 14),
+(614, 'Caniogan', 14),
+(615, 'Dela Paz', 14),
+(616, 'Kalawaan', 14),
+(617, 'Kapasigan', 14),
+(618, 'Kapitolyo', 14),
+(619, 'Malinao', 14),
+(620, 'Manggahan', 14),
+(621, 'Maybunga', 14),
+(622, 'Oranbo', 14),
+(623, 'Palatiw', 14),
+(624, 'Pinagbuhatan', 14),
+(625, 'Pineda', 14),
+(626, 'Rosario', 14),
+(627, 'Sagad', 14),
+(628, 'San Antonio', 14),
+(629, 'San Joaquin', 14),
+(630, 'San Jose', 14),
+(631, 'San Miguel', 14),
+(632, 'San Nicolas', 14),
+(633, 'Santa Cruz', 14),
+(634, 'Santa Lucia', 14),
+(635, 'Santa Rosa', 14),
+(636, 'Santo Tomas', 14),
+(637, 'Santolan', 14),
+(638, 'Sumilang', 14),
+(639, 'Ugong', 14),
+(640, 'Aguho', 15),
+(641, 'Magtanggol', 15),
+(642, 'Martires del 96', 15),
+(643, 'Poblacion', 15),
+(644, 'San Pedro', 15),
+(645, 'San Roque', 15),
+(646, 'Santa Ana', 15),
+(647, 'Santo Rosario-Kanluran', 15),
+(648, 'Santo Rosario-Silangan', 15),
+(649, 'Tabacalera', 15),
+(650, 'Alicia', 16),
+(651, 'Amihan', 16),
+(652, 'Apolonio Samson', 16),
+(653, 'Aurora', 16),
+(654, 'Baesa', 16),
+(655, 'Bagbag', 16),
+(656, 'Bagong Lipunan ng Crame', 16),
+(657, 'Bagong Pag-asa', 16),
+(658, 'Bagong Silangan', 16),
+(659, 'Bagumbayan', 16),
+(660, 'Bagumbuhay', 16),
+(661, 'Bahay Toro', 16),
+(662, 'Balingasa', 16),
+(663, 'Balong Bato', 16),
+(664, 'Batasan Hills', 16),
+(665, 'Bayanihan', 16),
+(666, 'Blue Ridge A', 16),
+(667, 'Blue Ridge B', 16),
+(668, 'Botocan', 16),
+(669, 'Bungad', 16),
+(670, 'Camp Aguinaldo', 16),
+(671, 'Capri', 16),
+(672, 'Central', 16),
+(673, 'Claro', 16),
+(674, 'Commonwealth', 16),
+(675, 'Culiat', 16),
+(676, 'Damar', 16),
+(677, 'Damayan', 16),
+(678, 'Damayang Lagi', 16),
+(679, 'Del Monte', 16),
+(680, 'Dioquino Zobel', 16),
+(681, 'Don Manuel', 16),
+(682, 'Doña Imelda', 16),
+(683, 'Doña Josefa', 16),
+(684, 'Duyan-duyan', 16),
+(685, 'E. Rodriguez', 16),
+(686, 'East Kamias', 16),
+(687, 'Escopa I', 16),
+(688, 'Escopa II', 16),
+(689, 'Escopa III', 16),
+(690, 'Escopa IV', 16),
+(691, 'Fairview', 16),
+(692, 'Greater Lagro', 16),
+(693, 'Gulod', 16),
+(694, 'Holy Spirit', 16),
+(695, 'Horseshoe', 16),
+(696, 'Immaculate Concepcion', 16),
+(697, 'Kaligayahan', 16),
+(698, 'Kalusugan', 16),
+(699, 'Kamuning', 16),
+(700, 'Katipunan', 16),
+(701, 'Kaunlaran', 16),
+(702, 'Kristong Hari', 16),
+(703, 'Krus na Ligas', 16),
+(704, 'Laging Handa', 16),
+(705, 'Libis', 16),
+(706, 'Lourdes', 16),
+(707, 'Loyola Heights', 16),
+(708, 'Maharlika', 16),
+(709, 'Malaya', 16),
+(710, 'Mangga', 16),
+(711, 'Manresa', 16),
+(712, 'Mariana', 16),
+(713, 'Mariblo', 16),
+(714, 'Marilag', 16),
+(715, 'Masagana', 16),
+(716, 'Masambong', 16),
+(717, 'Matandang Balara', 16),
+(718, 'Milagrosa', 16),
+(719, 'N. S. Amoranto', 16),
+(720, 'Nagkaisang Nayon', 16),
+(721, 'Nayong Kanluran', 16),
+(722, 'New Era', 16),
+(723, 'North Fairview', 16),
+(724, 'Novaliches Proper', 16),
+(725, 'Obrero', 16),
+(726, 'Old Capitol Site', 16),
+(727, 'Paang Bundok', 16),
+(728, 'Pag-ibig sa Nayon', 16),
+(729, 'Paligsahan', 16),
+(730, 'Paltok', 16),
+(731, 'Pansol', 16),
+(732, 'Paraiso', 16),
+(733, 'Pasong Putik Proper', 16),
+(734, 'Pasong Tamo', 16),
+(735, 'Payatas', 16),
+(736, 'Phil-Am', 16),
+(737, 'Pinagkaisahan', 16),
+(738, 'Pinyahan', 16),
+(739, 'Project 6', 16),
+(740, 'Quirino 2-A', 16),
+(741, 'Quirino 2-B', 16),
+(742, 'Quirino 2-C', 16),
+(743, 'Quirino 3-A', 16),
+(744, 'Ramon Magsaysay', 16),
+(745, 'Roxas', 16),
+(746, 'Sacred Heart', 16),
+(747, 'Saint Ignatius', 16),
+(748, 'Saint Peter', 16),
+(749, 'Salvacion', 16),
+(750, 'San Agustin', 16),
+(751, 'San Antonio', 16),
+(752, 'San Bartolome', 16),
+(753, 'San Isidro', 16),
+(754, 'San Isidro Labrador', 16),
+(755, 'San Jose', 16),
+(756, 'San Martin de Porres', 16),
+(757, 'San Roque', 16),
+(758, 'San Vicente', 16),
+(759, 'Sangandaan', 16),
+(760, 'Santa Cruz', 16),
+(761, 'Santa Lucia', 16),
+(762, 'Santa Monica', 16),
+(763, 'Santa Teresita', 16),
+(764, 'Santo Cristo', 16),
+(765, 'Santo Domingo', 16),
+(766, 'Santo Niño', 16),
+(767, 'Santol', 16),
+(768, 'Sauyo', 16),
+(769, 'Sienna', 16),
+(770, 'Sikatuna Village', 16),
+(771, 'Silangan', 16),
+(772, 'Socorro', 16),
+(773, 'South Triangle', 16),
+(774, 'Tagumpay', 16),
+(775, 'Talayan', 16),
+(776, 'Talipapa', 16),
+(777, 'Tandang Sora', 16),
+(778, 'Tatalon', 16),
+(779, 'Teachers Village East', 16),
+(780, 'Teachers Village West', 16),
+(781, 'U.P. Campus', 16),
+(782, 'U.P. Village', 16),
+(783, 'Ugong Norte', 16),
+(784, 'Unang Sigaw', 16),
+(785, 'Valencia', 16),
+(786, 'Vasra', 16),
+(787, 'Veterans Village', 16),
+(788, 'Villa Maria Clara', 16),
+(789, 'West Kamias', 16),
+(790, 'West Triangle', 16),
+(791, 'White Plains', 16),
+(792, 'Addition Hills', 17),
+(793, 'Balong-Bato', 17),
+(794, 'Batis', 17),
+(795, 'Corazon de Jesus', 17),
+(796, 'Ermitaño', 17),
+(797, 'Greenhills', 17),
+(798, 'Halo-halo', 17),
+(799, 'Isabelita', 17),
+(800, 'Kabayanan', 17),
+(801, 'Little Baguio', 17),
+(802, 'Maytunas', 17),
+(803, 'Onse', 17),
+(804, 'Pasadeña', 17),
+(805, 'Pedro Cruz', 17),
+(806, 'Progreso', 17),
+(807, 'Rivera', 17),
+(808, 'Salapan', 17),
+(809, 'San Perfecto', 17),
+(810, 'Santa Lucia', 17),
+(811, 'Tibagan', 17),
+(812, 'West Crame', 17),
+(813, 'Bagumbayan', 18),
+(814, 'Bambang', 18),
+(815, 'Calzada', 18),
+(816, 'Central Bicutan', 18),
+(817, 'Central Signal Village', 18),
+(818, 'Fort Bonifacio', 18),
+(819, 'Hagonoy', 18),
+(820, 'Ibayo-Tipas', 18),
+(821, 'Katuparan', 18),
+(822, 'Ligid-Tipas', 18),
+(823, 'Lower Bicutan', 18),
+(824, 'Maharlika Village', 18),
+(825, 'Napindan', 18),
+(826, 'New Lower Bicutan', 18),
+(827, 'North Daang Hari', 18),
+(828, 'North Signal Village', 18),
+(829, 'Palingon', 18),
+(830, 'Pinagsama', 18),
+(831, 'San Miguel', 18),
+(832, 'Santa Ana', 18),
+(833, 'South Daang Hari', 18),
+(834, 'South Signal Village', 18),
+(835, 'Tanyag', 18),
+(836, 'Tuktukan', 18),
+(837, 'Upper Bicutan', 18),
+(838, 'Ususan', 18),
+(839, 'Wawa', 18),
+(840, 'Western Bicutan', 18),
+(841, 'Agtangao', 94),
+(842, 'Angad', 94),
+(843, 'Bañacao', 94),
+(844, 'Bangbangar', 94),
+(845, 'Cabuloan', 94),
+(846, 'Calaba', 94),
+(847, 'Cosili East', 94),
+(848, 'Cosili West', 94),
+(849, 'Dangdangla', 94),
+(850, 'Lingtan', 94),
+(851, 'Lipcan', 94),
+(852, 'Lubong', 94),
+(853, 'Macarcarmay', 94),
+(854, 'Macray', 94),
+(855, 'Malita', 94),
+(856, 'Maoay', 94),
+(857, 'Palao', 94),
+(858, 'Patucannay', 94),
+(859, 'Sagap', 94),
+(860, 'San Antonio', 94),
+(861, 'Santa Rosa', 94),
+(862, 'Sao-atan', 94),
+(863, 'Sappaac', 94),
+(864, 'Tablac', 94),
+(865, 'Zone 1 Poblacion', 94),
+(866, 'Zone 2 Poblacion', 94),
+(867, 'Zone 3 Poblacion', 94),
+(868, 'Zone 4 Poblacion', 94),
+(869, 'Zone 5 Poblacion', 94),
+(870, 'Zone 6 Poblacion', 94),
+(871, 'Zone 7 Poblacion', 94),
+(872, 'Amti', 95),
+(873, 'Bao-yan', 95),
+(874, 'Danac East', 95),
+(875, 'Danac West', 95),
+(876, 'Dao-angan', 95),
+(877, 'Dumagas', 95),
+(878, 'Kilong-Olao', 95),
+(879, 'Poblacion', 95),
+(880, 'Abang', 96),
+(881, 'Bangbangcag', 96),
+(882, 'Bangcagan', 96),
+(883, 'Banglolao', 96),
+(884, 'Bugbog', 96),
+(885, 'Calao', 96),
+(886, 'Dugong', 96),
+(887, 'Labon', 96),
+(888, 'Layugan', 96),
+(889, 'Madalipay', 96),
+(890, 'North Poblacion', 96),
+(891, 'Pagala', 96),
+(892, 'Pakiling', 96),
+(893, 'Palaquio', 96),
+(894, 'Patoc', 96),
+(895, 'Quimloong', 96),
+(896, 'Salnec', 96),
+(897, 'San Miguel', 96),
+(898, 'Siblong', 96),
+(899, 'South Poblacion', 96),
+(900, 'Tabiog', 96),
+(901, 'Amti', 97),
+(902, 'Bao-yan', 97),
+(903, 'Danac East', 97),
+(904, 'Danac West', 97),
+(905, 'Dao-angan', 97),
+(906, 'Dumagas', 97),
+(907, 'Kilong-Olao', 97),
+(908, 'Poblacion', 97),
+(909, 'Ableg', 98),
+(910, 'Cabaruyan', 98),
+(911, 'Pikek', 98),
+(912, 'Tui', 98),
+(913, 'Abaquid', 99),
+(914, 'Cabaruan', 99),
+(915, 'Caupasan', 99),
+(916, 'Danglas', 99),
+(917, 'Nagaparan', 99),
+(918, 'Padangitan', 99),
+(919, 'Pangal', 99),
+(920, 'Bayaan', 100),
+(921, 'Cabaroan', 100),
+(922, 'Calumbaya', 100),
+(923, 'Cardona', 100),
+(924, 'Isit', 100),
+(925, 'Kimmalaba', 100),
+(926, 'Libtec', 100),
+(927, 'Lub-lubba', 100),
+(928, 'Mudiit', 100),
+(929, 'Namit-ingan', 100),
+(930, 'Pacac', 100),
+(931, 'Poblacion', 100),
+(932, 'Salucag', 100),
+(933, 'Talogtog', 100),
+(934, 'Taping', 100),
+(935, 'Benben', 101),
+(936, 'Bulbulala', 101),
+(937, 'Buli', 101),
+(938, 'Canan', 101),
+(939, 'Liguis', 101),
+(940, 'Malabbaga', 101),
+(941, 'Mudeng', 101),
+(942, 'Pidipid', 101),
+(943, 'Poblacion', 101),
+(944, 'San Gregorio', 101),
+(945, 'Toon', 101),
+(946, 'Udangan', 101),
+(957, 'Bacag', 102),
+(958, 'Buneg', 102),
+(959, 'Guinguinabang', 102),
+(960, 'Lan-ag', 102),
+(961, 'Pacoc', 102),
+(962, 'Poblacion', 102),
+(967, 'Aguet', 103),
+(968, 'Bacooc', 103),
+(969, 'Balais', 103),
+(970, 'Cayapa', 103),
+(971, 'Dalaguisen', 103),
+(972, 'Laang', 103),
+(973, 'Lagben', 103),
+(974, 'Laguiben', 103),
+(975, 'Nagtipulan', 103),
+(976, 'Nagtupacan', 103),
+(977, 'Paganao', 103),
+(978, 'Pawa', 103),
+(979, 'Poblacion', 103),
+(980, 'Presentar', 103),
+(981, 'San Isidro', 103),
+(982, 'Tagodtod', 103),
+(983, 'Taping', 103),
+(984, 'Ba-i', 104),
+(985, 'Collago', 104),
+(986, 'Pang-ot', 104),
+(987, 'Poblacion', 104),
+(988, 'Pulot', 104);
 
 -- --------------------------------------------------------
 
@@ -897,7 +1722,7 @@ INSERT INTO `built_games` (`built_game_id`, `game_id`, `name`, `description`, `c
 (181, 246, 'Warp Zone ', '', 24, '2023-11-28 20:50:33', 0, 0, 1, 0, 0, 1, 0, 0, 1, 48.00, 4.80),
 (182, 247, 'Warriors Starlight', '', 24, '2023-11-28 20:50:38', 0, 0, 1, 0, 0, 1, 0, 0, 1, 41.00, 4.10),
 (183, 248, 'Cosmic Codebreaker', '', 24, '2023-11-28 20:50:44', 0, 0, 1, 0, 0, 1, 0, 0, 1, 77.00, 7.70),
-(184, 249, 'bamsak', '', 20, '2023-11-29 16:18:40', 0, 0, 1, 0, 0, 1, 0, 0, 0, 7.00, 0.70);
+(184, 249, 'snake and ladder', 'this is description', 28, '2023-12-02 13:32:35', 0, 0, 1, 0, 0, 1, 0, 0, 1, 20.00, 2.00);
 
 -- --------------------------------------------------------
 
@@ -963,7 +1788,7 @@ INSERT INTO `built_games_added_game_components` (`added_component_id`, `built_ga
 (639, 182, 247, 15, 1, 'uploads/6565e189de849_Custom Extra Large Game Box 2 Height.pdf', 3, 0, '2.5 x 2.5 '),
 (640, 183, 248, 15, 1, 'uploads/6565e11320133_6558d87cc83d9_12_5x12_5x2.pdf', 7, 0, '2.5 x 2.5 '),
 (641, 183, 248, 23, 0, '', 4, 4, '16mm'),
-(642, 184, 249, 16, 0, '', 1, 0, '2.75 x 2.75 ');
+(642, 184, 249, 40, 1, 'uploads/656b31a5a6c8e_65655de815d06_Custom Game Board 10.pdf', 1, 0, '10 x 10');
 
 -- --------------------------------------------------------
 
@@ -1045,12 +1870,24 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `published_game_id`, `game_id`, `built
 (1072, 20, 206, NULL, NULL, NULL, NULL, 1, 222.00, 1, 0, 0),
 (1073, 20, 205, NULL, NULL, NULL, NULL, 1, 548.00, 1, 0, 0),
 (1074, 20, NULL, NULL, NULL, 637, NULL, 1, 7.00, 1, 0, 0),
-(1075, 20, NULL, 249, NULL, NULL, 192, 1, 0.70, 1, 0, 0),
-(1076, 20, NULL, NULL, NULL, 639, NULL, 1, 7.00, 1, 0, 0),
-(1077, 20, NULL, NULL, NULL, 640, NULL, 1, 7.00, 1, 0, 0),
-(1078, 20, 199, NULL, NULL, NULL, NULL, 1, 293.00, 1, 0, 0),
-(1079, 20, NULL, 234, 169, NULL, NULL, 1, 20.00, 1, 0, 0),
-(1080, 20, NULL, 249, 184, NULL, NULL, 1, 6.30, 1, 0, 1);
+(1075, 20, 199, NULL, NULL, NULL, NULL, 1, 293.00, 1, 0, 0),
+(1076, 20, NULL, NULL, NULL, 638, NULL, 1, 7.00, 1, 0, 0),
+(1077, 20, NULL, NULL, NULL, 639, NULL, 1, 10.00, 1, 0, 0),
+(1078, 28, NULL, 249, NULL, NULL, 192, 1, 2.00, 1, 0, 0),
+(1079, 28, NULL, 249, 184, NULL, NULL, 1, 18.00, 0, 1, 1),
+(1080, 28, NULL, 249, 184, NULL, NULL, 1, 18.00, 1, 0, 1),
+(1081, 29, 207, NULL, NULL, NULL, NULL, 1, 170.00, 1, 1, 0),
+(1082, 20, NULL, NULL, NULL, 641, NULL, 2, 7.00, 1, 0, 0),
+(1083, 20, NULL, 250, NULL, NULL, 193, 1, 2.40, 1, 0, 0),
+(1084, 20, NULL, 250, NULL, NULL, 194, 1, 2.40, 1, 0, 0),
+(1085, 20, NULL, 250, NULL, NULL, 195, 1, 2.40, 1, 0, 0),
+(1086, 20, 198, NULL, NULL, NULL, NULL, 1, 173.00, 1, 0, 0),
+(1087, 22, 206, NULL, NULL, NULL, NULL, 2, 222.00, 1, 0, 0),
+(1088, 22, 206, NULL, NULL, NULL, NULL, 1, 222.00, 1, 0, 0),
+(1089, 22, 204, NULL, NULL, NULL, NULL, 1, 1041.00, 1, 0, 0),
+(1090, 22, NULL, NULL, NULL, 645, NULL, 1, 7.00, 1, 0, 0),
+(1091, 22, 199, NULL, NULL, NULL, NULL, 8, 293.00, 1, 0, 0),
+(1092, 22, 197, NULL, NULL, NULL, NULL, 77, 396.00, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2507,7 +3344,8 @@ CREATE TABLE `courier` (
 
 INSERT INTO `courier` (`courier_id`, `courier_name`, `courier_logo`) VALUES
 (1, 'J&T Express', NULL),
-(2, 'Flash Express', NULL);
+(2, 'Flash Express', NULL),
+(5, 'JRS Express', NULL);
 
 -- --------------------------------------------------------
 
@@ -2522,6 +3360,14 @@ CREATE TABLE `denied_approve_game_requests` (
   `file_path` varchar(255) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `denied_approve_game_requests`
+--
+
+INSERT INTO `denied_approve_game_requests` (`denied_approve_game_request_id`, `game_id`, `reason`, `file_path`, `timestamp`) VALUES
+(25, 250, 'copyrighted', '0', '2023-12-04 06:41:24'),
+(26, 250, 'asdfghjkl', '0', '2023-12-04 08:47:18');
 
 -- --------------------------------------------------------
 
@@ -2660,7 +3506,8 @@ INSERT INTO `games` (`game_id`, `name`, `description`, `user_id`, `created_at`, 
 (246, 'Warp Zone ', '', 24, '2023-11-28 20:45:31', '2023-11-28 12:48:36', 1, 0, 0, 0, 0, 1, 1),
 (247, 'Warriors Starlight', '', 24, '2023-11-28 20:45:46', '2023-11-28 12:48:09', 1, 0, 0, 0, 0, 1, 1),
 (248, 'Cosmic Codebreaker', '', 24, '2023-11-28 20:45:54', '2023-11-28 12:46:30', 1, 0, 0, 0, 0, 1, 1),
-(249, 'bamsak', '', 20, '2023-11-29 06:37:17', '2023-11-28 22:37:34', 1, 0, 0, 0, 0, 1, 1);
+(249, 'snake and ladder', 'this is description', 28, '2023-12-02 13:25:50', '2023-12-02 21:31:17', 1, 0, 0, 0, 0, 1, 1),
+(250, 'sample sample', 'sample game sample game', 20, '2023-12-04 06:25:59', '2023-12-04 14:27:06', 0, 0, 1, 1, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2797,7 +3644,8 @@ CREATE TABLE `help` (
 INSERT INTO `help` (`help_id`, `faq_id`, `help_title`, `help_description`, `help_image_path`) VALUES
 (1, 4, 'Frequently Asked Question 2', '     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It hah asd asd asdasd as dasd asd asd asda da das da sda sda sdasd asd asd asd asda sd asda sda da sd', 'assets/help_assets/6546a4ed238e9_3.png'),
 (2, 4, 'Frequently Asked Question 1', 'Will you marry me ?\r\n', 'assets/help_assets/6566201cac864_designing.jpg'),
-(3, 5, 'Terms and Conditions', 'STKR HUB Website Terms and Conditions\r\n\r\n1. Acceptance of Terms\r\nBy accessing and using the STKR HUB website (hereinafter referred to as \"the Site\"), you agree to comply with and be bound by the following terms and conditions. If you do not agree to these terms, please refrain from using the Site.\r\n\r\n2. Changes to Terms\r\nWe reserve the right to modify, amend, or update these terms at any time without prior notice. You are responsible for checking the terms regularly for changes. Your continued use of the STKR HUB Site after changes signify your acceptance of the modified terms.\r\n\r\n3. Use of the Site\r\n3.1. You must use the Site in compliance with all applicable laws and regulations.\r\n3.2. You are prohibited from using the Site for any unlawful or fraudulent activities.\r\n3.3. You are responsible for maintaining the confidentiality of your account credentials and are liable for any activities that occur under your account.\r\n\r\n4. User Content\r\n4.1. Any content you submit to the Site, such as comments, reviews, or contributions, must not violate the rights of others, including copyright, trademark, or privacy rights.\r\n4.2. We reserve the right to remove or modify any user-generated content at our discretion.\r\n\r\n5. Intellectual Property\r\n5.1. The Site and its contents are protected by copyright, trademark, and other intellectual property rights. You may not reproduce, distribute, or create derivative works without our permission.\r\n\r\n6. Privacy\r\n6.1. Your use of the Site is also governed by our Privacy Policy [Link to Privacy Policy].\r\n\r\n7. Links to Third-Party Websites\r\n7.1. The Site may contain links to third-party websites. We are not responsible for the content or practices of these third-party sites.\r\n\r\n8. Disclaimers and Limitations of Liability\r\n8.1. We make no warranties or representations about the accuracy or completeness of the Site\'s content. You use the Site at your own risk.\r\n8.2. We are not liable for any direct, indirect, incidental, special, or consequential damages arising from your use of the Site.\r\n\r\n9. Mode of Payment\r\n9.1. STKR HUB accepts payments through the following methods:\r\na. PayPal\r\nb. STKR Wallet\r\n9.2. The terms and conditions of these payment methods are subject to the respective policies of PayPal and STKR Wallet.\r\n\r\n10. Ticketing\r\nSTKR HUB provides ticketing services for various events and activities. By purchasing tickets through STKR HUB, you agree to the terms and conditions specific to each event, as well as the general terms outlined in this agreement.\r\n\r\n11. Refund Policy\r\n11.1. Refund Eligibility\r\nSTKR HUB has a refund policy in place for eligible transactions. Refunds may be granted under the following circumstances:\r\n\r\nEvent Cancellation: In the event of a cancellation of an event for which you have purchased tickets through STKR HUB, you may be eligible for a refund. The specific terms and conditions for each event\'s refund eligibility will be outlined at the time of purchase.\r\n\r\nPayment Errors: If there is a payment error or unauthorized charge on your account due to a technical issue or mistake, please contact STKR HUB\'s customer support within 30 days of the transaction for a review of your case.\r\n\r\n11.2. Refund Process\r\nTo request a refund, you must contact STKR HUB\'s customer support within the specified timeframe. The refund process may require you to provide relevant transaction details and proof of purchase. Refunds will be issued in the original form of payment, or through STKR Wallet if applicable.\r\n\r\n11.3. Non-Refundable Items\r\nCertain purchases, including but not limited to digital goods and services, may be non-refundable. These exceptions will be clearly communicated at the time of purchase.\r\n\r\n12. Indemnification\r\nYou agree to indemnify and hold us harmless from any claims, losses, or damages arising from your violation of these terms or your use of the Site.\r\n\r\n13. Termination\r\nWe reserve the right to terminate your access to the STKR HUB Site for any reason, without notice.\r\n\r\n14. Governing Law\r\nThese terms are governed by and construed in accordance with the laws of [Your Jurisdiction].\r\n\r\n15. Contact Information\r\nIf you have any questions or concerns regarding these terms, please contact us at mnl.stkrlabs@gmail.com.', NULL);
+(3, 5, 'Terms of Service', 'STKR HUB Website Terms of Service\r\n\r\n1. Acceptance of Terms\r\nBy accessing and using the STKR HUB website (hereinafter referred to as \"the Site\"), you agree to comply with and be bound by the following terms and conditions. If you do not agree to these terms, please refrain from using the Site.\r\n\r\n2. Changes to Terms\r\nWe reserve the right to modify, amend, or update these terms at any time without prior notice. You are responsible for checking the terms regularly for changes. Your continued use of the STKR HUB Site after changes signify your acceptance of the modified terms.\r\n\r\n3. Use of the Site\r\n3.1. You must use the Site in compliance with all applicable laws and regulations.\r\n3.2. You are prohibited from using the Site for any unlawful or fraudulent activities.\r\n3.3. You are responsible for maintaining the confidentiality of your account credentials and are liable for any activities that occur under your account.\r\n\r\n4. User Content\r\n4.1. Any content you submit to the Site, such as comments, reviews, or contributions, must not violate the rights of others, including copyright, trademark, or privacy rights.\r\n4.2. We reserve the right to remove or modify any user-generated content at our discretion.\r\n\r\n5. Intellectual Property\r\n5.1. The Site and its contents are protected by copyright, trademark, and other intellectual property rights. You may not reproduce, distribute, or create derivative works without our permission.\r\n\r\n6. Privacy\r\n6.1. Your use of the Site is also governed by our Privacy Policy [Link to Privacy Policy].\r\n\r\n7. Links to Third-Party Websites\r\n7.1. The Site may contain links to third-party websites. We are not responsible for the content or practices of these third-party sites.\r\n\r\n8. Disclaimers and Limitations of Liability\r\n8.1. We make no warranties or representations about the accuracy or completeness of the Site\'s content. You use the Site at your own risk.\r\n8.2. We are not liable for any direct, indirect, incidental, special, or consequential damages arising from your use of the Site.\r\n\r\n9. Mode of Payment\r\n9.1. STKR HUB accepts payments through the following methods:\r\na. PayPal\r\nb. STKR Wallet\r\n9.2. The terms and conditions of these payment methods are subject to the respective policies of PayPal and STKR Wallet.\r\n\r\n10. Ticketing\r\nSTKR HUB provides ticketing services for various events and activities. By purchasing tickets through STKR HUB, you agree to the terms and conditions specific to each event, as well as the general terms outlined in this agreement.\r\n\r\n11. Refund Policy\r\n11.1. Refund Eligibility\r\nSTKR HUB has a refund policy in place for eligible transactions. Refunds may be granted under the following circumstances:\r\n\r\nEvent Cancellation: In the event of a cancellation of an event for which you have purchased tickets through STKR HUB, you may be eligible for a refund. The specific terms and conditions for each event\'s refund eligibility will be outlined at the time of purchase.\r\n\r\nPayment Errors: If there is a payment error or unauthorized charge on your account due to a technical issue or mistake, please contact STKR HUB\'s customer support within 30 days of the transaction for a review of your case.\r\n\r\n11.2. Refund Process\r\nTo request a refund, you must contact STKR HUB\'s customer support within the specified timeframe. The refund process may require you to provide relevant transaction details and proof of purchase. Refunds will be issued in the original form of payment, or through STKR Wallet if applicable.\r\n\r\n11.3. Non-Refundable Items\r\nCertain purchases, including but not limited to digital goods and services, may be non-refundable. These exceptions will be clearly communicated at the time of purchase.\r\n\r\n12. Indemnification\r\nYou agree to indemnify and hold us harmless from any claims, losses, or damages arising from your violation of these terms or your use of the Site.\r\n\r\n13. Termination\r\nWe reserve the right to terminate your access to the STKR HUB Site for any reason, without notice.\r\n\r\n14. Governing Law\r\nThese terms are governed by and construed in accordance with the laws of [Your Jurisdiction].\r\n\r\n15. Contact Information\r\nIf you have any questions or concerns regarding these terms, please contact us at mnl.stkrlabs@gmail.com.', NULL),
+(4, 5, 'Privacy Policy', 'Privacy Policy\r\n\r\n1. INTRODUCTION\r\n\r\n\r\n\r\n1.1 Welcome to the STKR HUB platform run by STKR Labs. STKR Labs has responsibilities under privacy laws and regulations (\"Privacy Laws\") and is compliant on respecting the privacy rights and concerns of all Users in our STKR HUB platform. Users refers to a user who registers for an account with us for use of the Services, including both buyers and designers. We understand the significance of the personal data you\'ve shared with us and consider it our duty to appropriately handle, safeguard, and process this information. This Privacy Policy, also referred to as the Policy, aims to clarify how we gather, utilize, disclose, and handle the personal data you\'ve provided us with or that we may possess about you, both presently and in the future. Its purpose is to aid you in making informed decisions before sharing any of your personal data with us. \r\n\r\n\r\n\r\n1.2 By utilizing our Services, creating an account, visiting our Platform, or accessing our Services, you acknowledge and agree to comply with the practices, guidelines, and policies outlined in this Privacy Policy. You hereby provide consent for us to collect, use, disclose, and process your personal data as detailed herein. If you disagree with the data processing described in this Privacy Policy, we kindly ask that you refrain from using our Services or accessing our Platform. In the event of any changes to our Privacy Policy, we will notify you, which may include posting the updated policy on our Platform. We retain the right to modify this Privacy Policy at any time. By continuing to use our Services or Platform, including making any orders, you affirm and accept the alterations made to this Privacy Policy, to the maximum extent permitted by applicable law..\r\n\r\n\r\n\r\n1.3 \"Personal Data\" or \"personal data\" means data, whether true or not, about an individual who can be identified from that data, or from that data and other information to which an organization has or is likely to have access. Common examples of personal data could include name, identification number and contact information.\r\n\r\n\r\n\r\n1.4 This Policy operates in harmony with other notifications, contractual terms, or consent agreements relevant to the collection, storage, use, disclosure, and processing of your personal data by us. It is not intended to supersede those notifications or clauses unless specifically stated otherwise by us.\r\n\r\n\r\n\r\n1.5 This Policy applies to both buyers and designers who use the Services except where expressly stated otherwise.\r\n\r\n\r\n\r\n2. WHEN WILL STKR HUB COLLECT PERSONAL DATA?\r\n\r\n\r\n\r\n2.1 We collect or may collect your personal data in various instances, including but not limited to:\r\n\r\nWhen you register for or utilize our Services or Platform, or establish an account.\r\n\r\nUpon submission of any forms related to our products/services, whether online or physical.\r\n\r\nIn the course of agreements, documentation, or interactions concerning our services.\r\n\r\nThrough various communication channels such as telephone calls, emails, social media, and in-person meetings, including recordings of these calls.\r\n\r\nDuring your use of electronic services, our application, or our website, which may involve the use of cookies.\r\n\r\nWhen permissions are granted on your device to share information with our application or Platform.\r\n\r\nBy linking your account with external social media or other accounts, following the provider\'s policies.\r\n\r\nWhen engaging in transactions through our Services.\r\nProviding feedback, complaints, participating in contests, or submitting personal data for any other reason.\r\n\r\nThe list above is not exhaustive and represents common scenarios where we may collect personal data about you.\r\n\r\n\r\n\r\n3. WHAT PERSONAL DATA WILL SHOPEE COLLECT?\r\n\r\n\r\n\r\n3.1 The personal data that Shopee may collect includes but is not limited to:\r\n\r\nname;\r\nemail address;\r\ndate of birth;\r\nbilling and/or delivery address;\r\nbank account and payment information;\r\ntelephone number;\r\ninformation sent by or associated with the device(s) used to access our Services or Platform;\r\ninformation about your network and the people and accounts you interact with;\r\nphotographs or audio or video recordings;\r\nlocation data;\r\n\r\nany other information about the User when the User signs up to use our Services or Platform, and when the User uses the Services or Platform, as well as information related to how the User uses our Services or Platform; and\r\naggregate data on content the User engages with.\r\n\r\n\r\n3.2 You agree not to submit any information to us which is inaccurate or misleading, and you agree to inform us of any inaccuracies or changes to such information. We reserve the right at our sole discretion to require further documentation to verify the information provided by you.\r\n\r\n\r\n\r\n3.3 If you do not want us to collect the aforementioned information/personal data, you may opt out at any time by notifying our Data Protection Officer in writing. Further information on opting out can be found in the section below entitled \"How can you withdraw consent, remove, request access to or modify information you have provided to us?\"  Note, however, that opting out or withdrawing your consent for us to collect, use or process your personal data may affect your use of the Services and the Platform.  For example, opting out of the collection of location information will cause its location-based features to be disabled.\r\n\r\n\r\n\r\n4. HOW DO WE USE THE INFORMATION YOU PROVIDE US?\r\n\r\n\r\n\r\n4.1 We may collect, use, disclose and/or process your personal data for one or more of the following purposes:\r\n\r\nto consider and/or process your application/transaction with us or your transactions or communications with third parties via the Services;\r\n\r\nto manage, operate, provide and/or administer your use of and/or access to our Services and our Platform (including, without limitation, remembering your preference), as well as your relationship and user account with us;\r\n\r\nto respond to, process, deal with or complete a transaction and/or to fulfil your requests for certain products and services and notify you of service issues and unusual account actions;\r\nto enforce our Terms of Service or any applicable end user license agreements;\r\nto protect personal safety and the rights, property or safety of others;\r\n\r\nfor identification, verification, due diligence, or know your customer purposes;\r\n\r\nto evaluate and make decisions relating to your credit and risk profile and eligibility for credit products;\r\n\r\nto maintain and administer any software updates and/or other updates and support that may be required from time to time to ensure the smooth running of our Services;\r\n\r\nto deal with or facilitate customer service, carry out your instructions, deal with or respond to any enquiries given by (or purported to be given by) you or on your behalf;\r\n\r\nto contact you or communicate with you via voice call, text message and/or fax message, email and/or postal mail or otherwise for the purposes of administering and/or managing your relationship with us or your use of our Services, such as but not limited to communicating administrative information to you relating to our Services. You acknowledge and agree that such communication by us could be by way of the mailing of correspondence, documents or notices to you, which could involve disclosure of certain personal data about you to bring about delivery of the same as well as on the external cover of envelopes/mail packages;\r\n\r\nto allow other users to interact, connect with you or see some of your activities on the Platform, including to inform you when another User has sent you a private message, posted a comment for you on the Platform or connected with you using the social features on the Platform;\r\n\r\nto conduct research, analysis and development activities (including, but not limited to, data analytics, surveys, product and service development and/or profiling), to analyse how you use our Services, to recommend products and/or services relevant to your interests, to improve our Services or products and/or to enhance your customer experience;\r\n\r\nto allow for audits and surveys to, among other things, validate the size and composition of our target audience, and understand their experience with Shopee’s Services;\r\n\r\nfor marketing and advertising, and in this regard, to send you by various mediums and modes of communication marketing and promotional information and materials relating to products and/or services (including, without limitation, products and/or services of third parties whom Shopee may collaborate or tie up with) that Shopee (and/or its affiliates or related corporations) may be selling, marketing or promoting, whether such products or services exist now or are created in the future. You can unsubscribe from receiving marketing information at any time by using the unsubscribe function within the electronic marketing material. We may use your contact information to send newsletters or marketing materials from us and from our related companies;\r\n\r\nto respond to legal processes or to comply with or as required by any applicable law, governmental or regulatory requirements of any relevant jurisdiction or where we have a good faith belief that such disclosure is necessary, including, without limitation, meeting the requirements to make disclosure under the requirements of any law binding on Shopee or on its related corporations or affiliates (including, where applicable, the display of your name, contact details and company details);\r\n\r\nto produce statistics and research for internal and statutory reporting and/or record-keeping requirements;\r\n\r\nto carry out due diligence or other screening activities (including, without limitation, background checks) in accordance with legal or regulatory obligations or our risk management procedures that may be required by law or that may have been put in place by us;\r\n\r\nto audit our Services or Shopee\'s business;\r\n\r\nto prevent or investigate any actual or suspected violations of our Terms of Service, fraud, unlawful activity, omission or misconduct, whether relating to your use of our Services or any other matter arising from your relationship with us;\r\n\r\nto respond to any threatened or actual claims asserted against Shopee or other claim that any Content violates the rights of third parties;\r\n\r\nto store, host, back up (whether for disaster recovery or otherwise) of your personal data, whether within or outside of your jurisdiction;\r\n\r\nto deal with and/or facilitate a business asset transaction or a potential business asset transaction, where such transaction involves Shopee as a participant or involves only a related corporation or affiliate of Shopee as a participant or involves Shopee and/or any one or more of Shopee\'s related corporations or affiliates as participant(s), and there may be other third party organisations who are participants in such transaction. A “business asset transaction” refers to the purchase, sale, lease, merger, amalgamation or any other acquisition, disposal or financing of an organisation or a portion of an organisation or of any of the business or assets of an organisation; and/or\r\nany other purposes which we notify you of at the time of obtaining your consent.\r\n(collectively, the “Purposes”).\r\n\r\n\r\n\r\n4.2 You acknowledge, consent and agree that STKR Labs may access, preserve and disclose your Account information and Content if required to do so by law or pursuant to an order of a court or by any governmental or regulatory authority having jurisdiction over Shopee or in a good faith belief that such access preservation or disclosure is reasonably necessary to: (a) comply with legal process; (b) comply with a request from any governmental or regulatory authority having jurisdiction over Shopee; (c) enforce the Shopee Terms of Service or this Privacy Policy; (d) respond to any threatened or actual claims asserted against Shopee or other claim that any Content violates the rights of third parties; (e) respond to your requests for customer service; or (f) protect the rights, property or personal safety of Shopee, its users and/or the public.\r\n\r\n\r\n\r\n4.3 As the purposes for which we will/may collect, use, disclose or process your personal data depend on the circumstances at hand, such purpose may not appear above. However, we will notify you of such other purpose at the time of obtaining your consent, unless processing of the applicable data without your consent is permitted by the Privacy Laws.\r\n\r\n\r\n\r\n5. HOW DOES STKR HUB PROTECT AND RETAIN CUSTOMER INFORMATION?\r\n\r\n\r\n\r\n5.1 We implement a variety of security measures and strive to ensure the security of your personal data on our systems. User personal data is contained behind secured networks and is only accessible by a limited number of employees who have special access rights to such systems.  However, there can inevitably be no guarantee of absolute security.\r\n\r\n\r\n\r\n5.2 We will retain personal data in accordance with the Privacy Laws and/or other applicable laws. That is, we will destroy or anonymize your personal data when we have reasonably determined that (i) the purpose for which that personal data was collected is no longer being served by the retention of such personal data; (ii) retention is no longer necessary for any legal or business purposes; and (iii) no other legitimate interests warrant further retention of such personal data. If you cease using the Platform, or your permission to use the Platform and/or the Services is terminated or withdrawn, we may continue storing, using and/or disclosing your personal data in accordance with this Privacy Policy and our obligations under the Privacy Laws. Subject to applicable law, we may securely dispose of your personal data without prior notice to you.\r\n\r\n\r\n\r\n6. QUESTIONS, CONCERNS OR COMPLAINTS? CONTACT US\r\n\r\n\r\n\r\n6.1 If you have any questions or concerns about our privacy practices, we welcome you to contact us by e-mail at mnl.stkrlabs@gmail.com\r\n\r\n', NULL);
 
 -- --------------------------------------------------------
 
@@ -2900,7 +3748,7 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `unique_order_id`, `unique_order_group_id`, `cart_id`, `user_id`, `published_game_id`, `built_game_id`, `added_component_id`, `ticket_id`, `quantity`, `price`, `is_pending`, `in_production`, `to_ship`, `to_deliver`, `is_received`, `is_canceled`, `cancel_order_reason_id`, `is_completely_canceled`, `order_date`, `desired_markup`, `manufacturer_profit`, `creator_profit`, `marketplace_price`, `is_rated`, `fullname`, `number`, `region`, `province`, `city`, `barangay`, `zip`, `street`, `total_payment`, `paypal_transaction_id`, `payer_id`, `order_data_payee_email`, `in_production_datetime`, `to_ship_datetime`, `to_deliver_datetime`, `is_received_datetime`, `is_canceled_datetime`, `is_completely_canceled_datetime`, `shipping_discount`) VALUES
 (565, '1776565bba8172fa', '2023112811063220', 1042, 20, NULL, NULL, NULL, 177, 1, 2.00, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 18:06:32', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 2.00, '01H18663C7828653P', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
-(566, '1696565bc509feb7', '2023112811092020', 1043, 20, NULL, 169, NULL, NULL, 1, 18.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 18:09:20', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 60.50, NULL, NULL, NULL, '2023-11-28 18:09:33', NULL, NULL, NULL, NULL, NULL, 42.50),
+(566, '1696565bc509feb7', '2023112811092020', 1043, 20, NULL, 169, NULL, NULL, 1, 18.00, 0, 0, 0, 1, 0, 0, NULL, 0, '2023-11-28 18:09:20', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 60.50, NULL, NULL, NULL, '2023-11-28 18:09:33', '2023-12-06 15:56:29', '2023-12-06 15:56:42', NULL, NULL, NULL, 42.50),
 (567, '1826565c558db9c7', '2023112811475221', 1048, 21, NULL, NULL, NULL, 182, 1, 19.60, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 18:47:52', 0.00, 0.00, 0.00, 0.00, 0, 'Marcus Dacaymat', '09122164336', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Brgy. Malinta', 193.00, '1KU11834EH0551449', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
 (568, '1816565c558e5b81', '2023112811475221', 1047, 21, NULL, NULL, NULL, 181, 1, 21.60, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 18:47:52', 0.00, 0.00, 0.00, 0.00, 0, 'Marcus Dacaymat', '09122164336', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Brgy. Malinta', 193.00, '1KU11834EH0551449', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
 (569, '1806565c5590bfaa', '2023112811475221', 1046, 21, NULL, NULL, NULL, 180, 1, 17.30, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 18:47:53', 0.00, 0.00, 0.00, 0.00, 0, 'Marcus Dacaymat', '09122164336', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Brgy. Malinta', 193.00, '1KU11834EH0551449', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
@@ -2913,8 +3761,8 @@ INSERT INTO `orders` (`order_id`, `unique_order_id`, `unique_order_group_id`, `c
 (576, '1746565c5f21c357', '2023112811502621', 1049, 21, NULL, 174, NULL, NULL, 1, 111.60, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 18:50:26', 0.00, 0.00, 0.00, 0.00, 0, 'Marcus Dacaymat', '09122164336', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Brgy. Malinta', 1014.50, NULL, NULL, NULL, '2023-11-28 18:51:21', NULL, NULL, NULL, NULL, NULL, 42.50),
 (577, '1846565dc66d76fe', '2023112813261422', 1055, 22, NULL, NULL, NULL, 184, 1, 7.30, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:26:14', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 101.60, '0W9972857K745893M', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
 (578, '1836565dc6714b1c', '2023112813261422', 1054, 22, NULL, NULL, NULL, 183, 1, 9.30, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:26:15', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 101.60, '0W9972857K745893M', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
-(579, '1756565dcb620bd0', '2023112813273422', 1057, 22, NULL, 175, NULL, NULL, 1, 83.70, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 20:27:34', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 234.40, '0HV90317SU972501E', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-28 20:28:50', NULL, NULL, NULL, NULL, NULL, 0.00),
-(580, '1766565dcb62a0ad', '2023112813273422', 1056, 22, NULL, 176, NULL, NULL, 1, 65.70, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 20:27:34', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 234.40, '0HV90317SU972501E', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-28 20:28:50', NULL, NULL, NULL, NULL, NULL, 0.00),
+(579, '1756565dcb620bd0', '2023112813273422', 1057, 22, NULL, 175, NULL, NULL, 1, 83.70, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:27:34', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 234.40, '0HV90317SU972501E', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-28 20:28:50', '2023-12-06 15:34:05', '2023-12-06 15:34:14', '2023-12-06 08:34:50', NULL, NULL, 0.00),
+(580, '1766565dcb62a0ad', '2023112813273422', 1056, 22, NULL, 176, NULL, NULL, 1, 65.70, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:27:34', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 234.40, '0HV90317SU972501E', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-28 20:28:50', '2023-12-06 15:34:05', '2023-12-06 15:34:14', '2023-12-06 08:34:50', NULL, NULL, 0.00),
 (581, '1876565df782639d', '2023112813392023', 1060, 23, NULL, NULL, NULL, 187, 1, 13.50, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:39:20', 0.00, 0.00, 0.00, 0.00, 0, 'John Kevin Ilagan', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 121.40, '711342200G5826747', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
 (582, '1866565df782f9f9', '2023112813392023', 1059, 23, NULL, NULL, NULL, 186, 1, 9.10, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:39:20', 0.00, 0.00, 0.00, 0.00, 0, 'John Kevin Ilagan', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 121.40, '711342200G5826747', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
 (583, '1856565df7835e9d', '2023112813392023', 1058, 23, NULL, NULL, NULL, 185, 1, 13.80, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-28 20:39:20', 0.00, 0.00, 0.00, 0.00, 0, 'John Kevin Ilagan', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 121.40, '711342200G5826747', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
@@ -2930,14 +3778,17 @@ INSERT INTO `orders` (`order_id`, `unique_order_id`, `unique_order_group_id`, `c
 (593, '1826565e23cc935d', '2023112813510824', 1069, 24, NULL, 182, NULL, NULL, 1, 36.90, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 20:51:08', 0.00, 0.00, 0.00, 0.00, 0, 'Nicole Cabal', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 254.20, '77917079AR9911921', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-28 20:51:23', NULL, NULL, NULL, NULL, NULL, 0.00),
 (594, '1836565e23ccef9d', '2023112813510824', 1068, 24, NULL, 183, NULL, NULL, 1, 69.30, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 20:51:08', 0.00, 0.00, 0.00, 0.00, 0, 'Nicole Cabal', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 1', '1440', '8 Doneza St. Balubaran Malinta', 254.20, '77917079AR9911921', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-28 20:51:23', NULL, NULL, NULL, NULL, NULL, 0.00),
 (595, '2066565fbd485d1e', '2023112815402020', 1072, 20, 206, NULL, NULL, NULL, 1, 222.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-28 22:40:20', 200.00, 40.00, 160.00, 222.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 264.50, NULL, NULL, NULL, '2023-11-28 22:40:36', NULL, NULL, NULL, NULL, NULL, 42.50),
-(596, '6376566338239a2f', '2023112819375420', 1074, 20, NULL, NULL, 637, NULL, 1, 7.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-29 02:37:54', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 92.00, '49756580S2950621K', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-11-29 02:38:22', NULL, NULL, NULL, NULL, NULL, 0.00),
-(597, '205656633b6093d0', '2023112819384620', 1073, 20, 205, NULL, NULL, NULL, 1, 548.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-29 02:38:46', 500.00, 100.00, 400.00, 548.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 590.50, NULL, NULL, NULL, '2023-11-29 02:38:54', NULL, NULL, NULL, NULL, NULL, 42.50),
-(598, '6396566d98999293', '2023112907261720', 1076, 20, NULL, NULL, 639, NULL, 1, 7.00, 1, 0, 0, 0, 0, 0, NULL, 0, '2023-11-29 14:26:17', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 92.70, '5TF531841C005284A', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
-(599, '1926566d989a23c9', '2023112907261720', 1075, 20, NULL, NULL, NULL, 192, 1, 0.70, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-11-29 14:26:17', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 92.70, '5TF531841C005284A', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
-(600, '1996566d9f6a295a', '2023112907280620', 1078, 20, 199, NULL, NULL, NULL, 1, 293.00, 1, 0, 0, 0, 0, 0, NULL, 0, '2023-11-29 14:28:06', 200.00, 40.00, 160.00, 293.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 385.00, '4P636625UJ436235C', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
-(601, '6406566d9f6a7330', '2023112907280620', 1077, 20, NULL, NULL, 640, NULL, 1, 7.00, 1, 0, 0, 0, 0, 0, NULL, 0, '2023-11-29 14:28:06', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 385.00, '4P636625UJ436235C', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
-(602, '1696566f39caec21', '2023112909173220', 1079, 20, NULL, 169, NULL, NULL, 1, 20.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-29 16:17:32', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 62.50, NULL, NULL, NULL, '2023-11-29 16:17:55', NULL, NULL, NULL, NULL, NULL, 42.50),
-(603, '1846566f3efaaff2', '2023112909185520', 1080, 20, NULL, 184, NULL, NULL, 1, 6.30, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-29 16:18:55', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 48.80, NULL, NULL, NULL, '2023-11-29 16:19:04', NULL, NULL, NULL, NULL, NULL, 42.50);
+(596, '6376567e3106aed9', '2023113002191220', 1074, 20, NULL, NULL, 637, NULL, 1, 7.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-11-30 09:19:12', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 49.50, NULL, NULL, NULL, '2023-11-30 09:19:29', NULL, NULL, NULL, NULL, NULL, 42.50),
+(597, '192656b31c68051e', '2023120213315028', 1078, 28, NULL, NULL, NULL, 192, 1, 2.00, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-12-02 13:31:50', 0.00, 0.00, 0.00, 0.00, 0, 'john kevin ilagan', '09263853401', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Coloong', '1445', 'San Miguel', 87.00, '5PX70125DY191435T', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
+(599, '193656d747855702', '2023120406405620', 1083, 20, NULL, NULL, NULL, 193, 1, 2.40, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-12-04 06:40:56', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 2.40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00),
+(600, '194656d8dc99e77e', '2023120408285720', 1084, 20, NULL, NULL, NULL, 194, 1, 2.40, 0, 0, 0, 0, 1, 0, NULL, 0, '2023-12-04 08:28:57', 0.00, 0.00, 0.00, 0.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 916.90, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 42.50),
+(607, '198656fb30d080cf', '2023120600322920', 1086, 20, 198, NULL, NULL, NULL, 1, 173.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-12-06 07:32:29', 100.00, 20.00, 80.00, 173.00, 0, 'Denzel Go', '09770257461', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 215.50, NULL, NULL, NULL, '2023-12-06 07:35:50', NULL, NULL, NULL, NULL, NULL, 42.50),
+(608, '20665700785b5f92', '2023120606325322', 1087, 22, 206, NULL, NULL, NULL, 2, 222.00, 0, 0, 0, 0, 0, 1, 3, 0, '2023-12-06 13:32:53', 200.00, 40.00, 160.00, 222.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 486.50, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-06 13:35:07', NULL, 42.50),
+(609, '20665700907e5d2d', '2023120606391922', 1088, 22, 206, NULL, NULL, NULL, 1, 222.00, 0, 0, 0, 0, 0, 1, 1, 0, '2023-12-06 13:39:19', 200.00, 40.00, 160.00, 222.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 264.50, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-12-06 13:39:33', NULL, 42.50),
+(610, '20465701c996b794', '2023120608024922', 1089, 22, 204, NULL, NULL, NULL, 1, 1041.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-12-06 15:02:49', 1000.00, 200.00, 800.00, 1041.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 1083.50, NULL, NULL, NULL, '2023-12-06 16:07:04', NULL, NULL, NULL, NULL, NULL, 42.50),
+(611, '645657020f3c3c45', '2023120608212322', 1090, 22, NULL, NULL, 645, NULL, 1, 7.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-12-06 15:21:23', 0.00, 0.00, 0.00, 0.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 92.00, '9NJ462819B105472S', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-12-06 16:07:02', NULL, NULL, NULL, NULL, NULL, 0.00),
+(612, '19965702aaee62f2', '2023120609025422', 1091, 22, 199, NULL, NULL, NULL, 8, 293.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-12-06 16:02:54', 200.00, 40.00, 160.00, 293.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 2386.50, NULL, NULL, NULL, '2023-12-06 16:03:05', NULL, NULL, NULL, NULL, NULL, 42.50),
+(613, '19765702b4c6893a', '2023120609053222', 1092, 22, 197, NULL, NULL, NULL, 77, 396.00, 0, 1, 0, 0, 0, 0, NULL, 0, '2023-12-06 16:05:32', 200.00, 40.00, 160.00, 396.00, 0, 'Jenica Gamboa', '091231231233', 'Metro Manila', 'Metro Manila', 'Valenzuela', 'Barangay 2', '1440', '8 Doneza St. Balubaran Malinta', 30797.00, '32H15109J9408892S', 'S9QZENZKTVY9A', 'sb-i4hyn27575086@business.example.com', '2023-12-06 16:06:59', NULL, NULL, NULL, NULL, NULL, 0.00);
 
 -- --------------------------------------------------------
 
@@ -2986,9 +3837,14 @@ INSERT INTO `paypal_transactions` (`payment_id`, `paypal_transaction_id`, `order
 (190, '20R57189FE169932Y', 'CAPTURE', 'COMPLETED', 'PHP', 412.60, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '9AG42077CL682313Y', 'COMPLETED', 'PHP', 412.60, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-11-28 12:40:10', '2023-11-28 12:40:10', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
 (191, '2KP79000J4686983K', 'CAPTURE', 'COMPLETED', 'PHP', 103.80, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '3FY44191AA915411C', 'COMPLETED', 'PHP', 103.80, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-11-28 12:50:07', '2023-11-28 12:50:07', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
 (192, '77917079AR9911921', 'CAPTURE', 'COMPLETED', 'PHP', 254.20, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '8AG07923TR704202D', 'COMPLETED', 'PHP', 254.20, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-11-28 12:51:07', '2023-11-28 12:51:07', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
-(193, '49756580S2950621K', 'CAPTURE', 'COMPLETED', 'PHP', 92.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '34067918S22396908', 'COMPLETED', 'PHP', 92.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-11-28 18:37:53', '2023-11-28 18:37:53', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
-(194, '5TF531841C005284A', 'CAPTURE', 'COMPLETED', 'PHP', 92.70, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '1Y980245B76263259', 'COMPLETED', 'PHP', 92.70, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-11-29 06:26:16', '2023-11-29 06:26:16', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
-(195, '4P636625UJ436235C', 'CAPTURE', 'COMPLETED', 'PHP', 385.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '5746666962352540C', 'COMPLETED', 'PHP', 385.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-11-29 06:28:05', '2023-11-29 06:28:05', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US');
+(193, '7G409513696908324', 'CAPTURE', 'COMPLETED', 'PHP', 500.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '3XH43485FS697593X', 'COMPLETED', 'PHP', 500.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-02 13:28:22', '2023-12-02 13:28:22', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(194, '009613031N087691H', 'CAPTURE', 'COMPLETED', 'PHP', 500.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '40H192662C107993T', 'COMPLETED', 'PHP', 500.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-02 13:28:32', '2023-12-02 13:28:32', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(195, '0XF44525BK376971B', 'CAPTURE', 'COMPLETED', 'PHP', 100.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '33M84994YB079063P', 'COMPLETED', 'PHP', 100.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-02 13:28:48', '2023-12-02 13:28:48', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(196, '5PX70125DY191435T', 'CAPTURE', 'COMPLETED', 'PHP', 87.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '4U7908597R376622J', 'COMPLETED', 'PHP', 87.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-02 13:31:49', '2023-12-02 13:31:49', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(197, '1RD09154GN932642B', 'CAPTURE', 'COMPLETED', 'PHP', 103.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '9TC83482N6376454H', 'COMPLETED', 'PHP', 103.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-02 13:33:14', '2023-12-02 13:33:14', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(198, '77D29091VY3487533', 'CAPTURE', 'COMPLETED', 'PHP', 5000.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '6Y061525HK363474F', 'COMPLETED', 'PHP', 5000.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-06 05:32:36', '2023-12-06 05:32:36', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(199, '9NJ462819B105472S', 'CAPTURE', 'COMPLETED', 'PHP', 92.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '75285230L92153010', 'COMPLETED', 'PHP', 92.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-06 07:21:22', '2023-12-06 07:21:22', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US'),
+(200, '32H15109J9408892S', 'CAPTURE', 'COMPLETED', 'PHP', 30797.00, 'sb-i4hyn27575086@business.example.com', 'QNTT33YWSCXP4', '9DL13625E79934338', 'COMPLETED', 'PHP', 30797.00, 0, 'ELIGIBLE', 'ITEM_NOT_RECEIVED, UNAUTHORIZED_TRANSACTION', '2023-12-06 08:05:31', '2023-12-06 08:05:31', 'Denzel', 'Go', 'sb-ihj6x27602776@personal.example.com', 'S9QZENZKTVY9A', 'US');
 
 -- --------------------------------------------------------
 
@@ -3209,7 +4065,7 @@ CREATE TABLE `published_built_games` (
 INSERT INTO `published_built_games` (`published_game_id`, `built_game_id`, `game_name`, `category`, `edition`, `published_date`, `creator_id`, `age_id`, `short_description`, `long_description`, `website`, `logo_path`, `min_players`, `max_players`, `min_playtime`, `max_playtime`, `has_pending_update`, `is_update_request_denied`, `desired_markup`, `manufacturer_profit`, `creator_profit`, `marketplace_price`, `is_hidden`, `game_rating`) VALUES
 (192, 173, 'Stellar Syndicate', 'Card Games', 'First Edition', '2023-11-28 19:20:29', 21, 2, 'Nebula Nexus is an epic space conquest game where players vie for supremacy by strategically controlling pivotal nexuses in the vast cosmic arena. Alliances are formed and shattered, fleets deployed, and epic battles waged as players seek to dominate the galaxy.', '<ul style=\"list-style-type: circle;\">\r\n<li>\r\n<p><strong>Area Control and Nexus Domination:</strong> The game centers around a modular board representing sectors of the galaxy. Players deploy fleets to gain control over key nexuses, each providing distinct advantages. Nexus domination is crucial for accumulating points and achieving victory.</p>\r\n</li>\r\n<li>\r\n<p><strong>Alliance Dynamics:</strong> Nebula Nexus introduces a dynamic alliance system. Players can form temporary alliances with others to achieve shared objectives. However, alliances are tenuous and subject to betrayal, adding an element of strategy and negotiation.</p>\r\n</li>\r\n<li>\r\n<p><strong>Fleet Deployment and Tactical Battles:</strong> Players build and deploy fleets composed of different ship types, each with unique strengths and abilities. Tactical battles are resolved through a combination of strategic planning, dice rolls, and potential card play, making each encounter a dynamic and engaging experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Galactic Events:</strong> Randomized galactic events inject uncertainty into the game, ranging from cosmic anomalies that alter the rules to diplomatic shifts that reshape alliances. Adapting to these events is key to success.</p>\r\n</li>\r\n</ul>', '', 'uploads/6565ca2cbde45__a0c44805-62fa-4578-aa12-db6081ba9243.jpg', 2, 9, 10, 20, 0, 0, 800.00, 160.00, 640.00, 1171.00, 0, 0.00),
 (193, 174, 'Enigma Escape', 'Board Games', 'First Edition', '2023-11-28 19:20:53', 21, 1, 'Quantum Quest is a cerebral exploration game set in the enigmatic realm of quantum physics. Players venture through a dynamic maze of shifting dimensions, aiming to solve intricate puzzles and collect rare quantum artifacts while contending with the relentless march of time.', '<ul>\r\n<li>\r\n<ul>\r\n<li>\r\n<h1><strong>Area Control and Nexus Domination:</strong> The game centers around a modular board representing sectors of the galaxy. Players deploy fleets to gain control over key nexuses, each providing distinct advantages. Nexus domination is crucial for accumulating points and achieving victory.</h1>\r\n</li>\r\n<li>\r\n<h1><strong>Alliance Dynamics:</strong> Nebula Nexus introduces a dynamic alliance system. Players can form temporary alliances with others to achieve shared objectives. However, alliances are tenuous and subject to betrayal, adding an element of strategy and negotiation.</h1>\r\n</li>\r\n<li>\r\n<h1><strong>Fleet Deployment and Tactical Battles:</strong> Players build and deploy fleets composed of different ship types, each with unique strengths and abilities. Tactical battles are resolved through a combination of strategic planning, dice rolls, and potential card play, making each encounter a dynamic and engaging experience.</h1>\r\n</li>\r\n<li>\r\n<h1><strong>Galactic Events:</strong> Randomized galactic events inject uncertainty into the game, ranging from cosmic anomalies that alter the rules to diplomatic shifts that reshape alliances. Adapting to these events is key to success</h1>\r\n</li>\r\n</ul>\r\n</li>\r\n</ul>', '', 'uploads/6565cc856d392__d41311cb-85b2-4588-8dba-658b9148d61f.jpg', 2, 5, 10, 15, 0, 0, 70.00, 14.00, 56.00, 194.00, 0, 0.00),
-(194, 169, 'Quantum ', 'Board Games', 'yu', '2023-11-28 19:34:28', 20, 2, 'sd', '<p>yu</p>', '', 'uploads/6565cf49e2235__658b1237-ded8-45b8-88a4-0e0ca4bd376e.jpg', 4, 3, 3, 3, 0, 0, 20.00, 4.00, 16.00, 40.00, 0, 0.00),
+(194, 169, 'Quantum ', 'Board Games', 'yu', '2023-11-28 19:34:28', 20, 2, 'sd', '<p>yu</p>', '', 'uploads/6565cf49e2235__658b1237-ded8-45b8-88a4-0e0ca4bd376e.jpg', 4, 3, 3, 3, 0, 0, 20.00, 4.00, 16.00, 40.00, 1, 0.00),
 (195, 172, 'Chrono Conundrum', 'Dice Games', 'First Edition', '2023-11-28 20:05:11', 21, 1, 'Time Manipulation and Timeline Alteration: The central mechanic revolves around the manipulation of time. Players can alter the timeline, affecting past and future events. Actions taken in the past may have repercussions in the present and future, creating a dynamic and interconnected game world.', '<ul>\r\n<li>\r\n<p><strong>Time Manipulation and Timeline Alteration:</strong> The central mechanic revolves around the manipulation of time. Players can alter the timeline, affecting past and future events. Actions taken in the past may have repercussions in the present and future, creating a dynamic and interconnected game world.</p>\r\n</li>\r\n<li>\r\n<p><strong>Puzzle-Solving and Temporal Challenges:</strong> Players encounter a variety of time-based puzzles that require both logical thinking and an understanding of temporal mechanics. Successfully solving puzzles not only advances the narrative but also unlocks new opportunities or resources.</p>\r\n</li>\r\n<li>\r\n<ul>\r\n<li><strong>Time Manipulation and Timeline Alteration:</strong> The central mechanic revolves around the manipulation of time. Players can alter the timeline, affecting past and future events. Actions taken in the past may have repercussions in the present and future, creating a dynamic and interconnected game world.</li>\r\n<li>&nbsp;</li>\r\n</ul>\r\n</li>\r\n<li>\r\n<ul>\r\n<li><strong>Time Manipulation and Timeline Alteration:</strong> The central mechanic revolves around the manipulation of time. Players can alter the timeline, affecting past and future events. Actions taken in the past may have repercussions in the present and future, creating a dynamic and interconnected game world.</li>\r\n</ul>\r\n</li>\r\n</ul>', '', 'uploads/6565d636262e4__6bbcd42d-74a9-4033-8aca-4f9e5882aa11.jpg', 8, 10, 8, 10, 0, 0, 700.00, 140.00, 560.00, 873.00, 0, 0.00),
 (196, 171, 'Labyrinth Legends', 'Card Games', 'First Edition', '2023-11-28 20:08:57', 21, 2, 'Labyrinth Legends invites players into a fantastical maze filled with mythical creatures and legendary artifacts. As brave adventurers, players explore the labyrinth, face off against mythical foes, and collect powerful relics to claim victory.', '<ul>\r\n<li>\r\n<p><strong>Tile Exploration and Maze Building:</strong> The labyrinth is constructed as players explore, revealing new tiles that represent different chambers and passages. Each turn, players decide how to expand the labyrinth, creating a dynamic and unpredictable game board.</p>\r\n</li>\r\n<li>\r\n<p><strong>Creature Encounter and Combat:</strong> Throughout the labyrinth, players encounter mythical creatures with unique abilities. Combat is resolved through a combination of player skill, character attributes, and possibly acquired artifacts. Overcoming creatures yields rewards and clears the path for further exploration.</p>\r\n</li>\r\n<li>\r\n<p><strong>Resource Management:</strong> Players collect resources, such as gold and magical items, as they progress. These resources are used to enhance character abilities, acquire artifacts, or unlock special actions. Efficient resource management is crucial for success.</p>\r\n</li>\r\n<li>\r\n<p>&nbsp;</p>\r\n</li>\r\n</ul>', '', 'uploads/6565d846961f0__a0c44805-62fa-4578-aa12-db6081ba9243.jpg', 10, 20, 40, 50, 0, 0, 100.00, 20.00, 80.00, 316.00, 0, 0.00),
 (197, 170, 'Nebula Nexus', 'Card Games', 'First Edition', '2023-11-28 20:12:00', 21, 4, 'Area Control: Players vie for dominance over key areas of the galaxy, each providing unique advantages.\r\nAlliance-Building: Form temporary alliances with other players to achieve common goals, but be wary of betrayal.\r\nStrategic Combat: Deploy fleets with different strengths and abilities, engaging in tactical space battles to gain control of nexuses.', '<p>Area Control: Players vie for dominance over key areas of the galaxy, each providing unique advantages.<br>Alliance-Building: Form temporary alliances with other players to achieve common goals, but be wary of betrayal.<br>Strategic Combat: Deploy fleets with different strengths and abilities, engaging in tactical space battles to gain control of nexuses.</p>\r\n<p>&nbsp;</p>\r\n<p>Area Control: Players vie for dominance over key areas of the galaxy, each providing unique advantages.<br>Alliance-Building: Form temporary alliances with other players to achieve common goals, but be wary of betrayal.<br>Strategic Combat: Deploy fleets with different strengths and abilities, engaging in tactical space battles to gain control of nexuses.</p>\r\n<p>&nbsp;</p>\r\n<p>Area Control: Players vie for dominance over key areas of the galaxy, each providing unique advantages.<br>Alliance-Building: Form temporary alliances with other players to achieve common goals, but be wary of betrayal.<br>Strategic Combat: Deploy fleets with different strengths and abilities, engaging in tactical space battles to gain control of nexuses.</p>', '', 'uploads/6565d906dc9b4__5c2023bf-9cd0-4313-a4ba-cc36c8379301.jpg', 12, 14, 20, 30, 0, 0, 200.00, 40.00, 160.00, 396.00, 0, 0.00),
@@ -3221,7 +4077,8 @@ INSERT INTO `published_built_games` (`published_game_id`, `built_game_id`, `game
 (203, 183, 'Cosmic Codebreaker', 'Board Games', 'First Edition', '2023-11-28 20:55:30', 24, 2, 'Espionage Missions: Players undertake espionage missions to gather information, disrupt opponents plans, or steal valuable resources. These missions involve risk and reward, with success providing strategic advantages and failure potentially leading to setbacks.', '<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n</li>\r\n</ul>', '', 'uploads/6565e2b6963ef__3c36510c-35dd-4bcf-8a0a-3e3bf941228e.jpg', 2, 4, 5, 7, 0, 0, 100.00, 20.00, 80.00, 177.00, 0, 0.00),
 (204, 182, 'Warriors Starlight', 'War Games', 'Second Edition', '2023-11-28 20:55:35', 24, 1, 'Espionage Missions: Players undertake espionage missions to gather information, disrupt opponents plans, or steal valuable resources. These missions involve risk and reward, with success providing strategic advantages and failure potentially leading to setbacks.', '<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n</li>\r\n</ul>\r\n</li>\r\n</ul>', '', 'uploads/6565e2e07b80c__a5e80bde-510b-45f7-91b6-7181b0de847c.jpg', 2, 4, 5, 10, 0, 0, 1000.00, 200.00, 800.00, 1041.00, 0, 0.00),
 (205, 181, 'Warp Zone', 'Promotional', 'Judgement Edition', '2023-11-28 20:55:40', 24, 2, 'Espionage Missions: Players undertake espionage missions to gather information, disrupt opponents plans, or steal valuable resources. These missions involve risk and reward, with success providing strategic advantages and failure potentially leading to setbacks.', '<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n</li>\r\n</ul>\r\n</li>\r\n</ul>', '', 'uploads/6565e30f5dcc1__5c2023bf-9cd0-4313-a4ba-cc36c8379301.jpg', 20, 40, 50, 70, 0, 0, 500.00, 100.00, 400.00, 548.00, 0, 0.00),
-(206, 180, 'Paradox Puzzles', 'Dice Games', 'Leaf Edition', '2023-11-28 20:55:44', 24, 2, 'Espionage Missions: Players undertake espionage missions to gather information, disrupt opponents plans, or steal valuable resources. These missions involve risk and reward, with success providing strategic advantages and failure potentially leading to setbacks.', '<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n</li>\r\n</ul>\r\n</li>\r\n</ul>', '', 'uploads/6565e33665f79__abbdae4d-7e99-42ce-8e38-2d1ba4ca8b82.jpg', 20, 40, 50, 60, 0, 0, 200.00, 40.00, 160.00, 222.00, 0, 0.00);
+(206, 180, 'Paradox Puzzles', 'Dice Games', 'Leaf Edition', '2023-11-28 20:55:44', 24, 2, 'Espionage Missions: Players undertake espionage missions to gather information, disrupt opponents plans, or steal valuable resources. These missions involve risk and reward, with success providing strategic advantages and failure potentially leading to setbacks.', '<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n<ul>\r\n<li>\r\n<p><strong>Agent Recruitment:</strong> Cosmic Codebreaker introduces a roster of unique agents, each with specialized skills. Players recruit agents to their cause, leveraging their abilities in codebreaking, sabotage, or information gathering. The composition of the agent team influences overall strategy.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hidden Agendas:</strong> Each player has a hidden agenda, representing their long-term goals and objectives. Achieving these secret agendas contributes to victory. Players must deduce opponents hidden agendas while strategically pursuing their own without revealing their intentions.</p>\r\n</li>\r\n</ul>\r\n</li>\r\n</ul>', '', 'uploads/6565e33665f79__abbdae4d-7e99-42ce-8e38-2d1ba4ca8b82.jpg', 20, 40, 50, 60, 0, 0, 200.00, 40.00, 160.00, 222.00, 0, 0.00),
+(207, 184, 'cosmic conquest', 'Board Games', '1st', '2023-12-02 13:38:31', 28, 1, '123q213213', '<p>qwewqeqwewq</p>', '', 'uploads/656b3347efc28_white.png', 1, 45, 10, 2, 0, 0, 150.00, 30.00, 120.00, 170.00, 1, 0.00);
 
 -- --------------------------------------------------------
 
@@ -3314,7 +4171,8 @@ INSERT INTO `published_multiple_files` (`published_file_id`, `published_built_ga
 (356, 205, 181, 24, 'uploads/6565e30f60808__0f38e7f1-5cce-4a34-a1b7-af507b7b8bc8.jpg'),
 (357, 206, 180, 24, 'uploads/6565e33668be9__dabfdd11-b869-48c6-81d6-6b21c79e4448.jpg'),
 (358, 206, 180, 24, 'uploads/6565e33669179__a0c44805-62fa-4578-aa12-db6081ba9243.jpg'),
-(359, 206, 180, 24, 'uploads/6565e3366996b__0f38e7f1-5cce-4a34-a1b7-af507b7b8bc8.jpg');
+(359, 206, 180, 24, 'uploads/6565e3366996b__0f38e7f1-5cce-4a34-a1b7-af507b7b8bc8.jpg'),
+(360, 207, 184, 28, 'uploads/656b3347efe59_white.png');
 
 -- --------------------------------------------------------
 
@@ -3419,7 +4277,10 @@ INSERT INTO `tickets` (`ticket_id`, `user_id`, `game_id`, `is_approved`, `is_den
 (189, 24, 247, 1, 0, '2023-11-28 12:48:13', 0, 1, 1, 0, 41.00, 4.10, NULL),
 (190, 24, 246, 1, 0, '2023-11-28 12:48:40', 0, 1, 1, 0, 48.00, 4.80, NULL),
 (191, 24, 245, 1, 0, '2023-11-28 12:49:18', 0, 1, 1, 0, 22.00, 2.20, NULL),
-(192, 20, 249, 1, 0, '2023-11-28 22:44:05', 0, 1, 1, 0, 7.00, 0.70, NULL);
+(192, 28, 249, 1, 0, '2023-12-02 13:31:25', 0, 1, 1, 0, 20.00, 2.00, NULL),
+(193, 20, 250, 0, 1, '2023-12-04 06:40:37', 0, 1, 1, 0, 24.00, 2.40, 25),
+(194, 20, 250, 0, 1, '2023-12-04 08:28:31', 0, 1, 1, 0, 24.00, 2.40, 26),
+(195, 20, 250, 0, 0, '2023-12-04 08:47:40', 0, 1, 1, 0, 24.00, 2.40, NULL);
 
 -- --------------------------------------------------------
 
@@ -3434,6 +4295,15 @@ CREATE TABLE `to_deliver` (
   `courier` varchar(255) NOT NULL,
   `date_time_stamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `to_deliver`
+--
+
+INSERT INTO `to_deliver` (`to_deliver_id`, `unique_order_group_id`, `tracking_number`, `courier`, `date_time_stamp`) VALUES
+(49, '2023120213331528', '1234', 'J&T Express', '2023-12-02 13:35:54'),
+(50, '2023112813273422', '900909', 'Flash Express', '2023-12-06 07:34:14'),
+(51, '2023112811092020', '1234567890', 'JRS Express', '2023-12-06 07:56:42');
 
 -- --------------------------------------------------------
 
@@ -3491,13 +4361,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `unique_user_id`, `username`, `firstname`, `lastname`, `phone_number`, `email`, `password`, `created_at`, `shipping_address`, `avatar`, `wallet_amount`, `is_active`, `is_deleted`, `reset_token_hash`, `reset_token_expires_at`) VALUES
-(20, 'user-11282023-20', 'denzel', 'Denzel', 'Go', '9770257461', 'denzelgo17@gmail.com', '$2y$10$VfBSzTaMBD5mkwEYO0EHaejolQeOhEIYWKk8MlXOzJ/DKCkyhdNAa', '2023-11-28 08:31:38', NULL, NULL, NULL, 1, 0, NULL, NULL),
+(20, 'user-11282023-20', 'denzel', 'Denzel', 'Go', '9770257461', 'denzelgo17@gmail.com', '$2y$10$VfBSzTaMBD5mkwEYO0EHaejolQeOhEIYWKk8MlXOzJ/DKCkyhdNAa', '2023-11-28 08:31:38', NULL, 'uploads/avatars/656fad1771fcb__5c2023bf-9cd0-4313-a4ba-cc36c8379301.jpg', NULL, 1, 0, NULL, NULL),
 (21, 'user-11282023-21', 'marcus', 'Marcus', 'Dacaymat', '9122164336', 'marcus@gmail.com', '$2y$10$1H.FbaAAuH4KzKj0UCOkPeuqERkSofovOlFnluIUR1bYH2GV4cbfa', '2023-11-28 10:11:08', NULL, NULL, NULL, 1, 0, NULL, NULL),
 (22, 'user-11282023-22', 'jenica', 'Jenica', 'Gamboa', '97702574612', 'jenica@gmail.com', '$2y$10$LnDzKmwl4AcgpZPc1huJwuom4qD9WCiy19gRUsh7EluTEuHoPclhW', '2023-11-28 12:22:00', NULL, NULL, NULL, 1, 0, NULL, NULL),
 (23, 'user-11282023-23', 'kevin', 'John Kevin', 'Ilagan', '9770257461', 'kevin@gmail.com', '$2y$10$sQUvcY9zVAhYR9FimYPRFOfrgEufmetqxW1cHNShRTT.yeIi9NeXW', '2023-11-28 12:34:30', NULL, NULL, NULL, 1, 0, NULL, NULL),
 (24, 'user-11282023-24', 'nicole', 'Nicole', 'Cabal', '9770257461', 'nicole@gmail.com', '$2y$10$XUzQ7JfPOo/Se.QI7K63dOCWxcs0W8JK..1r6Qq0/kerJGHYhus/G', '2023-11-28 12:44:49', NULL, NULL, NULL, 1, 0, NULL, NULL),
 (25, 'user-11282023-25', 'danasaur', 'Dana Ricci', 'Singson', '9994347957', 'dana.ricci@gmail.com', '$2y$10$HMDioqHXHhHfWlHQ7HAxU./ZZYB06IxWgO3ibknGs4gwD2b7znwgK', '2023-11-28 16:56:57', NULL, 'uploads/avatars/65661dffc075b_dana.jpg', NULL, 1, 0, NULL, NULL),
-(26, 'user-11292023-26', 'fauline', 'Fauline', 'Go', '9122164336', 'fauline@gmail.com', '$2y$10$2YNZSfOA7AYhszfIKS3dzOna3JW13VJMJyMY77bmonMJ.lSgt1IUC', '2023-11-29 09:59:43', NULL, NULL, NULL, 1, 0, NULL, NULL);
+(26, 'user-1212023-26', 'user', 'Sample', 'User', '9560527444', 'sampleuser@gmail.com', '$2y$10$mxEOxVV4aQJHyaUGPn8fh.Eaew5CH0QGfhsJ8m.UeTmqpvuILYIAO', '2023-12-01 15:14:11', NULL, 'uploads/avatars/656a0a92efc10_8099273.png', NULL, 1, 0, '1147384341d72932187ab889373d6cb1f31ac467d572af045ab9d365af1307fd', '2023-12-01 16:42:48'),
+(27, 'user-1222023-27', 'tantan', 'tristan ley', 'dabucon', '999999', 'tristan@gmail.com', '$2y$10$zuXUTQIzx8T/UNGzJgc6buWd.sNxT1jns.KowfpZ62pz2Q54PEwNi', '2023-12-02 03:00:19', NULL, 'uploads/avatars/656a9ded0d9a2_TA.png', NULL, 1, 0, NULL, NULL),
+(28, 'user-1222023-28', 'kevs', 'kevin', 'ilagan', '9263853401', 'kevin@example.com', '$2y$10$gz1c8wMrHPA0LvBkDpZtludWrP0scbIYeMKwhe8FRn14jCg58Ulbq', '2023-12-02 05:26:10', NULL, NULL, NULL, 1, 0, NULL, NULL),
+(29, 'user-1222023-29', 'ryan', 'ryan', 'muniz', '9123456789', '123@example.com', '$2y$10$lCOCqhhlmvvxHRR8ydLNRe6u5TIFtMuP3vZdiaeMpyebiPHiNhsRG', '2023-12-02 13:39:15', NULL, NULL, NULL, 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3529,10 +4402,33 @@ INSERT INTO `user_logs` (`log_id`, `user_id`, `event_type`, `timestamp`) VALUES
 (317, 21, 'login', '2023-11-28 14:41:30'),
 (318, 20, 'login', '2023-11-28 15:32:18'),
 (319, 25, 'login', '2023-11-28 16:57:02'),
-(320, 20, 'login', '2023-11-28 17:34:57'),
-(321, 24, 'login', '2023-11-28 18:39:23'),
-(322, 20, 'login', '2023-11-28 22:21:03'),
-(323, 26, 'login', '2023-11-29 09:59:49');
+(320, 20, 'login', '2023-11-29 16:06:05'),
+(321, 20, 'login', '2023-11-29 21:47:24'),
+(322, 20, 'login', '2023-11-30 14:09:59'),
+(323, 20, 'login', '2023-12-01 08:48:56'),
+(324, 26, 'login', '2023-12-01 16:20:23'),
+(325, 26, 'login', '2023-12-01 16:29:22'),
+(326, 26, 'login', '2023-12-01 16:29:22'),
+(327, 26, 'login', '2023-12-01 16:57:45'),
+(328, 26, 'login', '2023-12-02 02:40:03'),
+(329, 27, 'login', '2023-12-02 03:00:24'),
+(330, 20, 'login', '2023-12-02 03:17:41'),
+(331, 28, 'login', '2023-12-02 05:26:17'),
+(332, 28, 'login', '2023-12-02 05:27:47'),
+(333, 20, 'login', '2023-12-02 08:44:40'),
+(334, 29, 'login', '2023-12-02 13:39:32'),
+(335, 20, 'login', '2023-12-02 15:07:12'),
+(336, 20, 'login', '2023-12-03 12:29:31'),
+(337, 20, 'login', '2023-12-03 12:29:31'),
+(338, 20, 'login', '2023-12-03 13:01:50'),
+(339, 20, 'login', '2023-12-03 15:19:42'),
+(340, 28, 'login', '2023-12-04 03:22:41'),
+(341, 20, 'login', '2023-12-04 04:39:59'),
+(342, 20, 'login', '2023-12-05 23:06:51'),
+(343, 22, 'login', '2023-12-05 23:31:39'),
+(344, 20, 'login', '2023-12-05 23:31:56'),
+(345, 22, 'login', '2023-12-05 23:36:24'),
+(346, 28, 'login', '2023-12-06 08:58:53');
 
 -- --------------------------------------------------------
 
@@ -3583,10 +4479,28 @@ INSERT INTO `wallet_transactions` (`wallet_transaction_id`, `user_id`, `transact
 (417, 21, 'Pay', '2023-11-28 10:50:26', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023112811502621', 'MTAxNC41', NULL, NULL),
 (418, 20, 'Pay', '2023-11-28 14:40:20', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023112815402020', 'MjY0LjU=', NULL, NULL),
 (419, 24, 'Profit', '2023-11-28 14:40:36', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'MTYw', 206, NULL),
-(420, 20, 'Pay', '2023-11-28 18:38:46', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023112819384620', 'NTkwLjU=', NULL, NULL),
-(421, 24, 'Profit', '2023-11-28 18:38:54', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'NDAw', 205, NULL),
-(422, 20, 'Pay', '2023-11-29 08:17:32', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023112909173220', 'NjIuNQ==', NULL, NULL),
-(423, 20, 'Pay', '2023-11-29 08:18:55', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023112909185520', 'NDguOA==', NULL, NULL);
+(420, 20, 'Pay', '2023-11-30 01:19:12', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023113002191220', 'NDkuNQ==', NULL, NULL),
+(421, 20, 'Cash Out', '2023-12-02 04:34:31', 'success', 'Paypal', '', 'jennicajen0803@gmail.com', '2023-12-04 07:46:19', 20.00, NULL, 'MTIw', NULL, NULL),
+(422, 28, 'Cash In', '2023-12-02 13:28:24', 'success', 'Paypal', '7G409513696908324', NULL, NULL, NULL, NULL, 'NTAw', NULL, NULL),
+(423, 28, 'Cash In', '2023-12-02 13:28:33', 'success', 'Paypal', '009613031N087691H', NULL, NULL, NULL, NULL, 'NTAw', NULL, NULL),
+(424, 28, 'Cash In', '2023-12-02 13:28:48', 'success', 'Paypal', '0XF44525BK376971B', NULL, NULL, NULL, NULL, 'MTAw', NULL, NULL),
+(425, 20, 'Pay', '2023-12-04 06:40:56', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120406405620', 'Mi40', NULL, NULL),
+(426, 20, 'Pay', '2023-12-04 08:28:57', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120408285720', 'OTE2Ljk=', NULL, NULL),
+(427, 20, 'Pay', '2023-12-04 08:47:54', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120408475420', 'Mi40', NULL, NULL),
+(428, 20, 'Pay', '2023-12-05 23:32:29', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120600322920', 'MjE1LjU=', NULL, NULL),
+(429, 22, 'Profit', '2023-12-05 23:35:50', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'ODA=', 198, NULL),
+(430, 22, 'Cash In', '2023-12-06 05:32:37', 'success', 'Paypal', '77D29091VY3487533', NULL, NULL, NULL, NULL, 'NTAwMA==', NULL, NULL),
+(431, 22, 'Pay', '2023-12-06 05:32:53', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120606325322', 'NDg2LjU=', NULL, NULL),
+(432, 22, 'Cancel', '2023-12-06 05:35:07', 'success', NULL, NULL, NULL, NULL, NULL, '2023120606325322', 'NDQ0', 206, 'Don\'t want to buy anymore'),
+(433, 22, 'Pay', '2023-12-06 05:39:19', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120606391922', 'MjY0LjU=', NULL, NULL),
+(434, 22, 'Cancel', '2023-12-06 05:39:33', 'success', NULL, NULL, NULL, NULL, NULL, '2023120606391922', 'MjIy', 206, 'Need to change delivery address'),
+(435, 22, 'Cash Out', '2023-12-06 05:43:44', 'success', 'Paypal', '', 'sb-i4hyn27575086@business.example.com', '2023-12-06 05:44:57', 20.00, NULL, 'MjIw', NULL, NULL),
+(436, 22, 'Cash Out', '2023-12-06 05:46:49', 'pending', 'Paypal', '', 'sb-i4hyn27575086@business.example.com', NULL, 20.00, NULL, 'NjA=', NULL, NULL),
+(437, 22, 'Pay', '2023-12-06 07:02:49', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120608024922', 'MTA4My41', NULL, NULL),
+(438, 22, 'Pay', '2023-12-06 08:02:54', 'success', 'STKR Wallet Pay', NULL, NULL, NULL, NULL, '2023120609025422', 'MjM4Ni41', NULL, NULL),
+(439, 22, 'Profit', '2023-12-06 08:03:05', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'MTI4MA==', 199, NULL),
+(440, 21, 'Profit', '2023-12-06 08:06:59', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'MTIzMjA=', 197, NULL),
+(441, 24, 'Profit', '2023-12-06 08:07:04', 'success', NULL, NULL, NULL, NULL, NULL, NULL, 'ODAw', 204, NULL);
 
 --
 -- Indexes for dumped tables
@@ -3934,13 +4848,13 @@ ALTER TABLE `wallet_transactions`
 -- AUTO_INCREMENT for table `added_game_components`
 --
 ALTER TABLE `added_game_components`
-  MODIFY `added_component_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=641;
+  MODIFY `added_component_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=646;
 
 --
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `admins`
@@ -3952,7 +4866,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `admin_logs`
 --
 ALTER TABLE `admin_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `admin_review_response`
@@ -3970,13 +4884,13 @@ ALTER TABLE `age`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=510;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=520;
 
 --
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=989;
 
 --
 -- AUTO_INCREMENT for table `built_games`
@@ -4000,7 +4914,7 @@ ALTER TABLE `cancel_order_reasons`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1081;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1093;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -4048,13 +4962,13 @@ ALTER TABLE `constants`
 -- AUTO_INCREMENT for table `courier`
 --
 ALTER TABLE `courier`
-  MODIFY `courier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `courier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `denied_approve_game_requests`
 --
 ALTER TABLE `denied_approve_game_requests`
-  MODIFY `denied_approve_game_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `denied_approve_game_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `denied_publish_requests`
@@ -4090,7 +5004,7 @@ ALTER TABLE `faq`
 -- AUTO_INCREMENT for table `games`
 --
 ALTER TABLE `games`
-  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT for table `games_reasons`
@@ -4108,7 +5022,7 @@ ALTER TABLE `game_components`
 -- AUTO_INCREMENT for table `help`
 --
 ALTER TABLE `help`
-  MODIFY `help_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `help_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `index_banner`
@@ -4126,25 +5040,25 @@ ALTER TABLE `markup_percentage`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=604;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=614;
 
 --
 -- AUTO_INCREMENT for table `paypal_transactions`
 --
 ALTER TABLE `paypal_transactions`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
 -- AUTO_INCREMENT for table `pending_published_built_games`
 --
 ALTER TABLE `pending_published_built_games`
-  MODIFY `pending_published_built_game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `pending_published_built_game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT for table `pending_published_multiple_files`
 --
 ALTER TABLE `pending_published_multiple_files`
-  MODIFY `pending_published_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=394;
+  MODIFY `pending_published_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=395;
 
 --
 -- AUTO_INCREMENT for table `pending_update_published_built_games`
@@ -4168,13 +5082,13 @@ ALTER TABLE `province`
 -- AUTO_INCREMENT for table `published_built_games`
 --
 ALTER TABLE `published_built_games`
-  MODIFY `published_game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
+  MODIFY `published_game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
 
 --
 -- AUTO_INCREMENT for table `published_multiple_files`
 --
 ALTER TABLE `published_multiple_files`
-  MODIFY `published_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=360;
+  MODIFY `published_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=361;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -4198,13 +5112,13 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
 
 --
 -- AUTO_INCREMENT for table `to_deliver`
 --
 ALTER TABLE `to_deliver`
-  MODIFY `to_deliver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `to_deliver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `tutorials`
@@ -4216,13 +5130,13 @@ ALTER TABLE `tutorials`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=347;
 
 --
 -- AUTO_INCREMENT for table `user_review_response`
@@ -4234,7 +5148,7 @@ ALTER TABLE `user_review_response`
 -- AUTO_INCREMENT for table `wallet_transactions`
 --
 ALTER TABLE `wallet_transactions`
-  MODIFY `wallet_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=424;
+  MODIFY `wallet_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=442;
 
 --
 -- Constraints for dumped tables

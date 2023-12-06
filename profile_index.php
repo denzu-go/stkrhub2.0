@@ -1,20 +1,79 @@
 <?php
 session_start();
 include 'connection.php';
+
+$total_wallet_amount_normalized = 0;
+$published_games_count = 0;
 if (isset($_SESSION["user_id"])) {
     $user_id = $_SESSION["user_id"];
-}
-$sqlUserDetails = "SELECT * FROM users WHERE user_id = $user_id";
-$resultUserDetails = $conn->query($sqlUserDetails);
-while ($fetchedUserDetails = $resultUserDetails->fetch_assoc()) {
+    // pinaka total wallet amount
+    $queryAdd = "
+SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_add
+FROM wallet_transactions
+WHERE user_id = '$user_id'
+AND (transaction_type = 'Cash In' OR transaction_type = 'Profit' OR transaction_type = 'Cancel');
+";
+    $resultAdd = $conn->query($queryAdd);
 
-    $username = $fetchedUserDetails['username'];
-    $firstname = $fetchedUserDetails['firstname'];
-    $lastname = $fetchedUserDetails['lastname'];
-    $phone_number = $fetchedUserDetails['phone_number'];
-    $email = $fetchedUserDetails['email'];
-    $avatar = $fetchedUserDetails['avatar'];
+    if ($resultAdd) {
+        $rowAdd = $resultAdd->fetch_assoc();
+        $total_amount_add = $rowAdd['total_amount_add'];
+    }
+
+    $querySub = "
+SELECT SUM(CAST(FROM_BASE64(amount) AS DECIMAL(10, 2))) AS total_amount_sub
+FROM wallet_transactions
+WHERE user_id = '$user_id'
+AND (transaction_type = 'Pay' OR (transaction_type = 'Cash Out' AND status = 'success'));
+";
+    $resultSub = $conn->query($querySub);
+
+    if ($resultSub) {
+        $rowSub = $resultSub->fetch_assoc();
+        $total_amount_sub = $rowSub['total_amount_sub'];
+    }
+
+    $total_wallet_amount_normalized = $total_amount_add - $total_amount_sub;
+    // end of pinaka total wallet amount
+
+
+
+    // PUBLISHED GAMES
+    $sqlGetPublished = "SELECT COUNT(*) as published_games_count FROM published_built_games 
+        WHERE creator_id = $user_id AND is_hidden != 1
+        ";
+    $resultGetPublished = $conn->query($sqlGetPublished);
+    if ($resultGetPublished) {
+        $rowGetPublished = $resultGetPublished->fetch_assoc();
+        $published_games_count = $rowGetPublished['published_games_count'];
+    }
+
+
+    // total earnings
+    $queryTOTALE = "SELECT amount FROM wallet_transactions WHERE transaction_type = 'Profit' AND user_id = $user_id";
+    $resultTOTALE = $conn->query($queryTOTALE);
+    $total_amount_earnings = 0;
+    while ($rowTOTALE = $resultTOTALE->fetch_assoc()) {
+        $decoded_amount = base64_decode($rowTOTALE['amount']);
+        $total_amount_earnings += $decoded_amount;
+    }
+
+
+
+    $sqlUserDetails = "SELECT * FROM users WHERE user_id = $user_id";
+    $resultUserDetails = $conn->query($sqlUserDetails);
+    while ($fetchedUserDetails = $resultUserDetails->fetch_assoc()) {
+
+        $username = $fetchedUserDetails['username'];
+        $firstname = $fetchedUserDetails['firstname'];
+        $lastname = $fetchedUserDetails['lastname'];
+        $phone_number = $fetchedUserDetails['phone_number'];
+        $email = $fetchedUserDetails['email'];
+        $avatar = $fetchedUserDetails['avatar'];
+    }
 }
+
+
 
 include 'html/get_bg.php';
 ?>
@@ -264,25 +323,27 @@ include 'html/get_bg.php';
                                         -webkit-backdrop-filter: blur(5.7px);
                                         line-height: 0px !important;">
 
-                                             <ul class="list-group list-group-flush">
+                                            <ul class="list-group list-group-flush">
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
                                                     <h6 class="mb-0">
                                                         <i class="fa-solid fa-wallet"></i>
                                                         STKR Wallet
                                                     </h6>
-                                                    <span class="text-secondary">1,000</span>
+                                                    <span class="text-secondary">&#x20B1;<?php echo number_format($total_wallet_amount_normalized, 2) ?></span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
                                                     <h6 class="mb-0">
+                                                        <i class="fa-solid fa-flag-checkered"></i>
                                                         Published Games
                                                     </h6>
-                                                    <span class="text-secondary">4</span>
+                                                    <span class="text-secondary"><?php echo $published_games_count ?></span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" style="background-color: transparent;">
                                                     <h6 class="mb-0">
+                                                        <i class="fa-solid fa-peso-sign"></i>
                                                         Total Earnings
                                                     </h6>
-                                                    <span class="text-secondary">1,000</span>
+                                                    <span class="text-secondary">&#x20B1;<?php echo number_format($total_amount_earnings, 2) ?></span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -331,7 +392,7 @@ include 'html/get_bg.php';
             <div class="modal-content">
                 <!-- Add modal content here -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Profile</h5>
+                    <span class="h5 modal-title">Edit Profile</span>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 

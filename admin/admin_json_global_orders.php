@@ -4,7 +4,7 @@ $data = array();
 $passed_status = $_GET['passed_status'];
 $number = 0;
 
-$sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE $passed_status = 1";
+$sqlUniqueOrderDates = "SELECT DISTINCT unique_order_group_id FROM orders WHERE $passed_status = 1 AND ticket_id IS NULL";
 $queryUniqueOrderDates = $conn->query($sqlUniqueOrderDates);
 if (!$queryUniqueOrderDates) {
     // Print the error message and terminate the script

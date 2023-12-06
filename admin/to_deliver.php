@@ -66,7 +66,7 @@ if (isset($_SESSION['admin_id'])) {
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All To Delver Orders</h4>
+                            <h4>All To Deliver Orders</h4>
                             <p class="mb-0">The orders have already been dispatched by the courier and are on their way to the customer's address.</p>
                         </div>
                     </div>

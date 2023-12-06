@@ -46,6 +46,15 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a class="text-white" href="received_orders.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="is_received_count" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
                     <!-- <li>
                         <a href="received.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
                             <table id="is_received_count" class="display" style="width: 100%;">
@@ -99,6 +108,20 @@
                         </a>
                     </li>
 
+                    
+
+
+                    <li class="nav-label text-white">Others</li>
+                    <!-- <li><a class="text-white" href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li> -->
+                    <li>
+                        <a class="text-white" href="cashout_requests.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
+                            <table id="cashout_requests_table" class="display" style="width: 100%;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </a>
+                    </li>
+
                     <!-- <li><a class="text-white" href="admin_comment_report.php"><i class="fa-solid fa-triangle-exclamation"></i><span class="nav-text">Reported Comments</span></a></li> -->
                     <li>
                         <a class="text-white" href="admin_comment_report.php" aria-expanded="false" style="padding-top: .3rem !important; padding-bottom: .3rem !important">
@@ -109,11 +132,9 @@
                         </a>
                     </li>
 
+                    <li><a class="text-white" href="admin_wallet_transactions.php"><i class="fa-solid fa-wallet"></i><span class="nav-text">STKR Wallet Transactions</span></a></li>
 
-                    <li class="nav-label text-white">Cash Out</li>
-                    <li><a class="text-white" href="cashout_requests.php" aria-expanded="false"><i class="fa-solid fa-money-bill-transfer"></i><span class="nav-text">Cashout Requests</span></a></li>
-
-                    <li class="nav-label"></li>
+                    <li class="nav-label text-white">Edit Game Components</li>
                     <li>
                         <a class="has-arrow text-white" href="javascript:void()" aria-expanded="false">
                             <i class="icon icon-app-store"></i>
@@ -138,7 +159,7 @@
                     </li>
 
 
-                    <li class="nav-label text-white"></li>
+                    <li class="nav-label text-white">Help Desk</li>
                     <li>
                         <a class="has-arrow text-white" href="javascript:void()" aria-expanded="false"><i class="fa-solid fa-hand-holding-hand"></i>
                             <span class="nav-text">Help Desk</span>

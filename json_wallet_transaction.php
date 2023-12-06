@@ -30,6 +30,8 @@ while ($fetched = $result->fetch_assoc()) {
     $paypal_transaction_id = $fetched['paypal_transaction_id'];
     $unique_order_group_id = $fetched['unique_order_group_id'];
 
+    $transaction_id = $wallet_transaction_id . $timestamp;
+
     $paypal_email_destination = $fetched['paypal_email_destination'];
 
     $edit_paypal_email_button = '
@@ -134,7 +136,13 @@ while ($fetched = $result->fetch_assoc()) {
     }
 
     // success or what
-    if ($status == 'success') {
+    if ($status == 'success' && $transaction_type == 'Canceled Order') {
+        $status_value = '
+        <span style="color: #90ee90">
+            <i class="fa-regular fa-circle-check"></i> ' . strtoupper('REFUNDED') . '
+        </span>
+        ';
+    } elseif ($status == 'success') {
         $status_value = '
         <span style="color: #90ee90">
             <i class="fa-regular fa-circle-check"></i> ' . strtoupper($status) . '
@@ -167,9 +175,21 @@ while ($fetched = $result->fetch_assoc()) {
             </div>
         </div>
 
-        <div class="col-2 d-flex flex-row-reverse">' . $status_value . '</div>
-        <div class="col-2 d-flex flex-row-reverse">' . $amount_value . '</div>
+        <div class="col-2">
+            <div class="container">
+                <div class="row">' . $status_value . '</div>
+                <div class="row"><span class="small" style="color: #777777;">Wallet Transaction ID:'.$transaction_id.'</span></div>
+            </div>
+        </div>
+
+
+
+        <div class="col-2 d-flex flex-row-reverse">
+        ' . $amount_value . '
+        </div>
     </div>
+
+    
     ';
 
 
