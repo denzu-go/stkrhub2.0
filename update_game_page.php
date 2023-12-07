@@ -621,7 +621,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                         </div>
 
 
-                        <button class="primary-btn" type="submit">Submit</button>
+                        <button class="primary-btn" type="submit">Submit Edit Request</button>
                     </form>
 
 
@@ -778,7 +778,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                 // Perform an AJAX request
                 Swal.fire({
                     title: '',
-                    text: 'Are you sure?',
+                    text: 'Are you sure these edited details are correct?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes',

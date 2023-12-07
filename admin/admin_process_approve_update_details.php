@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     // Delete the rows from pending_update_published_multiple_files table
-    $deleteQuery = "DELETE FROM pending_update_published_multiple_files WHERE published_built_game_id = '$published_game_id'";
+    $deleteQuery = "DELETE FROM pending_update_published_multiple_files WHERE published_built_game_id = $published_game_id";
     $resultDeleteQuery = mysqli_query($conn, $deleteQuery);
     if ($resultDeleteQuery) {
         echo "Deletion successful at pending_update_published_multiple_files<br><br><br><br>";
@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Delete the rows from pending_update_published_built_games table
-    $deleteQuery2 = "DELETE FROM pending_update_published_built_games WHERE published_built_game_id = '$published_game_id'";
+    $deleteQuery2 = "DELETE FROM pending_update_published_built_games WHERE published_built_game_id = $published_game_id";
     $resultDeleteQuery2 = mysqli_query($conn, $deleteQuery2);
     if ($resultDeleteQuery2) {
         echo "Deletion successful at pending_update_published_built_games 2nd delete query<br><br><br><br><br><br><br>";
@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error deleting: " . mysqli_error($conn);
     }
 
-    $updateQuery1 = "UPDATE published_built_games SET has_pending_update = 0, is_update_request_denied = 1 WHERE published_game_id = $published_game_id";
+    $updateQuery1 = "UPDATE published_built_games SET has_pending_update = 0, is_update_request_denied = 0 WHERE published_game_id = $published_game_id";
     $resultUpdateQuery1 = mysqli_query($conn, $updateQuery1);
     if ($resultUpdateQuery1) {
         echo "Deletion successful at published_built_games updateQuery1<br><br><br><br><br>";

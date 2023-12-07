@@ -749,8 +749,8 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
                 // Show a SweetAlert confirmation dialog
                 Swal.fire({
-                    title: 'Are You Sure?',
-                    text: 'Are you sure to cancel the request of this built game id = ' + published_game_id + '?',
+                    title: '',
+                    text: 'Are you sure to cancel your edit request?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, cancel it!',

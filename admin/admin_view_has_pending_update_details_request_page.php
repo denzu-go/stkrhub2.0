@@ -135,6 +135,8 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
+        <?php include 'css/orders_count.css'; ?>
+
         .swiper-slide {
             background: #fff;
             display: flex;
@@ -240,7 +242,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                             <div class="col-sm">
                                 <button class="btn" id="approveUpdate" data-published_built_game_id="<?php echo $published_built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #63d19e; color: white;">Approve Publish
                                     Request</button>
-                                <button class="btn" id="denyUpdate" data-published_built_game_id="<?php echo $published_built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #dc3545; color: white;">Deny Publish Request</button>
+                                <button class="btn" id="denyUpdate" data-published_built_game_id="<?php echo $published_built_game_id; ?>" data-creator_id="<?php echo $creator_id; ?>" style="background-color: #dc3545; color: white;">Reject Publish Request</button>
 
                             </div>
                         </div>
@@ -305,7 +307,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
                                             <div class="row">
                                                 <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
-                                                <div class="container m-0" style="background-color: #222f3e;"><?php echo $current_long_description ?></div>
+                                                <div class="container m-0" style="color: #777777;"><?php echo $current_long_description ?></div>
 
                                             </div>
 
@@ -486,7 +488,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
                                             <div class="row">
                                                 <h6 class="">Long Description: </h6> &nbsp; <h6 style="color: #777777"></h6>
-                                                <div class="container m-0" style="background-color: #222f3e;"><?php echo $pending_long_description ?></div>
+                                                <div class="container m-0" style="color: #777777;"><?php echo $pending_long_description ?></div>
 
                                             </div>
 
@@ -639,7 +641,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Deny Publish Details Request</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Reject Publish Details Request</h5>
                 </div>
                 <form id="denyForm" enctype="multipart/form-data">
                     <div class="modal-body form-group">
@@ -692,6 +694,8 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
 
     <script>
         $(document).ready(function() {
+
+            <?php include 'html/count_orders.php'; ?>
 
 
             // CURRENT
@@ -813,7 +817,7 @@ while ($fetchedCurrentAge = $queryGetCurrentAge->fetch_assoc()) {
                         $("#changeAddress").modal('hide');
                         Swal.fire({
                             title: 'Success!',
-                            text: 'Form submitted successfully.',
+                            text: 'Edit request has been Rejected.',
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then((result) => {

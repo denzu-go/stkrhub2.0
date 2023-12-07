@@ -229,7 +229,7 @@ while ($fetched = $result->fetch_assoc()) {
             <span class="" style="color: #e7e7e7; font-size: 12px;" 
             data-toggle="tooltip" title="Your request has beed denied"
             > 
-            <i class="fa-solid fa-heart-crack" style="color: #dc3545;"></i> Denied
+            <i class="fa-solid fa-heart-crack" style="color: #dc3545;"></i> Rejected
             </span>
 
             <button id="viewReason" data-published_game_id="' . $published_game_id . '" data-reason="' . $reason . '" data-file_path="' . $file_path . '">
