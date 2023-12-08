@@ -41,7 +41,7 @@ $recordsFetched = ($page - 1) * $recordsPerPage;
 
 $totalRecords = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM published_built_games 
     LEFT JOIN categories ON published_built_games.category = categories.category_id 
-    WHERE $ And is_hidden = 0"));
+    WHERE $sql And is_hidden = 0"));
 
 $totalPages = ceil($totalRecords / $recordsPerPage);
 

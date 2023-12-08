@@ -97,7 +97,13 @@ $item .=
 
 // main part
 
-$sql = "SELECT * FROM cart WHERE user_id = $user_id AND is_visible = 1 ORDER by cart_id DESC";
+$sql = "SELECT c.*, gc.price AS game_component_price, gc.is_available
+        FROM cart AS c
+        LEFT JOIN added_game_components AS agc ON c.added_component_id = agc.added_component_id
+        LEFT JOIN game_components AS gc ON agc.component_id = gc.component_id
+        WHERE c.user_id = $user_id AND c.is_visible = 1
+        ORDER BY c.cart_id DESC";
+
 $result = $conn->query($sql);
 
 while ($fetched = $result->fetch_assoc()) {
@@ -109,7 +115,8 @@ while ($fetched = $result->fetch_assoc()) {
     $quantity = $fetched['quantity'];
     $price = $fetched['price'];
     $is_active = $fetched['is_active'];
-
+    $is_available = $fetched['is_available'];
+    
     $is_only_one_quantity = $fetched['is_only_one_quantity'];
 
     $total_price = $quantity * $price;
@@ -347,9 +354,93 @@ while ($fetched = $result->fetch_assoc()) {
 
 
 
-    // item
 
-    $item .= '
+
+
+            // item
+
+  if ($is_available == 0 && is_null($published_game_id)) {
+
+            $item .= '
+
+    <div class="row">
+
+        <div class="col-0 d-flex align-items-center">
+            
+        </div>
+
+        <div class="col">
+
+            <div class="card rounded-3 mb-4 p-0 custom-shadow" style="background-color: #17172b; padding: 0.1rem;">
+
+                <div class="card-header py-1">
+                    <div class="row p-0">
+
+                        <div class="col-0 d-flex align-items-center">
+                            ' . $classification . '
+                        </div>
+                        <div class="col-0 d-flex align-items-center">
+                           <p style="color:red; margin-top:10px;margin-left:20px;"> Unavailable </p>
+                        </div>
+                        <div class="col-0 d-flex align-items-center ml-auto">
+                            <div class="mr-2">Cart ID: ' . $cart_id . '</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-body p-0" style="background-color: #272a4e;">
+                    <div class="row d-flex justify-content-between align-items-center ">
+
+                        <div class="col-md-2 col-lg-2 col-xl-2 p-0">
+                            <div class="container" style="height: 100%; width: 100%;">
+                                <div class="image-mini-container mask1">
+                                    <img class="image-mini" src="' . $img_src . '">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3 overflow-hidden">
+                            <p class="lead fw-normal mb-2 text-truncate" data-toggle="tooltip" title="' . $fetched_title . '" style="max-width:270px;">
+                                ' . $fetched_title . '
+                            </p>
+                                ' . $description . '
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-0">&#8369; ' . number_format($price, 2) . '</h5>
+                        </div>
+
+                        <div class="col-2">
+                            ' . $quantity_input . '
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-0" style="color: #26d3e0">&#8369; ' . number_format($total_price, 2) . '</h5>
+                        </div>
+
+                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                           
+                            <a href="#!" class="text-danger delete-cart-item" data-cart_id="' . $cart_id . '"><i class="fas fa-trash fa-lg"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+
+    ';
+        }  else{
+            
+                        // item
+
+            $item .= '
 
     <div class="row">
 
@@ -390,7 +481,7 @@ while ($fetched = $result->fetch_assoc()) {
                         </div>
 
                         <div class="col-3 overflow-hidden">
-                            <p class="lead fw-normal mb-2 text-truncate" data-toggle="tooltip" title="'.$fetched_title.'" style="max-width:270px;">
+                            <p class="lead fw-normal mb-2 text-truncate" data-toggle="tooltip" title="' . $fetched_title . '" style="max-width:270px;">
                                 ' . $fetched_title . '
                             </p>
                                 ' . $description . '
@@ -425,7 +516,9 @@ while ($fetched = $result->fetch_assoc()) {
     
 
     ';
-};
+        }
+        
+    };
 
 
 

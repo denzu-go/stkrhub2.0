@@ -425,7 +425,7 @@ while ($row = $queryThemeBG->fetch_assoc()) {
                     data: {
                         user_id: user_id,
                     },
-                    "dataSrc": ""
+                    "dataSrc": "" 
                 },
 
                 "columns": [{
